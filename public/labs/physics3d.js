@@ -236,9 +236,10 @@
     sc.add(sky); sc.background = new T.Color(0xcfe5f4); sc.fog = new T.Fog(0xcfe5f4, 40, 220);
     const gtex = tex(grassCanvas(), [60, 60]);
     const g = new T.Mesh(new T.PlaneGeometry(600, 600, 1, 1), new T.MeshStandardMaterial({ map: gtex, roughness: 1, color: o.ground || 0xffffff }));
-    g.rotation.x = -Math.PI / 2; g.position.y = -0.01; g.receiveShadow = true; sc.add(g); S.objs.ground = g;
+    g.rotation.x = -Math.PI / 2; g.position.y = -0.01; g.receiveShadow = true; sc.add(g); S.objs.ground = g; S.objs.skyMat = sky.material;
     sc.add(new T.HemisphereLight(0xbfe0ff, 0x4d6b35, 0.75));
     sun(S, [-18, 26, -14], 3.0, 0xfff0d8, o.shadowArea || 24, 2048);
+    const treeGrp = new T.Group(); sc.add(treeGrp); S.objs.trees = treeGrp;
     const rnd2 = (() => { let q = 11; return () => (q = (q * 16807) % 2147483647) / 2147483647; })();
     const leaf = [0x2b5a2c, 0x35692f, 0x2a4f33, 0x3f7434];
     for (let i = 0; i < 46; i++) {                                           // tree line behind the action; the foreground corridor stays clear
@@ -247,7 +248,7 @@
       const lm = M.matte(leaf[(rnd2() * 4) | 0], 0.95);
       if (round) { for (let k = 0; k < 4; k++) { const b2 = new T.Mesh(new T.IcosahedronGeometry(h * (0.2 + rnd2() * 0.1), 1), lm); b2.position.set((rnd2() - 0.5) * h * 0.3, h * (0.55 + rnd2() * 0.3), (rnd2() - 0.5) * h * 0.3); b2.castShadow = true; tr.add(b2); } }
       else { const cone = new T.Mesh(new T.ConeGeometry(h * 0.3, h * 0.95, 9), lm); cone.position.y = h * 0.78; cone.castShadow = true; tr.add(cone); }
-      tr.position.set(x, 0, z); sc.add(tr);
+      tr.position.set(x, 0, z); treeGrp.add(tr);
     }
     for (let i = 0; i < 9; i++) {                                           // soft clouds
       const sp = new T.Sprite(new T.SpriteMaterial({ map: softDot(128, "rgba(255,255,255,1)"), transparent: true, opacity: 0.85, fog: false, depthWrite: false }));
@@ -346,13 +347,36 @@
       const rod = new T.Mesh(new T.CylinderGeometry(0.045, 0.045, h, 16), M.chrome()); rod.position.set(-0.45, h / 2, 0); base.castShadow = rod.castShadow = true; base.receiveShadow = true; g.add(base, rod); g.position.set(x, 0, z); sc.add(g); return g;
     };
     mk.particles = (n, r, mat) => { const im = new T.InstancedMesh(new T.SphereGeometry(r, 14, 10), mat, n); im.castShadow = false; sc.add(im); im.userData.m = new T.Matrix4(); im.set = (i, x, y, z, s = 1) => { const m = im.userData.m; m.makeScale(s, s, s); m.setPosition(x, y, z); im.setMatrixAt(i, m); }; return im; };
+    mk.wheel = (r, w, tireMat, hubMat) => {                              // wheel with axis along Z
+      const g = new T.Group(), tire = new T.Mesh(new T.CylinderGeometry(r, r, w, 28), tireMat || M.rubber()), hub = new T.Mesh(new T.CylinderGeometry(r * 0.55, r * 0.55, w * 1.04, 20), hubMat || M.chrome());
+      tire.rotation.x = hub.rotation.x = Math.PI / 2; tire.castShadow = true;
+      const spoke = new T.Mesh(new T.BoxGeometry(r * 1.0, r * 0.14, w * 1.06), M.matte(0x30343b, 0.5)); g.add(tire, hub, spoke); return g;
+    };
+    mk.car = (color) => {                                                // toy/real-looking car, facing +X; g.wheels[] spin about Z
+      const g = new T.Group(), paint = M.paint(color);
+      const body = new T.Mesh(new T.BoxGeometry(2.5, 0.5, 1.15), paint); body.position.y = 0.52;
+      const hood = new T.Mesh(new T.BoxGeometry(0.8, 0.14, 1.1), paint); hood.position.set(0.85, 0.82, 0);
+      const cab = new T.Mesh(new T.BoxGeometry(1.15, 0.42, 1.0), M.glass(0x203040)); cab.position.set(-0.2, 0.98, 0); cab.material.opacity = 0.7;
+      const roof = new T.Mesh(new T.BoxGeometry(1.0, 0.07, 0.96), paint); roof.position.set(-0.2, 1.22, 0);
+      for (const m of [body, hood, cab, roof]) { m.castShadow = true; m.receiveShadow = true; g.add(m); }
+      for (const z of [-0.4, 0.4]) { const hl = new T.Mesh(new T.SphereGeometry(0.08, 12, 8), M.emissive(0xfff3c4, 3)); hl.position.set(1.25, 0.6, z); g.add(hl); const tl = new T.Mesh(new T.SphereGeometry(0.06, 12, 8), M.emissive(0xff3030, 1.6)); tl.position.set(-1.25, 0.6, z); g.add(tl); }
+      g.wheels = []; for (const x of [-0.85, 0.85]) for (const z of [-0.6, 0.6]) { const w = mk.wheel(0.3, 0.2); w.position.set(x, 0.3, z); g.add(w); g.wheels.push(w); }
+      sc.add(g); return g;
+    };
+    mk.cart = (w, d, color) => {                                         // dynamics trolley, facing +X
+      const g = new T.Group(), base = new T.Mesh(new T.BoxGeometry(w, 0.16, d), M.paint(color)); base.position.y = 0.3; base.castShadow = base.receiveShadow = true; g.add(base);
+      for (const sx of [-1, 1]) { const b = new T.Mesh(new T.CylinderGeometry(0.07, 0.07, 0.3, 14), M.chrome()); b.rotation.z = Math.PI / 2; b.position.set(sx * (w / 2 + 0.1), 0.3, 0); g.add(b); }
+      g.wheels = []; for (const x of [-w * 0.33, w * 0.33]) for (const z of [-d / 2 - 0.02, d / 2 + 0.02]) { const wh = mk.wheel(0.17, 0.1, M.rubber(), M.steel()); wh.position.set(x, 0.17, z); g.add(wh); g.wheels.push(wh); }
+      sc.add(g); return g;
+    };
+    mk.slotted = (m, mat) => { const g = new T.Group(); const n = Math.max(1, Math.min(6, Math.round(m))), h = 0.12; for (let i = 0; i < n; i++) { const d = new T.Mesh(new T.CylinderGeometry(0.28, 0.28, h, 28), mat || M.brass()); d.position.y = h / 2 + i * (h + 0.01); d.castShadow = true; g.add(d); } g.height = n * (h + 0.01); sc.add(g); return g; };
     /* auto-frame the camera on a target unless the user has taken control */
     S.aim = (target, r, yaw, pitch) => {
       const o = S.orbit, tg = V3(...target); o.home.target.copy(tg); o.home.r = r; if (yaw != null) o.home.yaw = yaw; if (pitch != null) o.home.pitch = pitch;
       if (o.touched) return; o.target.lerp(tg, 0.12); o.tr = r; if (yaw != null) o.ty = yaw; if (pitch != null) o.tp = pitch;
     };
     /* dust / smoke / spark puffs */
-    const puffs = [];
+    const puffs = []; S.puffList = puffs;
     S.puff = (x, y, z, o = {}) => {
       const n = o.n || 10;
       for (let i = 0; i < n; i++) {
@@ -384,6 +408,22 @@
     at(ctx, S, p, text, color, dx = 10, dy = -10, size) { const q = S.proj(p); P3D.hud.pill(ctx, q.x + dx, q.y + dy, text, color, size); },
     line(ctx, S, a, b, color = "#fff", w = 1.5, dash) { const p = S.proj(a), q = S.proj(b); ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = w; if (dash) ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke(); ctx.restore(); },
     vec(ctx, S, a, b, color, text) { const p = S.proj(a), q = S.proj(b); arrow(ctx, p.x, p.y, q.x, q.y, color, 2.4); if (text) P3D.hud.pill(ctx, q.x + 8, q.y - 4, text, color, 11); },
+  };
+  P3D.hud.graph = function (ctx, x, y, w, h, o) {
+    // o: { series:[{pts:[[x,y],...], color, width}], xmin,xmax,ymin,ymax, xl, yl, dot:[x,y,color], fill:{pts,color}, ticksX, ticksY }
+    const H = P3D.hud; H.panel(ctx, x, y, w, h);
+    { const ny0 = o.ticksY || 4, raw = (o.ymax - o.ymin) / ny0, pw10 = Math.pow(10, Math.floor(Math.log10(raw || 1))), nf = raw / pw10, st = (nf <= 1 ? 1 : nf <= 2 ? 2 : nf <= 2.5 ? 2.5 : nf <= 5 ? 5 : 10) * pw10; o = Object.assign({}, o, { ymin: Math.floor(o.ymin / st) * st, ymax: Math.ceil(o.ymax / st) * st }); o.ticksY = Math.max(1, Math.round((o.ymax - o.ymin) / st)); } const px = x + 34, py = y + 16, pw = w - 46, ph = h - 40;
+    const X = (v) => px + ((v - o.xmin) / (o.xmax - o.xmin)) * pw, Y = (v) => py + ph - ((v - o.ymin) / (o.ymax - o.ymin)) * ph;
+    ctx.save(); ctx.strokeStyle = "rgba(255,255,255,.1)"; ctx.fillStyle = "rgba(205,222,245,.9)"; ctx.font = "9px 'IBM Plex Mono',monospace"; ctx.lineWidth = 1;
+    const nx = o.ticksX || 5, ny = o.ticksY || 4;
+    for (let i = 0; i <= nx; i++) { const v = o.xmin + ((o.xmax - o.xmin) * i) / nx, xx = X(v); ctx.beginPath(); ctx.moveTo(xx, py); ctx.lineTo(xx, py + ph); ctx.stroke(); ctx.textAlign = "center"; ctx.fillText((Math.abs(v) < 100 ? +v.toFixed(1) : Math.round(v)) + "", xx, py + ph + 11); }
+    for (let i = 0; i <= ny; i++) { const v = o.ymin + ((o.ymax - o.ymin) * i) / ny, yy = Y(v); ctx.beginPath(); ctx.moveTo(px, yy); ctx.lineTo(px + pw, yy); ctx.stroke(); ctx.textAlign = "right"; ctx.fillText((Math.abs(v) < 100 ? +v.toFixed(1) : Math.round(v)) + "", px - 4, yy + 3); }
+    if (o.ymin < 0 && o.ymax > 0) { ctx.strokeStyle = "rgba(255,255,255,.35)"; ctx.beginPath(); ctx.moveTo(px, Y(0)); ctx.lineTo(px + pw, Y(0)); ctx.stroke(); }
+    ctx.beginPath(); ctx.rect(px, py, pw, ph); ctx.clip();
+    if (o.fill && o.fill.pts.length > 1) { ctx.fillStyle = o.fill.color; ctx.beginPath(); ctx.moveTo(X(o.fill.pts[0][0]), Y(0)); o.fill.pts.forEach((p) => ctx.lineTo(X(p[0]), Y(p[1]))); ctx.lineTo(X(o.fill.pts[o.fill.pts.length - 1][0]), Y(0)); ctx.closePath(); ctx.fill(); }
+    (o.series || []).forEach((sr) => { if (!sr.pts || sr.pts.length < 2) return; ctx.strokeStyle = sr.color; ctx.lineWidth = sr.width || 2.2; ctx.lineJoin = "round"; ctx.beginPath(); sr.pts.forEach((p, i) => (i ? ctx.lineTo(X(p[0]), Y(p[1])) : ctx.moveTo(X(p[0]), Y(p[1])))); ctx.stroke(); });
+    if (o.dot) { ctx.fillStyle = o.dot[2] || "#ffd27a"; ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 8; ctx.beginPath(); ctx.arc(X(o.dot[0]), Y(o.dot[1]), 4.2, 0, TAU); ctx.fill(); }
+    ctx.restore(); ctx.save(); ctx.fillStyle = "#bcd0ea"; ctx.font = "9.5px 'IBM Plex Mono',monospace"; ctx.textAlign = "left"; if (o.yl) ctx.fillText(o.yl, x + 8, y + 11); ctx.textAlign = "right"; if (o.xl) ctx.fillText(o.xl, x + w - 6, y + h - 4); ctx.restore();
   };
   P3D.util = { TAU, V3, rnd, tex, softDot, cv, M };
 })();
