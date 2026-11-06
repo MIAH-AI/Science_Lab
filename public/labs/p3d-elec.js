@@ -171,4 +171,5 @@
     },
     readouts(s, c) { const I = c.emf / (c.externalR + c.internalR); return [["Current", `${f1(I, 3)} A`], ["Terminal p.d.", `${f1(c.emf - I * c.internalR, 2)} V`], ["Lost volts", `${f1(I * c.internalR, 2)} V`], ["EMF", `${c.emf} V`]]; },
   };
+  P.util.elec = { mkPath, carriers, wire, wires, lead, meter, supply, resistor, bench, lab, eng, sci };
 })();
