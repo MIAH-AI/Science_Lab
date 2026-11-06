@@ -106,6 +106,11 @@ main{padding:clamp(14px,2.6vw,32px);min-width:0;}
 .screen .crtwrap{position:relative;border-radius:6px;overflow:hidden;background:#050c17;}
 .screen canvas{display:block;width:100%;height:auto;}
 .screen .crtwrap::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,.14) 3px);mix-blend-mode:multiply;}
+.screen .crtwrap.real::before{display:none;}
+.screen .crtwrap.real::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse at 50% 46%,transparent 58%,rgba(0,0,0,.34) 100%);}
+.screen .crtwrap.real{cursor:grab;background:#0a0f18;touch-action:pan-y pinch-zoom;user-select:none;}
+.screen .crtwrap.real.grabbing{cursor:grabbing;}
+.screen .orbit-hint{position:absolute;right:12px;bottom:10px;z-index:3;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:#dbe7ff;background:rgba(6,12,24,.55);padding:4px 8px;border-radius:7px;pointer-events:none;transition:opacity .6s;opacity:.85;}
 .screen .tag{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:.1em;opacity:.75;z-index:2;}
 .screen .tag .dot2{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:6px;box-shadow:0 0 6px var(--cyan);animation:pulse 1.6s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
@@ -188,6 +193,9 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 
 <footer>WAEC PHYSICS SYLLABUS · INTERACTIVE REVISION LAB · VALUES ARE ILLUSTRATIVE, NOT TO PHYSICAL SCALE · g ≈ 9.8 m·s⁻² UNLESS STATED</footer>
 
+<script src="/labs/vendor/three.bundle.js"></script>
+<script src="/labs/physics3d.js"></script>
+<script src="/labs/p3d-mechanics.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
@@ -1800,7 +1808,7 @@ SIMS["30"]=[{modeName:"Radioactive Decay & Half-life", tag:"N = N₀e^(−λt)",
 
 /* ---------- H2. Projectile motion ---------- */
 SIMS["H2"]=[{modeName:"Projectile Motion", tag:"PARABOLIC PATH", eqn:"Range = u²sin(2θ)/g   Max height = u²sin²θ/(2g)",
-  controls:[{key:"speed",label:"Launch Speed",min:5,max:50,step:1,default:28,unit:" m/s"},{key:"angle",label:"Launch Angle",min:0,max:90,step:1,default:45,unit:"°"}],
+  controls:[{key:"speed",label:"Launch Speed",min:5,max:50,step:1,default:28,unit:" m/s"},{key:"angle",label:"Launch Angle",min:0,max:90,step:1,default:45,unit:"°"},{key:"drag",label:"Air resistance",type:"select",options:[{label:"None (ideal, vacuum)"},{label:"Realistic (quadratic drag)"}],default:0}],
   values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt*1.4; },
   draw(ctx,s,c,w,h){
     const g=9.8,scale=8,ox=70,oy=320,rad=c.angle*Math.PI/180,T=2*c.speed*Math.sin(rad)/g;
@@ -2123,23 +2131,28 @@ function renderNav(){
 }
 
 /* ---- animation engine for currently active sim ---- */
-let rafId=null, lastTime=null, running=true, canvasEl=null, ctx=null;
-function stopEngine(){ if(rafId) cancelAnimationFrame(rafId); rafId=null; lastTime=null; }
+let rafId=null, lastTime=null, running=true, canvasEl=null, ctx=null, timeScale=1;
+function resetVariant(variant){ variant.reset(variant.state,variant.values); const sc=window.P3D&&P3D.ready&&P3D.scenes[variant.modeName]; if(sc&&sc.reset) sc.reset(variant.state,variant.values); }
+function stopEngine(){ if(rafId) cancelAnimationFrame(rafId); rafId=null; lastTime=null; if(window.P3D&&P3D.S) P3D.end(); }
 function startEngine(variant){
   stopEngine(); running=true;
+  /* photoreal three.js scene registered for this simulation? else the original 2D drawing is used */
+  const sc=(window.P3D&&P3D.ready)?P3D.scenes[variant.modeName]:null;
+  const real=!!(sc&&P3D.begin(variant,sc,canvasEl));
+  const LW=640, LH=400;
   function loop(ts){
     if(lastTime===null) lastTime=ts; let dt=(ts-lastTime)/1000; lastTime=ts; dt=Math.min(dt,0.05);
-    if(running){ const steps=2; for(let i=0;i<steps;i++) variant.step(variant.state,variant.values,dt/steps); }
-    clearScreen(ctx,canvasEl.width,canvasEl.height); drawGrid(ctx,canvasEl.width,canvasEl.height);
-    variant.draw(ctx,variant.state,variant.values,canvasEl.width,canvasEl.height);
-    renderReadouts(variant);
+    if(running){ const stepFn=(real&&sc.step)?sc.step:variant.step, steps=(real&&sc.sub)||2, sdt=dt*timeScale; for(let i=0;i<steps;i++) stepFn(variant.state,variant.values,sdt/steps); }
+    if(real){ ctx.clearRect(0,0,LW,LH); P3D.frame(dt,running,timeScale); if(sc.overlay) sc.overlay(ctx,variant.state,variant.values,LW,LH,P3D.S); }
+    else { clearScreen(ctx,LW,LH); drawGrid(ctx,LW,LH); variant.draw(ctx,variant.state,variant.values,LW,LH); }
+    renderReadouts(variant,real&&sc.readouts);
     rafId=requestAnimationFrame(loop);
   }
   rafId=requestAnimationFrame(loop);
 }
-function renderReadouts(variant){
+function renderReadouts(variant,override){
   const box=document.getElementById("readouts"); if(!box) return;
-  const items=variant.readouts(variant.state,variant.values);
+  const items=(override||variant.readouts)(variant.state,variant.values);
   box.innerHTML=items.map(([k,v])=>`<div class="readout"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
 }
 function buildControls(variant){
@@ -2197,7 +2210,7 @@ function renderMain(part, topic){
     }
     const variant = variants[activeMode] || variants[0];
     if(!variant.values) variant.values = mv(variant.controls);
-    if(!variant.state._init){ variant.reset(variant.state, variant.values); variant.state._init=true; }
+    if(!variant.state._init){ resetVariant(variant); variant.state._init=true; }
     html += `<div class="eqn">${variant.eqn}</div>
       <div class="stage">
         <div class="screen">
@@ -2206,6 +2219,7 @@ function renderMain(part, topic){
         <div class="panel">
           <div><h3>Controls</h3><div id="controls" style="margin-top:12px;display:flex;flex-direction:column;gap:12px;"></div></div>
           <div class="btnrow"><button class="btn primary" id="playBtn">Pause</button><button class="btn" id="resetBtn">Reset</button></div>
+          <div class="control"><label>Time speed</label><select id="tscale"><option value="0.1">0.1× — super slow-mo</option><option value="0.25">0.25× — slow-mo</option><option value="0.5">0.5×</option><option value="1" selected>1× — real time</option><option value="2">2× — fast-forward</option></select></div>
           <div><h3>Readout</h3><div class="readouts" id="readouts" style="margin-top:10px;"></div></div>
         </div>
       </div>`;
@@ -2217,9 +2231,11 @@ function renderMain(part, topic){
     });
 
     canvasEl = document.getElementById("cv"); ctx = canvasEl.getContext("2d");
+    { const dpr=Math.min(2,window.devicePixelRatio||1); canvasEl.width=640*dpr; canvasEl.height=400*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
     buildControls(variant);
     document.getElementById("playBtn").addEventListener("click",()=>{ running=!running; document.getElementById("playBtn").textContent=running?"Pause":"Play"; });
-    document.getElementById("resetBtn").addEventListener("click",()=>{ variant.reset(variant.state, variant.values); });
+    document.getElementById("resetBtn").addEventListener("click",()=>{ resetVariant(variant); });
+    timeScale=1; const tsEl=document.getElementById("tscale"); if(tsEl) tsEl.addEventListener("input",()=>{ timeScale=parseFloat(tsEl.value); });
     startEngine(variant);
   } else {
     html += (topic.overview ? `<div class="card-note"><p>${topic.overview}</p></div>` : "");
