@@ -1,0 +1,25 @@
+[build]
+  command = "vite build"
+  publish = "dist/client"
+[build.environment]
+  NODE_VERSION = "24"
+[dev]
+  framework = "#custom"
+  command = "npm run dev"
+  targetPort = 3000
+  port = 8888
+
+[[redirects]]
+  from = "/waec-maths-dashboard"
+  to = "/labs/waec-maths-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/physics_lab_full"
+  to = "/labs/physics_lab_full.html"
+  status = 200
+
+[[redirects]]
+  from = "/chemistry-simulations"
+  to = "/labs/chemistry-simulations.html"
+  status = 200
