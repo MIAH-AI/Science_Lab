@@ -63,8 +63,17 @@ input:not([type=range]),select,.subpill,.btn-ghost,.back-home,.modebtn,.btn,.sec
 .topic-item:hover,button.topicbtn:hover,.tick-btn:hover {background:var(--g-well)!important}
 .part-head .roman,.legend .dot.sim,.tb-eyebrow .sq,.stage-eyebrow .dash {text-shadow:none;box-shadow:none}
 .sim-canvas-wrap {background:#151b2b!important;border-radius:16px}
-/* Canvas instruments retain their original high-contrast drawing palette. */
+/* Maths canvases are fixed-width, so a themed well that centres them replaces the full-width navy slab. */
+.lab-maths .sim-canvas-wrap {background:var(--g-well)!important;box-shadow:inset 2px 2px 6px var(--g-shadow);padding:12px;text-align:center}
+.lab-maths .sim-canvas {margin-inline:auto}
+/* Canvas instruments keep their original high-contrast drawing palette and logic; in night mode the light
+   canvases are darkened with a CSS filter (invert + hue-rotate keeps each colour's hue) instead of editing the JS. */
 canvas {border-radius:12px}
+:root.night .sim-canvas {filter:invert(.9) hue-rotate(180deg) brightness(1.2)}
+/* Maths result rows were hard-coded white, which left light text on white in night mode. */
+.sim-result-row {background:var(--g-well)!important;border-color:var(--g-edge)!important;color:var(--g-ink)}
+.sim-result-label {color:var(--g-muted)}
+.sim-result-value {color:var(--g-ink)}
 button,a,input,select {touch-action:manipulation}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible {outline:3px solid var(--g-accent)!important;outline-offset:3px!important}
 .glass-labs a:hover,.glass-appearance button:hover {color:var(--g-ink)}
