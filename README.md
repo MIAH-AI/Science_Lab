@@ -1,6 +1,6 @@
 # Learn with Nehy
 
-A glass-inspired WAEC study workspace for Mathematics, Physics, and Chemistry. Pearl-lavender day mode and deep-indigo night mode pair sculpted sidebars with glossy subject cards, search, a 25-minute focus timer, and guidance. Subject cards open the existing learning labs at https://learnwithnehy.netlify.app/.
+A glass-inspired WAEC study workspace for Mathematics, Physics, and Chemistry. Pearl-lavender day mode and deep-indigo night mode pair sculpted sidebars with glossy subject cards, search, a 25-minute focus timer, and guidance. Subject cards open the existing learning labs at (https://learnwith-nehyy.netlify.app/).
 
 Built with React 19, TypeScript, TanStack Start and Router, Vite, Tailwind CSS, Radix UI, and Lucide icons. Decorative artwork uses CSS and SVG, keeping it sharp at every screen size.
 
