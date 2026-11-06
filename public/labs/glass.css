@@ -1,0 +1,83 @@
+/* Shared sculpted glass skin; original lesson and simulation styles remain isolated. */
+:root {
+  color-scheme:light;
+  --g-bg:#e9e8f3; --g-ink:#34324d; --g-muted:#716b88;
+  --g-surface:linear-gradient(135deg,#ffffffb8,#f4f1ff70);
+  --g-edge:#ffffffc4; --g-highlight:#ffffffdf; --g-shadow:#79709929;
+  --g-accent:#7962b1; --g-well:#d9d4e84d; --g-active:linear-gradient(135deg,#e4dbf5,#cfc1e9);
+  --paper:#f3f1fa; --paper-2:#e8e4f2; --paper-line:#cec8df;
+  --ink:var(--g-ink); --ink-soft:var(--g-muted); --card:#f8f6fc;
+  --rail:#e5e0f0; --rail-ink:var(--g-ink); --rail-ink-dim:var(--g-muted);
+  --red:#8e5982; --teal:#447d75; --amber:#94713a; --cyan:#447d75;
+  --blue-0:#e9e8f3; --blue-1:#f3f0fa; --blue-2:#e2dcec;
+  --chalk:var(--g-ink); --chalk-dim:var(--g-muted); --chalk-faint:#78718b;
+  --line:#b6aac940; --line-soft:#b6aac928;
+  --bg-deep:#e9e8f3; --bg-panel:#f5f2fc99; --bg-panel-2:#ddd7ed66;
+  --muted:var(--g-muted); --line-paper:#b6aac940; --flame:#9d627e;
+  --radius:14px;
+}
+:root.night {
+  color-scheme:dark;
+  --g-bg:#211e36; --g-ink:#ede8fc; --g-muted:#b5accb;
+  --g-surface:linear-gradient(135deg,#574b7780,#302941a6);
+  --g-edge:#c1ade038; --g-highlight:#dac7ff30; --g-shadow:#0c091e66;
+  --g-accent:#c3a9ed; --g-well:#19152866; --g-active:linear-gradient(135deg,#655184,#44365f);
+  --paper:#2b263d; --paper-2:#352d48; --paper-line:#69597e66;
+  --card:#332d46; --rail:#322b46; --red:#e2a4c6; --teal:#a2d3c4;
+  --amber:#e1c28a; --cyan:#a2d3c4;
+  --blue-0:#211e36; --blue-1:#302940; --blue-2:#3d3452;
+  --chalk-faint:#a195b7; --line:#c1ade033; --line-soft:#c1ade01c;
+  --bg-deep:#211e36; --bg-panel:#332c4788; --bg-panel-2:#4c405e77;
+  --line-paper:#c1ade033; --flame:#e2a4c6;
+}
+body { padding-top:76px; background:radial-gradient(ellipse at 4% 10%,#a897cd30,transparent 48%),radial-gradient(ellipse at 95% 80%,#a0b6bc20,transparent 45%),var(--g-bg)!important; color:var(--g-ink); background-attachment:fixed!important; }
+body::before {display:none}
+#glass-navigation {position:fixed;inset:0 0 auto;z-index:100;height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;background:var(--g-surface);border-bottom:1px solid var(--g-edge);backdrop-filter:blur(28px);box-shadow:0 5px 24px var(--g-shadow);font:500 13px 'IBM Plex Sans',sans-serif;color:var(--g-ink)}
+.glass-brand {text-decoration:none;font-weight:700;letter-spacing:-.4px;white-space:nowrap;display:flex;gap:9px;align-items:center}
+.glass-brand svg {width:30px;height:30px;padding:5px;border-radius:10px;background:var(--g-active);box-shadow:inset 1px 2px 2px var(--g-highlight),2px 3px 6px var(--g-shadow)}
+.glass-labs,.glass-appearance {display:flex;gap:5px;align-items:center}
+.glass-labs a,.glass-appearance button {text-decoration:none;border:1px solid transparent;color:var(--g-muted);font:inherit;background:transparent;padding:9px 13px;border-radius:13px;cursor:pointer;white-space:nowrap}
+.glass-labs a[aria-current],.glass-appearance button[aria-pressed=true] {background:var(--g-active);color:var(--g-ink);border-color:var(--g-edge);box-shadow:inset 1px 2px 2px var(--g-highlight),3px 4px 8px var(--g-shadow)}
+.glass-appearance {border-radius:16px;padding:3px;background:var(--g-well);box-shadow:inset 2px 2px 5px var(--g-shadow)}
+.glass-appearance button {padding:7px 11px;font-size:12px}
+.rail,.sidebar,.layout>aside {background:var(--g-surface)!important;border:1px solid var(--g-edge)!important;border-radius:28px;box-shadow:inset 1px 2px 3px var(--g-highlight),9px 14px 25px var(--g-shadow);backdrop-filter:blur(24px);margin:12px;scrollbar-width:thin;scrollbar-color:var(--g-accent) transparent}
+.rail {top:88px;height:calc(100dvh - 100px)}
+.layout>aside {top:78px;max-height:calc(100dvh - 92px)}
+.lab-maths .app {min-height:calc(100dvh - 76px)}
+.lab-maths .topbar {top:66px}
+.lab-chemistry .app {height:calc(100dvh - 76px)}
+.lab-chemistry {--paper:var(--g-ink)}
+.lab-chemistry .main {background:transparent!important}
+.topbar,.titleblock {background:var(--g-surface)!important;border-color:var(--g-edge);box-shadow:inset 0 1px 1px var(--g-highlight);backdrop-filter:blur(20px)}
+.lab-chemistry .topbar {border-radius:20px;margin:0 12px}
+.tick-btn,button.topicbtn,.topic-item {border-radius:14px!important;margin-block:4px;color:var(--g-ink)}
+.tick.active .tick-btn,button.topicbtn.active,.topic-item.active {background:var(--g-active)!important;box-shadow:inset 1px 2px 2px var(--g-highlight),3px 5px 9px var(--g-shadow)!important;border-color:var(--g-edge)!important}
+.tick-glyph,.brand .tile {border-radius:11px;background:var(--g-active);color:var(--g-accent);border:1px solid var(--g-edge);box-shadow:inset 1px 2px 2px var(--g-highlight),2px 4px 6px var(--g-shadow)}
+.tick.active .tick-glyph {color:var(--g-ink);background:var(--g-active)}
+.axis {border-color:var(--line)}
+.rail-header,.rail-foot {border-color:var(--line)}
+.overview-card,.stat,.subtopic,.panel,.screen,.sim-panel,.readout-item,.readout,.note-box,.card-note,.card-diagram,.subrow-head,.topic-item,.tb-right {background:var(--g-surface)!important;border-radius:18px;border-color:var(--g-edge)!important;box-shadow:inset 1px 2px 2px var(--g-highlight),4px 8px 16px var(--g-shadow)!important;color:var(--g-ink)}
+.stats {background:transparent;border:0;gap:12px}
+input:not([type=range]),select,.subpill,.btn-ghost,.back-home,.modebtn,.btn,.section-tabs {background:var(--g-well)!important;color:var(--g-ink)!important;border-color:var(--g-edge)!important;border-radius:12px!important;box-shadow:inset 1px 2px 4px var(--g-shadow)!important}
+.modebtn.active,.section-tab.active,.subpill.active,.btn.primary,.sim-btn {background:var(--g-active)!important;color:var(--g-ink)!important;border:1px solid var(--g-edge);border-radius:12px;box-shadow:inset 0 2px 2px var(--g-highlight),3px 4px 7px var(--g-shadow)!important}
+.topic-item:hover,button.topicbtn:hover,.tick-btn:hover {background:var(--g-well)!important}
+.part-head .roman,.legend .dot.sim,.tb-eyebrow .sq,.stage-eyebrow .dash {text-shadow:none;box-shadow:none}
+.sim-canvas-wrap {background:#151b2b!important;border-radius:16px}
+/* Canvas instruments retain their original high-contrast drawing palette. */
+canvas {border-radius:12px}
+button,a,input,select {touch-action:manipulation}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible {outline:3px solid var(--g-accent)!important;outline-offset:3px!important}
+.glass-labs a:hover,.glass-appearance button:hover {color:var(--g-ink)}
+@media(max-width:980px) {.layout>aside {position:static;max-height:38dvh}.layout>aside nav.index {min-height:120px}.layout {min-height:0}}
+@media(max-width:680px) {
+  body {padding-top:116px}
+  #glass-navigation {height:106px;padding:10px 14px;flex-wrap:wrap;gap:7px}
+  .glass-brand {font-size:13px}.glass-brand svg {width:26px;height:26px}
+  .glass-labs {order:3;width:100%;justify-content:center}.glass-labs a {padding:6px 13px;font-size:12px}
+  .glass-appearance button {font-size:11px;padding:6px 9px}
+  .lab-maths .topbar {top:106px}.lab-maths .rail {top:116px;height:calc(100dvh - 128px)}
+  .lab-chemistry .app {height:calc(100dvh - 116px)}
+  .rail,.sidebar,.layout>aside {border-radius:20px}
+  .lab-chemistry .topbar {padding:0 10px;gap:8px}.brand {font-size:15px}.btn-ghost {padding:7px 9px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce) {*,*::before,*::after {scroll-behavior:auto!important;animation:none!important;transition:none!important}}

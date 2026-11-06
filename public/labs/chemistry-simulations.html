@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAEC Chemistry — Simulation Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#0F1B17; --bg-panel:#132420; --bg-panel-2:#172C26;
+  --paper:#F6F1E4; --paper-2:#EFE8D6; --ink:#1C2620; --ink-soft:#4B5850;
+  --flame:#FF6B4A; --teal:#3FA79A; --blue:#5B8DEF; --green:#7CB65C;
+  --violet:#A97FD1; --gold:#D4A64A; --muted:#6B7A72;
+  --line:rgba(246,241,228,0.09); --line-paper:rgba(28,38,32,0.12);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg-deep);color:var(--paper);-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:8px;height:8px;} ::-webkit-scrollbar-thumb{background:rgba(246,241,228,0.18);border-radius:4px;}
+button{font-family:inherit;cursor:pointer;} select,input{font-family:inherit;}
+
+.app{display:grid;grid-template-columns:300px 1fr;grid-template-rows:64px 1fr;grid-template-areas:"topbar topbar" "sidebar main";height:100vh;}
+.topbar{grid-area:topbar;display:flex;align-items:center;gap:14px;padding:0 20px;background:var(--bg-panel);border-bottom:1px solid var(--line);z-index:20;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Spectral',serif;font-weight:700;font-size:18px;white-space:nowrap;}
+.brand .tile{width:34px;height:34px;border-radius:7px;background:linear-gradient(155deg,var(--teal),#2A7A70);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;color:#0F1B17;}
+.brand small{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
+.menu-toggle{display:none;}
+.topbar-right{margin-left:auto;display:flex;gap:10px;}
+.btn-ghost{background:var(--bg-panel-2);border:1px solid var(--line);color:var(--paper);padding:8px 13px;border-radius:8px;font-size:12.5px;font-weight:500;}
+.btn-ghost:hover{border-color:var(--teal);}
+a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
+
+.sidebar{grid-area:sidebar;background:var(--bg-panel);border-right:1px solid var(--line);overflow-y:auto;padding:14px 10px 40px;}
+.section-tabs{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;padding:4px;background:var(--bg-deep);border-radius:10px;border:1px solid var(--line);}
+.section-tab{flex:1;min-width:60px;text-align:center;padding:7px 5px;border-radius:7px;background:transparent;border:none;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;}
+.section-tab.active{background:var(--teal);color:#0F1B17;}
+.section-tab:not(.active):hover{color:var(--paper);background:var(--bg-panel-2);}
+.section-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase;margin:12px 6px 7px;}
+.topic-list{display:flex;flex-direction:column;gap:5px;}
+.topic-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;background:var(--bg-panel-2);border:1px solid var(--line);border-left:3px solid var(--cat-color,var(--teal));font-size:12.5px;}
+.topic-item:hover{background:#1C332C;}
+.topic-item.active{background:linear-gradient(160deg,rgba(63,167,154,0.18),rgba(63,167,154,0.04));border-color:var(--teal);}
+.topic-item .tnum{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);min-width:28px;}
+.topic-item .ttitle{flex:1;font-weight:500;line-height:1.3;}
+
+.main{grid-area:main;overflow-y:auto;background:var(--paper);color:var(--ink);}
+.main-inner{max-width:980px;margin:0 auto;padding:34px 36px 90px;}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;text-align:center;color:var(--ink-soft);}
+.empty-state .big{font-family:'Spectral',serif;font-size:24px;color:var(--ink);margin-bottom:8px;}
+
+.subpills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px;}
+.subpill{background:#fff;border:1px solid var(--line-paper);border-radius:20px;padding:6px 13px;font-size:12px;font-weight:500;color:var(--ink-soft);}
+.subpill.active{background:var(--cat-color,var(--flame));color:#0F1B17;border-color:transparent;font-weight:600;}
+.subpill:hover:not(.active){border-color:var(--cat-color,var(--flame));}
+
+.sim-header{margin-bottom:16px;}
+.sim-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--cat-color,var(--flame));font-weight:600;margin-bottom:4px;}
+.sim-header h1{font-family:'Spectral',serif;font-size:25px;margin:0 0 6px;}
+.sim-blurb{font-size:13.5px;color:var(--ink-soft);line-height:1.6;max-width:640px;}
+
+.sim-panel{margin-top:20px;border:1px solid var(--line-paper);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 1px 3px rgba(28,38,32,0.06);}
+.sim-body{display:grid;grid-template-columns:1fr 260px;}
+.sim-canvas-wrap{padding:16px;border-right:1px solid var(--line-paper);}
+.sim-canvas{width:100%;display:block;background:#FCFAF3;border-radius:10px;border:1px solid var(--line-paper);}
+.sim-controls{padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--paper-2);}
+.ctl label{display:block;font-size:11px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+.ctl-row{display:flex;align-items:center;gap:8px;}
+.ctl input[type=range]{flex:1;accent-color:var(--flame);}
+.ctl-val{font-family:'IBM Plex Mono',monospace;font-size:12px;min-width:44px;text-align:right;color:var(--ink);}
+.ctl select{width:100%;padding:7px 8px;border-radius:6px;border:1px solid var(--line-paper);background:#fff;font-size:12.5px;}
+.sim-btn{background:var(--flame);color:#fff;border:none;padding:9px 12px;border-radius:7px;font-size:12.5px;font-weight:600;width:100%;}
+.sim-btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line-paper);}
+.sim-btn:hover{filter:brightness(1.06);}
+.btn-row{display:flex;gap:7px;}
+.btn-row .sim-btn{flex:1;}
+.readout{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
+.readout-item{background:#fff;border:1px solid var(--line-paper);border-radius:8px;padding:7px 9px;}
+.ro-label{font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);}
+.ro-val{font-family:'IBM Plex Mono',monospace;font-size:13.5px;font-weight:600;color:var(--ink);margin-top:2px;}
+.note-box{font-size:11.5px;line-height:1.55;color:var(--ink-soft);background:#fff;border:1px dashed var(--line-paper);border-radius:8px;padding:9px 10px;}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;grid-template-rows:58px auto 1fr;grid-template-areas:"topbar" "sidebar" "main";}
+  .sidebar{border-right:none;border-bottom:1px solid var(--line);max-height:38vh;}
+  .sidebar.collapsed{display:none;}
+  .menu-toggle{display:block;}
+  .main-inner{padding:22px 16px 70px;}
+  .sim-body{grid-template-columns:1fr;}
+  .sim-canvas-wrap{border-right:none;border-bottom:1px solid var(--line-paper);}
+}
+</style>
+<style id="glass-neon-skin">
+  /* ============ GLASS + NEON SKIN — overrides the base theme above ============ */
+  :root{
+    --bg-deep:#0A0B12;
+    --bg-panel:rgba(255,255,255,.055);
+    --bg-panel-2:rgba(255,255,255,.10);
+    --paper:#F3F4F8;
+    --paper-2:rgba(255,255,255,.05);
+    --ink:#F3F4F8;
+    --ink-soft:#AEB2C4;
+    --flame:#FF6B4A;
+    --teal:#31E6C9;
+    --muted:#868CA3;
+    --line:rgba(255,255,255,.15);
+    --line-paper:rgba(255,255,255,.12);
+  }
+
+  body{
+    background:
+      radial-gradient(ellipse 55% 40% at 88% 4%, rgba(255,107,74,.16), transparent 70%),
+      radial-gradient(ellipse 55% 45% at 4% 30%, rgba(49,230,201,.16), transparent 70%),
+      radial-gradient(ellipse 60% 45% at 40% 100%, rgba(90,140,239,.10), transparent 70%),
+      linear-gradient(180deg,#0A0B12,#0F0F1C 55%,#0A0B12);
+  }
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.20)!important;}
+
+  .main{background:transparent!important;}
+
+  .topbar,.sidebar,.section-tabs,.sim-panel,.sim-controls,.topic-item,.readout-item,
+  .note-box,.ctl select,.subpill,.btn-ghost{
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+  }
+  .sim-panel,.readout-item,.note-box,.topic-item,.btn-ghost{
+    background:rgba(255,255,255,.055)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.20), inset 0 -12px 20px -16px rgba(0,0,0,.5), 0 18px 34px -24px rgba(0,0,0,.7);
+  }
+  .ctl select,.subpill{
+    background:rgba(255,255,255,.06)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
+  }
+  .section-tabs{background:rgba(255,255,255,.04);}
+  .topbar{background:rgba(255,255,255,.05);}
+  .sidebar{background:rgba(255,255,255,.03);}
+  .sim-canvas-wrap{background:rgba(255,255,255,.03); border-radius:12px;}
+
+  .sim-panel{border-radius:16px; overflow:hidden;}
+  .topic-item,.readout-item,.note-box,.subpill,.section-tab,.btn-ghost{border-radius:10px;}
+
+  /* neon glow — accents already carry --flame / --teal, just add light */
+  .brand .tile{background:linear-gradient(155deg,var(--teal),#0F8A78); box-shadow:0 0 16px -4px rgba(49,230,201,.6);}
+  .section-tab.active{box-shadow:0 0 16px -4px rgba(49,230,201,.7);}
+  .topic-item.active{
+    background:linear-gradient(160deg,rgba(49,230,201,.18),rgba(49,230,201,.05))!important;
+    box-shadow:0 0 18px -6px rgba(49,230,201,.55);
+  }
+  .subpill.active{box-shadow:0 0 14px -4px rgba(255,107,74,.6);}
+  .sim-btn{box-shadow:0 0 18px -4px rgba(255,107,74,.55);}
+  .sim-btn.secondary{background:rgba(255,255,255,.06)!important;color:var(--ink)!important;}
+  .btn-ghost:hover{box-shadow:0 0 14px -4px rgba(49,230,201,.5);}
+  .topic-item:hover{background:rgba(255,255,255,.08)!important;}
+  #search:focus-visible,.ctl select:focus-visible,.topic-item:focus-visible,.overview-card:focus-visible{
+    outline:2px solid var(--teal); outline-offset:1px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{scroll-behavior:auto!important;}
+  }
+</style>
+<link rel="stylesheet" href="/labs/glass.css">
+<script src="/labs/glass.js" defer></script>
+</head>
+<body class="lab-chemistry">
+<div id="glass-navigation"></div>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><div class="tile">Sim</div><div>Chemistry Sim Lab<small>Dynamic concept visualiser</small></div></div>
+    <a class='btn-ghost' href='/'>← Home</a>
+    <button class="btn-ghost menu-toggle" id="menuToggle">☰ Topics</button>
+    <div class="topbar-right"><span class="btn-ghost" id="countBadge">20 simulation modules</span></div>
+  </div>
+  <div class="sidebar" id="sidebar">
+    <div class="section-tabs" id="sectionTabs"></div>
+    <div id="sidebarTopics"></div>
+  </div>
+  <div class="main"><div class="main-inner" id="mainInner">
+    <div class="empty-state"><div class="big">Choose a topic to launch a simulation</div><div>Every subtopic below links to a live, interactive model of its underlying concept, law or principle.</div></div>
+  </div></div>
+</div>
+
+<script>
+/* ============================================================
+   0. GENERIC HELPERS
+   ============================================================ */
+function $(tag, attrs={}, ...kids){
+  const e=document.createElement(tag);
+  for(const k in attrs){
+    if(k==='style') e.style.cssText=attrs[k];
+    else if(k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
+    else if(attrs[k]!==false) e.setAttribute(k, attrs[k]===true?'':attrs[k]);
+  }
+  kids.flat().forEach(k=>{ if(k===null||k===undefined) return; if(typeof k==='string'||typeof k==='number') e.appendChild(document.createTextNode(k)); else e.appendChild(k); });
+  return e;
+}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+function hex2rgb(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+function rgb2css(r,g,b){return `rgb(${r|0},${g|0},${b|0})`;}
+function lerpColor(c1,c2,t){const a=hex2rgb(c1),b=hex2rgb(c2);return rgb2css(lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t));}
+
+function sliderControl({label,min,max,step,value,unit='',onInput}){
+  const valSpan=$('span',{class:'ctl-val'}, value+unit);
+  const input=$('input',{type:'range',min,max,step,value,oninput:(e)=>{valSpan.textContent=e.target.value+unit;onInput(parseFloat(e.target.value));}});
+  return $('div',{class:'ctl'}, $('label',{},label), $('div',{class:'ctl-row'}, input, valSpan));
+}
+function selectControl({label,options,value,onChange}){
+  const sel=$('select',{onchange:(e)=>onChange(e.target.value)});
+  options.forEach(o=>{const opt=$('option',{value:o.value},o.label); if(String(o.value)===String(value)) opt.setAttribute('selected','selected'); sel.appendChild(opt);});
+  return $('div',{class:'ctl'}, $('label',{},label), sel);
+}
+function buttonControl(label,onClick,cls=''){ return $('button',{class:'sim-btn '+cls, onclick:onClick}, label); }
+function readout(pairs){
+  const wrap=$('div',{class:'readout'});
+  pairs.forEach(([l,v])=>wrap.appendChild($('div',{class:'readout-item'}, $('div',{class:'ro-label'},l), $('div',{class:'ro-val'},String(v)))));
+  return wrap;
+}
+function noteBox(text){ return $('div',{class:'note-box'}, text); }
+
+function makeCanvas(container,h=320){
+  const canvas=$('canvas',{class:'sim-canvas'});
+  container.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+  function resize(){
+    const dpr=window.devicePixelRatio||1;
+    const w=canvas.clientWidth||400;
+    canvas.width=w*dpr; canvas.height=h*dpr; canvas.style.height=h+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+  window.addEventListener('resize',resize);
+  return {canvas,ctx,resize,destroy:()=>window.removeEventListener('resize',resize)};
+}
+
+/* ============================================================
+   1. CHEMISTRY REFERENCE DATA
+   ============================================================ */
+const ELEMENTS=[
+ {z:1,sym:'H',name:'Hydrogen',r:53,ie:1312,en:2.20,row:1,col:1},
+ {z:2,sym:'He',name:'Helium',r:31,ie:2372,en:null,row:1,col:18},
+ {z:3,sym:'Li',name:'Lithium',r:167,ie:520,en:0.98,row:2,col:1},
+ {z:4,sym:'Be',name:'Beryllium',r:112,ie:899,en:1.57,row:2,col:2},
+ {z:5,sym:'B',name:'Boron',r:87,ie:801,en:2.04,row:2,col:13},
+ {z:6,sym:'C',name:'Carbon',r:67,ie:1086,en:2.55,row:2,col:14},
+ {z:7,sym:'N',name:'Nitrogen',r:56,ie:1402,en:3.04,row:2,col:15},
+ {z:8,sym:'O',name:'Oxygen',r:48,ie:1314,en:3.44,row:2,col:16},
+ {z:9,sym:'F',name:'Fluorine',r:42,ie:1681,en:3.98,row:2,col:17},
+ {z:10,sym:'Ne',name:'Neon',r:38,ie:2081,en:null,row:2,col:18},
+ {z:11,sym:'Na',name:'Sodium',r:190,ie:496,en:0.93,row:3,col:1},
+ {z:12,sym:'Mg',name:'Magnesium',r:145,ie:738,en:1.31,row:3,col:2},
+ {z:13,sym:'Al',name:'Aluminium',r:118,ie:577,en:1.61,row:3,col:13},
+ {z:14,sym:'Si',name:'Silicon',r:111,ie:786,en:1.90,row:3,col:14},
+ {z:15,sym:'P',name:'Phosphorus',r:98,ie:1012,en:2.19,row:3,col:15},
+ {z:16,sym:'S',name:'Sulphur',r:88,ie:1000,en:2.58,row:3,col:16},
+ {z:17,sym:'Cl',name:'Chlorine',r:79,ie:1251,en:3.16,row:3,col:17},
+ {z:18,sym:'Ar',name:'Argon',r:71,ie:1521,en:null,row:3,col:18},
+ {z:19,sym:'K',name:'Potassium',r:243,ie:419,en:0.82,row:4,col:1},
+ {z:20,sym:'Ca',name:'Calcium',r:194,ie:590,en:1.00,row:4,col:2},
+ {z:21,sym:'Sc',name:'Scandium',r:184,ie:633,en:1.36,row:4,col:3},
+ {z:22,sym:'Ti',name:'Titanium',r:176,ie:659,en:1.54,row:4,col:4},
+ {z:23,sym:'V',name:'Vanadium',r:171,ie:651,en:1.63,row:4,col:5},
+ {z:24,sym:'Cr',name:'Chromium',r:166,ie:653,en:1.66,row:4,col:6},
+ {z:25,sym:'Mn',name:'Manganese',r:161,ie:717,en:1.55,row:4,col:7},
+ {z:26,sym:'Fe',name:'Iron',r:156,ie:762,en:1.83,row:4,col:8},
+ {z:27,sym:'Co',name:'Cobalt',r:152,ie:760,en:1.88,row:4,col:9},
+ {z:28,sym:'Ni',name:'Nickel',r:149,ie:737,en:1.91,row:4,col:10},
+ {z:29,sym:'Cu',name:'Copper',r:145,ie:745,en:1.90,row:4,col:11},
+ {z:30,sym:'Zn',name:'Zinc',r:142,ie:906,en:1.65,row:4,col:12},
+];
+function elByZ(z){return ELEMENTS.find(e=>e.z===z);}
+const SHELL_CAP=[2,8,8,18];
+function shellFill(electrons){
+  let rem=electrons, shells=[];
+  for(const cap of SHELL_CAP){ if(rem<=0) break; const c=Math.min(cap,rem); shells.push(c); rem-=c; }
+  return shells;
+}
+const ORB_ORDER=['1s','2s','2p','3s','3p','4s','3d','4p'];
+const ORB_CAP={'1s':2,'2s':2,'2p':6,'3s':2,'3p':6,'4s':2,'3d':10,'4p':6};
+function orbitalFill(z){
+  let rem=z, out=[];
+  for(const o of ORB_ORDER){ if(rem<=0) break; const c=Math.min(ORB_CAP[o],rem); out.push([o,c]); rem-=c; }
+  return out;
+}
+const E_POT={Li:-3.04,Na:-2.71,Mg:-2.37,Al:-1.66,Zn:-0.76,Fe:-0.44,Ni:-0.26,Sn:-0.14,Pb:-0.13,H:0.00,Cu:0.34,Ag:0.80,Au:1.50};
+
+/* ============================================================
+   2. SIMULATION MODULES  — each returns a cleanup fn
+   ============================================================ */
+const SIM_MODULES={};
+
+/* ---- 2.1 Scientific Method flow ---- */
+SIM_MODULES.scientificMethod={
+  title:'The Scientific Method',
+  blurb:'Step through how chemists move from a question to an accepted theory.',
+  mount(canvasWrap, controls){
+    const steps=[
+      {t:'Observation', d:'A phenomenon is noticed — e.g. a metal turns dull in air.'},
+      {t:'Hypothesis', d:'A testable explanation is proposed — e.g. "the metal is reacting with oxygen."'},
+      {t:'Experimentation', d:'Controlled experiments are designed and run to test the hypothesis.'},
+      {t:'Analysis', d:'Data is measured with proper SI units, significant figures, precision & accuracy.'},
+      {t:'Law / Theory', d:'If confirmed repeatedly, the explanation becomes an accepted law or theory.'}
+    ];
+    let idx=0;
+    const {ctx,canvas}=makeCanvas(canvasWrap,300);
+    function draw(){
+      const w=canvas.clientWidth,h=300;
+      ctx.clearRect(0,0,w,h);
+      const n=steps.length, gap=w/(n+1);
+      for(let i=0;i<n;i++){
+        const x=gap*(i+1), y=h/2;
+        ctx.beginPath(); ctx.arc(x,y,28,0,Math.PI*2);
+        ctx.fillStyle= i===idx? '#FF6B4A': i<idx? '#7CB65C':'#EFE8D6';
+        ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle='#1C2620'; ctx.stroke();
+        ctx.fillStyle= i<=idx? '#fff':'#1C2620'; ctx.font='700 12px IBM Plex Mono'; ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(i+1, x, y);
+        ctx.fillStyle='#1C2620'; ctx.font='600 11px IBM Plex Sans'; ctx.fillText(steps[i].t, x, y+46);
+        if(i<n-1){ ctx.beginPath(); ctx.moveTo(x+30,y); ctx.lineTo(gap*(i+2)-30,y); ctx.strokeStyle='#C9BFA0'; ctx.lineWidth=2; ctx.stroke(); }
+      }
+    }
+    draw();
+    const desc=$('div',{class:'note-box'}, steps[0].d);
+    controls.appendChild($('div',{class:'ctl'}, $('label',{},'Current step'), $('div',{style:'font-family:IBM Plex Mono;font-size:13px;font-weight:600;'}, steps[0].t)));
+    controls.appendChild(desc);
+    const row=$('div',{class:'btn-row'});
+    row.appendChild(buttonControl('◂ Prev', ()=>{ idx=clamp(idx-1,0,steps.length-1); update(); },'secondary'));
+    row.appendChild(buttonControl('Next ▸', ()=>{ idx=clamp(idx+1,0,steps.length-1); update(); }));
+    controls.appendChild(row);
+    function update(){ draw(); desc.textContent=steps[idx].d; controls.querySelector('.ctl div div').textContent=steps[idx].t; controls.querySelectorAll('.ctl div')[0]; controls.children[0].children[1].textContent=steps[idx].t; }
+    return ()=>{};
+  }
+};
+
+/* ---- 2.2 Atomic Structure (Bohr model) ---- */
+SIM_MODULES.atomicStructure={
+  title:'Atomic Structure — Bohr Model',
+  blurb:'Adjust protons, neutrons and electrons to build any atom or ion and watch the shells fill.',
+  mount(canvasWrap, controls){
+    let protons=6, neutrons=6, electrons=6, angle=0, raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,340);
+    function draw(){
+      const w=canvas.clientWidth,h=340,cx=w/2,cy=h/2;
+      ctx.clearRect(0,0,w,h);
+      const shells=shellFill(electrons);
+      shells.forEach((n,i)=>{
+        ctx.beginPath(); ctx.arc(cx,cy,40+i*34,0,Math.PI*2); ctx.strokeStyle='#D9D0B8'; ctx.lineWidth=1; ctx.stroke();
+      });
+      // nucleus
+      const nucCount=Math.min(protons+neutrons,40);
+      for(let i=0;i<nucCount;i++){
+        const a=(i/nucCount)*Math.PI*2, rr=Math.random()*8;
+        ctx.beginPath(); ctx.arc(cx+Math.cos(a)*rr, cy+Math.sin(a)*rr, 5,0,Math.PI*2);
+        ctx.fillStyle= i<protons? '#FF6B4A':'#8B95A1'; ctx.fill();
+      }
+      // electrons
+      shells.forEach((n,i)=>{
+        const radius=40+i*34;
+        for(let j=0;j<n;j++){
+          const a=angle*(1/(i+1))+ (j/n)*Math.PI*2;
+          const x=cx+Math.cos(a)*radius, y=cy+Math.sin(a)*radius;
+          ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2); ctx.fillStyle='#3FA79A'; ctx.fill();
+        }
+      });
+      const el=elByZ(protons);
+      ctx.fillStyle='#1C2620'; ctx.font='700 13px IBM Plex Mono'; ctx.textAlign='center';
+      ctx.fillText((el?el.sym:'X')+'  Z='+protons, cx, h-14);
+      angle+=0.012;
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Protons (atomic number)',min:1,max:30,step:1,value:protons,onInput:v=>protons=Math.round(v)}));
+    controls.appendChild(sliderControl({label:'Neutrons',min:0,max:40,step:1,value:neutrons,onInput:v=>neutrons=Math.round(v)}));
+    controls.appendChild(sliderControl({label:'Electrons',min:0,max:30,step:1,value:electrons,onInput:v=>electrons=Math.round(v)}));
+    const ro=readout([]);
+    controls.appendChild(ro);
+    function refresh(){
+      const el=elByZ(protons);
+      ro.innerHTML='';
+      const mass=protons+neutrons, charge=protons-electrons;
+      [['Element', el?el.name:'—'],['Mass number A', mass],['Isotope notation', (el?el.sym:'X')+'-'+mass],['Charge', (charge>0?'+':'')+charge]].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v)))));
+    }
+    const t=setInterval(refresh,300); refresh();
+    return ()=>{ cancelAnimationFrame(raf); clearInterval(t); };
+  }
+};
+
+/* ---- 2.3 Electron configuration builder ---- */
+SIM_MODULES.electronConfig={
+  title:'Electron Configuration Builder',
+  blurb:"Select an element and watch electrons fill orbitals following the Aufbau Principle, Hund's Rule and the Pauli Exclusion Principle.",
+  mount(canvasWrap, controls){
+    let z=6, filled=0, raf, timer;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function totalElectrons(){ return orbitalFill(z).reduce((s,o)=>s+o[1],0); }
+    function drawArrow(ctx,cx,cy,dir){
+      ctx.strokeStyle='#FF6B4A'; ctx.lineWidth=2; ctx.beginPath();
+      ctx.moveTo(cx,cy+10*dir); ctx.lineTo(cx,cy-10*dir); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx,cy-10*dir); ctx.lineTo(cx-4,cy-10*dir+4*dir); ctx.lineTo(cx+4,cy-10*dir+4*dir); ctx.closePath(); ctx.fillStyle='#FF6B4A'; ctx.fill();
+    }
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const orbs=orbitalFill(z);           // e.g. [['1s',2],['2s',2],['2p',6], ...] up to current z
+      let x=24, y=40, passedBefore=0;
+      ctx.font='600 12px IBM Plex Mono'; ctx.textBaseline='middle';
+      orbs.forEach(([name,cap])=>{
+        const boxes = name.endsWith('s')?1:name.endsWith('p')?3:5;
+        const inThisOrbital = clamp(filled - passedBefore, 0, cap);
+        passedBefore += cap;
+
+        ctx.fillStyle='#1C2620'; ctx.textAlign='left';
+        ctx.fillText(name, x, y);
+
+        // draw the empty boxes
+        for(let b=0;b<boxes;b++){
+          const bx=x+40+b*30;
+          ctx.strokeStyle='#C9BFA0'; ctx.strokeRect(bx,y-14,26,28);
+        }
+        // Hund's rule: fill each box singly first, then come back and pair up
+        const singles=Math.min(boxes, inThisOrbital);
+        for(let b=0;b<singles;b++) drawArrow(ctx, x+40+b*30+13, y, -1);
+        const paired=Math.max(0, inThisOrbital-boxes);
+        for(let b=0;b<paired;b++) drawArrow(ctx, x+40+b*30+13, y, 1);
+
+        y+=40;
+      });
+      // configuration string, e.g. 1s² 2s² 2p⁶ ...
+      const supers={0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
+      const toSup=n=>String(n).split('').map(d=>supers[d]).join('');
+      let passed=0;
+      const str=orbs.map(([n,c])=>{
+        const have=clamp(filled-passed,0,c); passed+=c;
+        return have>0? n+toSup(have):'';
+      }).filter(Boolean).join(' ');
+      const cfgEl=document.getElementById('cfgString');
+      if(cfgEl) cfgEl.textContent=str;
+    }
+    function animateFill(){
+      const target=totalElectrons();
+      clearInterval(timer);
+      filled=0; draw();
+      timer=setInterval(()=>{
+        filled++; draw();
+        if(filled>=target) clearInterval(timer);
+      },90);
+    }
+    draw();
+    const sel=selectControl({label:'Element', options:ELEMENTS.map(e=>({value:e.z,label:`${e.z}. ${e.name} (${e.sym})`})), value:z, onChange:v=>{ z=parseInt(v); animateFill(); }});
+    controls.appendChild(sel);
+    const cfgBox=$('div',{class:'note-box',id:'cfgString'},'');
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Electron configuration'), cfgBox));
+    controls.appendChild(noteBox('Aufbau: fill lowest energy orbitals first. Pauli: max 2 electrons per orbital, opposite spins. Hund: singly fill degenerate orbitals before pairing.'));
+    controls.appendChild(buttonControl('Replay animation', animateFill,'secondary'));
+    animateFill();
+    return ()=>{ clearInterval(timer); };
+  }
+};
+
+/* ---- 2.4 Periodic Trends Explorer ---- */
+SIM_MODULES.periodicTrends={
+  title:'Periodic Trends Explorer',
+  blurb:'Click an element to compare atomic radius, ionisation energy and electronegativity, and see how each trend runs across periods and down groups.',
+  mount(canvasWrap, controls){
+    let sel=6;
+    const wrap=$('div',{style:'display:grid;grid-template-columns:repeat(18,1fr);gap:3px;padding:8px;'});
+    ELEMENTS.forEach(e=>{
+      const cell=$('button',{style:`grid-column:${e.col};grid-row:${e.row};padding:6px 2px;font-size:10px;border-radius:5px;border:1px solid #D9D0B8;background:${e.z===sel?'#FF6B4A':'#fff'};color:${e.z===sel?'#fff':'#1C2620'};font-family:IBM Plex Mono;`, onclick:()=>{sel=e.z; refresh();}}, e.sym);
+      cell.dataset.z=e.z;
+      wrap.appendChild(cell);
+    });
+    canvasWrap.appendChild(wrap);
+    const {ctx,canvas}=makeCanvas(canvasWrap,220);
+    function refresh(){
+      wrap.querySelectorAll('button').forEach(b=>{ const z=parseInt(b.dataset.z); b.style.background= z===sel?'#FF6B4A':'#fff'; b.style.color= z===sel?'#fff':'#1C2620'; });
+      const e=elByZ(sel);
+      const w=canvas.clientWidth,h=220; ctx.clearRect(0,0,w,h);
+      const maxes={r:250,ie:2500,en:4};
+      const bars=[['Atomic radius (pm)',e.r,maxes.r,'#5B8DEF'],['Ionisation energy (kJ/mol)',e.ie,maxes.ie,'#FF6B4A'],['Electronegativity',e.en||0,maxes.en,'#7CB65C']];
+      let x=40;
+      bars.forEach(([label,val,max,color])=>{
+        const bh=(val/max)*150;
+        ctx.fillStyle=color; ctx.fillRect(x,180-bh,50,bh);
+        ctx.fillStyle='#1C2620'; ctx.font='600 11px IBM Plex Mono'; ctx.textAlign='center';
+        ctx.fillText(String(val||'—'), x+25, 175-bh-6);
+        ctx.font='10px IBM Plex Sans';
+        wrapText(ctx,label,x+25,198,90,11);
+        x+=140;
+      });
+      function wrapText(ctx,text,x,y,maxW,lh){
+        const words=text.split(' '); let line='',ly=y;
+        words.forEach(w=>{ const test=line+w+' '; if(ctx.measureText(test).width>maxW && line){ ctx.fillText(line,x,ly); line=w+' '; ly+=lh; } else line=test; });
+        ctx.fillText(line,x,ly);
+      }
+      ro.innerHTML='';
+      [['Element',e.name],['Period',e.row],['Radius trend','↓ across period, ↑ down group'],['Ionisation trend','↑ across period, ↓ down group']].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v)))));
+    }
+    const ro=readout([]);
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Selected element'), $('div',{style:'font-family:Spectral,serif;font-size:20px;font-weight:700;'}, )));
+    controls.appendChild(ro);
+    controls.appendChild(noteBox('General trend: atomic radius decreases and ionisation energy / electronegativity increase left→right across a period, and the reverse down a group, due to increasing nuclear charge and added electron shells.'));
+    refresh();
+    return ()=>{};
+  }
+};
+
+/* ---- 2.5 Bonding simulator (ionic / covalent / metallic) ---- */
+SIM_MODULES.bonding={
+  title:'Chemical Bonding Simulator',
+  blurb:'Watch electrons transfer (ionic), share (covalent), or delocalise (metallic) as bonds form.',
+  mount(canvasWrap, controls){
+    let mode='ionic', t=0, raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      t+=0.02;
+      if(mode==='ionic'){
+        const prog=clamp(Math.sin(t)*0.5+0.5,0,1);
+        drawAtom(w*0.28,h/2,34,'#FF6B4A','Na');
+        drawAtom(w*0.72,h/2,34,'#3FA79A','Cl');
+        const ex=lerp(w*0.28+34,w*0.72-34,prog);
+        ctx.beginPath(); ctx.arc(ex,h/2,5,0,Math.PI*2); ctx.fillStyle='#D4A64A'; ctx.fill();
+        ctx.font='600 12px IBM Plex Mono'; ctx.fillStyle='#1C2620'; ctx.textAlign='center';
+        ctx.fillText(prog>0.85? 'Na⁺':'Na', w*0.28, h/2+55);
+        ctx.fillText(prog>0.85? 'Cl⁻':'Cl', w*0.72, h/2+55);
+      } else if(mode==='covalent'){
+        drawAtom(w*0.35,h/2,34,'#5B8DEF','H');
+        drawAtom(w*0.65,h/2,34,'#5B8DEF','H');
+        const off=Math.sin(t)*4;
+        [-1,1].forEach(s=>{ ctx.beginPath(); ctx.arc(w/2, h/2+s*6+off*s,5,0,Math.PI*2); ctx.fillStyle='#D4A64A'; ctx.fill(); });
+        ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='center';
+        ctx.fillText('shared electron pair = covalent bond', w/2, h/2+70);
+      } else {
+        for(let i=0;i<12;i++){
+          const cx=60+(i%4)*90, cy=60+Math.floor(i/4)*90;
+          drawAtom(cx,cy,22,'#D4A64A','M⁺');
+        }
+        for(let i=0;i<40;i++){
+          const a=t*2+i, r=30+((i*13)%40);
+          const cx=(w/2)+Math.cos(a+i)*r*2%w, cy=140+Math.sin(a*1.3+i)*80;
+          ctx.beginPath(); ctx.arc((cx+w)%w, (cy+320)%320, 3,0,Math.PI*2); ctx.fillStyle='rgba(63,167,154,0.55)'; ctx.fill();
+        }
+        ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='center'; ctx.fillText('"sea of delocalised electrons" — metallic bonding', w/2, 300);
+      }
+      raf=requestAnimationFrame(draw);
+    }
+    function drawAtom(x,y,r,color,label){
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fillStyle=color+'33'; ctx.fill(); ctx.strokeStyle=color; ctx.lineWidth=2; ctx.stroke();
+      ctx.fillStyle='#1C2620'; ctx.font='700 13px IBM Plex Mono'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(label,x,y);
+    }
+    draw();
+    const row=$('div',{class:'btn-row'});
+    ['ionic','covalent','metallic'].forEach(m=>row.appendChild(buttonControl(m[0].toUpperCase()+m.slice(1), ()=>{mode=m;}, m===mode?'':'secondary')));
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Bond type'), row));
+    controls.appendChild(noteBox('Ionic: complete electron transfer between metal & non-metal → oppositely charged ions attract. Covalent: atoms share electron pairs. Metallic: metal cations sit in a "sea" of delocalised electrons, explaining conductivity & malleability.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.6 Molecular shapes (VSEPR) ---- */
+SIM_MODULES.molecularShapes={
+  title:'Molecular Shapes (VSEPR)',
+  blurb:'Select a molecule to see how electron-pair repulsion determines its 3-D shape and bond angle.',
+  mount(canvasWrap, controls){
+    const MOLS={
+      BeCl2:{shape:'Linear',angle:180,n:2,label:'BeCl₂'},
+      BF3:{shape:'Trigonal planar',angle:120,n:3,label:'BF₃'},
+      CH4:{shape:'Tetrahedral',angle:109.5,n:4,label:'CH₄'},
+      NH3:{shape:'Trigonal pyramidal',angle:107,n:3,lone:1,label:'NH₃'},
+      H2O:{shape:'Bent',angle:104.5,n:2,lone:2,label:'H₂O'},
+      CO2:{shape:'Linear',angle:180,n:2,label:'CO₂'}
+    };
+    let key='CH4';
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function draw(){
+      const m=MOLS[key]; const w=canvas.clientWidth,h=320,cx=w/2,cy=h/2;
+      ctx.clearRect(0,0,w,h);
+      ctx.beginPath(); ctx.arc(cx,cy,22,0,Math.PI*2); ctx.fillStyle='#FF6B4A'; ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='700 12px IBM Plex Mono'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(m.label.replace(/[₀-₉]/g,c=>'0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(c)]),cx,cy);
+      const total=m.n+(m.lone||0);
+      for(let i=0;i<total;i++){
+        const a=(i/total)*Math.PI*2 - Math.PI/2;
+        const x=cx+Math.cos(a)*100, y=cy+Math.sin(a)*100*(m.n===2?0.35:0.8)+ (m.n===2?0:0);
+        const isLone = i>=m.n;
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
+        ctx.strokeStyle= isLone? '#C9BFA0':'#1C2620'; ctx.setLineDash(isLone?[4,3]:[]); ctx.lineWidth=2; ctx.stroke(); ctx.setLineDash([]);
+        if(!isLone){
+          ctx.beginPath(); ctx.arc(x,y,16,0,Math.PI*2); ctx.fillStyle='#5B8DEF'; ctx.fill();
+        } else {
+          ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.fillStyle='#D4A64A'; ctx.fill();
+        }
+      }
+      ctx.fillStyle='#1C2620'; ctx.font='600 13px IBM Plex Mono'; ctx.textAlign='center';
+      ctx.fillText(m.shape+'  ·  bond angle ≈ '+m.angle+'°', cx, h-16);
+    }
+    draw();
+    controls.appendChild(selectControl({label:'Molecule',options:Object.keys(MOLS).map(k=>({value:k,label:MOLS[k].label})),value:key,onChange:v=>{key=v;draw();}}));
+    controls.appendChild(noteBox('Electron pairs (bonding & lone) arrange to minimise repulsion. Lone pairs repel more strongly than bonding pairs, compressing bond angles (e.g. H₂O 104.5° vs the ideal tetrahedral 109.5°).'));
+    return ()=>{};
+  }
+};
+
+/* ---- 2.7 States of matter / kinetic theory / IMF ---- */
+SIM_MODULES.statesOfMatter={
+  title:'Kinetic Theory, States of Matter & Intermolecular Forces',
+  blurb:'Change the temperature and watch particle motion — and the balance between kinetic energy and intermolecular attraction — determine solid, liquid or gas.',
+  mount(canvasWrap, controls){
+    let temp=25, particles=[], raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function init(){
+      particles=[];
+      for(let i=0;i<48;i++) particles.push({x:Math.random()*300+20,y:Math.random()*260+20,vx:(Math.random()-0.5),vy:(Math.random()-0.5)});
+    }
+    init();
+    function state(){ if(temp< -20) return 'Solid'; if(temp<60) return 'Liquid'; return 'Gas'; }
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const speed=clamp((temp+40)/140,0.15,3);
+      const s=state();
+      particles.forEach(p=>{
+        if(s==='Solid'){
+          p.ox=p.ox??p.x; p.oy=p.oy??p.y;
+          p.x=p.ox+Math.sin(Date.now()/150+p.oy)*1.5*speed;
+          p.y=p.oy+Math.cos(Date.now()/150+p.ox)*1.5*speed;
+        } else {
+          p.x+=p.vx*speed*(s==='Gas'?2.2:1); p.y+=p.vy*speed*(s==='Gas'?2.2:1);
+          if(p.x<10||p.x>w-10) p.vx*=-1;
+          if(p.y<10||p.y>h-10) p.vy*=-1;
+          p.x=clamp(p.x,10,w-10); p.y=clamp(p.y,10,h-10);
+        }
+        ctx.beginPath(); ctx.arc(p.x,p.y,6,0,Math.PI*2);
+        ctx.fillStyle= s==='Solid'?'#5B8DEF': s==='Liquid'?'#3FA79A':'#FF6B4A'; ctx.fill();
+      });
+      ctx.font='700 15px IBM Plex Mono'; ctx.fillStyle='#1C2620'; ctx.textAlign='left';
+      ctx.fillText(s+'  ('+temp+'°C)',14,24);
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Temperature (°C)',min:-100,max:200,step:5,value:temp,unit:'°C',onInput:v=>temp=v}));
+    controls.appendChild(noteBox('As temperature rises, particles gain kinetic energy and overcome the intermolecular / interionic forces holding them in fixed positions: order decreases from solid → liquid → gas. Substances with stronger forces (e.g. hydrogen bonding in water) need more energy — higher temperature — to change state than those with weak van der Waals forces (e.g. noble gases).'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.8 Gas laws ---- */
+SIM_MODULES.gasLaws={
+  title:'The Gas Laws',
+  blurb:'Explore how pressure, volume, temperature and moles relate through PV = nRT.',
+  mount(canvasWrap, controls){
+    let T=300, V=5, n=1, particles=[], raf;
+    const R=0.0821;
+    function P(){ return (n*R*T/V).toFixed(2); }
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function init(){ particles=[]; for(let i=0;i<30;i++) particles.push({x:Math.random(),y:Math.random(),vx:(Math.random()-0.5),vy:(Math.random()-0.5)}); }
+    init();
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const boxW=lerp(80,w-40,clamp(V/10,0.15,1)), boxH=200, bx=(w-boxW)/2, by=70;
+      ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.strokeRect(bx,by,boxW,boxH);
+      const speed=clamp(T/300,0.3,3);
+      particles.forEach(p=>{
+        p.x+=p.vx*0.01*speed; p.y+=p.vy*0.01*speed;
+        if(p.x<0||p.x>1) p.vx*=-1; if(p.y<0||p.y>1) p.vy*=-1;
+        p.x=clamp(p.x,0,1); p.y=clamp(p.y,0,1);
+        ctx.beginPath(); ctx.arc(bx+p.x*boxW, by+p.y*boxH, 4,0,Math.PI*2); ctx.fillStyle='#FF6B4A'; ctx.fill();
+      });
+      ctx.font='600 11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='center';
+      ctx.fillText('Piston box (volume scales with V)', w/2, by+boxH+22);
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Temperature (K)',min:150,max:800,step:10,value:T,unit:'K',onInput:v=>T=v}));
+    controls.appendChild(sliderControl({label:'Volume (dm³)',min:1,max:10,step:0.5,value:V,unit:'dm³',onInput:v=>V=v}));
+    controls.appendChild(sliderControl({label:'Moles (n)',min:0.2,max:3,step:0.1,value:n,unit:' mol',onInput:v=>n=v}));
+    const ro=readout([]); controls.appendChild(ro);
+    setInterval(()=>{ ro.innerHTML=''; [['Pressure P','≈ '+P()+' atm'],['PV = nRT','n·R·T / V'],["Boyle's Law",'P₁V₁ = P₂V₂ (T const)'],["Charles' Law",'V₁/T₁ = V₂/T₂ (P const)']].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v))))); },200);
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.9 Mole & stoichiometry calculator ---- */
+SIM_MODULES.moleCalculator={
+  title:"The Mole & Avogadro's Constant",
+  blurb:"Convert between mass, moles and number of particles, and see Avogadro's number visualised.",
+  mount(canvasWrap, controls){
+    const SUBS={H2O:18,CO2:44,NaCl:58.5,O2:32,C6H12O6:180,NH3:17,CaCO3:100};
+    let sub='H2O', mass=18;
+    const {ctx,canvas}=makeCanvas(canvasWrap,300);
+    function moles(){ return mass/SUBS[sub]; }
+    function draw(){
+      const w=canvas.clientWidth,h=300; ctx.clearRect(0,0,w,h);
+      const dots=Math.min(400, Math.round(moles()*60));
+      ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='left';
+      ctx.fillText('Each dot ≈ a scaled portion of the '+moles().toFixed(3)+' mol sample (N = n × 6.02×10²³)',10,20);
+      for(let i=0;i<dots;i++){
+        const x=20+(i%20)*((w-40)/20), y=40+Math.floor(i/20)*14;
+        if(y>h-10) continue;
+        ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle='#3FA79A'; ctx.fill();
+      }
+    }
+    draw();
+    controls.appendChild(selectControl({label:'Substance', options:Object.keys(SUBS).map(k=>({value:k,label:k+'  (M = '+SUBS[k]+' g/mol)'})), value:sub, onChange:v=>{sub=v; update();}}));
+    controls.appendChild(sliderControl({label:'Mass (g)',min:1,max:200,step:1,value:mass,unit:' g',onInput:v=>{mass=v; update();}}));
+    const ro=readout([]); controls.appendChild(ro);
+    function update(){
+      draw();
+      ro.innerHTML='';
+      const n=moles();
+      [['n = m / M', n.toFixed(3)+' mol'],['Particles (n×Nₐ)', (n*6.02e23).toExponential(2)],['Volume at STP', (n*22.4).toFixed(2)+' dm³'],['Molar mass M', SUBS[sub]+' g/mol']].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v)))));
+    }
+    update();
+    return ()=>{};
+  }
+};
+
+/* ---- 2.10 Energy profile diagrams ---- */
+SIM_MODULES.energyProfile={
+  title:'Energy Profile Diagrams',
+  blurb:'Compare exothermic and endothermic reactions, and see how activation energy shapes the reaction pathway.',
+  mount(canvasWrap, controls){
+    let type='exo', Ea=40, prog=0, running=false, raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function yFor(x){
+      const reactY=200, peakY=200-Ea*2, prodY= type==='exo'? 140:240;
+      if(x<0.5) return lerp(reactY,peakY,x*2);
+      return lerp(peakY,prodY,(x-0.5)*2);
+    }
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.beginPath();
+      for(let px=0;px<=w-80;px++){ const x=px/(w-80); const y=yFor(x); if(px===0) ctx.moveTo(40+px,y); else ctx.lineTo(40+px,y); }
+      ctx.stroke();
+      // labels
+      ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='left';
+      ctx.fillText('Reactants',30,215); ctx.fillText('Products', w-100, type==='exo'?155:255);
+      ctx.fillText('Transition state', w/2-40, 200-Ea*2-10);
+      // Ea arrow
+      ctx.strokeStyle='#FF6B4A'; ctx.beginPath(); ctx.moveTo(40,200); ctx.lineTo(40,200-Ea*2); ctx.stroke();
+      ctx.fillStyle='#FF6B4A'; ctx.font='600 10px IBM Plex Mono'; ctx.fillText('Ea',44,200-Ea);
+      // ball
+      if(running){ const x=prog; const y=yFor(x); ctx.beginPath(); ctx.arc(40+x*(w-80),y,7,0,Math.PI*2); ctx.fillStyle='#D4A64A'; ctx.fill(); prog+=0.006; if(prog>1){running=false;prog=0;} }
+      // ΔH arrow
+      const reactY=200, prodY=type==='exo'?140:240;
+      ctx.strokeStyle='#5B8DEF'; ctx.beginPath(); ctx.moveTo(w-60,reactY); ctx.lineTo(w-60,prodY); ctx.stroke();
+      ctx.fillStyle='#5B8DEF'; ctx.fillText('ΔH', w-56,(reactY+prodY)/2);
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    const row=$('div',{class:'btn-row'});
+    row.appendChild(buttonControl('Exothermic', ()=>type='exo'));
+    row.appendChild(buttonControl('Endothermic', ()=>type='endo','secondary'));
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Process type'),row));
+    controls.appendChild(sliderControl({label:'Activation energy (Ea)',min:10,max:70,step:2,value:Ea,onInput:v=>Ea=v}));
+    controls.appendChild(buttonControl('▶ Run reaction', ()=>{running=true;prog=0;}));
+    controls.appendChild(noteBox('Exothermic: products lower in energy than reactants — ΔH negative, heat released (combustion, neutralisation). Endothermic: products higher in energy — ΔH positive, heat absorbed. A catalyst lowers Ea without changing ΔH.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.11 Acid-Base & pH ---- */
+SIM_MODULES.acidBasePH={
+  title:'Acids, Bases & the pH Scale',
+  blurb:'Slide across the pH scale to see indicator colour, [H⁺]/[OH⁻], and strong vs weak dissociation.',
+  mount(canvasWrap, controls){
+    let pH=7, strong=true;
+    const {ctx,canvas}=makeCanvas(canvasWrap,300);
+    const stops=['#D6336C','#F03E3E','#F76707','#F59F00','#74B816','#2F9E44','#1098AD','#1971C2','#364FC7','#5F3DC4'];
+    function colorForPH(p){ const t=p/14; const idx=t*(stops.length-1); const i=Math.floor(idx); const f=idx-i; return lerpColor(stops[clamp(i,0,stops.length-1)], stops[clamp(i+1,0,stops.length-1)], f); }
+    function draw(){
+      const w=canvas.clientWidth,h=300; ctx.clearRect(0,0,w,h);
+      // scale bar
+      for(let x=0;x<w-40;x++){ const p=(x/(w-40))*14; ctx.fillStyle=colorForPH(p); ctx.fillRect(20+x,40,1,26); }
+      const mx=20+(pH/14)*(w-40);
+      ctx.beginPath(); ctx.moveTo(mx,30); ctx.lineTo(mx-6,20); ctx.lineTo(mx+6,20); ctx.closePath(); ctx.fillStyle='#1C2620'; ctx.fill();
+      ctx.font='11px IBM Plex Mono'; ctx.fillStyle='#4B5850'; ctx.textAlign='center';
+      for(let p=0;p<=14;p+=2) ctx.fillText(p, 20+(p/14)*(w-40), 84);
+      // beaker with dissociation dots
+      const bx=w/2-70, by=110, bw=140, bh=140;
+      ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.strokeRect(bx,by,bw,bh);
+      ctx.fillStyle=colorForPH(pH)+'22'; ctx.fillRect(bx+2,by+2,bw-4,bh-4);
+      const isAcid=pH<7;
+      const total=24, dissociated= strong? total : Math.round(total*0.25);
+      for(let i=0;i<total;i++){
+        const x=bx+20+((i%6)*18), y=by+20+Math.floor(i/6)*28;
+        if(i<dissociated){
+          ctx.beginPath(); ctx.arc(x-5,y,4,0,Math.PI*2); ctx.fillStyle= isAcid? '#FF6B4A':'#5B8DEF'; ctx.fill();
+          ctx.beginPath(); ctx.arc(x+5,y,4,0,Math.PI*2); ctx.fillStyle='#D4A64A'; ctx.fill();
+        } else {
+          ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.strokeStyle='#4B5850'; ctx.stroke();
+        }
+      }
+      ctx.fillStyle='#1C2620'; ctx.font='600 11px IBM Plex Sans'; ctx.textAlign='center';
+      ctx.fillText((strong?'Strong ':'Weak ')+(isAcid?'acid':pH>7?'base':'neutral')+' — '+(strong?'fully':'partially')+' dissociated', w/2, by+bh+20);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'pH',min:0,max:14,step:0.1,value:pH,onInput:v=>{pH=v;update();}}));
+    const row=$('div',{class:'btn-row'});
+    row.appendChild(buttonControl('Strong', ()=>{strong=true;update();}));
+    row.appendChild(buttonControl('Weak', ()=>{strong=false;update();},'secondary'));
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Electrolyte strength'),row));
+    const ro=readout([]); controls.appendChild(ro);
+    function update(){
+      draw();
+      ro.innerHTML='';
+      [['[H⁺]', Math.pow(10,-pH).toExponential(2)+' mol/dm³'],['[OH⁻]', Math.pow(10,-(14-pH)).toExponential(2)+' mol/dm³'],['pOH', (14-pH).toFixed(1)],['pH + pOH', '14 (Kw = 10⁻¹⁴)']].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v)))));
+    }
+    update();
+    return ()=>{};
+  }
+};
+
+/* ---- 2.12 Titration curve ---- */
+SIM_MODULES.titration={
+  title:'Acid–Base Titration',
+  blurb:'Add titrant drop by drop and watch the pH curve and indicator colour change near the equivalence point.',
+  mount(canvasWrap, controls){
+    let vol=0, points=[], eqVol=25;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function phAt(v){
+      // idealised strong acid vs strong base sigmoid curve
+      const k=0.35;
+      return clamp(7 + 6*Math.tanh(k*(v-eqVol)/2), 0.5, 13.5);
+    }
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const gx=50, gy=20, gw=w-90, gh=250;
+      ctx.strokeStyle='#C9BFA0'; ctx.strokeRect(gx,gy,gw,gh);
+      ctx.font='10px IBM Plex Mono'; ctx.fillStyle='#4B5850'; ctx.textAlign='right';
+      for(let p=0;p<=14;p+=2){ const y=gy+gh-(p/14)*gh; ctx.fillText(p,gx-6,y+3); ctx.strokeStyle='#EFE8D6'; ctx.beginPath(); ctx.moveTo(gx,y); ctx.lineTo(gx+gw,y); ctx.stroke(); }
+      ctx.textAlign='center'; ctx.fillText('Volume of titrant added →', gx+gw/2, gy+gh+24);
+      ctx.save(); ctx.translate(14,gy+gh/2); ctx.rotate(-Math.PI/2); ctx.fillText('pH',0,0); ctx.restore();
+      ctx.beginPath(); ctx.strokeStyle='#FF6B4A'; ctx.lineWidth=2;
+      points.forEach((p,i)=>{ const x=gx+(p.v/50)*gw, y=gy+gh-(p.ph/14)*gh; if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); });
+      ctx.stroke();
+      // equivalence marker
+      const ex=gx+(eqVol/50)*gw; ctx.strokeStyle='#5B8DEF'; ctx.setLineDash([4,3]); ctx.beginPath(); ctx.moveTo(ex,gy); ctx.lineTo(ex,gy+gh); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#5B8DEF'; ctx.font='10px IBM Plex Mono'; ctx.fillText('equivalence',ex,gy-4);
+      const currentPH=phAt(vol);
+      const indicatorPink= currentPH>8.2;
+      ctx.fillStyle= indicatorPink? '#D6336C':'transparent'; ctx.beginPath(); ctx.arc(gx+gw+25,gy+30,16,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#1C2620'; ctx.stroke();
+      ctx.fillStyle='#1C2620'; ctx.font='10px IBM Plex Sans'; ctx.textAlign='center'; ctx.fillText('phenolphthalein', gx+gw+25, gy+56);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Equivalence volume (cm³)',min:15,max:35,step:1,value:eqVol,onInput:v=>{eqVol=v;draw();}}));
+    const ro=readout([]); controls.appendChild(ro);
+    controls.appendChild(buttonControl('+ Add 1 cm³ titrant', ()=>{
+      vol=clamp(vol+1,0,50); points.push({v:vol,ph:phAt(vol)}); draw();
+      ro.innerHTML=''; [['Volume added',vol+' cm³'],['Current pH', phAt(vol).toFixed(2)]].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v)))));
+    }));
+    controls.appendChild(buttonControl('Reset', ()=>{vol=0;points=[];draw(); ro.innerHTML='';},'secondary'));
+    controls.appendChild(noteBox('Near the equivalence point, pH changes sharply for a very small volume of titrant — this steep region is why indicator choice (methyl orange vs phenolphthalein) matters.'));
+    return ()=>{};
+  }
+};
+
+/* ---- 2.13 Solubility curve ---- */
+SIM_MODULES.solubilityCurve={
+  title:'Solubility Curves',
+  blurb:'See how solubility (g per 100 g water) changes with temperature for different salts.',
+  mount(canvasWrap, controls){
+    let temp=40;
+    const SALTS={
+      KNO3:{name:'KNO₃',color:'#FF6B4A',f:t=>13+2.0*t},
+      NaCl:{name:'NaCl',color:'#5B8DEF',f:t=>36+0.02*t},
+      KCl:{name:'KCl',color:'#7CB65C',f:t=>28+0.34*t},
+    };
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const gx=50,gy=20,gw=w-70,gh=250;
+      ctx.strokeStyle='#C9BFA0'; ctx.strokeRect(gx,gy,gw,gh);
+      ctx.font='10px IBM Plex Mono'; ctx.fillStyle='#4B5850';
+      for(let tt=0;tt<=100;tt+=20){ const x=gx+(tt/100)*gw; ctx.textAlign='center'; ctx.fillText(tt,x,gy+gh+16); }
+      Object.values(SALTS).forEach(s=>{
+        ctx.beginPath(); ctx.strokeStyle=s.color; ctx.lineWidth=2;
+        for(let tt=0;tt<=100;tt++){ const x=gx+(tt/100)*gw, val=s.f(tt), y=gy+gh-(val/250)*gh; if(tt===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+        ctx.stroke();
+        const lx=gx+(100/100)*gw, ly=gy+gh-(s.f(100)/250)*gh;
+        ctx.fillStyle=s.color; ctx.font='600 10px IBM Plex Mono'; ctx.textAlign='left'; ctx.fillText(s.name, Math.min(lx,gx+gw-40), ly);
+      });
+      const mx=gx+(temp/100)*gw; ctx.strokeStyle='#1C2620'; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(mx,gy); ctx.lineTo(mx,gy+gh); ctx.stroke(); ctx.setLineDash([]);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Temperature (°C)',min:0,max:100,step:1,value:temp,unit:'°C',onInput:v=>{temp=v;draw();update();}}));
+    const ro=readout([]); controls.appendChild(ro);
+    function update(){ ro.innerHTML=''; Object.values(SALTS).forEach(s=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},s.name),$('div',{class:'ro-val'},s.f(temp).toFixed(1)+' g/100g')))); }
+    update();
+    controls.appendChild(noteBox('Solubility of most solids increases with temperature. A solution holding exactly the curve value is saturated; below it, unsaturated; cooling a saturated solution below the curve causes crystallisation.'));
+    return ()=>{};
+  }
+};
+
+/* ---- 2.14 Kinetics & Equilibrium ---- */
+SIM_MODULES.kineticsEquilibrium={
+  title:'Reaction Rate & Chemical Equilibrium',
+  blurb:'See how concentration, temperature and catalysts affect collision frequency — and how equilibrium shifts under stress (Le Chatelier).',
+  mount(canvasWrap, controls){
+    let tab='rate', conc=1, temp=25, catalyst=false, particles=[], raf, collisions=0;
+    let stress='none', shift=0;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function initParticles(){ particles=[]; const num=Math.round(10+conc*20); for(let i=0;i<num;i++) particles.push({x:Math.random()*300+20,y:Math.random()*260+20,vx:(Math.random()-0.5),vy:(Math.random()-0.5)}); }
+    initParticles();
+    function drawRate(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const speed=clamp((temp+20)/60,0.4,3)*(catalyst?1.6:1);
+      for(let i=0;i<particles.length;i++){
+        const p=particles[i];
+        p.x+=p.vx*speed; p.y+=p.vy*speed;
+        if(p.x<10||p.x>w-10) p.vx*=-1; if(p.y<10||p.y>h-30) p.vy*=-1;
+        p.x=clamp(p.x,10,w-10); p.y=clamp(p.y,10,h-30);
+      }
+      for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+        const a=particles[i],b=particles[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<12){ collisions++; ctx.beginPath(); ctx.arc((a.x+b.x)/2,(a.y+b.y)/2,10,0,Math.PI*2); ctx.fillStyle='rgba(255,107,74,0.5)'; ctx.fill(); }
+      }
+      particles.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,5,0,Math.PI*2); ctx.fillStyle=catalyst?'#D4A64A':'#3FA79A'; ctx.fill(); });
+      ctx.font='600 11px IBM Plex Sans'; ctx.fillStyle='#1C2620'; ctx.textAlign='left';
+      ctx.fillText('Collisions so far: '+collisions+(catalyst?'  (catalyst active — lower Ea)':''),10,h-8);
+      raf=requestAnimationFrame(drawRate);
+    }
+    function drawEquilibrium(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      let base=10, react=base+ (stress==='addReactant'?6:0) - shift, prod=base + shift - (stress==='addReactant'?0:0);
+      react=clamp(react,2,20); prod=clamp(prod,2,20);
+      ctx.font='600 12px IBM Plex Mono'; ctx.textAlign='center'; ctx.fillStyle='#1C2620';
+      ctx.fillText('A + B  ⇌  C + D', w/2, 30);
+      for(let i=0;i<react;i++){ const x=40+(i%10)*22, y=60+Math.floor(i/10)*22; ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2); ctx.fillStyle='#FF6B4A'; ctx.fill(); }
+      for(let i=0;i<prod;i++){ const x=w-60-(i%10)*22, y=60+Math.floor(i/10)*22; ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2); ctx.fillStyle='#5B8DEF'; ctx.fill(); }
+      ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850';
+      ctx.fillText('Reactants (A,B)', 90, 220); ctx.fillText('Products (C,D)', w-90, 220);
+      const arrowDir = prod>react? 1:-1;
+      ctx.strokeStyle='#7CB65C'; ctx.lineWidth=3; ctx.beginPath();
+      ctx.moveTo(w/2-40*arrowDir, 250); ctx.lineTo(w/2+40*arrowDir,250); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(w/2+40*arrowDir,250); ctx.lineTo(w/2+30*arrowDir,246); ctx.lineTo(w/2+30*arrowDir,254); ctx.closePath(); ctx.fillStyle='#7CB65C'; ctx.fill();
+      ctx.fillStyle='#1C2620'; ctx.font='600 11px IBM Plex Sans'; ctx.textAlign='center';
+      ctx.fillText('Equilibrium position shifts '+(arrowDir>0? 'toward products':'toward reactants'), w/2, 280);
+      raf=requestAnimationFrame(drawEquilibrium);
+    }
+    function switchTab(){
+      cancelAnimationFrame(raf); controls.innerHTML=''; canvasWrap.querySelectorAll('canvas').forEach(c=>c.remove());
+      const {ctx:c2,canvas:cv2}=makeCanvas(canvasWrap,320); ctx2=c2; // not used; recreate closures instead
+      buildControls();
+    }
+    let ctx2;
+    function buildControls(){
+      const tabs=$('div',{class:'btn-row'});
+      tabs.appendChild(buttonControl('Reaction Rate', ()=>{tab='rate'; rebuild();}, tab==='rate'?'':'secondary'));
+      tabs.appendChild(buttonControl("Equilibrium", ()=>{tab='eq'; rebuild();}, tab==='eq'?'':'secondary'));
+      controls.appendChild($('div',{class:'ctl'},$('label',{},'Mode'),tabs));
+      if(tab==='rate'){
+        controls.appendChild(sliderControl({label:'Concentration',min:0.2,max:3,step:0.1,value:conc,onInput:v=>{conc=v;initParticles();}}));
+        controls.appendChild(sliderControl({label:'Temperature (°C)',min:0,max:100,step:5,value:temp,unit:'°C',onInput:v=>temp=v}));
+        const row=$('div',{class:'btn-row'});
+        row.appendChild(buttonControl('Catalyst: '+(catalyst?'On':'Off'), ()=>{catalyst=!catalyst; rebuild();}));
+        controls.appendChild(row);
+        controls.appendChild(noteBox('Higher concentration and temperature increase collision frequency & energy → faster rate. A catalyst provides an alternative pathway with lower activation energy, speeding up collisions without being consumed.'));
+      } else {
+        const row=$('div',{class:'btn-row'});
+        row.appendChild(buttonControl('Add reactant', ()=>{stress='addReactant'; shift=clamp(shift-3,-8,8);}));
+        row.appendChild(buttonControl('Add product', ()=>{stress='addProduct'; shift=clamp(shift+3,-8,8);}));
+        controls.appendChild($('div',{class:'ctl'},$('label',{},'Apply a stress'),row));
+        const row2=$('div',{class:'btn-row'});
+        row2.appendChild(buttonControl('Reset', ()=>{shift=0;stress='none';},'secondary'));
+        controls.appendChild(row2);
+        controls.appendChild(noteBox("Le Chatelier's Principle: if a system at equilibrium is disturbed, it shifts to partially counteract the change. Adding reactant shifts equilibrium toward products; removing product does the same."));
+      }
+    }
+    function rebuild(){ controls.innerHTML=''; buildControls(); cancelAnimationFrame(raf); if(tab==='rate') drawRate(); else drawEquilibrium(); }
+    buildControls();
+    drawRate();
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.15 Redox / Electrochemical cell ---- */
+SIM_MODULES.redoxCell={
+  title:'Redox Reactions & Electrochemical Cells',
+  blurb:'Pick two half-cells and see electrons flow from the more reactive (anode) metal to the less reactive (cathode) metal.',
+  mount(canvasWrap, controls){
+    let m1='Zn', m2='Cu', t=0, raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,300);
+    function draw(){
+      const w=canvas.clientWidth,h=300; ctx.clearRect(0,0,w,h);
+      t+=0.04;
+      const e1=E_POT[m1], e2=E_POT[m2];
+      const anode = e1<e2? m1:m2, cathode= e1<e2? m2:m1;
+      const ecell=(Math.max(e1,e2)-Math.min(e1,e2)).toFixed(2);
+      // beakers
+      [[w*0.28,anode,'#FF6B4A'],[w*0.72,cathode,'#5B8DEF']].forEach(([x,label,color])=>{
+        ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.strokeRect(x-45,120,90,120);
+        ctx.fillStyle=color+'22'; ctx.fillRect(x-43,150,86,88);
+        ctx.fillStyle='#1C2620'; ctx.fillRect(x-4,60,8,90);
+        ctx.font='700 12px IBM Plex Mono'; ctx.textAlign='center'; ctx.fillText(label, x, 50);
+      });
+      // wire + electron flow
+      ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(w*0.28,60); ctx.lineTo(w*0.28,30); ctx.lineTo(w*0.72,30); ctx.lineTo(w*0.72,60); ctx.stroke();
+      const dir = e1<e2? 1:-1;
+      for(let i=0;i<4;i++){
+        const prog=((t*0.5+i/4)%1);
+        const x=lerp(w*0.28,w*0.72, dir>0?prog:1-prog);
+        ctx.beginPath(); ctx.arc(x,30,4,0,Math.PI*2); ctx.fillStyle='#D4A64A'; ctx.fill();
+      }
+      ctx.font='600 12px IBM Plex Mono'; ctx.textAlign='center'; ctx.fillStyle='#1C2620';
+      ctx.fillText('e⁻ flow: '+anode+' (anode, oxidation) → '+cathode+' (cathode, reduction)', w/2, 270);
+      ctx.font='700 15px IBM Plex Mono'; ctx.fillText('E°cell ≈ '+ecell+' V', w/2, 292);
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(selectControl({label:'Electrode 1', options:Object.keys(E_POT).map(k=>({value:k,label:k+'  (E° = '+E_POT[k]+' V)'})), value:m1, onChange:v=>m1=v}));
+    controls.appendChild(selectControl({label:'Electrode 2', options:Object.keys(E_POT).map(k=>({value:k,label:k+'  (E° = '+E_POT[k]+' V)'})), value:m2, onChange:v=>m2=v}));
+    controls.appendChild(noteBox('Oxidation (loss of electrons) occurs at the anode — the metal with the more negative E°. Reduction (gain of electrons) occurs at the cathode. E°cell = E°cathode − E°anode; a positive value means the cell reaction is spontaneous.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.16 Electrolysis & Faraday's law ---- */
+SIM_MODULES.electrolysis={
+  title:"Electrolysis & Faraday's Laws",
+  blurb:"Set current and time to see ions migrate to the electrodes, and calculate mass deposited using Faraday's Law.",
+  mount(canvasWrap, controls){
+    let current=2, time=600, M=63.5, n=2, ions=[], raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,300);
+    function init(){ ions=[]; for(let i=0;i<20;i++) ions.push({x:Math.random(),y:Math.random(),positive:Math.random()>0.5}); }
+    init();
+    function draw(){
+      const w=canvas.clientWidth,h=300; ctx.clearRect(0,0,w,h);
+      ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.strokeRect(30,20,w-60,220);
+      ctx.fillStyle='#5B8DEF11'; ctx.fillRect(32,22,w-64,216);
+      [30+20, w-30-20].forEach((x,i)=>{ ctx.fillStyle='#1C2620'; ctx.fillRect(x-4,10,8,240); ctx.font='11px IBM Plex Sans'; ctx.textAlign='center'; ctx.fillText(i===0?'Cathode (−)':'Anode (+)', x, 5+265); });
+      const speed=clamp(current/5,0.2,2);
+      ions.forEach(ion=>{
+        const targetX = ion.positive? 0.08:0.92;
+        ion.x = lerp(ion.x, targetX, 0.01*speed);
+        ctx.beginPath(); ctx.arc(30+ion.x*(w-60), 40+ion.y*180, 6,0,Math.PI*2);
+        ctx.fillStyle= ion.positive? '#FF6B4A':'#3FA79A'; ctx.fill();
+      });
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Current (A)',min:0.5,max:10,step:0.5,value:current,unit:' A',onInput:v=>current=v}));
+    controls.appendChild(sliderControl({label:'Time (s)',min:60,max:3600,step:60,value:time,unit:' s',onInput:v=>time=v}));
+    controls.appendChild(selectControl({label:'Metal deposited', options:[{value:63.5,label:'Cu (M=63.5, n=2)'},{value:107.9,label:'Ag (M=107.9, n=1)'},{value:65.4,label:'Zn (M=65.4, n=2)'}], value:M, onChange:v=>{M=parseFloat(v); n = M===107.9?1:2;}}));
+    const ro=readout([]); controls.appendChild(ro);
+    setInterval(()=>{
+      const Q=current*time, molesE=Q/96500, mass=(molesE*M)/n;
+      ro.innerHTML='';
+      [['Charge Q = It', Q.toFixed(0)+' C'],['Moles of e⁻ (Q/F)', molesE.toFixed(4)+' mol'],['Mass deposited', mass.toFixed(3)+' g'],['1 F', '96,500 C/mol']].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v)))));
+    },250);
+    controls.appendChild(noteBox("Faraday's Law: mass deposited m = (Q × M) / (n × F), where Q = It, F = 96,500 C/mol. Positive ions (cations) migrate to the cathode; negative ions (anions) migrate to the anode."));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.17 Separation techniques ---- */
+SIM_MODULES.separationTechniques={
+  title:'Separation Techniques — Simple Distillation',
+  blurb:'Heat a mixture and watch the lower-boiling-point component vaporise, rise, and condense as pure distillate.',
+  mount(canvasWrap, controls){
+    let heat=30, raf, dropletY=0;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      // flask
+      ctx.beginPath(); ctx.moveTo(80,60); ctx.lineTo(80,120); ctx.lineTo(50,230); ctx.lineTo(170,230); ctx.lineTo(140,120); ctx.lineTo(140,60); ctx.stroke();
+      ctx.fillStyle='#3FA79A33'; ctx.fill();
+      // vapor bubbles rise with heat
+      const bubbleCount=Math.round(heat/10);
+      for(let i=0;i<bubbleCount;i++){
+        const y=200-((Date.now()/20+i*30)%160);
+        ctx.beginPath(); ctx.arc(90+((i*17)%60), y, 3,0,Math.PI*2); ctx.fillStyle='rgba(63,167,154,0.6)'; ctx.fill();
+      }
+      // condenser tube
+      ctx.strokeStyle='#1C2620'; ctx.beginPath(); ctx.moveTo(140,90); ctx.lineTo(280,90); ctx.stroke();
+      ctx.strokeRect(220,75,60,30);
+      // condensing droplet moving right when hot enough
+      if(heat>40){
+        dropletY=(dropletY+0.5*(heat/50))%40;
+        ctx.beginPath(); ctx.arc(290+dropletY,120,4,0,Math.PI*2); ctx.fillStyle='#5B8DEF'; ctx.fill();
+      }
+      // receiving flask
+      ctx.strokeRect(275,180,60,50);
+      ctx.fillStyle='#5B8DEF22'; ctx.fillRect(277,182,56,46);
+      // flame
+      const flameH=heat/3;
+      ctx.beginPath(); ctx.moveTo(90,240); ctx.quadraticCurveTo(105,240-flameH,120,240); ctx.closePath(); ctx.fillStyle='#FF6B4A'; ctx.fill();
+      ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='left';
+      ctx.fillText('Mixture flask', 40,250); ctx.fillText('Condenser',220,70); ctx.fillText('Distillate (pure)',270,246);
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(sliderControl({label:'Heat applied',min:0,max:100,step:5,value:heat,unit:'%',onInput:v=>heat=v}));
+    controls.appendChild(noteBox('As the mixture is heated, the component with the lower boiling point vaporises first, travels through the condenser, cools and collects as pure distillate — the basis of simple distillation. Other techniques: crystallisation (cool a saturated solution), chromatography (differential movement through a medium), sublimation (solid → gas directly), and magnetisation for magnetic solids.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.18 Organic chemistry explorer ---- */
+SIM_MODULES.organicExplorer={
+  title:'Organic Chemistry — Homologous Series & Reactions',
+  blurb:'Change carbon chain length to see formula & boiling-point trends, and trigger key organic reactions.',
+  mount(canvasWrap, controls){
+    let series='alkane', chain=4, reaction='none', raf, prog=0;
+    const bpBase={alkane:-160,alkene:-140,alkanol:-20,alkanoic:20};
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function formula(){
+      const c=chain;
+      if(series==='alkane') return `C${c}H${2*c+2}`;
+      if(series==='alkene') return `C${c}H${2*c}`;
+      if(series==='alkanol') return `C${c}H${2*c+1}OH`;
+      if(series==='alkanoic') return `C${c-1}H${2*c-1}COOH`;
+    }
+    function bp(c){ return bpBase[series] + c*25; }
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      // chain drawing
+      const startX=30, y=90, step=40;
+      ctx.strokeStyle='#1C2620'; ctx.lineWidth=2;
+      for(let i=0;i<chain-1;i++){
+        const x1=startX+i*step, x2=startX+(i+1)*step, yy= i%2===0? y: y+18;
+        const yy2=(i+1)%2===0? y:y+18;
+        ctx.beginPath(); ctx.moveTo(x1,yy); ctx.lineTo(x2,yy2); ctx.stroke();
+      }
+      for(let i=0;i<chain;i++){
+        const x=startX+i*step, yy=i%2===0?y:y+18;
+        ctx.beginPath(); ctx.arc(x,yy,10,0,Math.PI*2); ctx.fillStyle='#3FA79A'; ctx.fill();
+        ctx.fillStyle='#fff'; ctx.font='700 9px IBM Plex Mono'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('C',x,yy);
+      }
+      ctx.fillStyle='#1C2620'; ctx.font='700 15px IBM Plex Mono'; ctx.textAlign='left'; ctx.fillText(formula(), 30, 150);
+      // bp trend graph
+      const gx=30,gy=180,gw=w-60,gh=110;
+      ctx.strokeStyle='#C9BFA0'; ctx.strokeRect(gx,gy,gw,gh);
+      ctx.beginPath(); ctx.strokeStyle='#5B8DEF';
+      for(let c=1;c<=10;c++){ const x=gx+((c-1)/9)*gw, val=bp(c), yv=gy+gh-((val+200)/400)*gh; if(c===1) ctx.moveTo(x,yv); else ctx.lineTo(x,yv); }
+      ctx.stroke();
+      const cx=gx+((chain-1)/9)*gw, cy=gy+gh-((bp(chain)+200)/400)*gh;
+      ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fillStyle='#FF6B4A'; ctx.fill();
+      ctx.font='10px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.fillText('Boiling point trend with chain length →', gx, gy-6);
+      // reaction animation
+      if(reaction==='combustion'){
+        prog=(prog+0.02)%1;
+        ctx.beginPath(); ctx.arc(startX+chain*step*0.5, y-40-Math.sin(prog*Math.PI)*10, 14+prog*10,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,107,74,${1-prog})`; ctx.fill();
+        ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.fillText('Combustion: + O₂ → CO₂ + H₂O + heat', 30, 60);
+      } else if(reaction==='addition'){
+        ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.fillText('Addition: alkene + Br₂ → decolourises bromine water', 30, 60);
+      } else if(reaction==='esterification'){
+        ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.fillText('Esterification: acid + alcohol ⇌ ester + H₂O', 30, 60);
+      }
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(selectControl({label:'Homologous series', options:[{value:'alkane',label:'Alkanes (CnH2n+2)'},{value:'alkene',label:'Alkenes (CnH2n)'},{value:'alkanol',label:'Alkanols (CnH2n+1OH)'},{value:'alkanoic',label:'Alkanoic acids'}], value:series, onChange:v=>series=v}));
+    controls.appendChild(sliderControl({label:'Carbon chain length',min:1,max:10,step:1,value:chain,onInput:v=>chain=Math.round(v)}));
+    const row=$('div',{class:'btn-row'});
+    row.appendChild(buttonControl('Combustion', ()=>reaction='combustion'));
+    row.appendChild(buttonControl('Addition', ()=>reaction='addition','secondary'));
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Reaction'), row));
+    controls.appendChild(buttonControl('Esterification', ()=>reaction='esterification','secondary'));
+    controls.appendChild(noteBox('Within a homologous series, each member differs by –CH₂–; physical properties (like boiling point) grade smoothly as chain length increases, while chemical reactivity stays similar across the series.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.19 Radioactivity & half-life ---- */
+SIM_MODULES.radioactivity={
+  title:'Radioactivity & Half-Life',
+  blurb:'Watch a sample of unstable nuclei decay exponentially and read off the half-life curve.',
+  mount(canvasWrap, controls){
+    const ISO={C14:{name:'Carbon-14',hl:5730},I131:{name:'Iodine-131',hl:8},Ra226:{name:'Radium-226',hl:1600}};
+    let iso='I131', elapsed=0, atoms=[], raf, running=false;
+    const {ctx,canvas}=makeCanvas(canvasWrap,320);
+    function init(){ atoms=[]; for(let i=0;i<64;i++) atoms.push({x:40+(i%8)*35,y:40+Math.floor(i/8)*35,decayed:false}); elapsed=0; }
+    init();
+    function fractionRemaining(){ return Math.pow(0.5, elapsed/1); } // elapsed measured in half-lives
+    function draw(){
+      const w=canvas.clientWidth,h=320; ctx.clearRect(0,0,w,h);
+      const remain=fractionRemaining();
+      atoms.forEach((a,i)=>{
+        const shouldDecay = (i/atoms.length) > remain;
+        ctx.beginPath(); ctx.arc(a.x,a.y,10,0,Math.PI*2);
+        ctx.fillStyle= shouldDecay? '#EFE8D6':'#FF6B4A'; ctx.fill();
+        ctx.strokeStyle='#1C2620'; ctx.stroke();
+      });
+      // decay graph
+      const gx=w-190,gy=30,gw=160,gh=140;
+      ctx.strokeStyle='#C9BFA0'; ctx.strokeRect(gx,gy,gw,gh);
+      ctx.beginPath(); ctx.strokeStyle='#5B8DEF';
+      for(let t=0;t<=5;t+=0.05){ const x=gx+(t/5)*gw, y=gy+gh-Math.pow(0.5,t)*gh; if(t===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+      ctx.stroke();
+      const mx=gx+(elapsed/5)*gw, my=gy+gh-remain*gh;
+      ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2); ctx.fillStyle='#FF6B4A'; ctx.fill();
+      ctx.font='10px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='center'; ctx.fillText('N remaining vs half-lives elapsed', gx+gw/2, gy+gh+16);
+      if(running){ elapsed+=0.006; if(elapsed>5){running=false;} }
+      raf=requestAnimationFrame(draw);
+    }
+    draw();
+    controls.appendChild(selectControl({label:'Isotope', options:Object.keys(ISO).map(k=>({value:k,label:ISO[k].name+' (t½ = '+ISO[k].hl+')'})), value:iso, onChange:v=>iso=v}));
+    controls.appendChild(sliderControl({label:'Half-lives elapsed',min:0,max:5,step:0.1,value:0,onInput:v=>elapsed=v}));
+    controls.appendChild(buttonControl('▶ Run decay', ()=>{elapsed=0;running=true;}));
+    const ro=readout([]); controls.appendChild(ro);
+    setInterval(()=>{ ro.innerHTML=''; [['Fraction remaining', (fractionRemaining()*100).toFixed(1)+'%'],['Half-life (t½)', ISO[iso].hl+' (units of isotope)'],['Time elapsed', (elapsed*ISO[iso].hl).toFixed(0)+' (same units)']].forEach(([l,v])=>ro.appendChild($('div',{class:'readout-item'},$('div',{class:'ro-label'},l),$('div',{class:'ro-val'},String(v))))); },200);
+    controls.appendChild(noteBox('After each half-life, exactly half of the remaining radioactive nuclei decay: N = N₀(½)^(t / t½). This is independent of the amount of sample — a key feature of radioactive decay used in carbon dating.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* ---- 2.20 Polymers & biomolecules ---- */
+SIM_MODULES.polymersBiomolecules={
+  title:'Polymerisation & Biomolecules',
+  blurb:'Watch monomers link into polymers — by addition (no by-product) or condensation (releasing a small molecule like water).',
+  mount(canvasWrap, controls){
+    let mode='addition', links=1, raf;
+    const {ctx,canvas}=makeCanvas(canvasWrap,300);
+    function draw(){
+      const w=canvas.clientWidth,h=300; ctx.clearRect(0,0,w,h);
+      const n=Math.round(links);
+      const startX=30, y=120, step=60;
+      for(let i=0;i<n;i++){
+        const x=startX+i*step;
+        ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.fillStyle= mode==='addition'? '#3FA79A':'#A97FD1'; ctx.fill();
+        ctx.fillStyle='#fff'; ctx.font='700 10px IBM Plex Mono'; ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(mode==='addition'?'M':'AA', x, y);
+        if(i<n-1){
+          ctx.strokeStyle='#1C2620'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x+18,y); ctx.lineTo(x+step-18,y); ctx.stroke();
+          if(mode==='condensation'){
+            ctx.fillStyle='#5B8DEF'; ctx.font='9px IBM Plex Mono'; ctx.fillText('H₂O', x+step/2, y-16);
+          }
+        }
+      }
+      ctx.font='11px IBM Plex Sans'; ctx.fillStyle='#4B5850'; ctx.textAlign='left';
+      ctx.fillText(mode==='addition'? 'Addition polymerisation: monomers (e.g. ethene) join directly — no by-product. e.g. poly(ethene).':'Condensation polymerisation: monomers with two functional groups (e.g. amino acids, or diacid+diol) join with loss of a small molecule (often H₂O) each link — e.g. proteins, polyesters.', 20, 230, w-40);
+      raf=requestAnimationFrame(draw);
+    }
+    function wrapDraw(){ /* simple wrap in fillText fallback */ }
+    draw();
+    const row=$('div',{class:'btn-row'});
+    row.appendChild(buttonControl('Addition', ()=>mode='addition'));
+    row.appendChild(buttonControl('Condensation', ()=>mode='condensation','secondary'));
+    controls.appendChild($('div',{class:'ctl'},$('label',{},'Polymerisation type'), row));
+    controls.appendChild(sliderControl({label:'Chain length (monomer units)',min:1,max:8,step:1,value:links,onInput:v=>links=v}));
+    controls.appendChild(noteBox('Proteins are condensation polymers of amino acids linked by peptide (amide) bonds. Starch and cellulose are condensation polymers of glucose. Poly(ethene) and PVC are addition polymers of alkene monomers.'));
+    return ()=>cancelAnimationFrame(raf);
+  }
+};
+
+/* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
+
+/* ============================================================
+   3. TOPIC / SUBTOPIC → SIMULATION MAP
+   ============================================================ */
+const CATEGORY_COLORS={atomic:'#E8654A',bonding:'#4A9B8E',physical:'#5B8DEF',acidbase:'#7CB65C',organic:'#A97FD1',industry:'#D4A64A'};
+
+const SECTIONS={
+ A:{label:'Core (A)', topics:[
+  {num:'1.0',title:'Introduction to Chemistry',cat:'atomic',subs:[
+    {l:'a',t:'Measurement of physical quantities',sim:'moleCalculator'},
+    {l:'b',t:'Scientific methods',sim:'scientificMethod'}]},
+  {num:'2.0',title:'Structure of the Atom',cat:'atomic',subs:[
+    {l:'a',t:'Gross features of the atom',sim:'atomicStructure'},
+    {l:'b',t:'Atomic number, mass number, isotopes',sim:'atomicStructure'},
+    {l:'c',t:'Particulate nature of matter',sim:'statesOfMatter'},
+    {l:'d',t:'Electron configuration & orbitals',sim:'electronConfig'}]},
+  {num:'3.0',title:'Standard Separation Techniques',cat:'atomic',subs:[
+    {l:'a',t:'Classification of mixtures',sim:'separationTechniques'},
+    {l:'b',t:'Separation techniques',sim:'separationTechniques'},
+    {l:'c',t:'Criteria for purity',sim:'separationTechniques'}]},
+  {num:'4.0',title:'Periodic Chemistry',cat:'bonding',subs:[
+    {l:'a',t:'Periodicity of the elements',sim:'periodicTrends'},
+    {l:'b',t:'Categories of elements',sim:'periodicTrends'},
+    {l:'c',t:'Periodic law & trends',sim:'periodicTrends'},
+    {l:'d',t:'Acid–metal / oxide reactions',sim:'redoxCell'},
+    {l:'e',t:'Group 7 — the halogens',sim:'periodicTrends'},
+    {l:'f',t:'First transition series',sim:'electronConfig'}]},
+  {num:'5.0',title:'Chemical Bonds',cat:'bonding',subs:[
+    {l:'a',t:'Interatomic bonding',sim:'bonding'},
+    {l:'b',t:'Ionic bonds & compounds',sim:'bonding'},
+    {l:'c',t:'Naming ionic compounds',sim:'bonding'},
+    {l:'d',t:'Covalent bonds & compounds',sim:'bonding'},
+    {l:'e',t:'Properties & coordinate bonding',sim:'bonding'},
+    {l:'f',t:'Shapes of molecules',sim:'molecularShapes'},
+    {l:'g',t:'Metallic bonding',sim:'bonding'},
+    {l:'h',t:'Intermolecular forces',sim:'statesOfMatter'}]},
+  {num:'6.0',title:'Stoichiometry & Chemical Reactions',cat:'physical',subs:[
+    {l:'a',t:'Symbols, formulae & equations',sim:'moleCalculator'},
+    {l:'b',t:'Amount of substance',sim:'moleCalculator'},
+    {l:'c',t:'Mole ratios',sim:'moleCalculator'},
+    {l:'d',t:'Solutions & concentration',sim:'moleCalculator'},
+    {l:'e',t:'Preparing solutions by dilution',sim:'moleCalculator'}]},
+  {num:'7.0',title:'States of Matter',cat:'physical',subs:[
+    {l:'a',t:'Kinetic theory & diffusion',sim:'statesOfMatter'},
+    {l:'b',t:'Gases & the gas laws',sim:'gasLaws'},
+    {l:'c',t:'Liquids & vapour',sim:'statesOfMatter'},
+    {l:'d',t:'Solids',sim:'statesOfMatter'},
+    {l:'e',t:'Diamond & graphite',sim:'statesOfMatter'},
+    {l:'f',t:'Melting point determination',sim:'statesOfMatter'}]},
+  {num:'8.0',title:'Energy & Energy Changes',cat:'physical',subs:[
+    {l:'a',t:'Energy and enthalpy',sim:'energyProfile'},
+    {l:'b',t:'Energy changes & their effects',sim:'energyProfile'}]},
+  {num:'9.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
+    {l:'a',t:'Definitions',sim:'acidBasePH'},
+    {l:'b',t:'Physical/chemical properties',sim:'acidBasePH'},
+    {l:'c',t:'Electrolytes',sim:'electrolysis'},
+    {l:'d',t:'Classification strong/weak',sim:'acidBasePH'},
+    {l:'e',t:'Concept of pH',sim:'acidBasePH'},
+    {l:'f',t:'Salts',sim:'acidBasePH'},
+    {l:'g',t:'Deliquescent / efflorescent',sim:'acidBasePH'},
+    {l:'h',t:'Acid–base indicators',sim:'titration'},
+    {l:'i',t:'Acid–base titration',sim:'titration'}]},
+  {num:'10.0',title:'Solubility of Substances',cat:'acidbase',subs:[
+    {l:'a',t:'General principles',sim:'solubilityCurve'},
+    {l:'b',t:'Practical applications',sim:'solubilityCurve'}]},
+  {num:'11.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
+    {l:'a',t:'Rate of reactions',sim:'kineticsEquilibrium'},
+    {l:'b',t:'Equilibrium & Le Chatelier',sim:'kineticsEquilibrium'}]},
+  {num:'12.0',title:'Redox Reactions',cat:'acidbase',subs:[
+    {l:'a',t:'Oxidation & reduction',sim:'redoxCell'},
+    {l:'b',t:'Oxidising/reducing agents',sim:'redoxCell'},
+    {l:'c',t:'Redox equations',sim:'redoxCell'},
+    {l:'d',t:'Electrochemical cells',sim:'redoxCell'},
+    {l:'e',t:'Electrolysis',sim:'electrolysis'},
+    {l:'f',t:'Corrosion of metals',sim:'electrolysis'}]},
+  {num:'13.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
+    {l:'a',t:'Classification',sim:'organicExplorer'},
+    {l:'b',t:'Functional groups',sim:'organicExplorer'},
+    {l:'c',t:'Separation & purification',sim:'separationTechniques'},
+    {l:'d',t:'Petroleum / crude oil',sim:'organicExplorer'},
+    {l:'e',t:'Empirical & molecular formulae',sim:'moleCalculator'},
+    {l:'f',t:'Homologous series & isomerism',sim:'organicExplorer'},
+    {l:'g',t:'Alkanes',sim:'organicExplorer'},
+    {l:'h',t:'Alkenes',sim:'organicExplorer'},
+    {l:'i',t:'Alkynes',sim:'organicExplorer'},
+    {l:'j',t:'Benzene',sim:'organicExplorer'},
+    {l:'k',t:'Alkanols',sim:'organicExplorer'},
+    {l:'l',t:'Alkanoic acids',sim:'organicExplorer'},
+    {l:'m',t:'Alkanoates (esters)',sim:'organicExplorer'}]},
+  {num:'14.0',title:'Chemistry, Industry & Environment',cat:'industry',subs:[
+    {l:'a',t:'Chemical industry',sim:'organicExplorer'},
+    {l:'b',t:'Pollution',sim:'gasLaws'},
+    {l:'c',t:'Biotechnology',sim:'polymersBiomolecules'}]},
+  {num:'15.0',title:'Basic Biochemistry & Synthetic Polymers',cat:'industry',subs:[
+    {l:'a',t:'Proteins',sim:'polymersBiomolecules'},
+    {l:'b',t:'Amino acids',sim:'polymersBiomolecules'},
+    {l:'c',t:'Fats/oils',sim:'polymersBiomolecules'},
+    {l:'d',t:'Carbohydrates',sim:'polymersBiomolecules'},
+    {l:'e',t:'Synthetic polymers',sim:'polymersBiomolecules'}]}
+ ]},
+ B:{label:'Ghana (B)', topics:[
+  {num:'1.0',title:'Structure of the Atom (Nuclear)',cat:'atomic',subs:[
+    {l:'a',t:'Mass spectrometer',sim:'atomicStructure'},
+    {l:'b',t:'Nuclear chemistry & radioactivity',sim:'radioactivity'}]},
+  {num:'2.0',title:'Periodic Chemistry',cat:'bonding',subs:[
+    {l:'a',t:'Acid/metal/oxide reactions',sim:'redoxCell'},
+    {l:'b',t:'Acidic oxides of non-metals',sim:'acidBasePH'},
+    {l:'c',t:'Period 3 element properties',sim:'periodicTrends'},
+    {l:'d',t:'Silicon',sim:'molecularShapes'},
+    {l:'e',t:'Group 7 gradation',sim:'periodicTrends'},
+    {l:'f',t:'Bonding in complex compounds',sim:'bonding'},
+    {l:'g',t:'Shapes of complex compounds',sim:'molecularShapes'},
+    {l:'h',t:'First transition series',sim:'electronConfig'}]},
+  {num:'3.0',title:'Chemical Bonds',cat:'bonding',subs:[
+    {l:'a',t:'Ionic bond formation',sim:'bonding'},
+    {l:'b',t:'Hybridisation & σ/π bonds',sim:'molecularShapes'}]},
+  {num:'4.0',title:'Solutions',cat:'physical',subs:[{l:'a',t:'Preparation by dilution',sim:'moleCalculator'}]},
+  {num:'5.0',title:'Energy & Energy Changes',cat:'physical',subs:[
+    {l:'a',t:'Energy in physical systems',sim:'energyProfile'},
+    {l:'b',t:"Hess's Law & Born–Haber",sim:'energyProfile'},
+    {l:'c',t:'Bond energy',sim:'energyProfile'}]},
+  {num:'6.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
+    {l:'a',t:'Brønsted–Lowry & Lewis',sim:'acidBasePH'},
+    {l:'b',t:'pH, pOH, pKw',sim:'acidBasePH'},
+    {l:'c',t:'Weak acid/base ionisation',sim:'acidBasePH'},
+    {l:'d',t:'Buffer solutions',sim:'acidBasePH'},
+    {l:'e',t:'Acid–base titrations',sim:'titration'}]},
+  {num:'7.0',title:'Solubility of Substances',cat:'acidbase',subs:[
+    {l:'a',t:'Solubility product (Ksp)',sim:'solubilityCurve'},
+    {l:'c',t:'Crystallisation & recrystallisation',sim:'solubilityCurve'}]},
+  {num:'8.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
+    {l:'a',t:'Rate law & order of reaction',sim:'kineticsEquilibrium'},
+    {l:'b',t:'Rate-determining step',sim:'kineticsEquilibrium'},
+    {l:'d',t:'Law of Mass Action',sim:'kineticsEquilibrium'}]},
+  {num:'9.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
+    {l:'a',t:'Separation & purification',sim:'separationTechniques'},
+    {l:'b',t:'Empirical & molecular formulae',sim:'moleCalculator'},
+    {l:'c',t:'Reactivity of organic compounds',sim:'organicExplorer'},
+    {l:'d',t:'Alkanes (free-radical mechanism)',sim:'organicExplorer'},
+    {l:'e',t:'Reactions of benzene',sim:'organicExplorer'}]},
+  {num:'10.0',title:'Chemical Industry & Environment',cat:'industry',subs:[
+    {l:'a',t:'Raw materials & mining',sim:'separationTechniques'},
+    {l:'b',t:'Cement',sim:'energyProfile'}]}
+ ]},
+ C:{label:'W. Africa (C)', topics:[
+  {num:'1.0',title:'Non-Metals & Their Compounds',cat:'industry',subs:[
+    {l:'a',t:'Carbon & its allotropes',sim:'statesOfMatter'},
+    {l:'b',t:'Oxygen',sim:'gasLaws'},
+    {l:'c',t:'Hydrogen',sim:'gasLaws'},
+    {l:'d',t:'Water & solutions / hardness',sim:'solubilityCurve'},
+    {l:'e',t:'Chlorine',sim:'redoxCell'},
+    {l:'f',t:'Hydrogen chloride gas',sim:'gasLaws'},
+    {l:'g',t:'Nitrogen & compounds',sim:'gasLaws'},
+    {l:'h',t:'Sulphur & its acids',sim:'acidBasePH'},
+    {l:'i',t:'Noble gases',sim:'periodicTrends'}]},
+  {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
+    {l:'a',t:'Extraction of metals',sim:'redoxCell'},
+    {l:'b',t:'Alloys',sim:'statesOfMatter'},
+    {l:'c',t:'Sodium & compounds',sim:'bonding'},
+    {l:'d',t:'Calcium & compounds',sim:'bonding'},
+    {l:'e',t:'Iron & aluminium reactivity',sim:'redoxCell'},
+    {l:'f',t:'Copper & compounds',sim:'electrolysis'}]}
+ ]},
+ P:{label:'Practicals', topics:[
+  {num:'16.0',title:'Practical Skills & Analysis',cat:'physical',subs:[
+    {l:'a',t:'General skills & principles',sim:'moleCalculator'},
+    {l:'b',t:'Quantitative — acid–base titrations',sim:'titration'},
+    {l:'c',t:'Quantitative — redox titrations',sim:'redoxCell'},
+    {l:'d',t:'Qualitative analysis',sim:'acidBasePH'}]}
+ ]}
+};
+
+/* ============================================================
+   4. UI WIRING
+   ============================================================ */
+let activeSection='A', activeTopicKey=null, activeSubIdx=0, currentCleanup=null;
+
+function renderSectionTabs(){
+  const wrap=document.getElementById('sectionTabs'); wrap.innerHTML='';
+  Object.keys(SECTIONS).forEach(k=>{
+    wrap.appendChild($('button',{class:'section-tab'+(k===activeSection?' active':''), onclick:()=>{activeSection=k; renderSectionTabs(); renderTopicList();}}, SECTIONS[k].label));
+  });
+}
+function renderTopicList(){
+  const wrap=document.getElementById('sidebarTopics'); wrap.innerHTML='';
+  wrap.appendChild($('div',{class:'section-label'}, 'Topics'));
+  const list=$('div',{class:'topic-list'});
+  SECTIONS[activeSection].topics.forEach(t=>{
+    const key=activeSection+'-'+t.num;
+    const item=$('div',{class:'topic-item'+(key===activeTopicKey?' active':''), style:`--cat-color:${CATEGORY_COLORS[t.cat]}`, onclick:()=>{ activeTopicKey=key; activeSubIdx=0; renderTopicList(); loadSim(); if(window.innerWidth<=900) document.getElementById('sidebar').classList.add('collapsed'); }},
+      $('span',{class:'tnum'}, t.num), $('span',{class:'ttitle'}, t.title));
+    list.appendChild(item);
+  });
+  wrap.appendChild(list);
+}
+function currentTopic(){
+  if(!activeTopicKey) return null;
+  const num=activeTopicKey.split('-').slice(1).join('-');
+  return SECTIONS[activeSection].topics.find(t=>t.num===num);
+}
+function loadSim(){
+  if(currentCleanup){ try{currentCleanup();}catch(e){} currentCleanup=null; }
+  const inner=document.getElementById('mainInner');
+  const topic=currentTopic();
+  if(!topic){ inner.innerHTML=`<div class="empty-state"><div class="big">Choose a topic to launch a simulation</div><div>Every subtopic below links to a live, interactive model of its underlying concept, law or principle.</div></div>`; return; }
+  const sub=topic.subs[activeSubIdx];
+  const color=CATEGORY_COLORS[topic.cat];
+  const mod=SIM_MODULES[sub.sim];
+
+  inner.innerHTML='';
+  const pills=$('div',{class:'subpills'});
+  topic.subs.forEach((s,i)=>{
+    pills.appendChild($('button',{class:'subpill'+(i===activeSubIdx?' active':''), style:`--cat-color:${color}`, onclick:()=>{ activeSubIdx=i; loadSim(); }}, `(${s.l}) ${s.t}`));
+  });
+  inner.appendChild(pills);
+
+  inner.appendChild($('div',{class:'sim-header'},
+    $('div',{class:'sim-eyebrow', style:`color:${color}`}, topic.num+' · '+topic.title+' · ('+sub.l+')'),
+    $('h1',{}, mod.title),
+    $('div',{class:'sim-blurb'}, mod.blurb)
+  ));
+
+  const panel=$('div',{class:'sim-panel'});
+  const body=$('div',{class:'sim-body'});
+  const canvasWrap=$('div',{class:'sim-canvas-wrap'});
+  const controls=$('div',{class:'sim-controls'});
+  body.appendChild(canvasWrap); body.appendChild(controls);
+  panel.appendChild(body);
+  inner.appendChild(panel);
+
+  currentCleanup = mod.mount(canvasWrap, controls) || (()=>{});
+}
+
+document.getElementById('menuToggle').addEventListener('click', ()=>document.getElementById('sidebar').classList.toggle('collapsed'));
+
+renderSectionTabs();
+renderTopicList();
+</script>
+</body>
+</html>
+
+
+<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ae21603c2b8e615e6e569ad" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-agent-runner-id="6ae215409238dbf9fd9cfb0a"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-app-host="app.netlify.com" data-account-tier="personal"></script>

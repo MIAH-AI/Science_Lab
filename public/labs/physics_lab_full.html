@@ -1,0 +1,2316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAEC Physics — Interactive Simulation Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue-0:#081321; --blue-1:#0d1e33; --blue-2:#132a45;
+  --line:#2c4666; --line-soft:#1c3350;
+  --chalk:#eef4fa; --chalk-dim:#93aac4; --chalk-faint:#5c7291;
+  --amber:#ffb703; --cyan:#7fe3da; --red:#ef7a6d; --violet:#b39ddb;
+  --sans:'IBM Plex Sans',system-ui,sans-serif; --serif:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:radial-gradient(ellipse at 15% 0%,#0f2038 0%,transparent 55%),radial-gradient(ellipse at 100% 100%,#0a1830 0%,transparent 55%),var(--blue-0);
+  background-attachment:fixed;color:var(--chalk);font-family:var(--sans);min-height:100vh;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(127,227,218,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(127,227,218,.035) 1px,transparent 1px);
+  background-size:34px 34px;}
+::selection{background:var(--amber);color:#08111d;}
+::-webkit-scrollbar{width:8px;height:8px;} ::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;} ::-webkit-scrollbar-track{background:transparent;}
+button{font-family:inherit;}
+
+.titleblock{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  padding:22px clamp(16px,3.6vw,42px) 16px;border-bottom:1px solid var(--line);}
+.tb-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);display:flex;align-items:center;gap:8px;}
+.tb-eyebrow .sq{width:7px;height:7px;border:1px solid var(--cyan);transform:rotate(45deg);display:inline-block;}
+.tb-back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--chalk-dim);text-decoration:none;margin-bottom:10px;}
+.tb-back:hover{color:var(--cyan);}
+.tb-title{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3.2vw,34px);margin:6px 0 4px;color:var(--chalk);}
+.tb-title em{font-style:normal;color:var(--amber);}
+.tb-sub{font-family:var(--sans);color:var(--chalk-dim);font-size:13px;max-width:58ch;line-height:1.5;}
+.tb-right{display:grid;grid-template-columns:repeat(2,auto);border:1px solid var(--line);font-family:var(--mono);font-size:11px;}
+.tb-cell{padding:8px 15px;border-left:1px solid var(--line);}
+.tb-cell:first-child{border-left:none;}
+.tb-cell .k{color:var(--chalk-faint);letter-spacing:.1em;text-transform:uppercase;font-size:9px;display:block;margin-bottom:3px;}
+.tb-cell .v{color:var(--amber);font-size:13.5px;}
+
+.layout{position:relative;z-index:1;display:grid;grid-template-columns:290px 1fr;min-height:calc(100vh - 96px);}
+@media (max-width:980px){.layout{grid-template-columns:1fr;}}
+aside{border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;align-self:start;max-height:100vh;}
+@media (max-width:980px){aside{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--line);}}
+.search-wrap{padding:14px 14px 8px;border-bottom:1px solid var(--line-soft);}
+.search-wrap input{width:100%;background:var(--blue-1);border:1px solid var(--line);color:var(--chalk);padding:8px 10px;border-radius:3px;font-family:var(--mono);font-size:12px;outline:none;}
+.search-wrap input:focus{border-color:var(--cyan);}
+.legend{display:flex;gap:10px;padding:8px 14px 12px;font-family:var(--mono);font-size:9.5px;color:var(--chalk-faint);border-bottom:1px solid var(--line-soft);flex-wrap:wrap;}
+.legend span{display:flex;align-items:center;gap:4px;}
+.legend .dot{width:6px;height:6px;border-radius:50%;display:inline-block;}
+.legend .dot.sim{background:var(--cyan);box-shadow:0 0 5px var(--cyan);}
+.legend .dot.card{background:var(--chalk-faint);}
+
+nav.index{overflow-y:auto;flex:1;padding-bottom:24px;}
+.part-group{border-bottom:1px solid var(--line-soft);}
+.part-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:transparent;border:none;color:var(--chalk-dim);cursor:pointer;padding:10px 14px;text-align:left;}
+.part-head:hover{color:var(--chalk);}
+.part-head .roman{font-family:var(--mono);font-size:10px;color:var(--amber);letter-spacing:.1em;margin-right:7px;}
+.part-head .pname{font-family:var(--sans);font-weight:600;font-size:12px;}
+.part-head .chev{font-family:var(--mono);font-size:10px;color:var(--chalk-faint);transition:transform .15s;}
+.part-head.open .chev{transform:rotate(90deg);}
+.part-body{display:none;padding-bottom:4px;}
+.part-body.open{display:block;}
+button.topicbtn{width:100%;display:flex;align-items:baseline;gap:9px;text-align:left;background:transparent;border:none;color:var(--chalk-dim);cursor:pointer;padding:6px 14px 6px 28px;font-size:12px;line-height:1.3;border-left:2px solid transparent;}
+button.topicbtn:hover{background:var(--blue-1);color:var(--chalk);}
+button.topicbtn.active{background:linear-gradient(90deg,rgba(127,227,218,.10),transparent);color:var(--cyan);border-left-color:var(--cyan);}
+button.topicbtn .tnum{font-family:var(--mono);font-size:10px;color:var(--chalk-faint);min-width:20px;flex-shrink:0;}
+button.topicbtn.active .tnum{color:var(--amber);}
+button.topicbtn .simdot{margin-left:auto;width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+button.topicbtn .simdot.sim{background:var(--cyan);box-shadow:0 0 5px var(--cyan);}
+button.topicbtn .simdot.card{background:var(--line);}
+
+main{padding:clamp(14px,2.6vw,32px);min-width:0;}
+.welcome{max-width:62ch;padding-top:36px;}
+.welcome h2{font-family:var(--serif);font-size:24px;margin:0 0 10px;}
+.welcome p{color:var(--chalk-dim);line-height:1.6;font-size:14px;}
+
+.stage-head{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px;}
+.stage-eyebrow{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;color:var(--amber);letter-spacing:.13em;text-transform:uppercase;margin-bottom:8px;}
+.stage-eyebrow .dash{width:20px;height:1px;background:var(--amber);display:inline-block;}
+.stage-head h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,2.6vw,28px);margin:0 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.stage-head h2 .spec-no{font-family:var(--mono);font-size:13px;color:var(--chalk-faint);font-weight:400;}
+.stage-head .eqn{font-family:var(--mono);color:var(--amber);font-size:12.5px;background:rgba(255,183,3,.08);border:1px solid rgba(255,183,3,.28);padding:3px 9px;border-radius:3px;display:inline-block;margin-top:6px;margin-right:6px;}
+.paper-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+.paper-tag{font-family:var(--mono);font-size:10px;color:var(--chalk-dim);border:1px solid var(--line);padding:3px 8px;border-radius:2px;}
+
+/* mode tabs */
+.modebar{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.modebtn{font-family:var(--mono);font-size:11px;letter-spacing:.03em;background:var(--blue-1);border:1px solid var(--line);color:var(--chalk-dim);padding:7px 13px;border-radius:4px;cursor:pointer;}
+.modebtn:hover{color:var(--chalk);border-color:var(--chalk-faint);}
+.modebtn.active{color:var(--cyan);border-color:var(--cyan);background:rgba(127,227,218,.08);}
+
+/* sim stage */
+.stage{display:grid;grid-template-columns:1fr 290px;gap:14px;}
+@media (max-width:900px){.stage{grid-template-columns:1fr;}}
+.screen{background:var(--blue-1);border:1px solid var(--line);border-radius:9px;padding:9px;position:relative;box-shadow:inset 0 0 50px rgba(0,0,0,.45);}
+.screen .crtwrap{position:relative;border-radius:6px;overflow:hidden;background:#050c17;}
+.screen canvas{display:block;width:100%;height:auto;}
+.screen .crtwrap::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,.14) 3px);mix-blend-mode:multiply;}
+.screen .tag{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:.1em;opacity:.75;z-index:2;}
+.screen .tag .dot2{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:6px;box-shadow:0 0 6px var(--cyan);animation:pulse 1.6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+.panel{background:var(--blue-1);border:1px solid var(--line);border-radius:9px;padding:14px;display:flex;flex-direction:column;gap:14px;}
+.panel h3{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--chalk-faint);margin:0;border-bottom:1px solid var(--line-soft);padding-bottom:7px;}
+.control{margin-bottom:2px;}
+.control label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--chalk-dim);margin-bottom:5px;}
+.control label .val{font-family:var(--mono);color:var(--cyan);}
+input[type=range]{width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--line);border-radius:2px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--cyan);cursor:pointer;box-shadow:0 0 7px rgba(127,227,218,.6);border:2px solid #04121e;}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--cyan);cursor:pointer;border:2px solid #04121e;}
+select{width:100%;background:var(--blue-2);color:var(--chalk);border:1px solid var(--line);border-radius:4px;padding:6px 7px;font-family:var(--sans);font-size:12px;}
+.btnrow{display:flex;gap:7px;}
+.btn{flex:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;background:var(--blue-2);border:1px solid var(--line);color:var(--chalk-dim);padding:8px 9px;border-radius:5px;cursor:pointer;}
+.btn:hover{color:var(--chalk);border-color:var(--chalk-faint);}
+.btn.primary{color:var(--cyan);border-color:var(--cyan);}
+.readouts{display:flex;flex-direction:column;gap:6px;}
+.readout{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:11.5px;padding:6px 9px;background:var(--blue-2);border:1px solid var(--line-soft);border-radius:4px;}
+.readout .k{color:var(--chalk-faint);}
+.readout .v{color:var(--amber);font-weight:600;}
+
+/* concept card (no-sim topics) */
+.card-note{background:var(--blue-1);border:1px solid var(--line-soft);border-radius:7px;padding:16px 18px;margin-bottom:14px;}
+.card-note p{margin:0;color:var(--chalk-dim);font-size:13.5px;line-height:1.75;}
+.card-diagram{background:var(--blue-1);border:1px solid var(--line-soft);border-radius:7px;padding:12px;margin-bottom:14px;}
+.card-diagram canvas{display:block;width:100%;height:auto;border-radius:5px;background:#050c17;}
+
+/* subtopic notes accordion (attached below sims too) */
+.subtopics{position:relative;margin-top:22px;}
+.subtopics .stlabel{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--chalk-faint);margin-bottom:10px;display:block;}
+.subtopics::before{content:"";position:absolute;left:17px;top:26px;bottom:6px;width:1px;background:repeating-linear-gradient(var(--line) 0 4px,transparent 4px 8px);}
+.subrow{position:relative;margin-bottom:2px;}
+.subrow-head{width:100%;display:flex;align-items:flex-start;gap:12px;text-align:left;background:var(--blue-1);border:1px solid var(--line-soft);border-radius:4px;padding:10px 13px 10px 38px;cursor:pointer;position:relative;}
+.subrow-head:hover{border-color:var(--line);background:var(--blue-2);}
+.subrow-head.open{border-color:var(--cyan);background:var(--blue-2);}
+.subrow-head::before{content:attr(data-mark);position:absolute;left:8px;top:10px;font-family:var(--mono);font-size:10px;color:var(--amber);}
+.subrow-head .stext{font-size:12.5px;color:var(--chalk);line-height:1.45;flex:1;}
+.subrow-head .sarrow{font-family:var(--mono);font-size:11px;color:var(--chalk-faint);flex-shrink:0;transition:transform .15s;}
+.subrow-head.open .sarrow{transform:rotate(90deg);color:var(--cyan);}
+.subrow-note{display:none;padding:12px 16px 14px 38px;margin:0 0 8px;border:1px dashed var(--line-soft);border-top:none;border-radius:0 0 4px 4px;background:var(--blue-0);}
+.subrow-note.open{display:block;}
+.subrow-note p{margin:0;color:var(--chalk-dim);font-size:12.5px;line-height:1.65;}
+
+.no-results{color:var(--chalk-faint);font-family:var(--mono);font-size:12px;padding:18px 14px;}
+footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);font-family:var(--mono);font-size:10px;padding:22px 20px 30px;letter-spacing:.05em;border-top:1px solid var(--line);}
+</style>
+<style id="glass-neon-skin">
+  /* ============ GLASS + NEON SKIN — overrides the base theme above ============ */
+  :root{
+    --blue-0:#0A0B12;
+    --blue-1:rgba(255,255,255,.055);
+    --blue-2:rgba(255,255,255,.095);
+    --line:rgba(255,255,255,.16);
+    --line-soft:rgba(255,255,255,.09);
+    --chalk:#F3F4F8;
+    --chalk-dim:#AEB2C4;
+    --chalk-faint:#767B90;
+    --amber:#FFC145;
+    --cyan:#7FE3DA;
+  }
+
+  body{
+    background:
+      radial-gradient(ellipse 55% 40% at 85% 0%, rgba(255,193,69,.16), transparent 70%),
+      radial-gradient(ellipse 55% 45% at 4% 20%, rgba(127,227,218,.14), transparent 70%),
+      radial-gradient(ellipse 60% 45% at 40% 100%, rgba(179,157,219,.10), transparent 70%),
+      linear-gradient(180deg,#0A0B12,#0F0F1C 55%,#0A0B12);
+    background-attachment:fixed;
+  }
+  body::before{background-image:linear-gradient(rgba(127,227,218,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(127,227,218,.045) 1px,transparent 1px);}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.20)!important;}
+
+  /* glass + emboss base for every panel-like surface */
+  aside,.titleblock,.tb-right,.search-wrap input,select,.modebtn,.btn,.readout,
+  .screen,.panel,.card-note,.card-diagram,.subrow-head,.subrow-note{
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+  }
+  .titleblock,.tb-right,.search-wrap input,select,.modebtn,.btn,.readout,
+  .screen,.panel,.card-note,.card-diagram,.subrow-head{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 -12px 20px -16px rgba(0,0,0,.5);
+  }
+  aside{
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.01));
+    box-shadow:inset -1px 0 0 rgba(255,255,255,.06);
+  }
+  .titleblock{background:rgba(255,255,255,.025);}
+
+  .screen,.panel,.card-note,.card-diagram,.subrow-head,.tb-right{border-radius:12px;}
+  .modebtn,.btn{border-radius:8px;}
+  .search-wrap input,select{border-radius:6px;}
+
+  /* neon accent glow on the elements that already carry --amber / --cyan */
+  .tb-eyebrow .sq{box-shadow:0 0 7px var(--cyan);}
+  .part-head .roman{text-shadow:0 0 8px rgba(255,193,69,.6);}
+  .legend .dot.sim{box-shadow:0 0 8px var(--cyan);}
+  button.topicbtn.active{box-shadow:inset 0 0 0 1px rgba(127,227,218,.25);}
+  button.topicbtn.active .simdot.sim{box-shadow:0 0 8px var(--cyan);}
+  .stage-eyebrow .dash{box-shadow:0 0 6px var(--amber);}
+  .stage-head .eqn{box-shadow:0 0 14px -4px rgba(255,183,3,.5);}
+  .modebtn.active{box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 0 18px -4px rgba(127,227,218,.6);}
+  .btn.primary{box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 0 18px -4px rgba(127,227,218,.55);}
+  .screen .tag .dot2{box-shadow:0 0 8px var(--cyan);}
+  input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px rgba(127,227,218,.75);}
+  .search-wrap input:focus{box-shadow:0 0 0 3px rgba(127,227,218,.15);}
+  button.topicbtn:focus-visible,.part-head:focus-visible,.modebtn:focus-visible,.btn:focus-visible{
+    outline:2px solid var(--cyan); outline-offset:-2px;
+  }
+  .subrow-head.open{box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 -12px 20px -16px rgba(0,0,0,.5), 0 0 20px -6px rgba(127,227,218,.5);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{scroll-behavior:auto!important;}
+  }
+</style>
+<link rel="stylesheet" href="/labs/glass.css">
+<script src="/labs/glass.js" defer></script>
+</head>
+<body class="lab-physics">
+<div id="glass-navigation"></div>
+
+<div class="titleblock">
+  <div>
+    <a class='tb-back' href='/'>← Back to main page</a>
+    <div class="tb-eyebrow"><span class="sq"></span> SENIOR SECONDARY SCHOOL EXAMINATION</div>
+    <h1 class="tb-title">WAEC Physics <em>Simulation</em> Lab</h1>
+    <p class="tb-sub">Every syllabus topic as a live instrument — drag a slider, watch the physics respond, and read the formula update in real time.</p>
+  </div>
+  <div class="tb-right">
+    <div class="tb-cell"><span class="k">Live simulations</span><span class="v" id="simCountTag">—</span></div>
+    <div class="tb-cell"><span class="k">Concept cards</span><span class="v" id="cardCountTag">—</span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside>
+    <div class="search-wrap"><input type="text" id="search" placeholder="Search topics… e.g. 'lens', 'moments'" autocomplete="off"></div>
+    <div class="legend"><span><i class="dot sim"></i>interactive simulation</span><span><i class="dot card"></i>concept notes</span></div>
+    <nav class="index" id="nav"></nav>
+  </aside>
+  <main id="main">
+    <div class="welcome" id="welcome">
+      <h2>Pick any topic to open its instrument</h2>
+      <p>Every numbered topic and the ten Harmonised Topics from the WAEC syllabus are listed on the left. Topics marked with a glowing cyan dot open a full interactive simulation — sliders drive a live canvas animation and the readouts and formulas update instantly. The rest open a concept card with the official syllabus notes and key equations.</p>
+    </div>
+  </main>
+</div>
+
+<footer>WAEC PHYSICS SYLLABUS · INTERACTIVE REVISION LAB · VALUES ARE ILLUSTRATIVE, NOT TO PHYSICAL SCALE · g ≈ 9.8 m·s⁻² UNLESS STATED</footer>
+
+<script>
+"use strict";
+const TAU=Math.PI*2;
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function lerp(a,b,t){return a+(b-a)*t;}
+function fmt(v,d=2){ if(!isFinite(v))return "—"; if(Math.abs(v)>=100000||(v!==0&&Math.abs(v)<0.001)) return v.toExponential(2);
+  return Number(v).toFixed(d).replace(/\.00$/,"").replace(/(\.\d)0$/,"$1"); }
+function rand(a,b){return a+Math.random()*(b-a);}
+function drawGrid(ctx,w,h,step=40){ctx.save();ctx.strokeStyle="rgba(127,227,218,0.06)";ctx.lineWidth=1;
+  for(let x=0;x<=w;x+=step){ctx.beginPath();ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,h);ctx.stroke();}
+  for(let y=0;y<=h;y+=step){ctx.beginPath();ctx.moveTo(0,y+.5);ctx.lineTo(w,y+.5);ctx.stroke();} ctx.restore();}
+function clearScreen(ctx,w,h){ctx.fillStyle="#050c17";ctx.fillRect(0,0,w,h);}
+function glowLine(ctx,pts,color,width=2.2,glow=9){ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineJoin="round";ctx.lineCap="round";
+  ctx.shadowColor=color;ctx.shadowBlur=glow;ctx.beginPath();pts.forEach((p,i)=>{i===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1]);});ctx.stroke();ctx.restore();}
+function dot(ctx,x,y,r,color,glow=7){ctx.save();ctx.fillStyle=color;ctx.shadowColor=color;ctx.shadowBlur=glow;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();ctx.restore();}
+function arrow(ctx,x1,y1,x2,y2,color,lw=2.3){const ang=Math.atan2(y2-y1,x2-x1),len=8;ctx.save();ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=lw;
+  ctx.shadowColor=color;ctx.shadowBlur=5;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-len*Math.cos(ang-0.4),y2-len*Math.sin(ang-0.4));ctx.lineTo(x2-len*Math.cos(ang+0.4),y2-len*Math.sin(ang+0.4));ctx.closePath();ctx.fill();ctx.restore();}
+function label(ctx,x,y,text,color="#93aac4",size=11.5,align="left"){ctx.save();ctx.fillStyle=color;ctx.font=`${size}px 'IBM Plex Mono',monospace`;ctx.textAlign=align;ctx.textBaseline="alphabetic";ctx.fillText(text,x,y);ctx.restore();}
+function pushTrace(state,key,val,max=240){if(!state[key])state[key]=[];state[key].push(val);if(state[key].length>max)state[key].shift();}
+function drawTrace(ctx,arr,x,y,w,h,color,fixedMin=null,fixedMax=null){if(!arr||arr.length<2)return;let mn=fixedMin,mx=fixedMax;
+  if(mn===null||mx===null){mn=Math.min(...arr);mx=Math.max(...arr);if(mn===mx){mn-=1;mx+=1;}}
+  ctx.save();ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.strokeRect(x,y,w,h);
+  const pts=arr.map((v,i)=>[x+(i/(arr.length-1))*w, y+h-((v-mn)/(mx-mn))*h]); ctx.restore(); glowLine(ctx,pts,color,2,6);}
+
+/* ============================================================
+   SYLLABUS TEXT (parts, topics, subtopics) — shared reference
+   ============================================================ */
+const SYLLABUS = [
+{roman:"PART I", name:"Interaction of Matter, Space &amp; Time", topics:[
+ {num:"1", title:"Concepts of matter", papers:["P1","P2"],
+   overview:"Simple structure of matter: the three physical states — solid, liquid, gas. Evidence of the particle nature of matter (Brownian motion) and the kinetic theory explain states of matter, pressure in a gas, evaporation/boiling, cohesion, adhesion, capillarity. Crystalline vs amorphous substances; atomic arrangement (face-centred, body-centred).", subs:[]},
+ {num:"2", title:"Fundamental and derived quantities and units", papers:["P1","P2"], subs:[
+   {l:"a",t:"Fundamental quantities and units", n:"Length, mass, time, electric current, luminous intensity, thermodynamic temperature, amount of substance; m, kg, s, A, cd, K, mol."},
+   {l:"b",t:"Derived quantities and units", n:"Volume, density and speed as derived quantities; m³, kg·m⁻³, m·s⁻¹."}]},
+ {num:"3", title:"Position, distance and displacement", papers:["P1","P2"], subs:[
+   {l:"a",t:"Concept of position — rectangular coordinates", n:"Position of objects in space using X, Y, Z axes."},
+   {l:"b",t:"Measurement of distance", n:"String, metre rule, vernier calipers, micrometer screw gauge; degree of accuracy; metre (m) as unit."},
+   {l:"c",t:"Concept of direction — bearing", n:"Use of compass and protractor."},
+   {l:"d",t:"Distance vs displacement", n:"Graphical location and directions by axes stressed."}]},
+ {num:"4", title:"Mass and weight", papers:["P1","P2"],
+   overview:"Distinction between mass and weight. Lever/beam balance for mass, spring balance for weight; electronic/digital balance mentioned. Kilogram (kg) unit of mass; newton (N) unit of weight.", subs:[]},
+ {num:"5", title:"Time", papers:["P1","P2"], subs:[
+   {l:"a",t:"Time as interval between events", n:"Heart-beat, sand-clock, ticker-timer, pendulum, stopwatch/clock."},
+   {l:"b",t:"Measurement of time", n:"Second (s) as unit of time."}]},
+ {num:"6", title:"Fluid at rest", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Volume, density, relative density", n:"Experimental determination for solids and liquids."},
+   {l:"b",t:"Pressure in fluids", n:"Definition of pressure; Pascal's principle (hydraulic press, car brakes); pressure depends on depth; atmospheric pressure; barometer, manometer, siphon, syringe, pump."},
+   {l:"c(i)",t:"Archimedes' principle", n:"Forces on a body immersed in a fluid; determining relative densities of solids/liquids."},
+   {l:"c(ii)",t:"Law of flotation", n:"Conditions for floating; hydrometer, balloons, boats, ships, submarines."}]},
+ {num:"7", title:"Motion", papers:["P1","P2"], subs:[
+   {l:"a",t:"Types of motion", n:"Random, rectilinear, translational, rotational, circular, orbital, spin, oscillatory — qualitative treatment."},
+   {l:"b",t:"Relative motion", n:"Numerical problems on co-linear motion may be set."},
+   {l:"c",t:"Cause of motion", n:"Force as cause of motion — push and pull."},
+   {l:"d",t:"Types of force", n:"Contact force; non-contact/field force (electric, magnetic, gravitational)."},
+   {l:"e",t:"Solid friction", n:"Static & dynamic friction; coefficients of limiting friction; advantages/disadvantages; reducing friction (ball bearings, rollers, streamlining, lubrication)."},
+   {l:"f",t:"Viscosity (fluid friction)", n:"Definition and effects; terminal velocity and its determination."},
+   {l:"g",t:"Simple ideas of circular motion", n:"String+stone whirled to demonstrate circular motion; angular vs linear speed; centripetal force; banking of roads."}]},
+ {num:"8", title:"Speed and velocity", papers:["P1","P2"], subs:[
+   {l:"a",t:"Speed = change of distance with time", n:"Metre per second (m·s⁻¹)."},
+   {l:"b",t:"Velocity = change of displacement with time", n:"Ticker-timer to determine velocity; v=Δs/Δt."},
+   {l:"c",t:"Uniform / non-uniform speed", n:"Instantaneous speed from a graph and by calculation."},
+   {l:"d",t:"Distance/displacement–time graph", n:"Gradient gives speed/velocity."}]},
+ {num:"9", title:"Rectilinear acceleration", papers:["P1","P2"], subs:[
+   {l:"a",t:"Acceleration / deceleration", n:"a=Δv/Δt; unit m·s⁻²."},
+   {l:"b",t:"Uniform / non-uniform acceleration", n:"Distinguishing on a velocity-time graph."},
+   {l:"c",t:"Velocity–time graph", n:"Gradient = acceleration, area = displacement."},
+   {l:"d",t:"Equations of motion (constant a); motion under gravity", n:"Use v=u+at, s=ut+½at², v²=u²+2as."}]},
+ {num:"10", title:"Scalars and vectors", papers:["P1","P2"], subs:[
+   {l:"a",t:"Scalars", n:"Mass, distance, speed, time."},
+   {l:"b",t:"Vectors", n:"Weight, displacement, velocity, acceleration."},
+   {l:"c",t:"Vector representation", n:"Directed line segments."},
+   {l:"d",t:"Addition of vectors", n:"Force board to determine the resultant of two forces."},
+   {l:"e",t:"Resolution of vectors", n:"Resolving into two perpendicular components."},
+   {l:"f",t:"Resultant velocity", n:"Analytically and graphically."}]},
+ {num:"11", title:"Equilibrium of forces", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Principle of moments", n:"Torque/moment; couples e.g. tap, corkscrew, steering wheel."},
+   {l:"b",t:"Conditions for equilibrium of rigid bodies", n:"Force board for resultant & equilibrant; parallelogram/triangle of forces."},
+   {l:"c",t:"Centre of gravity and stability", n:"Stable, unstable, neutral equilibrium — treated experimentally."}]},
+ {num:"12", title:"Simple harmonic motion", papers:["P1","P2"], subs:[
+   {l:"a",t:"Illustration & definition of S.H.M.", n:"Loaded test-tube, simple pendulum, spiral spring, bifilar suspension."},
+   {l:"b",t:"Speed and acceleration of S.H.M.", n:"Relating linear and angular quantities."},
+   {l:"c",t:"Period, frequency, amplitude", n:"Experimental determination of g with pendulum/helical spring."},
+   {l:"d",t:"Energy of S.H.M.", n:"Simple problems may be set."},
+   {l:"e",t:"Forced vibration and resonance", n:"Mathematical proof not required."}]},
+ {num:"13", title:"Newton's laws of motion", papers:["P1","P2"], subs:[
+   {l:"a",t:"First Law — inertia", n:"Distinction between inertia, mass and weight."},
+   {l:"b",t:"Second Law — force, acceleration, momentum, impulse", n:"F=ma; linear momentum and its conservation; elastic collisions."},
+   {l:"c",t:"Third Law — action & reaction", n:"Recoil of a gun, jet and rocket propulsion."}]},
+]},
+{roman:"PART II", name:"Energy — Mechanical and Heat", topics:[
+ {num:"14", title:"Energy", papers:["P1","P2"], subs:[
+   {l:"a",t:"Forms of energy", n:"Mechanical (P.E./K.E.), heat, chemical, electrical, light, sound, nuclear."},
+   {l:"b",t:"World energy resources", n:"Renewable (solar, wind, tides, hydro) vs non-renewable (petroleum, coal, nuclear, biomass)."},
+   {l:"c",t:"Conservation of energy", n:"Statement of the principle and its use in explaining transformations."}]},
+ {num:"15", title:"Work, Energy and Power", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Work as energy transfer", n:"Joule (J); electrical consumption unit kWh."},
+   {l:"b",t:"Energy as capability to do work", n:"General definition."},
+   {l:"c",t:"Work done in a gravitational field", n:"Lifting and falling bodies."},
+   {l:"d",t:"Types of mechanical energy", n:"P.E.=mgh, K.E.=½mv² — derivations expected."},
+   {l:"e",t:"Conservation of mechanical energy", n:"Verification of the principle."},
+   {l:"f",t:"Power as time rate of doing work", n:"Watt (W)."},
+   {l:"g",t:"Machines", n:"Levers, pulleys, inclined plane, wedge, screw, wheel & axle, gears — force ratio, mechanical advantage, velocity ratio, efficiency."}]},
+ {num:"16", title:"Heat Energy", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Temperature and its measurement", n:"Thermometer types; Celsius and Kelvin scales."},
+   {l:"b",t:"Effects of heat on matter", n:"Rise in temperature, phase change, expansion, change of resistance."},
+   {l:"c",t:"Thermal expansion", n:"Linear, area, volume expansivities; K⁻¹ unit; bimetallic strips, sagging cables, buckling rails; anomalous expansion of water."},
+   {l:"d",t:"Heat transfer", n:"Conduction, convection, radiation — land/sea breezes, vacuum flask."},
+   {l:"e",t:"Gas laws", n:"Boyle's, Charles', pressure law, general gas law — verified by simple apparatus."},
+   {l:"f",t:"Measurement of heat energy", n:"Heat capacity & specific heat capacity — method of mixtures / electrical method."},
+   {l:"g",t:"Latent heat", n:"Melting/boiling point; specific latent heat of fusion & vaporization."},
+   {l:"h",t:"Evaporation and boiling", n:"Effect of temperature, humidity, surface area, draught."},
+   {l:"i",t:"Vapour and vapour pressure", n:"Saturated vapour pressure and boiling."},
+   {l:"j",t:"Humidity, relative humidity, dew point", n:"Wet and dry-bulb hygrometer."},
+   {l:"k",t:"Humidity and the weather", n:"Formation of dew, fog, rain."}]},
+]},
+{roman:"PART III", name:"Waves", topics:[
+ {num:"17", title:"Production and propagation of waves", papers:["P1","P2"], subs:[
+   {l:"a",t:"Mechanical waves", n:"Ropes and springs (slinky)."},
+   {l:"b",t:"Pulsating system", n:"Ripple tank; energy propagation; hertz (Hz)."},
+   {l:"c",t:"Waveform", n:"Amplitude, wavelength, frequency, period."},
+   {l:"d",t:"f, λ, T, v relationship", n:"v = f·λ, T = 1/f."}]},
+ {num:"18", title:"Types of waves", papers:["P1","P2"], subs:[
+   {l:"a",t:"Transverse and longitudinal", n:"Examples of each."},
+   {l:"b",t:"Mathematical representation", n:"y = A sin(ωt ± φ); phase-difference questions not set."}]},
+ {num:"19", title:"Properties of waves", papers:["P1","P2"],
+   overview:"Reflection, refraction, diffraction, interference and superposition of progressive waves producing standing (stationary) waves. Ripple tank used extensively with plane and circular waves.", subs:[]},
+ {num:"20", title:"Light waves", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Sources of light", n:"Natural & artificial; luminous & non-luminous bodies."},
+   {l:"b",t:"Rectilinear propagation of light", n:"Shadows, eclipses, pinhole camera."},
+   {l:"c",t:"Reflection — plane mirror", n:"Laws of reflection; image formation; periscope, sextant, kaleidoscope."},
+   {l:"d",t:"Reflection — curved mirrors", n:"Mirror formula 1/v+1/u=1/f, m=v/u; searchlight, driving mirrors."},
+   {l:"e",t:"Refraction — plane surfaces", n:"Real/apparent depth; critical angle & TIR; minimum deviation."},
+   {l:"f",t:"Refraction — curved surfaces (lenses)", n:"Lens formula 1/v+1/u=1/f; periscope, optical fibres, mirage."},
+   {l:"g",t:"Lenses in optical instruments", n:"Camera, eye, microscopes, telescopes; defects of the eye."},
+   {l:"h",t:"Dispersion by a prism", n:"Pure spectrum, recombination, colours of objects."}]},
+ {num:"21", title:"Electromagnetic waves", papers:["P1","P2"],
+   overview:"Types of radiation in the EM spectrum — radio, infrared, visible light, ultraviolet, X-rays, gamma rays — elementary description and uses.", subs:[]},
+ {num:"22", title:"Sound Waves", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Sources of sound", n:"Vibrating bodies."},
+   {l:"b",t:"Transmission of sound", n:"Requires a material medium."},
+   {l:"c",t:"Speed of sound in solid, liquid, air", n:"Dependence on temperature and pressure."},
+   {l:"d",t:"Echoes and reverberation", n:"Mineral exploration, ocean depth, thunder."},
+   {l:"e",t:"Noise and music", n:"Distinguishing characteristics."},
+   {l:"f",t:"Characteristics of sound", n:"Pitch, loudness, quality."},
+   {l:"g",t:"Vibration in strings", n:"Sonometer; f = (1/2l)√(T/m); guitar, piano, harp, violin."},
+   {l:"h",t:"Forced vibration", n:"Resonance boxes & sonometer."},
+   {l:"i",t:"Resonance, harmonics & overtones", n:"Percussion instruments."},
+   {l:"j",t:"Vibration of air in pipes", n:"Open and closed pipes; resonance tube; v=fλ; end correction."}]},
+]},
+{roman:"PART IV", name:"Fields", topics:[
+ {num:"23", title:"Description and properties of fields", papers:["P1","P2"], subs:[
+   {l:"a",t:"Concept of fields", n:"Gravitational, electric, magnetic — compass needle & iron filings show field lines."},
+   {l:"b",t:"Properties of a force field", n:"Common properties across field types."}]},
+ {num:"24", title:"Gravitational field", papers:["P1","P2"], subs:[
+   {l:"a",t:"Acceleration due to gravity (g)", n:"g = F/m (gravitational field intensity)."},
+   {l:"b",t:"Newton's law of gravitation", n:"Universal gravitational constant G; relation between G and g."},
+   {l:"c",t:"Gravitational potential and escape velocity", n:"Escape velocity of a rocket from Earth's field."}]},
+ {num:"25", title:"Electric Field", papers:["P1","P2","P3"], subs:[
+   {l:"1a",t:"Production of electric charges", n:"Friction, induction, contact."},
+   {l:"1b",t:"Distribution of charges", n:"Electroscope; lightning conductors."},
+   {l:"1c",t:"Storage of charges", n:"General principle."},
+   {l:"1d",t:"Electric lines of force", n:"Field patterns of charges."},
+   {l:"1e",t:"Coulomb's law", n:"Permittivity of a medium."},
+   {l:"1f",t:"Electric field, intensity, potential", n:"Calculations for simple systems."},
+   {l:"1g",t:"Capacitance", n:"Parallel-plate capacitor; farad (F); series/parallel; energy stored."},
+   {l:"2a",t:"Cells", n:"Simple cell, Daniell cell, Leclanché cell, lead-acid accumulator, alkaline-cadmium cell."},
+   {l:"2b",t:"P.d. and current", n:"E.m.f.; volt (V)."},
+   {l:"2c",t:"Electric circuit", n:"Ohm's law; V, A, Ω units; series/parallel resistors; internal resistance."},
+   {l:"2d",t:"Conduction through materials", n:"Ohmic and non-ohmic conductors."},
+   {l:"2e",t:"Electric energy and power", n:"Heating effect; motors; solar cells."},
+   {l:"2f",t:"Shunt and multiplier", n:"Galvanometer → ammeter/voltmeter."},
+   {l:"2g",t:"Resistivity and conductivity", n:"Factors affecting resistance."},
+   {l:"2h",t:"Measurement", n:"Ammeter, voltmeter, potentiometer, Wheatstone bridge, metre bridge."}]},
+ {num:"26", title:"Magnetic field", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Properties of magnets", n:"Soft iron, steel, alloys."},
+   {l:"b",t:"Magnetization/demagnetization", n:"Temporary vs permanent magnets."},
+   {l:"c",t:"Concept of magnetic field", n:"Flux and flux density; weber (Wb), tesla (T)."},
+   {l:"d",t:"Force on a current-carrying conductor", n:"Electric motor, moving-coil galvanometer."},
+   {l:"e",t:"Electromagnets", n:"Electric bell, telephone earpiece."},
+   {l:"f",t:"Earth's magnetic field", n:"Mariner's compass; angles of dip and declination."},
+   {l:"g",t:"Force on a moving charge", n:"F = qvB sinθ."}]},
+ {num:"27", title:"Electromagnetic field", papers:["P1","P2"], subs:[
+   {l:"a",t:"Concept of electromagnetic field", n:"Fleming's left-hand rule."},
+   {l:"b",t:"Electromagnetic induction", n:"Faraday's law, Lenz's law; generator, transformer; E=E₀sinωt."},
+   {l:"c",t:"Inductance", n:"Henry (H); E=½LI²."},
+   {l:"d",t:"Eddy currents", n:"Induction furnace, speedometer."},
+   {l:"e",t:"Power transmission", n:"High-tension lines; household wiring."}]},
+ {num:"28", title:"Simple a.c. circuits", papers:["P1","P2"], subs:[
+   {l:"a",t:"Graphical representation", n:"I=I₀sinωt, E=E₀sinωt."},
+   {l:"b",t:"Peak and r.m.s. values", n:"Relation between peak and rms."},
+   {l:"c",t:"Series R-L-C circuit", n:"Phase relationships."},
+   {l:"d",t:"Reactance and impedance", n:"X_L, X_C treated."},
+   {l:"e",t:"Vector diagrams", n:"Phasors."},
+   {l:"f",t:"Resonance in an a.c. circuit", n:"Radio/TV tuning."},
+   {l:"g",t:"Power in an a.c. circuit", n:"Average power."}]},
+]},
+{roman:"PART V", name:"Atomic and Nuclear Physics", topics:[
+ {num:"29", title:"Structure of the atom", papers:["P1","P2"], subs:[
+   {l:"a",t:"Models of the atom", n:"Thomson, Rutherford, Bohr, electron-cloud models — qualitative, with limitations."},
+   {l:"b",t:"Energy quantization", n:"Energy levels; Frank-Hertz experiment; line & absorption spectra."},
+   {l:"c",t:"Photoelectric effect", n:"Work function, threshold frequency; Einstein's equation KE=hf−φ."},
+   {l:"d",t:"Thermionic emission", n:"Explanation and applications."},
+   {l:"e",t:"X-rays", n:"Production; X-ray tube; uses and hazards."}]},
+ {num:"30", title:"Structure of the nucleus", papers:["P1","P2","P3"], subs:[
+   {l:"a",t:"Composition of the nucleus", n:"Protons, neutrons; A=Z+N; nuclides; isotopes."},
+   {l:"b",t:"Radioactivity", n:"α, β, γ emissions; G-M counter; half-life & decay constant."},
+   {l:"c",t:"Nuclear reactions — fusion & fission", n:"Binding energy, mass defect, E=Δmc²; reactors; atomic bomb."}]},
+ {num:"31", title:"Wave-particle paradox", papers:["P1","P2"], subs:[
+   {l:"a",t:"Electron diffraction", n:"Evidence for the wave nature of electrons."},
+   {l:"b",t:"Duality of matter", n:"Simple illustration of dual nature of light and matter."}]},
+]},
+{roman:"HARMONISED", name:"Harmonised Topics for Short-Structured Questions", topics:[
+ {num:"H1", title:"Derived quantities and dimensional analysis", papers:["P2 §A"],
+   overview:"Fundamental and derived quantities and units. Dimensions in terms of fundamental and derived quantities. Uses of dimensions: verify dimensional correctness of an equation, derive relationships between quantities, obtain derived units.", subs:[]},
+ {num:"H2", title:"Projectile motion", papers:["P2 §A"],
+   overview:"A projectile is an object thrown or released into space. Applications in warfare, sports. Simple problems on range, maximum height and time of flight may be set.", subs:[]},
+ {num:"H3", title:"Satellites and rockets", papers:["P2 §A"],
+   overview:"Natural vs artificial satellites; parking orbits; geostationary satellites; period of revolution and speed of a satellite. Uses of satellites and rockets.", subs:[]},
+ {num:"H4", title:"Elastic properties of solids &amp; thermal conductivity", papers:["P2 §A"], subs:[
+   {l:"a",t:"Hooke's law, Young's modulus", n:"Load–extension graph; simple calculations."},
+   {l:"b",t:"Thermal conductivity — solar collectors &amp; black-body radiation", n:"Solar panel for heat supply; variation of black-body radiation intensity with wavelength at different temperatures."}]},
+ {num:"H5", title:"Fibre optics", papers:["P2 §A"],
+   overview:"Principle of transmission of light through an optical fibre via total internal reflection. Applications: LAN, medicine, sensing devices, carrying laser beams.", subs:[]},
+ {num:"H6", title:"Introduction to LASER", papers:["P2 §A"],
+   overview:"Meaning of LASER; types — solid state, gas, liquid, semiconductor. Applications: research, communication, medicine, military technology, holograms. Dangers of using lasers.", subs:[]},
+ {num:"H7", title:"Magnetic materials", papers:["P2 §A"],
+   overview:"Uses of magnets and ferromagnetic materials.", subs:[]},
+ {num:"H8", title:"Electrical conduction through materials (Electronics)", papers:["P2 §A"],
+   overview:"Conductors, semiconductors, insulators (band theory). Silicon and germanium; intrinsic semiconductors and charge carriers. Doping — p-type and n-type. Junction diode — forward/reverse biasing; half- and full-wave rectification.", subs:[]},
+ {num:"H9", title:"Structure of matter", papers:["P2 §A"],
+   overview:"Use of the kinetic theory to explain diffusion.", subs:[]},
+ {num:"H10", title:"Wave — particle paradox", papers:["P2 §A"],
+   overview:"Electron diffraction; duality of matter; simple illustrations of the dual nature of light.", subs:[]},
+]},
+];
+
+/* ============================================================
+   SIMULATION REGISTRY  —  SIMS[topicNum] = [ variant, variant, ... ]
+   each variant follows the physics_lab engine contract:
+   { modeName, tag, eqn, controls[], values(auto), state{}, reset, step, draw, readouts }
+   ============================================================ */
+const SIMS = {};
+
+function mv(controls){ const v={}; controls.forEach(c=>v[c.key]=c.default); return v; }
+
+/* ---------- 1. Kinetic theory / states of matter ---------- */
+SIMS["1"]=[{modeName:"States of Matter", tag:"KINETIC THEORY", eqn:"Average KE ∝ Temperature",
+  controls:[
+    {key:"phase",label:"State",type:"select",options:[{label:"Solid"},{label:"Liquid"},{label:"Gas"}],default:0},
+    {key:"temp",label:"Temperature",min:100,max:900,step:10,default:300,unit:" K"},
+  ], values:null, state:{},
+  reset(s,c){ s.n=36; s.p=[]; for(let i=0;i<s.n;i++) s.p.push({hx:0,hy:0,x:0,y:0,vx:rand(-1,1),vy:rand(-1,1)}); layoutLattice(s,c); },
+  step(s,c,dt){
+    const speed=Math.sqrt(c.temp/300);
+    if(c.phase===0){ // solid: vibrate about lattice site
+      s.p.forEach(p=>{ p.x = p.hx + Math.sin(performance.now()/90 + p.hx)*2*speed; p.y = p.hy + Math.cos(performance.now()/110 + p.hy)*2*speed; });
+    } else if(c.phase===1){ // liquid: loose wander with soft bounds
+      s.p.forEach(p=>{ p.x+=p.vx*speed*40*dt; p.y+=p.vy*speed*40*dt;
+        if(p.x<60||p.x>560){p.vx*=-1;} if(p.y<60||p.y>340){p.vy*=-1;}
+        if(Math.random()<0.02){p.vx=rand(-1,1);p.vy=rand(-1,1);} });
+    } else { // gas: free flight, wall bounce
+      s.p.forEach(p=>{ p.x+=p.vx*speed*140*dt; p.y+=p.vy*speed*140*dt;
+        if(p.x<40||p.x>580){p.vx*=-1;p.x=clamp(p.x,40,580);} if(p.y<40||p.y>360){p.vy*=-1;p.y=clamp(p.y,40,360);} });
+    }
+  },
+  draw(ctx,s,c,w,h){
+    ctx.strokeStyle="#1c3350";ctx.lineWidth=2;ctx.strokeRect(30,30,560,340);
+    const col = c.phase===0?"#7fe3da":c.phase===1?"#ffb703":"#ef7a6d";
+    s.p.forEach(p=>dot(ctx,p.x,p.y,6,col,8));
+    label(ctx,40,395,["Particles vibrate about fixed points — strong bonds, fixed shape & volume.",
+      "Particles flow past each other — weaker bonds, fixed volume, takes shape of container.",
+      "Particles move freely at high speed — negligible bonds, fills any container."][c.phase],"#93aac4",12);
+  },
+  readouts(s,c){ return [["State",["Solid","Liquid","Gas"][c.phase]],["Relative particle speed",`×${fmt(Math.sqrt(c.temp/300),2)}`],["Temperature",`${c.temp} K`]]; }
+}];
+function layoutLattice(s,c){ const cols=6; s.p.forEach((p,i)=>{ p.hx=90+(i%cols)*80; p.hy=80+Math.floor(i/cols)*70; p.x=p.hx; p.y=p.hy; }); }
+
+/* ---------- 3. Position, distance & displacement ---------- */
+SIMS["3"]=[{modeName:"Position & Displacement", tag:"X–Y COORDINATES", eqn:"Displacement = straight-line distance from start to end",
+  controls:[
+    {key:"x",label:"Point x",min:-8,max:8,step:0.5,default:5},
+    {key:"y",label:"Point y",min:-6,max:6,step:0.5,default:3},
+    {key:"path",label:"Show wandering path",type:"select",options:[{label:"Off"},{label:"On"}],default:1},
+  ], values:null, state:{},
+  reset(s,c){ s.trail=[[0,0]]; s.last={x:c.x,y:c.y}; },
+  step(s,c,dt){ if(c.path===1 && (s.last.x!==c.x || s.last.y!==c.y)){ s.trail.push([c.x,c.y]); s.last={x:c.x,y:c.y}; if(s.trail.length>12) s.trail.shift(); } },
+  draw(ctx,s,c,w,h){
+    const ox=w/2, oy=h/2, scale=32;
+    ctx.strokeStyle="#1c3350";ctx.lineWidth=1;
+    for(let gx=-8;gx<=8;gx++){ctx.beginPath();ctx.moveTo(ox+gx*scale,20);ctx.lineTo(ox+gx*scale,h-20);ctx.stroke();}
+    for(let gy=-6;gy<=6;gy++){ctx.beginPath();ctx.moveTo(20,oy+gy*scale);ctx.lineTo(w-20,oy+gy*scale);ctx.stroke();}
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(20,oy);ctx.lineTo(w-20,oy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(ox,20);ctx.lineTo(ox,h-20);ctx.stroke();
+    if(c.path===1 && s.trail.length>1){ const pts=s.trail.map(p=>[ox+p[0]*scale, oy-p[1]*scale]); glowLine(ctx,pts,"rgba(255,183,3,0.4)",1.5,0); }
+    const px=ox+c.x*scale, py=oy-c.y*scale;
+    arrow(ctx,ox,oy,px,py,"#7fe3da",2.5);
+    dot(ctx,px,py,7,"#ffb703",12);
+    dot(ctx,ox,oy,5,"#93aac4",4);
+    label(ctx,ox+8,oy-8,"O (origin)","#5c7291",11);
+    label(ctx,px+10,py-10,`(${c.x}, ${c.y})`,"#eef4fa",12.5);
+    const dist=Math.sqrt(c.x*c.x+c.y*c.y);
+    label(ctx,20,h-30,`displacement magnitude = √(x²+y²) = ${fmt(dist,2)} units`,"#93aac4",12);
+  },
+  readouts(s,c){ const dist=Math.sqrt(c.x*c.x+c.y*c.y); const bearing=((Math.atan2(c.x,c.y)*180/Math.PI)+360)%360;
+    return [["Displacement",`${fmt(dist,2)} units`],["Bearing from O",`${fmt(bearing,0)}°`],["Position",`(${c.x}, ${c.y})`]]; }
+ },
+ {modeName:"Bearing & Direction", tag:"THREE-FIGURE BEARING", eqn:"Bearing measured clockwise from North (000°–360°)",
+  controls:[{key:"bearing",label:"Bearing",min:0,max:359,step:1,default:60,unit:"°"},{key:"dist",label:"Distance",min:1,max:10,step:0.5,default:5,unit:" km"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cx=w/2, cy=h/2, r=140;
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.stroke();
+    ["N","E","S","W"].forEach((d,i)=>{ const ang=i*Math.PI/2-Math.PI/2; label(ctx,cx+Math.cos(ang)*(r+16),cy+Math.sin(ang)*(r+16)+4,d,"#93aac4",13,"center"); });
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(cx,cy-r);ctx.lineTo(cx,cy+r);ctx.moveTo(cx-r,cy);ctx.lineTo(cx+r,cy);ctx.stroke();
+    const rad=(c.bearing*Math.PI/180)-Math.PI/2;
+    const px=cx+Math.cos(rad)*c.dist*22, py=cy+Math.sin(rad)*c.dist*22;
+    arrow(ctx,cx,cy,px,py,"#ffb703",2.6);
+    label(ctx,px+10,py,`${c.dist} km`,"#ffb703",12);
+    dot(ctx,cx,cy,5,"#7fe3da",8);
+    label(ctx,cx,cy+r+40,`Bearing = ${String(c.bearing).padStart(3,'0')}°`,"#93aac4",13,"center");
+  },
+  readouts(s,c){ return [["Bearing",`${String(c.bearing).padStart(3,'0')}°`],["Distance",`${c.dist} km`],["Convention","measured clockwise from North"]]; }
+ }
+];
+
+/* ---------- 4. Mass & weight ---------- */
+SIMS["4"]=[{modeName:"Mass & Weight", tag:"W = mg", eqn:"W = m·g",
+  controls:[
+    {key:"mass",label:"Mass",min:1,max:100,step:1,default:20,unit:" kg"},
+    {key:"planet",label:"Location",type:"select",options:[{label:"Earth (g=9.8)"},{label:"Moon (g=1.6)"},{label:"Mars (g=3.7)"},{label:"Jupiter (g=24.8)"}],default:0},
+  ], values:null, state:{},
+  gvals:[9.8,1.6,3.7,24.8],
+  reset(s,c){ s.bounce=0; },
+  step(s,c,dt){ s.bounce+=dt; },
+  draw(ctx,s,c,w,h){
+    const g=this.gvals[c.planet];
+    const weight=c.mass*g;
+    const names=["EARTH","MOON","MARS","JUPITER"];
+    const barMax=260, barW=clamp((weight/(100*24.8))*barMax,4,barMax);
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(60,60,320,32);
+    ctx.fillStyle="#ffb703";ctx.shadowColor="#ffb703";ctx.shadowBlur=8;ctx.fillRect(60,60,barW,32);ctx.shadowBlur=0;
+    label(ctx,60,50,`weight on ${names[c.planet]}`,"#93aac4",12);
+    label(ctx,70,82,`${fmt(weight,1)} N`,"#050c17",13,"left");
+    // mass block hanging on spring
+    const cx=480, ceilY=60, len=90+Math.sin(s.bounce*3)*3;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(cx,ceilY);ctx.lineTo(cx,ceilY+len);ctx.stroke();
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.shadowColor="#7fe3da";ctx.shadowBlur=8;
+    const bs=20+c.mass*0.5;
+    ctx.beginPath();ctx.roundRect(cx-bs/2,ceilY+len,bs,bs,5);ctx.fill();ctx.stroke();ctx.restore();
+    label(ctx,cx,ceilY+len+bs+22,`m = ${c.mass} kg`,"#93aac4",12,"center");
+    label(ctx,60,200,`g = ${g} m·s⁻²  (mass is unchanged everywhere — weight is not)`,"#93aac4",12.5);
+  },
+  readouts(s,c){ const g=this.gvals[c.planet]; return [["Weight",`${fmt(c.mass*g,1)} N`],["g here",`${g} m·s⁻²`],["Mass (unchanged)",`${c.mass} kg`]]; }
+}];
+
+/* ---------- 6. Fluid at rest ---------- */
+SIMS["6"]=[{modeName:"Pressure & Flotation", tag:"P = ρgh · ARCHIMEDES", eqn:"P = ρ·g·h    F(upthrust) = ρ(fluid)·g·V(displaced)",
+  controls:[
+    {key:"depth",label:"Sensor depth",min:0,max:3,step:0.1,default:1.5,unit:" m"},
+    {key:"density",label:"Fluid density",min:800,max:1300,step:10,default:1000,unit:" kg/m³"},
+    {key:"objDensity",label:"Object density",min:200,max:1400,step:20,default:600,unit:" kg/m³"},
+  ], values:null, state:{},
+  reset(s,c){ s.floatY=0.5; },
+  step(s,c,dt){ const target = clamp(1 - c.objDensity/c.density, -0.4, 0.85); s.floatY = lerp(s.floatY, target, 0.05); },
+  draw(ctx,s,c,w,h){
+    const surfY=70, floorY=380, x0=60, x1=560;
+    const grad=ctx.createLinearGradient(0,surfY,0,floorY);
+    grad.addColorStop(0,"rgba(127,227,218,0.16)"); grad.addColorStop(1,"rgba(127,227,218,0.32)");
+    ctx.fillStyle=grad; ctx.fillRect(x0,surfY,x1-x0,floorY-surfY);
+    ctx.strokeStyle="#7fe3da";ctx.beginPath();ctx.moveTo(x0,surfY);ctx.lineTo(x1,surfY);ctx.stroke();
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(x0,surfY,x1-x0,floorY-surfY);
+    // depth sensor
+    const sy=surfY + c.depth*100;
+    dot(ctx,x0+40,clamp(sy,surfY,floorY),6,"#ffb703",10);
+    label(ctx,x0+56,clamp(sy,surfY,floorY)+4,`depth = ${fmt(c.depth,1)} m`,"#ffb703",11.5);
+    const P = c.density*9.8*c.depth;
+    label(ctx,x0+56,clamp(sy,surfY,floorY)+20,`P = ${fmt(P,0)} Pa`,"#93aac4",11);
+    // floating/sinking block
+    const fracSubmerged = clamp(c.objDensity/c.density,0,1);
+    const blockH=60, blockW=70, cx=380;
+    const blockTop = surfY + (1-fracSubmerged)*blockH*0 + (s.floatY* -1)*40 + 30;
+    const topY = clamp(surfY - (1-fracSubmerged)*blockH*0.6 + 20 - (fracSubmerged<1?0:0), surfY-10, floorY-blockH);
+    const yy = clamp(surfY + (fracSubmerged>=1? 40 : (1-fracSubmerged)*-blockH*0.5 + 10), surfY-blockH*0.5, floorY-blockH);
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#ef7a6d";ctx.lineWidth=2;ctx.shadowColor="#ef7a6d";ctx.shadowBlur=8;
+    ctx.beginPath();ctx.roundRect(cx-blockW/2,yy,blockW,blockH,6);ctx.fill();ctx.stroke();ctx.restore();
+    label(ctx,cx,yy-14,`ρ(object)=${c.objDensity}`,"#ef7a6d",11.5,"center");
+    label(ctx,60,415,fracSubmerged<1 ? "object density < fluid density → floats" : "object density ≥ fluid density → sinks","#93aac4",12);
+  },
+  readouts(s,c){ const P=c.density*9.8*c.depth; const floats=c.objDensity<c.density;
+    return [["Pressure at sensor",`${fmt(P,0)} Pa`],["Object",floats?"Floats":"Sinks"],["Fraction submerged",floats?`${fmt(c.objDensity/c.density*100,0)}%`:"100%"]]; }
+ },
+ {modeName:"Hydraulic Press (Pascal's Principle)", tag:"F₁/A₁ = F₂/A₂", eqn:"Pressure transmitted equally: F₁/A₁ = F₂/A₂",
+  controls:[{key:"f1",label:"Force on small piston",min:5,max:100,step:5,default:20,unit:" N"},{key:"a1",label:"Small piston area",min:1,max:10,step:0.5,default:2,unit:" cm²"},{key:"a2",label:"Large piston area",min:10,max:100,step:5,default:40,unit:" cm²"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const P=c.f1/c.a1; const f2=P*c.a2;
+    const baseY=300, leftX=150, rightX=420;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(80,baseY);ctx.lineTo(w-40,baseY);ctx.lineTo(w-40,baseY+20);ctx.lineTo(80,baseY+20);ctx.closePath();ctx.stroke();
+    ctx.fillStyle="rgba(127,227,218,0.15)";ctx.fillRect(80,240,w-120,60);
+    const leftW=20+c.a1*2, rightW=20+c.a2*1.2;
+    ctx.fillStyle="#ffb703";ctx.fillRect(leftX-leftW/2,180,leftW,60);
+    ctx.fillStyle="#7fe3da";ctx.fillRect(rightX-rightW/2,150,rightW,90);
+    label(ctx,leftX,160,`F₁=${c.f1}N, A₁=${c.a1}cm²`,"#ffb703",12,"center");
+    label(ctx,rightX,130,`F₂=${fmt(f2,1)}N, A₂=${c.a2}cm²`,"#7fe3da",12,"center");
+    label(ctx,80,340,`pressure P = F₁/A₁ = ${fmt(P,2)} N/cm² — transmitted equally through the fluid`,"#93aac4",12);
+  },
+  readouts(s,c){ const P=c.f1/c.a1; const f2=P*c.a2; return [["Pressure in fluid",`${fmt(P,2)} N/cm²`],["Output force F₂",`${fmt(f2,1)} N`],["Force multiplication",`×${fmt(c.a2/c.a1,1)}`]]; }
+ },
+ {modeName:"Simple Barometer", tag:"ATMOSPHERIC PRESSURE", eqn:"Atmospheric pressure = ρ·g·h (height of mercury column)",
+  controls:[{key:"pressure",label:"Atmospheric pressure",min:80,max:105,step:1,default:101,unit:" kPa"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const h_mm=c.pressure*7.5;
+    const tubeX=280, baseY=340, tubeTop=40, tubeH=baseY-tubeTop;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(tubeX-14,tubeTop);ctx.lineTo(tubeX-14,baseY);ctx.lineTo(tubeX+14,baseY);ctx.lineTo(tubeX+14,tubeTop);ctx.stroke();
+    ctx.fillStyle="rgba(127,227,218,0.15)";ctx.beginPath();ctx.ellipse(tubeX,baseY+10,80,20,0,0,TAU);ctx.fill();
+    const colH=clamp((h_mm/800)*tubeH, 10, tubeH-10);
+    ctx.fillStyle="#c0c0c0";ctx.fillRect(tubeX-12,baseY-colH,24,colH);
+    label(ctx,tubeX+30,baseY-colH,`h = ${fmt(h_mm,0)} mmHg`,"#93aac4",12.5);
+    label(ctx,60,60,`atmospheric pressure = ${c.pressure} kPa`,"#93aac4",12.5);
+    label(ctx,60,380,"vacuum above the mercury column supports the reading","#5c7291",11.5);
+  },
+  readouts(s,c){ const h_mm=c.pressure*7.5; return [["Mercury height",`${fmt(h_mm,0)} mmHg`],["Atmospheric pressure",`${c.pressure} kPa`],["Standard sea-level","101 kPa ≈ 760 mmHg"]]; }
+ }
+];
+
+/* ---------- 7. Circular motion (motion topic) ---------- */
+SIMS["7"]=[{modeName:"Circular Motion", tag:"F = mv²/r", eqn:"F = m·v²/r = m·ω²·r",
+  controls:[
+    {key:"radius",label:"Radius",min:0.5,max:3,step:0.1,default:1.6,unit:" m"},
+    {key:"period",label:"Period T",min:0.5,max:5,step:0.1,default:2,unit:" s"},
+    {key:"mass",label:"Mass",min:0.1,max:5,step:0.1,default:1,unit:" kg"},
+  ], values:null, state:{},
+  reset(s,c){ s.theta=0; },
+  step(s,c,dt){ s.theta += (TAU/c.period)*dt; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2, cy=h/2, scale=90, r=c.radius*scale;
+    ctx.strokeStyle="rgba(127,227,218,0.25)";ctx.setLineDash([4,6]);ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.stroke();ctx.setLineDash([]);
+    dot(ctx,cx,cy,5,"#ffb703",10);
+    const px=cx+r*Math.cos(s.theta), py=cy+r*Math.sin(s.theta);
+    ctx.strokeStyle="rgba(127,227,218,0.5)";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,py);ctx.stroke();
+    const vx=-Math.sin(s.theta), vy=Math.cos(s.theta);
+    arrow(ctx,px,py,px+vx*60,py+vy*60,"#7fe3da");
+    arrow(ctx,px,py,px-Math.cos(s.theta)*40,py-Math.sin(s.theta)*40,"#ef7a6d");
+    dot(ctx,px,py,9,"#ffb703",14);
+    label(ctx,px+vx*60+8,py+vy*60,"v","#7fe3da",13);
+    label(ctx,px-Math.cos(s.theta)*46,py-Math.sin(s.theta)*46,"F","#ef7a6d",13);
+  },
+  readouts(s,c){ const v=(TAU*c.radius)/c.period; const F=c.mass*v*v/c.radius;
+    return [["Speed v",`${fmt(v,2)} m/s`],["Centripetal force",`${fmt(F,2)} N`],["Angular velocity ω",`${fmt(TAU/c.period,2)} rad/s`]]; }
+ },
+ {modeName:"Friction on a Block", tag:"f ≤ μN", eqn:"Limiting friction f(max) = μ·N",
+  controls:[{key:"applied",label:"Applied Force",min:0,max:200,step:5,default:60,unit:" N"},{key:"mu",label:"Coefficient of friction μ",min:0.05,max:0.9,step:0.05,default:0.35},{key:"mass",label:"Block mass",min:1,max:40,step:1,default:10,unit:" kg"}],
+  values:null, state:{}, reset(s,c){ s.x=80; s.v=0; },
+  step(s,c,dt){ const N=c.mass*9.8; const fmax=c.mu*N; let net;
+    if(s.v>0.01){ net=c.applied-fmax; } else { net = c.applied>fmax? c.applied-fmax : 0; if(c.applied<=fmax){ s.v=0; } }
+    const a=net/c.mass; s.v=Math.max(0,s.v+a*dt); s.x+=s.v*dt*8; if(s.x>560) s.x=80; },
+  draw(ctx,s,c,w,h){
+    const N=c.mass*9.8, fmax=c.mu*N, groundY=260;
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(40,groundY+30);ctx.lineTo(w-40,groundY+30);ctx.stroke();
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.shadowColor="#7fe3da";ctx.shadowBlur=8;
+    ctx.beginPath();ctx.roundRect(s.x,groundY-14,60,44,6);ctx.fill();ctx.stroke();ctx.restore();
+    arrow(ctx,s.x+60,groundY+8,s.x+60+c.applied*0.4,groundY+8,"#ffb703");
+    label(ctx,s.x+60,groundY-6,`F=${c.applied}N`,"#ffb703",11.5);
+    if(s.v>0.01 || c.applied>fmax){ arrow(ctx,s.x,groundY+8,s.x-fmax*0.4,groundY+8,"#ef7a6d"); }
+    label(ctx,40,340,`moving = ${s.v>0.01?"YES":"NO"} · limiting friction fmax = μN = ${fmt(fmax,1)} N`,"#93aac4",12);
+  },
+  readouts(s,c){ const N=c.mass*9.8, fmax=c.mu*N;
+    return [["Normal force N",`${fmt(N,1)} N`],["Max friction (μN)",`${fmt(fmax,1)} N`],["Moving?",s.v>0.01?"Yes":"No"]]; }
+ },
+ {modeName:"Viscosity — Terminal Velocity", tag:"TERMINAL VELOCITY", eqn:"Terminal velocity reached when drag force = weight",
+  controls:[{key:"radius",label:"Ball radius",min:2,max:20,step:1,default:8,unit:" mm"},{key:"viscosity",label:"Fluid viscosity η",min:0.5,max:10,step:0.5,default:3,unit:" (relative)"}],
+  values:null, state:{}, reset(s,c){ s.y=30; s.v=0; s.trace=[]; },
+  step(s,c,dt){ const m=0.02*Math.pow(c.radius,3); const drag=6*Math.PI*c.viscosity*0.0001*c.radius*s.v*400;
+    const a=(m*9.8-drag)/m; s.v=Math.max(0,s.v+a*dt*0.3); s.y+=s.v*dt*10; pushTrace(s,"trace",s.v); if(s.y>360){ s.y=30; s.v=0; } },
+  draw(ctx,s,c,w,h){
+    ctx.fillStyle="rgba(127,227,218,0.1)";ctx.fillRect(60,20,300,360);
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(60,20,300,360);
+    dot(ctx,210,s.y+20,c.radius,"#ffb703",10);
+    drawTrace(ctx,s.trace,400,60,160,280,"#7fe3da");
+    label(ctx,400,52,"velocity vs time","#93aac4",11);
+  },
+  readouts(s,c){ return [["Current speed",`${fmt(s.v,2)} (relative)`],["Ball radius",`${c.radius} mm`],["Viscosity η",`${c.viscosity}`]]; }
+ },
+ {modeName:"Types of Motion", tag:"GALLERY", eqn:"Rectilinear · Circular · Oscillatory · Random",
+  controls:[{key:"type",label:"Motion type",type:"select",options:[{label:"Rectilinear"},{label:"Circular"},{label:"Oscillatory"},{label:"Random (Brownian)"}],default:0}],
+  values:null, state:{}, reset(s,c){ s.t=0; s.rand=[{x:300,y:200}]; },
+  step(s,c,dt){ s.t+=dt; if(c.type===3){ const p=s.rand[0]; p.x+=rand(-60,60)*dt; p.y+=rand(-60,60)*dt; p.x=clamp(p.x,100,500); p.y=clamp(p.y,80,320); } },
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=h/2;
+    if(c.type===0){ const x=100+((s.t*80)%400); dot(ctx,x,cy,10,"#ffb703",10); ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(100,cy);ctx.lineTo(500,cy);ctx.stroke(); label(ctx,100,cy+40,"motion in a straight line","#93aac4",12); }
+    else if(c.type===1){ const r=100; ctx.strokeStyle="rgba(127,227,218,0.25)";ctx.setLineDash([4,6]);ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.stroke();ctx.setLineDash([]);
+      const px=cx+r*Math.cos(s.t*2), py=cy+r*Math.sin(s.t*2); dot(ctx,px,py,10,"#ffb703",10); label(ctx,cx,cy+150,"motion along a circular path","#93aac4",12,"center"); }
+    else if(c.type===2){ const x=cx+150*Math.sin(s.t*2); dot(ctx,x,cy,10,"#ffb703",10); ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(cx-150,cy);ctx.lineTo(cx+150,cy);ctx.stroke(); label(ctx,cx,cy+40,"repeated to-and-fro motion","#93aac4",12,"center"); }
+    else { dot(ctx,s.rand[0].x,s.rand[0].y,8,"#ffb703",10); label(ctx,60,360,"irregular, unpredictable path (e.g. Brownian motion)","#93aac4",12); }
+  },
+  readouts(s,c){ return [["Type",["Rectilinear","Circular","Oscillatory","Random"][c.type]],["Example",["car on a straight road","satellite, fan blade","pendulum, guitar string","smoke particles, pollen grains"][c.type]],["Predictable path?",c.type===3?"No":"Yes"]]; }
+ }
+];
+
+/* ---------- 8. Speed & velocity (kinematics grapher) ---------- */
+SIMS["8"]=[{modeName:"Distance–Time Graph", tag:"v = Δs/Δt", eqn:"speed = gradient of distance–time graph",
+  controls:[
+    {key:"v1",label:"Speed — Stage 1", min:0,max:20,step:1,default:5,unit:" m/s"},
+    {key:"v2",label:"Speed — Stage 2", min:0,max:20,step:1,default:12,unit:" m/s"},
+  ], values:null, state:{},
+  reset(s,c){ s.t=0; },
+  step(s,c,dt){ s.t+=dt; if(s.t>10) s.t=0; },
+  draw(ctx,s,c,w,h){
+    const x0=60,y0=340,pxPerS=50,pxPerM=6;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(x0,20);ctx.lineTo(x0,y0);ctx.lineTo(x0+500,y0);ctx.stroke();
+    label(ctx,x0+500,y0+20,"time (s) →","#93aac4",11,"right");
+    label(ctx,x0-10,26,"↑ distance (m)","#93aac4",11,"left");
+    const pts=[];
+    for(let tt=0;tt<=10;tt+=0.2){ const dist = tt<=5? c.v1*tt : c.v1*5 + c.v2*(tt-5); pts.push([x0+tt*pxPerS, y0-dist*pxPerM]); }
+    glowLine(ctx,pts,"#7fe3da",2.2,7);
+    const dNow = s.t<=5? c.v1*s.t : c.v1*5 + c.v2*(s.t-5);
+    dot(ctx,x0+s.t*pxPerS, y0-dNow*pxPerM,7,"#ffb703",12);
+    ctx.strokeStyle="rgba(255,255,255,0.12)";ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(x0+5*pxPerS,20);ctx.lineTo(x0+5*pxPerS,y0);ctx.stroke();ctx.setLineDash([]);
+    label(ctx,x0+5*pxPerS+4,32,"stage change (t=5s)","#5c7291",10.5);
+    // moving object track at bottom
+    const trackY=390, tx=60+ (dNow%80)*5.4;
+    dot(ctx,60+Math.min(dNow*5.4,500),trackY,6,"#ef7a6d",8);
+    label(ctx,60,trackY+18,"⟵ object's motion along a straight track ⟶","#5c7291",10.5);
+  },
+  readouts(s,c){ const dNow = s.t<=5? c.v1*s.t : c.v1*5 + c.v2*(s.t-5);
+    return [["Time",`${fmt(s.t,1)} s`],["Distance covered",`${fmt(dNow,1)} m`],["Current speed",`${s.t<=5?c.v1:c.v2} m/s`]]; }
+}];
+
+/* ---------- 9. Rectilinear acceleration (SUVAT) ---------- */
+SIMS["9"]=[{modeName:"Velocity–Time Graph (SUVAT)", tag:"a = Δv/Δt", eqn:"v=u+at   s=ut+½at²   v²=u²+2as",
+  controls:[
+    {key:"u",label:"Initial velocity u", min:-10,max:20,step:1,default:2,unit:" m/s"},
+    {key:"a",label:"Acceleration a", min:-8,max:8,step:0.5,default:2.5,unit:" m/s²"},
+  ], values:null, state:{},
+  reset(s,c){ s.t=0; },
+  step(s,c,dt){ s.t+=dt; if(s.t>6) s.t=0; },
+  draw(ctx,s,c,w,h){
+    const x0=60,y0=200,pxPerS=70,pxPerV=8;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(x0,20);ctx.lineTo(x0,360);ctx.lineTo(x0+460,360);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+460,y0);ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.stroke();
+    label(ctx,x0+460,378,"time (s) →","#93aac4",11,"right");
+    label(ctx,x0-10,26,"↑ velocity (m/s)","#93aac4",11,"left");
+    const pts=[];
+    for(let tt=0;tt<=6;tt+=0.1){ const v=c.u+c.a*tt; pts.push([x0+tt*pxPerS, y0-v*pxPerV]); }
+    glowLine(ctx,pts,"#7fe3da",2.2,7);
+    const vNow=c.u+c.a*s.t;
+    dot(ctx,x0+s.t*pxPerS, y0-vNow*pxPerV,7,"#ffb703",12);
+    // shaded area = displacement (approx up to t)
+    ctx.save();ctx.beginPath();ctx.moveTo(x0,y0);
+    for(let tt=0;tt<=s.t;tt+=0.1){ const v=c.u+c.a*tt; ctx.lineTo(x0+tt*pxPerS,y0-v*pxPerV); }
+    ctx.lineTo(x0+s.t*pxPerS,y0);ctx.closePath();ctx.fillStyle="rgba(255,183,3,0.12)";ctx.fill();ctx.restore();
+    const sNow = c.u*s.t + 0.5*c.a*s.t*s.t;
+    label(ctx,x0+20,y0-  (vNow*pxPerV)*0 - 40,`shaded area = displacement = ${fmt(sNow,1)} m`,"#ffb703",12);
+  },
+  readouts(s,c){ const vNow=c.u+c.a*s.t; const sNow=c.u*s.t+0.5*c.a*s.t*s.t;
+    return [["Time",`${fmt(s.t,1)} s`],["Velocity v = u+at",`${fmt(vNow,2)} m/s`],["Displacement s",`${fmt(sNow,2)} m`]]; }
+}];
+
+/* ---------- 10. Vector addition ---------- */
+SIMS["10"]=[{modeName:"Vector Addition", tag:"PARALLELOGRAM OF VECTORS", eqn:"R = √(A²+B²+2AB·cosθ)",
+  controls:[
+    {key:"magA",label:"Vector A magnitude",min:1,max:10,step:0.5,default:6},
+    {key:"angA",label:"Vector A angle",min:0,max:360,step:5,default:0,unit:"°"},
+    {key:"magB",label:"Vector B magnitude",min:1,max:10,step:0.5,default:4},
+    {key:"angB",label:"Vector B angle",min:0,max:360,step:5,default:70,unit:"°"},
+  ], values:null, state:{},
+  reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const ox=w/2-40, oy=h/2+40, scale=26;
+    const a1=c.angA*Math.PI/180, a2=c.angB*Math.PI/180;
+    const ax=Math.cos(a1)*c.magA*scale, ay=-Math.sin(a1)*c.magA*scale;
+    const bx=Math.cos(a2)*c.magB*scale, by=-Math.sin(a2)*c.magB*scale;
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(20,oy);ctx.lineTo(w-20,oy);ctx.moveTo(ox,20);ctx.lineTo(ox,h-20);ctx.stroke();
+    arrow(ctx,ox,oy,ox+ax,oy+ay,"#7fe3da",2.6);
+    label(ctx,ox+ax+6,oy+ay-6,"A","#7fe3da",13);
+    arrow(ctx,ox,oy,ox+bx,oy+by,"#ffb703",2.6);
+    label(ctx,ox+bx+6,oy+by-6,"B","#ffb703",13);
+    ctx.save();ctx.setLineDash([3,4]);ctx.strokeStyle="rgba(255,255,255,0.25)";
+    ctx.beginPath();ctx.moveTo(ox+ax,oy+ay);ctx.lineTo(ox+ax+bx,oy+ay+by);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(ox+bx,oy+by);ctx.lineTo(ox+ax+bx,oy+ay+by);ctx.stroke();ctx.restore();
+    arrow(ctx,ox,oy,ox+ax+bx,oy+ay+by,"#ef7a6d",3);
+    label(ctx,ox+ax+bx+8,oy+ay+by,"R","#ef7a6d",14);
+  },
+  readouts(s,c){ const th=(c.angB-c.angA)*Math.PI/180;
+    const R=Math.sqrt(c.magA*c.magA+c.magB*c.magB+2*c.magA*c.magB*Math.cos(th));
+    const Rx=c.magA*Math.cos(c.angA*Math.PI/180)+c.magB*Math.cos(c.angB*Math.PI/180);
+    const Ry=c.magA*Math.sin(c.angA*Math.PI/180)+c.magB*Math.sin(c.angB*Math.PI/180);
+    const angR=(Math.atan2(Ry,Rx)*180/Math.PI+360)%360;
+    return [["Resultant |R|",`${fmt(R,2)} units`],["Resultant angle",`${fmt(angR,1)}°`],["Angle between A,B",`${fmt(c.angB-c.angA,0)}°`]]; }
+}];
+
+/* ---------- 11. Equilibrium of forces — moments ---------- */
+SIMS["11"]=[{modeName:"Moments — Balancing a Beam", tag:"Στ(cw) = Στ(acw)", eqn:"F₁·d₁ = F₂·d₂  (principle of moments)",
+  controls:[
+    {key:"m1",label:"Mass 1", min:1,max:20,step:1,default:6,unit:" kg"},
+    {key:"d1",label:"Distance 1 from pivot", min:0.2,max:3,step:0.1,default:1.5,unit:" m"},
+    {key:"m2",label:"Mass 2", min:1,max:20,step:1,default:9,unit:" kg"},
+    {key:"d2",label:"Distance 2 from pivot", min:0.2,max:3,step:0.1,default:1,unit:" m"},
+  ], values:null, state:{},
+  reset(s,c){ s.tilt=0; },
+  step(s,c,dt){ const net=(c.m2*c.d2-c.m1*c.d1); const target=clamp(net*0.9,-22,22); s.tilt=lerp(s.tilt,target,0.06); },
+  draw(ctx,s,c,w,h){
+    const cx=w/2, cy=220, beamLen=440, pxPerM=70;
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(s.tilt*Math.PI/180);
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(-beamLen/2,0);ctx.lineTo(beamLen/2,0);ctx.stroke();
+    // weight 1 (left)
+    const x1=-c.d1*pxPerM, x2=c.d2*pxPerM;
+    ctx.fillStyle="#ef7a6d";ctx.shadowColor="#ef7a6d";ctx.shadowBlur=8;ctx.beginPath();ctx.arc(x1,-18,8+c.m1*0.8,0,TAU);ctx.fill();ctx.shadowBlur=0;
+    ctx.fillStyle="#ffb703";ctx.shadowColor="#ffb703";ctx.shadowBlur=8;ctx.beginPath();ctx.arc(x2,-18,8+c.m2*0.8,0,TAU);ctx.fill();ctx.shadowBlur=0;
+    ctx.restore();
+    ctx.fillStyle="#5c7291";ctx.beginPath();ctx.moveTo(cx-18,cy+10);ctx.lineTo(cx+18,cy+10);ctx.lineTo(cx,cy-16);ctx.closePath();ctx.fill();
+    label(ctx,cx+x1cos(s,x1),cy-40,`m₁=${c.m1}kg @ ${fmt(c.d1,1)}m`,"#ef7a6d",11.5,"center");
+    label(ctx,cx+x2cos(s,x2),cy-40,`m₂=${c.m2}kg @ ${fmt(c.d2,1)}m`,"#ffb703",11.5,"center");
+    function x1cos(s,x){return x*Math.cos(s.tilt*Math.PI/180);} function x2cos(s,x){return x*Math.cos(s.tilt*Math.PI/180);}
+    const t1=c.m1*9.8*c.d1, t2=c.m2*9.8*c.d2;
+    label(ctx,40,340,`moment 1 = ${fmt(t1,1)} N·m   moment 2 = ${fmt(t2,1)} N·m`,"#93aac4",12.5);
+    label(ctx,40,362,Math.abs(t1-t2)<0.5?"balanced ✓":(t1>t2?"tips left":"tips right"),"#7fe3da",12.5);
+  },
+  readouts(s,c){ const t1=c.m1*9.8*c.d1, t2=c.m2*9.8*c.d2;
+    return [["Moment 1 (F·d)",`${fmt(t1,1)} N·m`],["Moment 2 (F·d)",`${fmt(t2,1)} N·m`],["Balanced?",Math.abs(t1-t2)<0.5?"Yes":"No"]]; }
+ },
+ {modeName:"Centre of Gravity & Stability", tag:"STABLE · UNSTABLE", eqn:"An object topples when its weight line falls outside its base",
+  controls:[{key:"tilt",label:"Tilt angle",min:0,max:60,step:1,default:15,unit:"°"},{key:"baseWidth",label:"Base width",min:30,max:150,step:5,default:80,unit:" px"},{key:"cgHeight",label:"C.G. height",min:40,max:180,step:5,default:110,unit:" px"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const groundY=320, cx=w/2, rad=c.tilt*Math.PI/180;
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(60,groundY);ctx.lineTo(w-60,groundY);ctx.stroke();
+    ctx.save();ctx.translate(cx,groundY);ctx.rotate(rad);
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=2.4;ctx.strokeRect(-c.baseWidth/2,-c.cgHeight*2,c.baseWidth,c.cgHeight*2);
+    dot(ctx,0,-c.cgHeight,6,"#ffb703",10);
+    ctx.strokeStyle="rgba(255,183,3,0.6)";ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(0,-c.cgHeight);ctx.lineTo(0,40);ctx.stroke();ctx.setLineDash([]);
+    ctx.restore();
+    const cgX_off=Math.sin(rad)*c.cgHeight;
+    const topples=Math.abs(cgX_off)>c.baseWidth/2;
+    label(ctx,60,60,topples?"weight line falls OUTSIDE the base → topples!":"weight line falls within the base → stable","#93aac4",13);
+  },
+  readouts(s,c){ const cgX_off=Math.sin(c.tilt*Math.PI/180)*c.cgHeight; const topples=Math.abs(cgX_off)>c.baseWidth/2;
+    return [["Tilt",`${c.tilt}°`],["Status",topples?"Topples":"Stable"],["Rule","lower C.G. + wider base = more stable"]]; }
+ }
+];
+
+/* ---------- 12. SHM pendulum ---------- */
+SIMS["12"]=[{modeName:"Simple Pendulum", tag:"SIMPLE HARMONIC MOTION", eqn:"T = 2π·√(L/g)",
+  controls:[
+    {key:"length",label:"String Length",min:0.2,max:2,step:0.05,default:1,unit:" m"},
+    {key:"amp",label:"Amplitude",min:5,max:60,step:1,default:30,unit:"°"},
+    {key:"g",label:"Gravity g",min:1,max:20,step:0.1,default:9.8,unit:" m/s²"},
+  ], values:null, state:{},
+  reset(s,c){ s.t=0; },
+  step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const T=TAU*Math.sqrt(c.length/c.g), omega=TAU/T, ampRad=c.amp*Math.PI/180, theta=ampRad*Math.cos(omega*s.t);
+    const pivotX=w/2, pivotY=60, len=c.length*130;
+    const bx=pivotX+len*Math.sin(theta), by=pivotY+len*Math.cos(theta);
+    ctx.strokeStyle="rgba(255,255,255,0.06)";ctx.beginPath();ctx.moveTo(pivotX,pivotY);ctx.lineTo(pivotX,pivotY+len+20);ctx.stroke();
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.beginPath();ctx.arc(pivotX,pivotY,5,0,TAU);ctx.fill();ctx.restore();
+    glowLine(ctx,[[pivotX,pivotY],[bx,by]],"#7fe3da",2,4);
+    dot(ctx,bx,by,12,"#ffb703",14);
+    pushTrace(s,"trace",theta*180/Math.PI);
+    drawTrace(ctx,s.trace,60,300,w-120,100,"#7fe3da",-65,65);
+    label(ctx,60,292,"angle θ vs time — scrolling trace","#93aac4",11);
+  },
+  readouts(s,c){ const T=TAU*Math.sqrt(c.length/c.g); return [["Period T",`${fmt(T,2)} s`],["Frequency",`${fmt(1/T,2)} Hz`],["Angular freq ω",`${fmt(TAU/T,2)} rad/s`]]; }
+}];
+
+/* ---------- 13. Newton's laws — two modes ---------- */
+SIMS["13"]=[
+ {modeName:"F = ma (Trolley)", tag:"F − f = ma", eqn:"F(net) = F(applied) − F(friction) = m·a",
+  controls:[{key:"force",label:"Applied Force",min:0,max:500,step:5,default:220,unit:" N"},{key:"mass",label:"Trolley Mass",min:1,max:100,step:1,default:20,unit:" kg"},{key:"friction",label:"Friction Force",min:0,max:200,step:5,default:40,unit:" N"}],
+  values:null, state:{},
+  reset(s,c){ s.x=70; s.v=0; s.a=0; },
+  step(s,c,dt){ let f=c.force; let fr=s.v>0.01?-c.friction:(f>c.friction?-c.friction:-f); let net=f+fr;
+    if(s.v<=0.01 && f<=c.friction){net=0;s.v=0;} s.a=net/c.mass; s.v=Math.max(0,s.v+s.a*dt); s.x+=s.v*dt*10; if(s.x>560) s.x=70; },
+  draw(ctx,s,c,w,h){
+    const groundY=280; ctx.strokeStyle="#1c3350";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(40,groundY+30);ctx.lineTo(w-40,groundY+30);ctx.stroke();
+    const bw=64,bh=44; ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.shadowColor="#7fe3da";ctx.shadowBlur=8;
+    ctx.beginPath();ctx.roundRect(s.x,groundY+30-bh,bw,bh,6);ctx.fill();ctx.stroke();ctx.restore();
+    dot(ctx,s.x+14,groundY+30,7,"#5c7291",4);dot(ctx,s.x+bw-14,groundY+30,7,"#5c7291",4);
+    arrow(ctx,s.x+bw,groundY+30-bh/2,s.x+bw+c.force*0.35,groundY+30-bh/2,"#ffb703");
+    label(ctx,s.x+bw,groundY+30-bh/2-10,`F=${fmt(c.force,0)}N`,"#ffb703",12);
+    if(c.friction>0){ arrow(ctx,s.x,groundY+30-bh+10,s.x-c.friction*0.35,groundY+30-bh+10,"#ef7a6d"); }
+    pushTrace(s,"trace",s.v); drawTrace(ctx,s.trace,60,40,w-120,90,"#7fe3da");
+    label(ctx,60,32,"velocity vs time","#93aac4",11);
+  },
+  readouts(s,c){ return [["Resultant force",`${fmt(c.force-(s.v>0.01?c.friction:Math.min(c.force,c.friction)),1)} N`],["Acceleration",`${fmt(s.a,2)} m·s⁻²`],["Velocity",`${fmt(s.v,2)} m·s⁻¹`]]; }
+ },
+ {modeName:"Momentum & Collisions", tag:"m₁u₁+m₂u₂ = m₁v₁+m₂v₂", eqn:"Momentum is conserved in every collision",
+  controls:[{key:"m1",label:"Mass 1",min:1,max:20,step:1,default:5,unit:" kg"},{key:"u1",label:"Velocity 1",min:-20,max:20,step:1,default:8,unit:" m/s"},{key:"m2",label:"Mass 2",min:1,max:20,step:1,default:10,unit:" kg"},{key:"u2",label:"Velocity 2",min:-20,max:20,step:1,default:-2,unit:" m/s"},{key:"mode",label:"Collision type",type:"select",options:[{label:"Elastic"},{label:"Inelastic (stick)"}],default:0}],
+  values:null, state:{},
+  reset(s,c){ s.x1=90;s.x2=520;s.v1=c.u1;s.v2=c.u2;s.collided=false; s.p_before=c.m1*c.u1+c.m2*c.u2; s.p_after=null; },
+  step(s,c,dt){ const scale=7; s.x1+=s.v1*dt*scale; s.x2+=s.v2*dt*scale; const w1=50,w2=50;
+    if(!s.collided && s.x1+w1>=s.x2){ const m1=c.m1,m2=c.m2,u1=s.v1,u2=s.v2;
+      if(c.mode===0){ s.v1=((m1-m2)*u1+2*m2*u2)/(m1+m2); s.v2=((m2-m1)*u2+2*m1*u1)/(m1+m2); }
+      else { const v=(m1*u1+m2*u2)/(m1+m2); s.v1=v; s.v2=v; }
+      s.collided=true; s.p_after=c.m1*s.v1+c.m2*s.v2; s.x2=s.x1+w1; }
+    if(s.x1>620||s.x2>620||s.x1<-60||s.x2<-60){ s.x1=90;s.x2=520;s.v1=c.u1;s.v2=c.u2;s.collided=false; s.p_before=c.m1*c.u1+c.m2*c.u2; s.p_after=null; } },
+  draw(ctx,s,c,w,h){ const y=220,w1=50,w2=50; ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(20,y+26);ctx.lineTo(w-20,y+26);ctx.stroke();
+    const r1=8+c.m1*1.1, r2=8+c.m2*1.1;
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.shadowColor="#7fe3da";ctx.shadowBlur=8;ctx.beginPath();ctx.roundRect(s.x1,y-r1,w1,r1*1.4,6);ctx.fill();ctx.stroke();ctx.restore();
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#ffb703";ctx.lineWidth=2;ctx.shadowColor="#ffb703";ctx.shadowBlur=8;ctx.beginPath();ctx.roundRect(s.x2,y-r2,w2,r2*1.4,6);ctx.fill();ctx.stroke();ctx.restore();
+    label(ctx,s.x1+w1/2,y+45,`m₁=${c.m1}kg`,"#7fe3da",11.5,"center"); label(ctx,s.x2+w2/2,y+45,`m₂=${c.m2}kg`,"#ffb703",11.5,"center");
+    label(ctx,s.x1+w1/2,y-r1-10,`${fmt(s.v1,1)} m/s`,"#7fe3da",12,"center"); label(ctx,s.x2+w2/2,y-r2-10,`${fmt(s.v2,1)} m/s`,"#ffb703",12,"center");
+    label(ctx,40,60,`momentum before: ${fmt(s.p_before,1)} kg·m/s`,"#93aac4",12.5);
+    label(ctx,40,82,`momentum ${s.collided?"after":"now"}: ${fmt(s.collided?s.p_after:s.p_before,1)} kg·m/s`,"#7fe3da",12.5); },
+  readouts(s,c){ return [["Momentum before",`${fmt(s.p_before,1)} kg·m/s`],["Momentum after",`${s.collided?fmt(s.p_after,1):"—"} kg·m/s`],["Conserved?","Always"]]; }
+ },
+ {modeName:"Rocket Propulsion (Action–Reaction)", tag:"NEWTON'S THIRD LAW", eqn:"Thrust = burn rate × exhaust speed",
+  controls:[{key:"exhaustSpeed",label:"Exhaust speed",min:500,max:4000,step:100,default:2500,unit:" m/s"},{key:"burnRate",label:"Fuel burn rate",min:1,max:50,step:1,default:15,unit:" kg/s"}],
+  values:null, state:{}, reset(s,c){ s.y=320; s.v=0; },
+  step(s,c,dt){ const thrust=c.burnRate*c.exhaustSpeed; const mass=800; const a=(thrust-mass*9.8)/mass; s.v+=a*dt*0.15; s.y-=s.v*dt*0.3; if(s.y<40||s.y>340){ s.y=320; s.v=0; } },
+  draw(ctx,s,c,w,h){
+    const cx=w/2;
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.shadowColor="#7fe3da";ctx.shadowBlur=8;
+    ctx.beginPath();ctx.moveTo(cx,s.y-40);ctx.lineTo(cx-16,s.y+10);ctx.lineTo(cx+16,s.y+10);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+    const flameLen=20+c.burnRate*2;
+    ctx.save();ctx.fillStyle="#ffb703";ctx.shadowColor="#ffb703";ctx.shadowBlur=12;
+    ctx.beginPath();ctx.moveTo(cx-10,s.y+10);ctx.lineTo(cx,s.y+10+flameLen);ctx.lineTo(cx+10,s.y+10);ctx.closePath();ctx.fill();ctx.restore();
+    arrow(ctx,cx,s.y+10+flameLen,cx,s.y+10+flameLen+30,"#ef7a6d",2); label(ctx,cx+10,s.y+10+flameLen+20,"expelled gas","#ef7a6d",11);
+    arrow(ctx,cx,s.y-40,cx,s.y-70,"#7fe3da",2); label(ctx,cx+10,s.y-60,"rocket thrust","#7fe3da",11);
+    const thrust=c.burnRate*c.exhaustSpeed;
+    label(ctx,40,40,`thrust = burn rate × exhaust speed = ${fmt(thrust/1000,1)} kN`,"#93aac4",12.5);
+  },
+  readouts(s,c){ const thrust=c.burnRate*c.exhaustSpeed; return [["Thrust",`${fmt(thrust/1000,1)} kN`],["Exhaust speed",`${c.exhaustSpeed} m/s`],["Principle","gas pushed down → rocket pushed up"]]; }
+ }
+];
+
+/* ---------- 14. Energy conservation ---------- */
+SIMS["14"]=[{modeName:"Conservation of Energy", tag:"P.E. ⇌ K.E.", eqn:"P.E. = mgh   K.E. = ½mv²   total energy constant",
+  controls:[{key:"mass",label:"Mass",min:0.5,max:10,step:0.5,default:2,unit:" kg"},{key:"height",label:"Drop Height",min:1,max:10,step:0.5,default:6,unit:" m"}],
+  values:null, state:{},
+  reset(s,c){ s.h=c.height; s.v=0; },
+  step(s,c,dt){ s.v+=9.8*dt; s.h-=s.v*dt*0.4; if(s.h<=0){ s.h=0; s.v=-s.v*0.65; if(Math.abs(s.v)<0.3){s.h=c.height;s.v=0;} } if(s.h>c.height){s.h=c.height;} },
+  draw(ctx,s,c,w,h){
+    const gx=80, gy0=40, gy1=320, scale=(gy1-gy0)/c.height;
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(gx-20,gy1);ctx.lineTo(w-40,gy1);ctx.stroke();
+    const by=gy1-s.h*scale;
+    dot(ctx,gx+40,by,14,"#ffb703",12);
+    ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.beginPath();ctx.moveTo(gx-20,gy0);ctx.lineTo(w-40,gy0);ctx.stroke();
+    const PE=c.mass*9.8*s.h, KE=0.5*c.mass*s.v*s.v, total=c.mass*9.8*c.height;
+    const bx=280, bw=60, bh=240, by0=gy1;
+    ctx.strokeStyle="#5c7291";ctx.strokeRect(bx,gy0,bw,bh);
+    const peH=(PE/total)*bh, keH=(KE/total)*bh;
+    ctx.fillStyle="#7fe3da";ctx.fillRect(bx,by0-peH,bw,peH);
+    ctx.fillStyle="#ef7a6d";ctx.fillRect(bx,by0-peH-keH,bw,keH);
+    label(ctx,bx,gy0-10,"P.E. (cyan) + K.E. (red) = constant","#93aac4",11.5);
+    label(ctx,bx+bw+16,by0-peH/2,`PE=${fmt(PE,1)}J`,"#7fe3da",12);
+    label(ctx,bx+bw+16,by0-peH-keH/2,`KE=${fmt(KE,1)}J`,"#ef7a6d",12);
+  },
+  readouts(s,c){ const PE=c.mass*9.8*s.h, KE=0.5*c.mass*s.v*s.v;
+    return [["Height",`${fmt(s.h,2)} m`],["P.E.",`${fmt(PE,1)} J`],["K.E.",`${fmt(KE,1)} J`]]; }
+}];
+
+/* ---------- 15. Machines — inclined plane ---------- */
+SIMS["15"]=[{modeName:"Inclined Plane Machine", tag:"M.A. = Load / Effort", eqn:"V.R. = 1/sinθ   Efficiency = M.A./V.R. × 100%",
+  controls:[{key:"angle",label:"Incline angle",min:5,max:60,step:1,default:25,unit:"°"},{key:"load",label:"Load weight",min:20,max:400,step:10,default:200,unit:" N"},{key:"friction",label:"Friction loss",min:0,max:60,step:5,default:15,unit:" %"}],
+  values:null, state:{},
+  reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const rad=c.angle*Math.PI/180, baseX=80, baseY=330, L=420;
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(baseX,baseY);ctx.lineTo(baseX+L*Math.cos(rad),baseY-L*Math.sin(rad));ctx.lineTo(baseX+L*Math.cos(rad),baseY);ctx.closePath();ctx.stroke();
+    const bx=baseX+L*Math.cos(rad)*0.5, by=baseY-L*Math.sin(rad)*0.5-14;
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#ffb703";ctx.lineWidth=2;ctx.shadowColor="#ffb703";ctx.shadowBlur=8;
+    ctx.translate(bx,by);ctx.rotate(-rad);ctx.beginPath();ctx.roundRect(-22,-16,44,32,5);ctx.fill();ctx.stroke();ctx.restore();
+    const idealEffort=c.load*Math.sin(rad); const actualEffort=idealEffort*(1+c.friction/100);
+    arrow(ctx,bx,by,bx+Math.cos(rad)*(-actualEffort*0.3),by-Math.sin(rad)*(-actualEffort*0.3)*0+ -Math.sin(rad)*(actualEffort*0.3)*0 - 0, "#ef7a6d",2.4);
+    label(ctx,40,380,`incline angle θ = ${c.angle}°   load = ${c.load} N`,"#93aac4",12);
+  },
+  readouts(s,c){ const rad=c.angle*Math.PI/180; const VR=1/Math.sin(rad); const idealEffort=c.load*Math.sin(rad); const actualEffort=idealEffort*(1+c.friction/100);
+    const MA=c.load/actualEffort; const eff=(MA/VR)*100;
+    return [["Effort needed",`${fmt(actualEffort,1)} N`],["Mechanical Advantage",`${fmt(MA,2)}`],["Efficiency",`${fmt(eff,1)} %`]]; }
+ },
+ {modeName:"Pulley System", tag:"M.A. = no. of supporting strings", eqn:"Effort ≈ Load / number of movable pulleys (ideal)",
+  controls:[{key:"pulleys",label:"Number of movable pulleys",min:1,max:4,step:1,default:2},{key:"load",label:"Load",min:50,max:500,step:10,default:200,unit:" N"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const n=c.pulleys;
+    dot(ctx,300,60,14,"#5c7291",4); label(ctx,300,40,"fixed pulley","#93aac4",10.5,"center");
+    dot(ctx,300,220,14,"#ffb703",8); label(ctx,300,250,`${n} movable pulley(s)`,"#93aac4",10.5,"center");
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;
+    for(let i=0;i<2*n;i++){ ctx.beginPath();ctx.moveTo(280+i*4,60);ctx.lineTo(280+i*4,220);ctx.stroke(); }
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#ef7a6d";ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(270,230,60,40,5);ctx.fill();ctx.stroke();ctx.restore();
+    label(ctx,300,290,`Load=${c.load}N`,"#ef7a6d",12,"center");
+    const effort=c.load/n;
+    label(ctx,420,150,`Effort needed ≈ ${fmt(effort,1)} N`,"#ffb703",13);
+  },
+  readouts(s,c){ const effort=c.load/c.pulleys; return [["Effort (ideal)",`${fmt(effort,1)} N`],["Velocity ratio",`${c.pulleys}`],["Mechanical advantage (ideal)",`${c.pulleys}`]]; }
+ },
+ {modeName:"Lever", tag:"M.A. = effort arm / load arm", eqn:"Load × load-arm = Effort × effort-arm",
+  controls:[{key:"load",label:"Load",min:20,max:400,step:10,default:200,unit:" N"},{key:"loadArm",label:"Load arm",min:0.2,max:2,step:0.1,default:0.5,unit:" m"},{key:"effortArm",label:"Effort arm",min:0.2,max:3,step:0.1,default:1.5,unit:" m"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cx=200, cy=220, scale=100;
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=5;
+    ctx.beginPath();ctx.moveTo(cx-c.loadArm*scale,cy);ctx.lineTo(cx+c.effortArm*scale,cy);ctx.stroke();
+    ctx.fillStyle="#5c7291";ctx.beginPath();ctx.moveTo(cx-14,cy+10);ctx.lineTo(cx+14,cy+10);ctx.lineTo(cx,cy-14);ctx.closePath();ctx.fill();
+    dot(ctx,cx-c.loadArm*scale,cy,10,"#ef7a6d",8); label(ctx,cx-c.loadArm*scale,cy-20,`Load ${c.load}N`,"#ef7a6d",12,"center");
+    const effort=(c.load*c.loadArm)/c.effortArm;
+    dot(ctx,cx+c.effortArm*scale,cy,10,"#ffb703",8); label(ctx,cx+c.effortArm*scale,cy-20,`Effort ${fmt(effort,1)}N`,"#ffb703",12,"center");
+    label(ctx,40,340,`M.A. = effort arm / load arm = ${fmt(c.effortArm/c.loadArm,2)}`,"#93aac4",12.5);
+  },
+  readouts(s,c){ const effort=(c.load*c.loadArm)/c.effortArm; return [["Effort needed",`${fmt(effort,1)} N`],["Mechanical advantage",`${fmt(c.effortArm/c.loadArm,2)}`],["Example","crowbar, wheelbarrow, scissors"]]; }
+ }
+];
+
+/* ---------- 16. Heat: heating curve + Boyle's law ---------- */
+SIMS["16"]=[
+ {modeName:"Heating Curve", tag:"Q = mcΔθ · Q = mL", eqn:"Q = mcΔθ  (heating)     Q = mL  (phase change, flat plateau)",
+  controls:[{key:"power",label:"Heater Power",min:50,max:1000,step:50,default:400,unit:" W"},{key:"mass",label:"Mass of ice/water",min:0.1,max:2,step:0.1,default:0.5,unit:" kg"}],
+  values:null, state:{},
+  reset(s,c){ s.t=0; s.heat=0; s.trace=[]; },
+  step(s,c,dt){ s.t+=dt; s.heat+=c.power*dt; if(s.t>90) { s.t=0; s.heat=0; s.trace=[]; } },
+  draw(ctx,s,c,w,h){
+    const cIce=2100,cWater=4200,Lf=334000,Lv=2260000;
+    const Qmelt=c.mass*Lf, Qtoboil0=Qmelt+c.mass*cWater*100, Qvap=Qtoboil0+c.mass*Lv;
+    function tempAt(Q){
+      if(Q<0)Q=0;
+      const Qice=c.mass*cIce*20;
+      if(Q<Qice) return -20+Q/(c.mass*cIce);
+      if(Q<Qice+Qmelt) return 0;
+      const Qw0=Qice+Qmelt;
+      if(Q<Qw0+c.mass*cWater*100) return (Q-Qw0)/(c.mass*cWater);
+      const Qb0=Qw0+c.mass*cWater*100;
+      if(Q<Qb0+Qvap-Qtoboil0) return 100;
+      return 100;
+    }
+    const maxQ=(c.mass*cIce*20)+Qmelt+c.mass*cWater*100+ (Qvap-Qtoboil0) + c.mass*20000;
+    pushTrace(s,"trace",tempAt(s.heat),300);
+    const gx=60,gy=340,gw=520,gh=280;
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,60,gw,gh);
+    label(ctx,gx,52,"temperature (°C) vs heat energy supplied","#93aac4",11.5);
+    const pts=s.trace.map((v,i)=>[gx+gw*(i/300), 60+gh-((v+20)/140)*gh]);
+    glowLine(ctx,pts,"#ffb703",2.2,7);
+    const curT=tempAt(s.heat);
+    label(ctx,gx+8,60+gh-((curT+20)/140)*gh-10,`${fmt(curT,0)}°C`,"#7fe3da",12.5);
+  },
+  readouts(s,c){ const cIce=2100,cWater=4200,Lf=334000; const Qice=c.mass*cIce*20; const Qmelt=c.mass*Lf;
+    function tempAt(Q){ if(Q<Qice) return -20+Q/(c.mass*cIce); if(Q<Qice+Qmelt) return 0; const Qw0=Qice+Qmelt; if(Q<Qw0+c.mass*cWater*100) return (Q-Qw0)/(c.mass*cWater); return 100; }
+    return [["Heat supplied",`${fmt(s.heat/1000,1)} kJ`],["Temperature",`${fmt(tempAt(s.heat),0)} °C`],["Time elapsed",`${fmt(s.t,0)} s`]]; }
+ },
+ {modeName:"Boyle's Law (P–V)", tag:"P₁V₁ = P₂V₂", eqn:"P·V = constant  (constant temperature)",
+  controls:[{key:"volume",label:"Volume",min:0.5,max:5,step:0.1,default:2.5,unit:" L"},{key:"P0",label:"Reference P·V constant",min:50,max:400,step:10,default:200,unit:" kPa·L"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const P=c.P0/c.volume;
+    const pistonX=520, cylX=140, cylTop=60, cylBot=340;
+    const pos = cylX + (5-c.volume)/5*(pistonX-cylX-40);
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=3;ctx.strokeRect(cylX,cylTop,pistonX-cylX,cylBot-cylTop);
+    const gasW=(pos-cylX);
+    ctx.fillStyle="rgba(127,227,218,0.18)";ctx.fillRect(cylX,cylTop,gasW,cylBot-cylTop);
+    ctx.fillStyle="#7fe3da";ctx.fillRect(pos,cylTop-10,14,cylBot-cylTop+20);
+    label(ctx,cylX+10,cylTop-16,`V = ${fmt(c.volume,1)} L`,"#7fe3da",12.5);
+    label(ctx,cylX+10,cylTop+30,`P = ${fmt(P,1)} kPa`,"#ffb703",12.5);
+    // graph P vs V inset
+    const gx=380, gy=200, gw=180, gh=120;
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const pts=[]; for(let v=0.5;v<=5;v+=0.1){ const p=c.P0/v; pts.push([gx+gw*((v-0.5)/4.5), gy+gh-clamp(p/400,0,1)*gh]); }
+    glowLine(ctx,pts,"#93aac4",1.6,0);
+    dot(ctx,gx+gw*((c.volume-0.5)/4.5), gy+gh-clamp(P/400,0,1)*gh,5,"#ffb703",8);
+    label(ctx,gx,gy-6,"P vs V (hyperbola)","#93aac4",10.5);
+  },
+  readouts(s,c){ const P=c.P0/c.volume; return [["Pressure",`${fmt(P,1)} kPa`],["Volume",`${fmt(c.volume,1)} L`],["P × V",`${fmt(P*c.volume,0)} kPa·L`]]; }
+ },
+ {modeName:"Thermal Expansion", tag:"ΔL = αL₀Δθ", eqn:"ΔL = α · L₀ · Δθ",
+  controls:[{key:"alpha",label:"Linear expansivity α",min:5,max:30,step:1,default:12,unit:" ×10⁻⁶ /K"},{key:"temp",label:"Temperature rise Δθ",min:0,max:200,step:5,default:80,unit:" K"},{key:"L0",label:"Original length L₀",min:0.5,max:5,step:0.1,default:2,unit:" m"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const dL=c.alpha*1e-6*c.L0*c.temp, scale=100, barY=200, x0=60;
+    const len=c.L0*scale, ext=dL*scale*40;
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(x0,barY);ctx.lineTo(x0+len,barY);ctx.stroke();
+    ctx.strokeStyle="#ffb703";ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(x0+len,barY);ctx.lineTo(x0+len+ext,barY);ctx.stroke();
+    label(ctx,x0,barY-20,`L₀ = ${c.L0} m`,"#7fe3da",12);
+    label(ctx,x0+len,barY-20,`ΔL = ${fmt(dL*1000,2)} mm (extension shown magnified)`,"#ffb703",12);
+  },
+  readouts(s,c){ const dL=c.alpha*1e-6*c.L0*c.temp; return [["Extension ΔL",`${fmt(dL*1000,3)} mm`],["New length",`${fmt(c.L0+dL,4)} m`],["Expansivity α",`${c.alpha}×10⁻⁶/K`]]; }
+ },
+ {modeName:"Charles' Law (V–T)", tag:"V/T = constant", eqn:"V₁/T₁ = V₂/T₂  (constant pressure)",
+  controls:[{key:"temp",label:"Temperature",min:250,max:600,step:10,default:300,unit:" K"},{key:"k",label:"V/T constant",min:0.005,max:0.03,step:0.001,default:0.01,unit:" L/K"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const V=c.k*c.temp, cylX=140,cylTop=60,cylBot=340,pistonX=520;
+    const pos=cylX+(V/(c.k*600))*(pistonX-cylX-40);
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=3;ctx.strokeRect(cylX,cylTop,pistonX-cylX,cylBot-cylTop);
+    ctx.fillStyle="rgba(239,122,109,0.18)";ctx.fillRect(cylX,cylTop,pos-cylX,cylBot-cylTop);
+    ctx.fillStyle="#ef7a6d";ctx.fillRect(pos,cylTop-10,14,cylBot-cylTop+20);
+    label(ctx,cylX+10,cylTop-16,`V = ${fmt(V,2)} L at T = ${c.temp} K`,"#ef7a6d",12.5);
+    const gx=380,gy=200,gw=180,gh=120; ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const pts=[]; for(let t=250;t<=600;t+=10){ const v=c.k*t; pts.push([gx+gw*((t-250)/350), gy+gh-clamp(v/6,0,1)*gh]); }
+    glowLine(ctx,pts,"#93aac4",1.6,0);
+    dot(ctx,gx+gw*((c.temp-250)/350), gy+gh-clamp(V/6,0,1)*gh,5,"#ef7a6d",8);
+    label(ctx,gx,gy-6,"V vs T (straight line through 0 K)","#93aac4",10.5);
+  },
+  readouts(s,c){ const V=c.k*c.temp; return [["Volume",`${fmt(V,2)} L`],["Temperature",`${c.temp} K`],["V/T",`${fmt(V/c.temp,4)} L/K`]]; }
+ },
+ {modeName:"Heat Transfer Modes", tag:"CONDUCTION · CONVECTION · RADIATION", eqn:"Conduction: solids · Convection: fluids · Radiation: EM waves, no medium",
+  controls:[{key:"mode",label:"Mechanism",type:"select",options:[{label:"Conduction"},{label:"Convection"},{label:"Radiation"}],default:0}],
+  values:null, state:{},
+  reset(s,c){ s.t=0; s.particles=[]; for(let i=0;i<20;i++) s.particles.push({x:rand(80,520),y:rand(80,300)}); },
+  step(s,c,dt){ s.t+=dt; if(c.mode===1){ s.particles.forEach(p=>{ p.y-=20*dt; if(p.y<60){p.y=320;p.x=rand(80,520);} }); } },
+  draw(ctx,s,c,w,h){
+    if(c.mode===0){
+      ctx.fillStyle="#ef7a6d";ctx.fillRect(60,180,40,40); label(ctx,80,240,"hot end","#ef7a6d",11,"center");
+      for(let i=0;i<10;i++){ const x=100+i*45; const heat=clamp(1-i*0.09+Math.sin(s.t*3+i)*0.05,0,1); dot(ctx,x,200,6,`rgba(239,122,109,${heat})`,6); }
+      label(ctx,60,120,"vibration passed particle to particle (solids) — no bulk movement","#93aac4",12);
+    } else if(c.mode===1){
+      ctx.fillStyle="rgba(239,122,109,0.15)";ctx.fillRect(60,300,480,40);
+      s.particles.forEach(p=>dot(ctx,p.x,p.y,5,"#ffb703",6));
+      label(ctx,60,60,"heated fluid rises and carries energy with it (convection currents)","#93aac4",12);
+    } else {
+      ctx.fillStyle="#ffb703";ctx.shadowColor="#ffb703";ctx.shadowBlur=20;ctx.beginPath();ctx.arc(120,200,26,0,TAU);ctx.fill();ctx.shadowBlur=0;
+      for(let i=0;i<8;i++){ const ang=(i/8)*TAU+s.t*0.5; arrow(ctx,120+Math.cos(ang)*30,200+Math.sin(ang)*30,120+Math.cos(ang)*90,200+Math.sin(ang)*90,"#ffb703",1.6); }
+      label(ctx,60,300,"energy travels as electromagnetic waves — no medium needed","#93aac4",12);
+    }
+  },
+  readouts(s,c){ return [["Mechanism",["Conduction","Convection","Radiation"][c.mode]],["Needs a medium?",c.mode===2?"No":"Yes"],["Typical in",["solids","fluids (liquids & gases)","vacuum & all media"][c.mode]]]; }
+ },
+ {modeName:"Humidity & Dew Point", tag:"RELATIVE HUMIDITY", eqn:"Relative humidity = (actual vapour pressure ÷ saturated vapour pressure) × 100%",
+  controls:[{key:"temp",label:"Air temperature",min:5,max:40,step:1,default:25,unit:" °C"},{key:"humidity",label:"Relative humidity",min:10,max:100,step:5,default:60,unit:" %"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const dewPoint=c.temp-((100-c.humidity)/5);
+    const gx=60,gy=60,gw=480,gh=260;
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const barH=(c.humidity/100)*gh;
+    ctx.fillStyle="#7fe3da";ctx.fillRect(gx+40,gy+gh-barH,80,barH);
+    label(ctx,gx+40,gy+gh+20,`RH = ${c.humidity}%`,"#7fe3da",12.5);
+    label(ctx,gx+200,gy+40,`Air temp: ${c.temp}°C`,"#93aac4",13);
+    label(ctx,gx+200,gy+65,`Dew point ≈ ${fmt(dewPoint,1)}°C`,"#ffb703",13);
+    label(ctx,gx+200,gy+95,dewPoint>=c.temp-1?"Fog / dew likely to form":"Air is comfortably below saturation","#93aac4",12);
+  },
+  readouts(s,c){ const dewPoint=c.temp-((100-c.humidity)/5); return [["Relative humidity",`${c.humidity}%`],["Dew point (approx)",`${fmt(dewPoint,1)}°C`],["Condensation?",dewPoint>=c.temp-1?"Likely":"Unlikely"]]; }
+ },
+ {modeName:"Bimetallic Strip & Thermostat", tag:"DIFFERENTIAL EXPANSION", eqn:"Two metals with different expansivities bend on heating",
+  controls:[{key:"temp",label:"Temperature change",min:0,max:150,step:5,default:60,unit:" K"},{key:"alphaDiff",label:"Expansivity difference",min:1,max:20,step:1,default:8,unit:" ×10⁻⁶/K"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const bend=c.temp*c.alphaDiff*0.02, x0=100,y0=200,len=300;
+    ctx.strokeStyle="#ffb703";ctx.lineWidth=6;ctx.beginPath();
+    for(let i=0;i<=len;i+=4){ const yy=y0-(bend/(len*len))*i*i*0.6; if(i===0)ctx.moveTo(x0+i,yy);else ctx.lineTo(x0+i,yy); } ctx.stroke();
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=6;ctx.beginPath();
+    for(let i=0;i<=len;i+=4){ const yy=y0+8-(bend/(len*len))*i*i*0.55; if(i===0)ctx.moveTo(x0+i,yy);else ctx.lineTo(x0+i,yy); } ctx.stroke();
+    label(ctx,x0,y0+40,"bends toward the metal with the LOWER expansivity as temperature rises","#93aac4",11.5);
+    label(ctx,x0,60,`Δθ = ${c.temp} K`,"#93aac4",13);
+  },
+  readouts(s,c){ return [["Temperature change",`${c.temp} K`],["Curvature",`∝ Δα · Δθ`],["Used in","thermostats, fire alarms, bimetallic switches"]]; }
+ },
+ {modeName:"Pressure Law (P–T)", tag:"P/T = constant", eqn:"P₁/T₁ = P₂/T₂  (constant volume)",
+  controls:[{key:"temp",label:"Temperature",min:250,max:600,step:10,default:300,unit:" K"},{key:"k",label:"P/T constant",min:0.2,max:1,step:0.05,default:0.5,unit:" kPa/K"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const P=c.k*c.temp;
+    const gaugeX=300,gaugeY=180,r=90;
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.arc(gaugeX,gaugeY,r,Math.PI*0.75,Math.PI*2.25);ctx.stroke();
+    const frac=clamp(P/400,0,1); const ang=Math.PI*0.75+frac*Math.PI*1.5;
+    arrow(ctx,gaugeX,gaugeY,gaugeX+Math.cos(ang)*70,gaugeY+Math.sin(ang)*70,"#ffb703",2.4);
+    label(ctx,gaugeX,gaugeY+r+30,`P = ${fmt(P,1)} kPa at T = ${c.temp} K (fixed volume)`,"#93aac4",13,"center");
+  },
+  readouts(s,c){ const P=c.k*c.temp; return [["Pressure",`${fmt(P,1)} kPa`],["Temperature",`${c.temp} K`],["P/T",`${fmt(P/c.temp,3)} kPa/K`]]; }
+ }
+];
+
+/* ---------- 17. Wave properties ---------- */
+SIMS["17"]=[{modeName:"Wave Properties", tag:"v = f·λ", eqn:"v = f · λ",
+  controls:[{key:"amp",label:"Amplitude",min:0.1,max:1,step:0.05,default:0.6,unit:" m"},{key:"wavelength",label:"Wavelength λ",min:0.5,max:4,step:0.1,default:2,unit:" m"},{key:"freq",label:"Frequency f",min:0.2,max:3,step:0.1,default:1,unit:" Hz"}],
+  values:null, state:{},
+  reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const midY=180, pxPerM=90; const pts=[];
+    for(let x=0;x<=w;x+=4){ const xm=(x-60)/pxPerM; const y=midY-c.amp*70*Math.sin(TAU*(xm/c.wavelength - c.freq*s.t)); pts.push([x,y]); }
+    ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.beginPath();ctx.moveTo(0,midY);ctx.lineTo(w,midY);ctx.stroke();
+    glowLine(ctx,pts,"#7fe3da",2.2,7);
+    const x0=100,x1=100+c.wavelength*pxPerM;
+    ctx.strokeStyle="#ffb703";ctx.beginPath();ctx.moveTo(x0,320);ctx.lineTo(x1,320);ctx.stroke();
+    label(ctx,(x0+x1)/2,338,`λ = ${fmt(c.wavelength,1)} m`,"#ffb703",12,"center");
+  },
+  readouts(s,c){ return [["Wave speed v",`${fmt(c.freq*c.wavelength,2)} m/s`],["Period",`${fmt(1/c.freq,2)} s`],["Amplitude",`${fmt(c.amp,2)} m`]]; }
+}];
+
+/* ---------- 18. Transverse vs longitudinal ---------- */
+SIMS["18"]=[{modeName:"Transverse vs Longitudinal", tag:"WAVE TYPES", eqn:"Transverse: displacement ⊥ travel · Longitudinal: displacement ∥ travel",
+  controls:[{key:"type",label:"Wave type",type:"select",options:[{label:"Transverse"},{label:"Longitudinal"}],default:0},{key:"freq",label:"Frequency",min:0.3,max:2.5,step:0.1,default:1,unit:" Hz"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const n=40, x0=60, x1=w-60, midY=200;
+    if(c.type===0){
+      const pts=[]; for(let x=x0;x<=x1;x+=4){ const xm=(x-x0)/60; const y=midY-40*Math.sin(TAU*(xm/2-c.freq*s.t)); pts.push([x,y]); }
+      glowLine(ctx,pts,"#7fe3da",2.2,7);
+      for(let i=0;i<=n;i+=2){ const x=x0+(i/n)*(x1-x0); const xm=(x-x0)/60; const y=midY-40*Math.sin(TAU*(xm/2-c.freq*s.t)); dot(ctx,x,y,3,"#ffb703",4); }
+      label(ctx,x0,60,"particles oscillate up/down; wave travels →","#93aac4",12);
+    } else {
+      for(let i=0;i<n;i++){ const baseX=x0+(i/n)*(x1-x0); const comp=20*Math.sin(TAU*(i/8 - c.freq*s.t)); dot(ctx,baseX+comp,midY,5,"#ef7a6d",6); }
+      label(ctx,x0,60,"particles oscillate left/right (along travel) — compressions & rarefactions","#93aac4",12);
+    }
+  },
+  readouts(s,c){ return [["Type",c.type===0?"Transverse":"Longitudinal"],["Frequency",`${c.freq} Hz`],["Example",c.type===0?"Light, water ripples, string":"Sound in air"]]; }
+}];
+
+/* ---------- 19. Standing waves / superposition ---------- */
+SIMS["19"]=[{modeName:"Standing Waves — Superposition", tag:"NODES & ANTINODES", eqn:"y = 2A sin(kx)cos(ωt)   — two opposite waves superpose",
+  controls:[{key:"wavelength",label:"Wavelength",min:0.5,max:3,step:0.1,default:1.5,unit:" m"},{key:"freq",label:"Frequency",min:0.2,max:2,step:0.1,default:0.8,unit:" Hz"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const x0=60,x1=w-60,midY=200,pxPerM=(x1-x0)/6, amp=60;
+    const f1=[],f2=[],res=[];
+    for(let x=x0;x<=x1;x+=3){ const xm=(x-x0)/pxPerM;
+      const y1=amp*Math.sin(TAU*(xm/c.wavelength - c.freq*s.t));
+      const y2=amp*Math.sin(TAU*(xm/c.wavelength + c.freq*s.t));
+      f1.push([x,midY-y1]); f2.push([x,midY-y2]); res.push([x,midY-(y1+y2)]);
+    }
+    glowLine(ctx,f1,"rgba(127,227,218,0.35)",1.4,0);
+    glowLine(ctx,f2,"rgba(239,122,109,0.35)",1.4,0);
+    glowLine(ctx,res,"#ffb703",2.6,9);
+    ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.beginPath();ctx.moveTo(x0,midY);ctx.lineTo(x1,midY);ctx.stroke();
+    label(ctx,x0,340,"cyan/red = two opposite travelling waves · amber = their sum (standing wave)","#93aac4",11.5);
+  },
+  readouts(s,c){ return [["Wavelength",`${c.wavelength} m`],["Node spacing",`${fmt(c.wavelength/2,2)} m`],["Frequency",`${c.freq} Hz`]]; }
+ },
+ {modeName:"Diffraction Through a Gap", tag:"SPREADING AROUND OBSTACLES", eqn:"More diffraction when gap width ≈ wavelength",
+  controls:[{key:"gap",label:"Gap width",min:10,max:150,step:5,default:40,unit:" px"},{key:"wavelength",label:"Wavelength",min:10,max:80,step:2,default:30,unit:" px"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const bx=220, cy=h/2;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=10;
+    ctx.beginPath();ctx.moveTo(bx,40);ctx.lineTo(bx,cy-c.gap/2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx,cy+c.gap/2);ctx.lineTo(bx,360);ctx.stroke();
+    for(let x=40;x<bx;x+=c.wavelength){ ctx.strokeStyle="rgba(127,227,218,0.3)";ctx.beginPath();ctx.moveTo(x,40);ctx.lineTo(x,360);ctx.stroke(); }
+    const spreadAngle=clamp(c.wavelength/c.gap, 0.1, 2.2);
+    for(let r=20;r<340;r+=c.wavelength){ ctx.strokeStyle="rgba(255,183,3,0.35)";ctx.beginPath();ctx.arc(bx,cy,r,-spreadAngle,spreadAngle);ctx.stroke(); }
+    label(ctx,bx+20,60,c.gap<c.wavelength*1.5?"gap ≈ wavelength → strong diffraction (wide spreading)":"gap ≫ wavelength → little diffraction (mostly straight through)","#93aac4",12);
+  },
+  readouts(s,c){ return [["Gap width",`${c.gap} px`],["Wavelength",`${c.wavelength} px`],["Diffraction",c.gap<c.wavelength*1.5?"Strong":"Weak"]]; }
+ }
+];
+
+/* ---------- 20. Light: mirrors / refraction / lens ---------- */
+SIMS["20"]=[
+ {modeName:"Plane & Curved Mirrors", tag:"1/v + 1/u = 1/f", eqn:"1/v + 1/u = 1/f     m = v/u",
+  controls:[{key:"type",label:"Mirror",type:"select",options:[{label:"Plane"},{label:"Concave"},{label:"Convex"}],default:1},{key:"u",label:"Object distance u",min:5,max:60,step:1,default:30,unit:" cm"},{key:"f",label:"Focal length f",min:5,max:40,step:1,default:15,unit:" cm"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const mx=380, scale=4, axisY=200;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(20,axisY);ctx.lineTo(w-20,axisY);ctx.stroke();
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(mx,60);ctx.lineTo(mx,340);ctx.stroke();
+    if(c.type===0){
+      const objH=40, ox=mx-c.u*scale;
+      arrow(ctx,ox,axisY,ox,axisY-objH,"#ffb703",2.4);
+      arrow(ctx,mx+c.u*scale,axisY,mx+c.u*scale,axisY-objH,"#93aac4",2);
+      label(ctx,mx+c.u*scale,axisY-objH-8,"virtual image (same size)","#93aac4",11,"center");
+    } else {
+      const f=c.type===1? c.f : -c.f;
+      const u=-c.u; const v = 1/(1/f - 1/u);
+      const objH=40, ox=mx+u*scale;
+      dot(ctx,mx+f*scale,axisY,4,"#ef7a6d",6); label(ctx,mx+f*scale,axisY+16,"F","#ef7a6d",11,"center");
+      arrow(ctx,ox,axisY,ox,axisY-objH,"#ffb703",2.4);
+      const m=v/u; const imgH=objH*m;
+      const ix=mx+v*scale;
+      if(isFinite(v) && Math.abs(v)<300){ arrow(ctx,ix,axisY,ix,axisY-imgH,"#7fe3da",2.4); label(ctx,ix,axisY-imgH-10,(v>0?"real, inverted":"virtual, upright"),"#7fe3da",11,"center"); }
+    }
+    label(ctx,20,370,`${["Plane","Concave","Convex"][c.type]} mirror — u=${c.u}cm, f=${c.f}cm`,"#93aac4",12);
+  },
+  readouts(s,c){ if(c.type===0) return [["Image type","Virtual, upright"],["Image distance","= object distance"],["Magnification","1"]];
+    const f=c.type===1?c.f:-c.f, u=-c.u, v=1/(1/f-1/u), m=v/u;
+    return [["Image distance v",`${fmt(Math.abs(v),1)} cm`],["Magnification",`${fmt(Math.abs(m),2)}`],["Image",v>0?"Real, inverted":"Virtual, upright"]]; }
+ },
+ {modeName:"Refraction — Snell's Law", tag:"n₁sinθ₁ = n₂sinθ₂", eqn:"n₁ sinθ₁ = n₂ sinθ₂",
+  controls:[{key:"angle",label:"Angle of incidence",min:0,max:89,step:1,default:35,unit:"°"},{key:"n2",label:"Refractive index (glass)",min:1.1,max:2.5,step:0.05,default:1.5}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cx=w/2, cy=200, L=170;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(cx-260,cy);ctx.lineTo(cx+260,cy);ctx.stroke();
+    ctx.strokeStyle="rgba(255,255,255,0.15)";ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(cx,cy-140);ctx.lineTo(cx,cy+140);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle="rgba(127,227,218,0.08)";ctx.fillRect(cx-260,cy,520,140);
+    const th1=c.angle*Math.PI/180;
+    const critAngle = Math.asin(clamp(1/c.n2,0,1));
+    const ix=cx-Math.sin(th1)*L, iy=cy-Math.cos(th1)*L;
+    glowLine(ctx,[[ix,iy],[cx,cy]],"#ffb703",2.4,8);
+    const sinth2 = Math.sin(th1)/c.n2;
+    if(sinth2<=1){ const th2=Math.asin(sinth2); const rx=cx+Math.sin(th2)*L, ry=cy+Math.cos(th2)*L;
+      glowLine(ctx,[[cx,cy],[rx,ry]],"#7fe3da",2.4,8); label(ctx,rx+8,ry,`θ₂=${fmt(th2*180/Math.PI,1)}°`,"#7fe3da",12); }
+    else { const rx=cx+Math.sin(th1)*L, ry=cy-Math.cos(th1)*L; glowLine(ctx,[[cx,cy],[rx,ry]],"#ef7a6d",2.4,8); label(ctx,20,50,"Total Internal Reflection! (angle > critical angle)","#ef7a6d",13); }
+    label(ctx,ix-8,iy,`θ₁=${c.angle}°`,"#ffb703",12,"right");
+    label(ctx,20,360,`critical angle ≈ ${fmt(critAngle*180/Math.PI,1)}°  (n₁=1 air → n₂=${c.n2} glass)`,"#93aac4",12);
+  },
+  readouts(s,c){ const th1=c.angle*Math.PI/180; const sinth2=Math.sin(th1)/c.n2; const crit=Math.asin(clamp(1/c.n2,0,1))*180/Math.PI;
+    return [["Critical angle",`${fmt(crit,1)}°`],["Refraction angle",sinth2<=1?`${fmt(Math.asin(sinth2)*180/Math.PI,1)}°`:"TIR — none"],["n (glass)",`${c.n2}`]]; }
+ },
+ {modeName:"Convex Lens — Ray Diagram", tag:"1/v + 1/u = 1/f", eqn:"1/v + 1/u = 1/f     m = v/u",
+  controls:[{key:"u",label:"Object distance u",min:5,max:60,step:1,default:24,unit:" cm"},{key:"f",label:"Focal length f",min:5,max:30,step:1,default:12,unit:" cm"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const lx=380, axisY=200, scale=5;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(20,axisY);ctx.lineTo(w-20,axisY);ctx.stroke();
+    ctx.save();ctx.strokeStyle="#7fe3da";ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(lx,axisY,14,120,0,0,TAU);ctx.stroke();ctx.restore();
+    dot(ctx,lx-c.f*scale,axisY,4,"#ef7a6d",6); dot(ctx,lx+c.f*scale,axisY,4,"#ef7a6d",6);
+    const u=-c.u, f=c.f, v=1/(1/f-1/u), m=v/u;
+    const objH=40, ox=lx+u*scale;
+    arrow(ctx,ox,axisY,ox,axisY-objH,"#ffb703",2.4);
+    // three principal rays
+    const topY=axisY-objH;
+    glowLine(ctx,[[ox,topY],[lx,topY]],"rgba(127,227,218,0.5)",1.4,0);
+    if(isFinite(v)){
+      const ix=lx+v*scale, imgH=objH*m;
+      glowLine(ctx,[[lx,topY],[ix,axisY-imgH]],"rgba(127,227,218,0.5)",1.4,0);
+      glowLine(ctx,[[ox,topY],[lx,axisY]],"rgba(255,183,3,0.4)",1.4,0);
+      glowLine(ctx,[[lx,axisY],[ix,axisY-imgH]],"rgba(255,183,3,0.4)",1.4,0);
+      if(Math.abs(v)<400){ arrow(ctx,ix,axisY,ix,axisY-imgH,"#7fe3da",2.4); label(ctx,ix,axisY-imgH-10,v>0?"real, inverted":"virtual, upright",v>0?"#7fe3da":"#ef7a6d",11,"center"); }
+    }
+    label(ctx,20,360,`u=${c.u}cm, f=${c.f}cm`,"#93aac4",12);
+  },
+  readouts(s,c){ const u=-c.u,f=c.f,v=1/(1/f-1/u),m=v/u;
+    return [["Image distance v",`${fmt(Math.abs(v),1)} cm`],["Magnification",`${fmt(Math.abs(m),2)}`],["Image",v>0?"Real, inverted":"Virtual, upright"]]; }
+ },
+ {modeName:"Prism Dispersion", tag:"WHITE LIGHT → SPECTRUM", eqn:"Different colours refract by different amounts — n varies with wavelength",
+  controls:[{key:"spread",label:"Dispersion spread",min:5,max:40,step:1,default:20,unit:"°"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const px=280,py=100, size=160;
+    ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-size/2,py+size);ctx.lineTo(px+size/2,py+size);ctx.closePath();ctx.stroke();
+    arrow(ctx,60,py+70,px-20,py+90,"#eef4fa",2.4);
+    const colors=["#ff4d4d","#ff9d4d","#ffe14d","#7dff4d","#4dc8ff","#4d6bff","#a34dff"];
+    colors.forEach((col,i)=>{ const ang=(i-3)*(c.spread/7)*Math.PI/180; const ex=px+50+Math.cos(ang)*320, ey=py+130+Math.sin(ang)*320+i*4;
+      glowLine(ctx,[[px+10,py+130],[ex,ey]],col,2,6); });
+    label(ctx,60,60,"white light splits because each colour bends by a different amount","#93aac4",12);
+  },
+  readouts(s,c){ return [["Least deviated","Red"],["Most deviated","Violet"],["Cause","n(violet) > n(red) in glass"]]; }
+ },
+ {modeName:"Pinhole Camera & Shadows", tag:"RECTILINEAR PROPAGATION", eqn:"Light travels in straight lines — image is inverted",
+  controls:[{key:"boxLength",label:"Box length",min:60,max:260,step:10,default:150,unit:" px"},{key:"objHeight",label:"Object height",min:20,max:100,step:5,default:60,unit:" px"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const holeX=140, midY=200, objX=40;
+    ctx.fillStyle="#ffb703";ctx.fillRect(objX-4,midY-c.objHeight,8,c.objHeight);
+    dot(ctx,holeX,midY,3,"#eef4fa",4);
+    ctx.strokeStyle="#5c7291";ctx.strokeRect(holeX,midY-90,c.boxLength,180);
+    const imgH=c.objHeight*(c.boxLength/(holeX-objX));
+    glowLine(ctx,[[objX,midY-c.objHeight],[holeX,midY],[holeX+c.boxLength,midY+imgH]],"rgba(127,227,218,0.5)",1.4,0);
+    glowLine(ctx,[[objX,midY],[holeX,midY],[holeX+c.boxLength,midY]],"rgba(127,227,218,0.5)",1.4,0);
+    ctx.fillStyle="#7fe3da";ctx.fillRect(holeX+c.boxLength-4,midY,8,Math.min(imgH,150));
+    label(ctx,objX,midY+20,"object","#ffb703",11); label(ctx,holeX+c.boxLength+10,midY+Math.min(imgH,150)/2,"inverted image","#7fe3da",11);
+  },
+  readouts(s,c){ return [["Image","Inverted, real"],["Cause","light travels in straight lines through the pinhole"],["Magnification",`${fmt(c.boxLength/100,2)}`]]; }
+ },
+ {modeName:"Periscope", tag:"TWO 45° MIRRORS", eqn:"Two plane mirrors at 45° redirect light by 90° twice",
+  controls:[{key:"height",label:"Tube height",min:80,max:260,step:10,default:180,unit:" px"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const x0=200, topY=60, botY=topY+c.height;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=2;ctx.strokeRect(x0-40,topY-10,80,c.height+20);
+    ctx.save();ctx.translate(x0,topY);ctx.rotate(Math.PI/4);ctx.strokeStyle="#7fe3da";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-25,0);ctx.lineTo(25,0);ctx.stroke();ctx.restore();
+    ctx.save();ctx.translate(x0,botY);ctx.rotate(Math.PI/4);ctx.strokeStyle="#7fe3da";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-25,0);ctx.lineTo(25,0);ctx.stroke();ctx.restore();
+    glowLine(ctx,[[x0-80,topY],[x0,topY],[x0,botY],[x0+80,botY]],"#ffb703",2,7);
+    label(ctx,x0-90,topY-16,"incoming light","#ffb703",11); label(ctx,x0+30,botY+22,"eye","#93aac4",11);
+  },
+  readouts(s,c){ return [["Mirror angle","45° each"],["Total deviation","light path shifted parallel by 90°+90°"],["Used in","submarines, viewing over obstacles"]]; }
+ },
+ {modeName:"Human Eye vs Camera", tag:"COMPARISON", eqn:"Both form a real, inverted image on a light-sensitive surface",
+  controls:[{key:"part",label:"Compare",type:"select",options:[{label:"Lens ↔ Lens"},{label:"Retina ↔ Film/sensor"},{label:"Iris ↔ Aperture"},{label:"Eyelid ↔ Shutter"}],default:0}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  data:[["Lens","adjustable focal length (accommodation)","Lens","fixed or manually focused"],
+    ["Retina","light-sensitive layer, converts light to nerve signals","Film / CCD sensor","records the image chemically or electronically"],
+    ["Iris","controls pupil size = amount of light entering","Aperture (diaphragm)","controls the size of the opening"],
+    ["Eyelid","blinks to protect / brief exposure","Shutter","opens briefly to expose the film/sensor"]],
+  draw(ctx,s,c,w,h){
+    const d=this.data[c.part];
+    label(ctx,60,120,"EYE","#7fe3da",18); label(ctx,60,150,d[0],"#ffb703",15); label(ctx,60,175,d[1],"#93aac4",12);
+    label(ctx,340,120,"CAMERA","#ef7a6d",18); label(ctx,340,150,d[2],"#ffb703",15); label(ctx,340,175,d[3],"#93aac4",12);
+    label(ctx,60,260,"Both produce a real, inverted image on the light-sensitive surface.","#93aac4",12.5);
+  },
+  readouts(s,c){ const d=this.data[c.part]; return [["Eye part",d[0]],["Camera part",d[2]],["Shared function","controls or records the image"]]; }
+ }
+];
+
+/* ---------- 21. EM spectrum ---------- */
+SIMS["21"]=[{modeName:"Electromagnetic Spectrum", tag:"c = f·λ", eqn:"c = f · λ   (c = 3×10⁸ m/s for all EM waves)",
+  controls:[{key:"band",label:"Region",min:0,max:6,step:1,default:3}],
+  values:null, state:{},
+  bands:[{name:"Radio waves",wl:"> 0.1 m",fq:"< 3×10⁹ Hz",use:"broadcasting, Wi-Fi, MRI",color:"#c74dff",cycles:1.2},
+    {name:"Microwaves",wl:"1 mm – 0.1 m",fq:"3×10⁹–3×10¹¹ Hz",use:"satellite links, cooking",color:"#9a6bff",cycles:2},
+    {name:"Infrared",wl:"700 nm – 1 mm",fq:"3×10¹¹–4×10¹⁴ Hz",use:"remote controls, thermal imaging",color:"#ef7a6d",cycles:4},
+    {name:"Visible light",wl:"400–700 nm",fq:"4–7.5×10¹⁴ Hz",use:"human vision, photography",color:"#7fe3da",cycles:7},
+    {name:"Ultraviolet",wl:"10–400 nm",fq:"7.5×10¹⁴–3×10¹⁶ Hz",use:"sterilisation, sun tanning",color:"#8f7bff",cycles:11},
+    {name:"X-rays",wl:"0.01–10 nm",fq:"3×10¹⁶–3×10¹⁹ Hz",use:"medical imaging, security",color:"#5ad0ff",cycles:16},
+    {name:"Gamma rays",wl:"< 0.01 nm",fq:"> 3×10¹⁹ Hz",use:"cancer treatment, sterilising",color:"#ffe15a",cycles:22}],
+  reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const b=this.bands[c.band]; const bx=40,by=70,bw=w-80,bh=24;
+    const grad=ctx.createLinearGradient(bx,0,bx+bw,0); this.bands.forEach((bb,i)=>grad.addColorStop(i/(this.bands.length-1),bb.color));
+    ctx.fillStyle=grad;ctx.fillRect(bx,by,bw,bh);
+    const segW=bw/this.bands.length, markX=bx+segW*c.band+segW/2;
+    ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(markX,by-8);ctx.lineTo(markX,by+bh+8);ctx.stroke();
+    this.bands.forEach((bb,i)=>label(ctx,bx+segW*i+segW/2,by+bh+22,bb.name.split(" ")[0],"#93aac4",10,"center"));
+    const midY=210, pts=[]; for(let x=0;x<=w;x+=4){ const xm=(x-40)/(w-80); const y=midY-50*Math.sin(TAU*(xm*b.cycles-s.t*0.6)); pts.push([x,y]); }
+    glowLine(ctx,pts,b.color,2.4,9);
+    label(ctx,40,300,`${b.name}`,b.color,15);
+    label(ctx,40,322,`wavelength ${b.wl}`,"#93aac4",12); label(ctx,40,342,`frequency ${b.fq}`,"#93aac4",12); label(ctx,40,362,`use: ${b.use}`,"#93aac4",12);
+  },
+  readouts(s,c){ const b=this.bands[c.band]; return [["Region",b.name],["Wavelength",b.wl],["Frequency",b.fq]]; }
+}];
+
+/* ---------- 22. Sonometer / vibrating strings ---------- */
+SIMS["22"]=[{modeName:"Sonometer — Vibrating String", tag:"f = (1/2l)√(T/m)", eqn:"f = (1 / 2l) · √(T/m)",
+  controls:[{key:"length",label:"String length l",min:0.2,max:1,step:0.02,default:0.6,unit:" m"},{key:"tension",label:"Tension T",min:5,max:100,step:1,default:40,unit:" N"},{key:"mu",label:"Mass per length (μ)",min:0.0005,max:0.01,step:0.0005,default:0.002,unit:" kg/m"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const f=(1/(2*c.length))*Math.sqrt(c.tension/c.mu);
+    const x0=100,x1=w-100,y=200, pxPerM=(x1-x0)/c.length;
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(x0-10,y);ctx.lineTo(x0-10,y-40);ctx.moveTo(x1+10,y);ctx.lineTo(x1+10,y-40);ctx.stroke();
+    const pts=[]; for(let x=x0;x<=x1;x+=3){ const xm=(x-x0)/(x1-x0); const amp=40*Math.sin(Math.PI*xm)*Math.sin(TAU*f*0.5*s.t); pts.push([x,y-amp]); }
+    glowLine(ctx,pts,"#7fe3da",2.4,8);
+    label(ctx,x0,y+40,`l = ${fmt(c.length,2)} m`,"#93aac4",12);
+    label(ctx,x0,60,`fundamental frequency f = ${fmt(f,1)} Hz`,"#ffb703",13);
+  },
+  readouts(s,c){ const f=(1/(2*c.length))*Math.sqrt(c.tension/c.mu); return [["Frequency",`${fmt(f,1)} Hz`],["Tension",`${c.tension} N`],["Length",`${fmt(c.length,2)} m`]]; }
+ },
+ {modeName:"Echo & Reverberation", tag:"t = 2d/v", eqn:"distance = (speed × time) / 2",
+  controls:[{key:"distance",label:"Distance to wall",min:20,max:400,step:10,default:170,unit:" m"},{key:"soundSpeed",label:"Speed of sound",min:300,max:360,step:5,default:340,unit:" m/s"}],
+  values:null, state:{}, reset(s,c){ s.pulseX=40; s.dir=1; },
+  step(s,c,dt){ const pxPerM=1.2; s.pulseX+=s.dir*c.soundSpeed*dt*0.06; const wallX=40+c.distance*pxPerM;
+    if(s.dir>0 && s.pulseX>wallX){ s.dir=-1; } if(s.dir<0 && s.pulseX<40){ s.pulseX=40; s.dir=1; } },
+  draw(ctx,s,c,w,h){
+    const pxPerM=1.2, wallX=Math.min(40+c.distance*pxPerM, w-40);
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(wallX,60);ctx.lineTo(wallX,340);ctx.stroke();
+    dot(ctx,40,200,8,"#ffb703",10); label(ctx,40,230,"source / observer","#93aac4",11,"center");
+    dot(ctx,clamp(s.pulseX,40,wallX),200,6,"#7fe3da",10);
+    const t=(2*c.distance)/c.soundSpeed;
+    label(ctx,60,60,`echo time t = 2d/v = ${fmt(t,3)} s`,"#93aac4",12.5);
+  },
+  readouts(s,c){ const t=(2*c.distance)/c.soundSpeed; return [["Echo time",`${fmt(t,3)} s`],["Distance",`${c.distance} m`],["Audible as separate echo?", t>0.1?"Yes (t>0.1s)":"No — blends as reverberation"]]; }
+ },
+ {modeName:"Closed vs Open Pipe Resonance", tag:"f=v/4L (closed) · f=v/2L (open)", eqn:"Closed pipe: f = v/4L    Open pipe: f = v/2L",
+  controls:[{key:"pipeType",label:"Pipe type",type:"select",options:[{label:"Closed at one end"},{label:"Open at both ends"}],default:0},{key:"length",label:"Pipe length",min:0.2,max:1.5,step:0.05,default:0.6,unit:" m"},{key:"soundSpeed",label:"Speed of sound",min:300,max:360,step:5,default:340,unit:" m/s"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const x0=140,x1=460,y=200;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=6;
+    if(c.pipeType===0){ ctx.beginPath();ctx.moveTo(x1,y-40);ctx.lineTo(x1,y+40);ctx.stroke(); }
+    const f=c.pipeType===0 ? c.soundSpeed/(4*c.length) : c.soundSpeed/(2*c.length);
+    const pts=[]; for(let x=x0;x<=x1;x+=3){ const xm=(x-x0)/(x1-x0);
+      const amp=c.pipeType===0 ? Math.sin(Math.PI*xm/2) : Math.sin(Math.PI*xm);
+      pts.push([x, y-40*amp*Math.sin(TAU*f*0.3*s.t)]); }
+    glowLine(ctx,pts,"#7fe3da",2.2,7);
+    label(ctx,x0,y+70,`L = ${c.length} m`,"#93aac4",12);
+    label(ctx,x0,60,`fundamental f = ${fmt(f,1)} Hz`,"#ffb703",13);
+  },
+  readouts(s,c){ const f=c.pipeType===0?c.soundSpeed/(4*c.length):c.soundSpeed/(2*c.length);
+    return [["Fundamental frequency",`${fmt(f,1)} Hz`],["Pipe type",c.pipeType===0?"Closed (one end)":"Open (both ends)"],["Example",c.pipeType===0?"clarinet-like":"flute, organ pipe"]]; }
+ }
+];
+
+/* ---------- 24. Gravitational field / orbits ---------- */
+SIMS["24"]=[{modeName:"Orbital Motion", tag:"v = √(GM/r)", eqn:"v = √(GM/r)      T = 2π√(r³/GM)",
+  controls:[{key:"mass",label:"Central Mass",min:1,max:10,step:0.2,default:5,unit:" ×10²⁴kg"},{key:"radius",label:"Orbital Radius",min:60,max:220,step:5,default:140,unit:" px"}],
+  values:null, state:{}, reset(s,c){ s.theta=0; }, step(s,c,dt){ const Gs=1400; const omega=Math.sqrt(Gs*c.mass/Math.pow(c.radius,3)); s.theta+=omega*dt; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=h/2;
+    ctx.strokeStyle="rgba(127,227,218,0.25)";ctx.setLineDash([4,6]);ctx.beginPath();ctx.arc(cx,cy,c.radius,0,TAU);ctx.stroke();ctx.setLineDash([]);
+    const starR=10+c.mass*2.2; ctx.save();ctx.fillStyle="#ffb703";ctx.shadowColor="#ffb703";ctx.shadowBlur=22;ctx.beginPath();ctx.arc(cx,cy,starR,0,TAU);ctx.fill();ctx.restore();
+    const px=cx+c.radius*Math.cos(s.theta), py=cy+c.radius*Math.sin(s.theta);
+    arrow(ctx,px,py,px+(cx-px)*0.25,py+(cy-py)*0.25,"#ef7a6d",2);
+    const vx=-Math.sin(s.theta),vy=Math.cos(s.theta); arrow(ctx,px,py,px+vx*40,py+vy*40,"#7fe3da",2);
+    dot(ctx,px,py,8,"#7fe3da",12);
+    const Gs=1400; const omega=Math.sqrt(Gs*c.mass/Math.pow(c.radius,3));
+    label(ctx,60,40,`orbital speed (scaled): ${fmt(omega*c.radius,1)} px/s`,"#93aac4",12.5);
+  },
+  readouts(s,c){ const Gs=1400; const omega=Math.sqrt(Gs*c.mass/Math.pow(c.radius,3));
+    return [["Orbital speed",`${fmt(omega*c.radius,1)} (scaled)`],["Orbital period",`${fmt(TAU/omega,2)} s (scaled)`],["Radius",`${c.radius} px`]]; }
+ },
+ {modeName:"Escape Velocity", tag:"v = √(2GM/r)", eqn:"v(escape) = √(2GM/r)",
+  controls:[{key:"planetMass",label:"Planet mass",min:0.1,max:20,step:0.1,default:1,unit:"× Earth"},{key:"radius",label:"Planet radius",min:0.3,max:3,step:0.1,default:1,unit:"× Earth"},{key:"launchSpeed",label:"Launch speed",min:2,max:70,step:1,default:11,unit:" km/s"}],
+  values:null, state:{}, reset(s,c){ s.h=0; s.v=c.launchSpeed; },
+  step(s,c,dt){ const vesc=11.2*Math.sqrt(c.planetMass/c.radius); if(s.v<vesc){ s.h+=s.v*dt*8; const decel=(vesc-s.v)*0.3; s.v=Math.max(0,s.v-decel*dt); if(s.h>260){s.h=0;s.v=c.launchSpeed;} } else { s.h+=40*dt; if(s.h>360) s.h=0; } },
+  draw(ctx,s,c,w,h){
+    const groundY=340, cx=w/2;
+    dot(ctx,cx,groundY+20,30,"#5c7291",8);
+    const y=groundY-s.h;
+    dot(ctx,cx,y,7,"#ffb703",10);
+    const vesc=11.2*Math.sqrt(c.planetMass/c.radius);
+    label(ctx,40,60,`escape velocity here = ${fmt(vesc,1)} km/s`,"#93aac4",13);
+    label(ctx,40,84,s.v>=vesc?"→ escapes gravity!":"→ falls back (launch speed too low)","#7fe3da",12.5);
+  },
+  readouts(s,c){ const vesc=11.2*Math.sqrt(c.planetMass/c.radius); return [["Escape velocity",`${fmt(vesc,1)} km/s`],["Launch speed",`${c.launchSpeed} km/s`],["Outcome",c.launchSpeed>=vesc?"Escapes":"Falls back"]]; }
+ }
+];
+
+/* ---------- 25. Electric field: Coulomb + Ohm's law ---------- */
+SIMS["25"]=[
+ {modeName:"Coulomb's Law", tag:"F = kQ₁Q₂/r²", eqn:"F = k·Q₁·Q₂ / r²   (k = 9×10⁹ N·m²/C²)",
+  controls:[{key:"q1",label:"Charge Q₁",min:-10,max:10,step:1,default:5,unit:" µC"},{key:"q2",label:"Charge Q₂",min:-10,max:10,step:1,default:-4,unit:" µC"},{key:"r",label:"Separation r",min:0.2,max:3,step:0.1,default:1,unit:" m"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cy=200, mid=w/2, px=100*c.r;
+    const x1=mid-px/2, x2=mid+px/2;
+    const attract=(c.q1*c.q2)<0;
+    dot(ctx,x1,cy,14,c.q1>=0?"#ef7a6d":"#7fe3da",14); label(ctx,x1,cy+34,`Q₁=${c.q1}µC`,"#93aac4",12,"center");
+    dot(ctx,x2,cy,14,c.q2>=0?"#ef7a6d":"#7fe3da",14); label(ctx,x2,cy+34,`Q₂=${c.q2}µC`,"#93aac4",12,"center");
+    if(attract){ arrow(ctx,x1+20,cy-30,x2-20,cy-30,"#ffb703",2); arrow(ctx,x2-20,cy-30,x1+20,cy-30,"#ffb703",2); label(ctx,mid,cy-46,"attract",  "#ffb703",12,"center"); }
+    else { arrow(ctx,mid,cy-30,x1,cy-30,"#ffb703",2); arrow(ctx,mid,cy-30,x2,cy-30,"#ffb703",2); label(ctx,mid,cy-46,"repel","#ffb703",12,"center"); }
+  },
+  readouts(s,c){ const k=9e9; const F=k*Math.abs(c.q1*1e-6*c.q2*1e-6)/(c.r*c.r);
+    return [["Force magnitude",`${fmt(F,2)} N`],["Nature",(c.q1*c.q2)<0?"Attractive":"Repulsive"],["Separation",`${c.r} m`]]; }
+ },
+ {modeName:"Ohm's Law & Circuit", tag:"I = V / R", eqn:"V = I·R      P = I·V = I²R",
+  controls:[{key:"voltage",label:"Supply Voltage",min:1,max:20,step:0.5,default:9,unit:" V"},{key:"resistance",label:"Resistance",min:1,max:100,step:1,default:15,unit:" Ω"}],
+  values:null, state:{}, reset(s,c){ s.phase=0; }, step(s,c,dt){ const I=c.voltage/c.resistance; s.phase+=I*dt*40; },
+  draw(ctx,s,c,w,h){
+    const x0=140,x1=w-140,yTop=70,yBot=290;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(x0,yTop);ctx.lineTo(x1,yTop);ctx.lineTo(x1,yBot);ctx.lineTo(x0,yBot);ctx.closePath();ctx.stroke();
+    label(ctx,x0-30,yTop+110,`${fmt(c.voltage,1)}V`,"#7fe3da",12);
+    const rz0=x0+70,rz1=x1-70,teeth=8; ctx.strokeStyle="#ffb703";ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(rz0,yTop);
+    for(let i=0;i<teeth;i++){ const xx=rz0+((rz1-rz0)*(i+1)/teeth); const yy=yTop+(i%2===0?-12:12); ctx.lineTo(xx,yy); }
+    ctx.lineTo(rz1,yTop);ctx.stroke();
+    label(ctx,(rz0+rz1)/2,yTop-24,`R=${c.resistance}Ω`,"#ffb703",12,"center");
+    const I=c.voltage/c.resistance, bright=clamp(I/2,0,1), bx=(x0+x1)/2,by=yBot;
+    ctx.save();ctx.fillStyle=`rgba(255,183,3,${0.15+bright*0.7})`;ctx.shadowColor="#ffb703";ctx.shadowBlur=8+bright*26;ctx.strokeStyle="#ffb703";ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(bx,by,18,0,TAU);ctx.fill();ctx.stroke();ctx.restore();
+    label(ctx,bx,by+36,`I=${fmt(I,2)}A`,"#93aac4",12,"center");
+    const perim=2*((x1-x0)+(yBot-yTop)), nDots=12;
+    for(let i=0;i<nDots;i++){ let d=(s.phase+i*(perim/nDots))%perim; let px,py;
+      if(d<(x1-x0)){px=x0+d;py=yTop;} else if(d<(x1-x0)+(yBot-yTop)){px=x1;py=yTop+(d-(x1-x0));}
+      else if(d<2*(x1-x0)+(yBot-yTop)){px=x1-(d-((x1-x0)+(yBot-yTop)));py=yBot;} else {px=x0;py=yBot-(d-(2*(x1-x0)+(yBot-yTop)));}
+      dot(ctx,px,py,4,"#7fe3da",7); }
+  },
+  readouts(s,c){ const I=c.voltage/c.resistance; return [["Current I",`${fmt(I,2)} A`],["Power P",`${fmt(I*c.voltage,2)} W`],["Resistance",`${c.resistance} Ω`]]; }
+ },
+ {modeName:"Capacitor Charge/Discharge", tag:"Q = CV", eqn:"Q = C·V      time constant τ = R·C",
+  controls:[{key:"capacitance",label:"Capacitance C",min:100,max:2000,step:50,default:500,unit:" µF"},{key:"resistance",label:"Series resistance R",min:100,max:5000,step:100,default:1000,unit:" Ω"},{key:"voltage",label:"Supply Voltage",min:1,max:12,step:1,default:9,unit:" V"},{key:"mode",label:"Mode",type:"select",options:[{label:"Charging"},{label:"Discharging"}],default:0}],
+  values:null, state:{}, reset(s,c){ s.t=0; s.trace=[]; },
+  step(s,c,dt){ s.t+=dt; const tau=(c.resistance*c.capacitance*1e-6);
+    const Vc=c.mode===0? c.voltage*(1-Math.exp(-s.t/tau)) : c.voltage*Math.exp(-s.t/tau);
+    pushTrace(s,"trace",Vc,200); if(s.t>tau*5){ s.t=0; s.trace=[]; } },
+  draw(ctx,s,c,w,h){
+    const gx=60,gy=60,gw=480,gh=260; ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    if(s.trace.length>1){ const pts=s.trace.map((v,i)=>[gx+gw*(i/199), gy+gh-(v/c.voltage)*gh]); glowLine(ctx,pts,"#ffb703",2.2,7); }
+    label(ctx,gx,gy-8,"capacitor voltage vs time","#93aac4",11.5);
+    label(ctx,gx,gy+gh+24,`time constant τ = RC = ${fmt(c.resistance*c.capacitance*1e-6,2)} s`,"#93aac4",12);
+  },
+  readouts(s,c){ const tau=c.resistance*c.capacitance*1e-6; const Vc=c.mode===0?c.voltage*(1-Math.exp(-s.t/tau)):c.voltage*Math.exp(-s.t/tau);
+    return [["Capacitor voltage",`${fmt(Vc,2)} V`],["Time constant τ",`${fmt(tau,2)} s`],["Charge Q=CV",`${fmt(c.capacitance*Vc,0)} µC`]]; }
+ },
+ {modeName:"Resistivity", tag:"R = ρL/A", eqn:"R = ρ · L / A",
+  controls:[{key:"rho",label:"Resistivity ρ",min:1,max:100,step:1,default:17,unit:" ×10⁻⁸ Ω·m"},{key:"length",label:"Wire length L",min:0.5,max:5,step:0.1,default:2,unit:" m"},{key:"area",label:"Cross-section A",min:0.1,max:5,step:0.1,default:1,unit:" mm²"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const R=(c.rho*1e-8*c.length)/(c.area*1e-6);
+    const wireLen=c.length*80, thickness=4+c.area*6, x0=100,y=200;
+    ctx.strokeStyle="#ffb703";ctx.lineWidth=thickness;ctx.lineCap="round";ctx.shadowColor="#ffb703";ctx.shadowBlur=6;
+    ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(x0+wireLen,y);ctx.stroke();ctx.shadowBlur=0;
+    label(ctx,x0,y-30,`L = ${c.length} m, A = ${c.area} mm²`,"#93aac4",12);
+    label(ctx,x0,y+40,`R = ρL/A = ${fmt(R,3)} Ω`,"#7fe3da",13);
+  },
+  readouts(s,c){ const R=(c.rho*1e-8*c.length)/(c.area*1e-6); return [["Resistance R",`${fmt(R,3)} Ω`],["Resistivity ρ",`${c.rho}×10⁻⁸ Ω·m`],["Length / Area",`${c.length} m / ${c.area} mm²`]]; }
+ },
+ {modeName:"Series & Parallel Resistors", tag:"Rs=R₁+R₂ · 1/Rp=1/R₁+1/R₂", eqn:"Series: R = R₁+R₂    Parallel: 1/R = 1/R₁ + 1/R₂",
+  controls:[{key:"r1",label:"R₁",min:5,max:100,step:5,default:20,unit:" Ω"},{key:"r2",label:"R₂",min:5,max:100,step:5,default:30,unit:" Ω"},{key:"arrangement",label:"Arrangement",type:"select",options:[{label:"Series"},{label:"Parallel"}],default:0}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const y=200;
+    if(c.arrangement===0){
+      ctx.strokeStyle="#5c7291";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(60,y);ctx.lineTo(560,y);ctx.stroke();
+      [[180,c.r1],[380,c.r2]].forEach(([x,r])=>{ ctx.strokeStyle="#ffb703";ctx.lineWidth=2.2;let px=x-40;ctx.beginPath();ctx.moveTo(px,y);
+        for(let i=0;i<8;i++){ px+=10; ctx.lineTo(px,y+(i%2===0?-10:10)); } ctx.lineTo(x+40,y);ctx.stroke();
+        label(ctx,x,y-24,`${r}Ω`,"#ffb703",12,"center"); });
+    } else {
+      ctx.strokeStyle="#5c7291";ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(60,y);ctx.lineTo(160,y);ctx.moveTo(460,y);ctx.lineTo(560,y);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(160,y-40);ctx.lineTo(160,y+40);ctx.moveTo(460,y-40);ctx.lineTo(460,y+40);ctx.stroke();
+      [[160,y-40,460,y-40,c.r1],[160,y+40,460,y+40,c.r2]].forEach(([x1,y1,x2,y2,r])=>{
+        ctx.strokeStyle="#ffb703";ctx.beginPath();ctx.moveTo(x1,y1);let px=x1;
+        for(let i=0;i<10;i++){ px+=(x2-x1)/10; ctx.lineTo(px,y1+(i%2===0?-8:8)); } ctx.lineTo(x2,y2);ctx.stroke();
+        label(ctx,(x1+x2)/2,y1-16,`${r}Ω`,"#ffb703",12,"center"); });
+    }
+    const Req=c.arrangement===0 ? c.r1+c.r2 : 1/(1/c.r1+1/c.r2);
+    label(ctx,60,320,`equivalent resistance R = ${fmt(Req,2)} Ω`,"#7fe3da",13);
+  },
+  readouts(s,c){ const Req=c.arrangement===0?c.r1+c.r2:1/(1/c.r1+1/c.r2); return [["Equivalent R",`${fmt(Req,2)} Ω`],["Arrangement",c.arrangement===0?"Series":"Parallel"],["Rule",c.arrangement===0?"resistances add":"reciprocals add"]]; }
+ },
+ {modeName:"Internal Resistance & Lost Volts", tag:"E = I(R+r)", eqn:"E = I·R + I·r   (terminal p.d. = E − I·r)",
+  controls:[{key:"emf",label:"E.M.F. of cell",min:1,max:12,step:0.5,default:6,unit:" V"},{key:"internalR",label:"Internal resistance r",min:0.1,max:5,step:0.1,default:1,unit:" Ω"},{key:"externalR",label:"External resistance R",min:1,max:50,step:1,default:9,unit:" Ω"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const I=c.emf/(c.internalR+c.externalR); const lostV=I*c.internalR; const terminalV=c.emf-lostV;
+    const barMax=280;
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(60,80,barMax,32);
+    ctx.fillStyle="#7fe3da";ctx.fillRect(60,80,(terminalV/c.emf)*barMax,32);
+    ctx.fillStyle="#ef7a6d";ctx.fillRect(60+(terminalV/c.emf)*barMax,80,(lostV/c.emf)*barMax,32);
+    label(ctx,60,70,"E.M.F. = terminal p.d. (cyan) + lost volts (red)","#93aac4",11.5);
+    label(ctx,60,140,`I = E/(R+r) = ${fmt(I,3)} A`,"#93aac4",13);
+    label(ctx,60,164,`terminal p.d. = ${fmt(terminalV,2)} V`,"#7fe3da",13);
+    label(ctx,60,188,`lost volts = I·r = ${fmt(lostV,2)} V`,"#ef7a6d",13);
+  },
+  readouts(s,c){ const I=c.emf/(c.internalR+c.externalR); const lostV=I*c.internalR; return [["Current",`${fmt(I,3)} A`],["Terminal p.d.",`${fmt(c.emf-lostV,2)} V`],["Lost volts",`${fmt(lostV,2)} V`]]; }
+ }
+];
+
+/* ---------- 26. Magnetic field around a wire ---------- */
+SIMS["26"]=[{modeName:"Magnetic Field of a Current", tag:"RIGHT-HAND RULE", eqn:"F = BIL sinθ   (force on a current-carrying conductor)",
+  controls:[{key:"current",label:"Current I",min:-10,max:10,step:1,default:6,unit:" A"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=h/2;
+    dot(ctx,cx,cy,8,"#ffb703",12);
+    label(ctx,cx,cy+30,c.current>=0?"current out of page ⊙":"current into page ⊗","#93aac4",12,"center");
+    for(let r=30;r<=170;r+=35){ ctx.save(); ctx.strokeStyle="rgba(127,227,218,0.4)"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(cx,cy,r,0,TAU); ctx.stroke();
+      const ang = (s.t*0.6*(c.current>=0?1:-1)) + r*0.02;
+      const ax=cx+r*Math.cos(ang), ay=cy+r*Math.sin(ang);
+      const tang=ang+(c.current>=0?Math.PI/2:-Math.PI/2);
+      arrow(ctx,ax,ay,ax+Math.cos(tang)*16,ay+Math.sin(tang)*16,"#7fe3da",2); ctx.restore(); }
+    label(ctx,40,40,`field circles the wire — direction set by the right-hand grip rule`,"#93aac4",12);
+  },
+  readouts(s,c){ return [["Current",`${c.current} A`],["Field direction",c.current>=0?"Anticlockwise (viewed from above)":"Clockwise"],["Field strength",`∝ I / r`]]; }
+ },
+ {modeName:"Solenoid & Electromagnet", tag:"UNIFORM FIELD INSIDE", eqn:"B ∝ N·I / L  (inside a solenoid)",
+  controls:[{key:"current",label:"Current I",min:0,max:10,step:0.5,default:5,unit:" A"},{key:"turns",label:"Turns per unit length",min:5,max:40,step:1,default:20}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const x0=140,x1=460,y=200,coils=c.turns/2;
+    ctx.strokeStyle="#ffb703";ctx.lineWidth=2.4;
+    for(let i=0;i<coils;i++){ const x=x0+(i/coils)*(x1-x0); ctx.beginPath();ctx.ellipse(x,y,10,50,0,0,TAU);ctx.stroke(); }
+    if(c.current>0.2){ for(let i=0;i<5;i++){ const lx=x0+30+i*70; glowLine(ctx,[[lx,y-40],[lx,y+40]],"rgba(127,227,218,0.5)",1.6,4); arrow(ctx,lx,y+40,lx,y+52,"rgba(127,227,218,0.6)",1.2); } }
+    label(ctx,x0,y+90,`field inside ∝ N·I = ${fmt(c.turns*c.current,0)} (relative units)`,"#93aac4",12.5);
+    label(ctx,x0,60,c.current>0.2?"magnetic field — behaves like a bar magnet while current flows":"no current — no field","#93aac4",12.5);
+  },
+  readouts(s,c){ return [["Relative field strength",`∝ ${fmt(c.turns*c.current,0)}`],["Current",`${c.current} A`],["Used in","electric bell, relay, electromagnetic crane"]]; }
+ },
+ {modeName:"Motor Effect — Force on a Conductor", tag:"F = BIL sinθ", eqn:"F = B·I·L·sinθ  (Fleming's left-hand rule)",
+  controls:[{key:"B",label:"Magnetic flux density B",min:0.1,max:2,step:0.1,default:0.8,unit:" T"},{key:"current",label:"Current I",min:0,max:10,step:0.5,default:5,unit:" A"},{key:"length",label:"Conductor length L",min:0.05,max:0.5,step:0.05,default:0.2,unit:" m"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=200;
+    for(let i=0;i<8;i++){ arrow(ctx,80+i*50,120,80+i*50,280,"rgba(127,227,218,0.35)",1.4); }
+    ctx.fillStyle="#ffb703";ctx.fillRect(cx-6,cy-60,12,120);
+    const F=c.B*c.current*c.length;
+    arrow(ctx,cx,cy,cx+F*60,cy,"#ef7a6d",2.6);
+    label(ctx,cx+F*60+10,cy,"F","#ef7a6d",13);
+    label(ctx,40,340,`F = B·I·L = ${fmt(F,2)} N (per Fleming's left-hand rule)`,"#93aac4",12.5);
+  },
+  readouts(s,c){ const F=c.B*c.current*c.length; return [["Force on conductor",`${fmt(F,3)} N`],["Direction","given by Fleming's left-hand rule"],["Used in","electric motors, loudspeakers"]]; }
+ }
+];
+
+/* ---------- 27. Electromagnetic induction ---------- */
+SIMS["27"]=[{modeName:"Electromagnetic Induction", tag:"FARADAY'S LAW", eqn:"EMF = − N · (ΔΦ/Δt)",
+  controls:[{key:"speed",label:"Magnet Speed",min:-30,max:30,step:1,default:14,unit:" cm/s"},{key:"turns",label:"Coil Turns N",min:10,max:200,step:5,default:60},{key:"strength",label:"Magnet Strength",min:0.2,max:2,step:0.1,default:1,unit:" T"}],
+  values:null, state:{},
+  reset(s,c){ s.x=-260; s.emf=0; },
+  step(s,c,dt){ const spread=90; const flux=x=>c.strength*Math.exp(-Math.pow(x/spread,2)); const v=c.speed*3.2; const x0=s.x; s.x+=v*dt;
+    const dflux=flux(s.x)-flux(x0); s.emf=dt>0?-c.turns*(dflux/dt)*0.02:0; if(s.x>320)s.x=-320; if(s.x<-320)s.x=320; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2, cy=190;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=2;
+    for(let i=-3;i<=3;i++){ ctx.beginPath();ctx.ellipse(cx+i*14,cy,16,50,0,0,TAU);ctx.stroke(); }
+    label(ctx,cx,cy+80,`N = ${c.turns} turns`,"#93aac4",12,"center");
+    const mx=cx+s.x;
+    ctx.save();ctx.fillStyle="#ef7a6d";ctx.shadowColor="#ef7a6d";ctx.shadowBlur=8;ctx.fillRect(mx-40,cy-16,40,32);
+    ctx.fillStyle="#7fe3da";ctx.shadowColor="#7fe3da";ctx.fillRect(mx,cy-16,40,32);ctx.restore();
+    label(ctx,mx-20,cy+6,"S","#050c17",13,"center"); label(ctx,mx+20,cy+6,"N","#050c17",13,"center");
+    label(ctx,cx,50,`EMF ≈ ${fmt(s.emf,2)} V`,"#7fe3da",13,"center");
+  },
+  readouts(s,c){ return [["Induced EMF",`${fmt(s.emf,2)} V`],["Direction",s.emf>0.02?"one way":(s.emf<-0.02?"reversed":"≈ zero")],["Coil turns",`${c.turns}`]]; }
+ },
+ {modeName:"Transformer", tag:"Vs/Vp = Ns/Np", eqn:"Vs/Vp = Ns/Np = Ip/Is",
+  controls:[{key:"vp",label:"Primary voltage",min:10,max:400,step:10,default:240,unit:" V"},{key:"np",label:"Primary turns",min:50,max:1000,step:10,default:400},{key:"ns",label:"Secondary turns",min:50,max:1000,step:10,default:100}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cx=w/2, coreX0=cx-30, coreX1=cx+30;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=14;ctx.strokeRect(coreX0,60,coreX1-coreX0,260);
+    const vs=c.vp*(c.ns/c.np);
+    for(let i=0;i<8;i++){ ctx.strokeStyle="#ffb703";ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(coreX0,90+i*22,14,10,0,0,TAU);ctx.stroke(); }
+    for(let i=0;i<5;i++){ ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(coreX1,90+i*30,14,10,0,0,TAU);ctx.stroke(); }
+    label(ctx,coreX0-30,60,`Np=${c.np}`,"#ffb703",12,"center"); label(ctx,coreX0-30,90,`Vp=${c.vp}V`,"#ffb703",12,"center");
+    label(ctx,coreX1+40,60,`Ns=${c.ns}`,"#7fe3da",12,"center"); label(ctx,coreX1+40,90,`Vs=${fmt(vs,1)}V`,"#7fe3da",12,"center");
+    label(ctx,60,360,vs>c.vp?"step-up transformer":"step-down transformer","#93aac4",13);
+  },
+  readouts(s,c){ const vs=c.vp*(c.ns/c.np); return [["Secondary voltage",`${fmt(vs,1)} V`],["Turns ratio",`${fmt(c.ns/c.np,2)}`],["Type",vs>c.vp?"Step-up":"Step-down"]]; }
+ }
+];
+
+/* ---------- 28. AC circuits ---------- */
+SIMS["28"]=[{modeName:"A.C. Voltage & Current", tag:"E = E₀sin(ωt)", eqn:"E = E₀sinωt      I = I₀sin(ωt − φ)",
+  controls:[{key:"freq",label:"Frequency f",min:0.2,max:3,step:0.1,default:1,unit:" Hz"},{key:"phase",label:"Phase lag φ (I behind E)",min:-90,max:90,step:5,default:30,unit:"°"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const midY=200, amp=90, pxPerS=120;
+    ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.beginPath();ctx.moveTo(0,midY);ctx.lineTo(w,midY);ctx.stroke();
+    const eP=[],iP=[]; const phRad=c.phase*Math.PI/180;
+    for(let x=0;x<=w;x+=3){ const tt=x/pxPerS; eP.push([x, midY-amp*Math.sin(TAU*c.freq*(tt-s.t))]); iP.push([x, midY-amp*0.7*Math.sin(TAU*c.freq*(tt-s.t)-phRad)]); }
+    glowLine(ctx,eP,"#ffb703",2.2,7); glowLine(ctx,iP,"#7fe3da",2.2,7);
+    label(ctx,20,40,"E (amber)  vs  I (cyan) — phase-shifted","#93aac4",12);
+  },
+  readouts(s,c){ return [["Frequency",`${c.freq} Hz`],["Phase lag φ",`${c.phase}°`],["ω",`${fmt(TAU*c.freq,2)} rad/s`]]; }
+ },
+ {modeName:"Resonance — Reactance vs Frequency", tag:"XL=ωL, XC=1/ωC", eqn:"Resonance when X_L = X_C  →  f₀ = 1/(2π√(LC))",
+  controls:[{key:"L",label:"Inductance L",min:0.01,max:1,step:0.01,default:0.2,unit:" H"},{key:"Cap",label:"Capacitance C",min:1,max:100,step:1,default:20,unit:" µF"},{key:"freq",label:"Frequency",min:5,max:500,step:5,default:80,unit:" Hz"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const f0=1/(2*Math.PI*Math.sqrt(c.L*c.Cap*1e-6));
+    const gx=60,gy=60,gw=480,gh=260; ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const pts=[]; for(let f=5;f<=500;f+=2){ const XL=2*Math.PI*f*c.L; const XC=1/(2*Math.PI*f*c.Cap*1e-6); const diff=Math.abs(XL-XC);
+      const Z=Math.min(diff,600); pts.push([gx+gw*(f/500), gy+gh-(1-Z/600)*gh]); }
+    glowLine(ctx,pts,"#7fe3da",2,6);
+    const curX=gx+gw*(c.freq/500);
+    ctx.strokeStyle="rgba(255,183,3,0.5)";ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(curX,gy);ctx.lineTo(curX,gy+gh);ctx.stroke();ctx.setLineDash([]);
+    label(ctx,gx,gy-8,`impedance dip at resonance f₀ = ${fmt(f0,1)} Hz`,"#93aac4",12);
+  },
+  readouts(s,c){ const f0=1/(2*Math.PI*Math.sqrt(c.L*c.Cap*1e-6)); const XL=2*Math.PI*c.freq*c.L; const XC=1/(2*Math.PI*c.freq*c.Cap*1e-6);
+    return [["Resonant frequency f₀",`${fmt(f0,1)} Hz`],["X_L at f",`${fmt(XL,1)} Ω`],["X_C at f",`${fmt(XC,1)} Ω`]]; }
+ }
+];
+
+/* ---------- 29. Photoelectric effect ---------- */
+SIMS["29"]=[{modeName:"Photoelectric Effect", tag:"E = h·f", eqn:"KE(max) = h·f − φ",
+  controls:[{key:"metal",label:"Metal",type:"select",options:[{label:"Sodium (φ=2.3 eV)"},{label:"Zinc (φ=4.3 eV)"},{label:"Copper (φ=4.7 eV)"}],default:0},{key:"freq",label:"Light Frequency",min:100,max:1500,step:10,default:600,unit:" ×10¹²Hz"},{key:"intensity",label:"Light Intensity",min:10,max:100,step:5,default:60,unit:" %"}],
+  values:null, state:{}, workFns:[2.3,4.3,4.7],
+  reset(s,c){ s.electrons=[]; s.timer=0; },
+  step(s,c,dt){ const h=4.136e-15,f=c.freq*1e12,Ephoton=h*f,phi=this.workFns[c.metal],KE=Ephoton-phi;
+    s.timer+=dt; const rate=KE>0?(0.03+(c.intensity/100)*0.09):999;
+    if(KE>0 && s.timer>rate){ s.timer=0; s.electrons.push({x:300,y:rand(120,260),vx:80+Math.sqrt(Math.max(KE,0.01))*140}); }
+    s.electrons.forEach(e=>e.x+=e.vx*dt); s.electrons=s.electrons.filter(e=>e.x<560); },
+  draw(ctx,s,c,w,h){
+    const h_ev=4.136e-15,f=c.freq*1e12,Ephoton=h_ev*f,phi=this.workFns[c.metal],KE=Ephoton-phi;
+    const hue=clamp((c.freq-100)/1400,0,1), lightColor=`hsl(${lerp(0,270,hue)},90%,60%)`;
+    for(let i=0;i<6;i++){ const yy=70+i*30; ctx.strokeStyle=lightColor;ctx.globalAlpha=0.25+(c.intensity/100)*0.5;ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(40,yy);ctx.lineTo(260,yy+18);ctx.stroke();ctx.globalAlpha=1; }
+    ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.fillRect(260,50,18,250);ctx.strokeRect(260,50,18,250);
+    s.electrons.forEach(e=>dot(ctx,e.x,e.y,4,"#ffe15a",7));
+    if(KE<=0) label(ctx,320,180,"below threshold — no electrons emitted","#ef7a6d",13);
+  },
+  readouts(s,c){ const h_ev=4.136e-15,f=c.freq*1e12,Ephoton=h_ev*f,phi=this.workFns[c.metal],KE=Ephoton-phi;
+    return [["Photon energy",`${fmt(Ephoton,2)} eV`],["Work function φ",`${fmt(phi,1)} eV`],["Max KE ejected",KE>0?fmt(KE,2)+" eV":"0 (below threshold)"]]; }
+ },
+ {modeName:"Bohr Model — Energy Levels", tag:"ΔE = hf", eqn:"Photon emitted when electron drops: ΔE = E(high) − E(low) = hf",
+  controls:[{key:"from",label:"Electron drops from level",min:2,max:5,step:1,default:3},{key:"to",label:"down to level",min:1,max:4,step:1,default:1}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=h/2;
+    dot(ctx,cx,cy,14,"#ffb703",14);
+    for(let n=1;n<=5;n++){ const r=30+n*32; ctx.strokeStyle="rgba(127,227,218,0.3)";ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.stroke(); label(ctx,cx+r+6,cy,`n=${n}`,"#5c7291",10.5); }
+    const to=Math.min(c.to, c.from-1);
+    const rFrom=30+c.from*32;
+    const En=n=>-13.6/(n*n);
+    const dE=Math.abs(En(to)-En(c.from));
+    const ang=(s.t%2)*Math.PI;
+    const ex=cx+rFrom*Math.cos(ang), ey=cy+rFrom*Math.sin(ang);
+    dot(ctx,ex,ey,6,"#7fe3da",10);
+    label(ctx,40,40,`n=${c.from} → n=${to}:  photon energy = ${fmt(dE,2)} eV`,"#93aac4",13);
+  },
+  readouts(s,c){ const En=n=>-13.6/(n*n); const to=Math.min(c.to,c.from-1); const dE=Math.abs(En(to)-En(c.from));
+    return [["Photon energy",`${fmt(dE,2)} eV`],["Transition",`n=${c.from} → n=${to}`],["E = hf","higher energy = higher frequency photon"]]; }
+ },
+ {modeName:"X-ray Tube", tag:"HIGH-ENERGY ELECTRON IMPACT", eqn:"Electrons accelerated by high voltage strike a metal target → X-rays",
+  controls:[{key:"voltage",label:"Tube voltage",min:10,max:150,step:5,default:80,unit:" kV"}],
+  values:null, state:{}, reset(s,c){ s.electrons=[]; s.timer=0; },
+  step(s,c,dt){ s.timer+=dt; if(s.timer>0.15){ s.timer=0; s.electrons.push({x:80}); }
+    s.electrons.forEach(e=>{ e.x+=c.voltage*2.5*dt; }); s.electrons=s.electrons.filter(e=>e.x<420); },
+  draw(ctx,s,c,w,h){
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;ctx.beginPath();ctx.arc(60,200,20,0,TAU);ctx.fill();ctx.stroke();ctx.restore();
+    ctx.fillStyle="#5c7291";ctx.fillRect(420,170,30,60);
+    label(ctx,60,235,"cathode","#93aac4",11,"center"); label(ctx,435,245,"target","#93aac4",11,"center");
+    s.electrons.forEach(e=>{ dot(ctx,e.x,200,4,"#ffb703",6); if(e.x>410){ for(let i=0;i<4;i++){ const ang=rand(-1,1); glowLine(ctx,[[430,200],[430+Math.cos(ang)*80,200+Math.sin(ang)*80]],"rgba(127,227,218,0.4)",1,4); } } });
+    label(ctx,60,60,`accelerating voltage = ${c.voltage} kV`,"#93aac4",13);
+  },
+  readouts(s,c){ return [["Tube voltage",`${c.voltage} kV`],["Max photon energy",`${fmt(c.voltage,0)} keV`],["Uses","medical imaging, security scanning"]]; }
+ }
+];
+
+/* ---------- 30. Radioactive decay ---------- */
+SIMS["30"]=[{modeName:"Radioactive Decay & Half-life", tag:"N = N₀e^(−λt)", eqn:"N(t) = N₀·e^(−λt),  λ = ln2 / t½",
+  controls:[{key:"n0",label:"Initial Atoms",min:40,max:200,step:10,default:120},{key:"halflife",label:"Half-life",min:1,max:20,step:0.5,default:6,unit:" s"}],
+  values:null, state:{},
+  reset(s,c){ s.t=0; const n=Math.min(c.n0,180); s.atoms=[]; const tau=c.halflife/Math.log(2);
+    for(let i=0;i<n;i++) s.atoms.push({decayT:-tau*Math.log(Math.random()),decayed:false}); s.graph=[]; s.lastSample=0; },
+  step(s,c,dt){ s.t+=dt; s.atoms.forEach(a=>{ if(!a.decayed && a.decayT<=s.t) a.decayed=true; });
+    s.lastSample+=dt; if(s.lastSample>0.15){ s.lastSample=0; s.graph.push(s.atoms.filter(a=>!a.decayed).length); if(s.graph.length>200)s.graph.shift(); }
+    if(s.t>c.halflife*8){ this.reset(s,c); } },
+  draw(ctx,s,c,w,h){
+    const cols=16, gridW=280,x0=40,y0=50,cell=gridW/cols;
+    s.atoms.forEach((a,i)=>{ const cx=x0+(i%cols)*cell+cell/2, cy=y0+Math.floor(i/cols)*cell+cell/2; dot(ctx,cx,cy,cell*0.28,a.decayed?"#2a352f":"#7fe3da",a.decayed?0:7); });
+    const remain=s.atoms.filter(a=>!a.decayed).length;
+    label(ctx,x0,y0-16,`remaining: ${remain}/${s.atoms.length}`,"#93aac4",12);
+    const gx=360,gy=50,gw=200,gh=220; ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const n0=s.atoms.length; if(s.graph.length>1){ const pts=s.graph.map((v,i)=>[gx+gw*(i/199), gy+gh-(v/n0)*gh]); glowLine(ctx,pts,"#7fe3da",2,6); }
+  },
+  readouts(s,c){ const remain=s.atoms.filter(a=>!a.decayed).length; const lambda=Math.log(2)/c.halflife;
+    return [["Time elapsed",`${fmt(s.t,1)} s`],["Atoms remaining",`${remain}`],["Decay constant λ",`${fmt(lambda,3)} s⁻¹`]]; }
+ },
+ {modeName:"Fission vs Fusion", tag:"E = Δmc²", eqn:"Both release energy because mass is converted to energy (E = Δmc²)",
+  controls:[{key:"type",label:"Reaction",type:"select",options:[{label:"Fission (split heavy nucleus)"},{label:"Fusion (combine light nuclei)"}],default:0}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=200;
+    if(c.type===0){
+      dot(ctx,cx-100,cy,10,"#ffb703",8); label(ctx,cx-100,cy+26,"neutron","#93aac4",10.5,"center");
+      dot(ctx,cx,cy,34,"#7fe3da",14); label(ctx,cx,cy+50,"heavy nucleus (e.g. U-235)","#93aac4",11,"center");
+      dot(ctx,cx+90,cy-20,20,"#ef7a6d",10); dot(ctx,cx+140,cy+20,20,"#ef7a6d",10);
+      label(ctx,cx+115,cy-40,"fission fragments + energy","#93aac4",11,"center");
+    } else {
+      dot(ctx,cx-60,cy-10,16,"#7fe3da",8); dot(ctx,cx-60,cy+30,16,"#ffb703",8);
+      label(ctx,cx-60,cy+60,"light nuclei (e.g. H isotopes)","#93aac4",11,"center");
+      arrow(ctx,cx-30,cy+10,cx+40,cy+10,"#93aac4",1.6);
+      dot(ctx,cx+100,cy+10,26,"#ef7a6d",14); label(ctx,cx+100,cy+50,"heavier nucleus + energy","#93aac4",11,"center");
+    }
+    label(ctx,40,340,"total mass of products < total mass of reactants — the difference becomes energy","#93aac4",12);
+  },
+  readouts(s,c){ return [["Reaction",c.type===0?"Fission":"Fusion"],["Occurs in",c.type===0?"nuclear reactors, atomic bombs":"the Sun, hydrogen bombs"],["Energy source","mass defect: E=Δmc²"]]; }
+ }
+];
+
+/* ---------- H2. Projectile motion ---------- */
+SIMS["H2"]=[{modeName:"Projectile Motion", tag:"PARABOLIC PATH", eqn:"Range = u²sin(2θ)/g   Max height = u²sin²θ/(2g)",
+  controls:[{key:"speed",label:"Launch Speed",min:5,max:50,step:1,default:28,unit:" m/s"},{key:"angle",label:"Launch Angle",min:0,max:90,step:1,default:45,unit:"°"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt*1.4; },
+  draw(ctx,s,c,w,h){
+    const g=9.8,scale=8,ox=70,oy=320,rad=c.angle*Math.PI/180,T=2*c.speed*Math.sin(rad)/g;
+    if(s.t>T+0.3||T<=0) s.t=0;
+    const pts=[]; for(let i=0;i<=60;i++){ const tt=T*i/60; const x=ox+c.speed*Math.cos(rad)*tt*scale; const y=oy-(c.speed*Math.sin(rad)*tt-0.5*g*tt*tt)*scale; pts.push([x,y]); }
+    ctx.save();ctx.setLineDash([3,5]);glowLine(ctx,pts,"rgba(127,227,218,0.35)",1.4,0);ctx.restore();
+    ctx.strokeStyle="#1c3350";ctx.beginPath();ctx.moveTo(20,oy);ctx.lineTo(w-20,oy);ctx.stroke();
+    const tt=Math.min(s.t,T), bx=ox+c.speed*Math.cos(rad)*tt*scale, by=oy-(c.speed*Math.sin(rad)*tt-0.5*g*tt*tt)*scale;
+    dot(ctx,bx,by,7,"#ffb703",12);
+    const range=(c.speed*c.speed*Math.sin(2*rad))/g, maxh=(c.speed*c.speed*Math.pow(Math.sin(rad),2))/(2*g);
+    label(ctx,w-220,40,`Range: ${fmt(range,1)} m`,"#ffb703",12.5); label(ctx,w-220,58,`Max height: ${fmt(maxh,1)} m`,"#ffb703",12.5);
+  },
+  readouts(s,c){ const g=9.8,rad=c.angle*Math.PI/180; const range=(c.speed*c.speed*Math.sin(2*rad))/g; const maxh=(c.speed*c.speed*Math.pow(Math.sin(rad),2))/(2*g); const T=2*c.speed*Math.sin(rad)/g;
+    return [["Range",`${fmt(range,1)} m`],["Max height",`${fmt(maxh,1)} m`],["Time of flight",`${fmt(T,2)} s`]]; }
+}];
+
+/* ---------- H4. Hooke's law ---------- */
+SIMS["H4"]=[{modeName:"Hooke's Law", tag:"F = k·x", eqn:"F = k·x",
+  controls:[{key:"k",label:"Spring Constant k",min:10,max:200,step:5,default:50,unit:" N/m"},{key:"mass",label:"Hanging Mass",min:0.1,max:5,step:0.1,default:1.2,unit:" kg"}],
+  values:null, state:{}, reset(s,c){ s.pos=0; s.vel=0; },
+  step(s,c,dt){ const g=9.8, eq=(c.mass*g)/c.k, damping=1.1*Math.sqrt(c.k/c.mass); const acc=-(c.k/c.mass)*(s.pos-eq)-damping*s.vel; s.vel+=acc*dt; s.pos+=s.vel*dt; },
+  draw(ctx,s,c,w,h){
+    const ceilingY=40,cx=w/2,pxPerM=260;
+    ctx.fillStyle="#0d1e33";ctx.fillRect(cx-90,ceilingY-14,180,14);
+    const naturalLen=80,len=naturalLen+s.pos*pxPerM, coils=12,pts=[[cx,ceilingY]];
+    for(let i=1;i<coils;i++){ const yy=ceilingY+len*(i/coils); const xx=cx+(i%2===0?-20:20); pts.push([xx,yy]); }
+    pts.push([cx,ceilingY+len]); glowLine(ctx,pts,"#7fe3da",2,6);
+    ctx.save();ctx.fillStyle="#0d1e33";ctx.strokeStyle="#ffb703";ctx.lineWidth=2.4;ctx.shadowColor="#ffb703";ctx.shadowBlur=10;
+    ctx.beginPath();ctx.roundRect(cx-28,ceilingY+len,56,40,5);ctx.fill();ctx.stroke();ctx.restore();
+    label(ctx,cx,ceilingY+len+66,`extension = ${fmt(s.pos,3)} m`,"#93aac4",12,"center");
+    label(ctx,cx,ceilingY+len+86,`spring force = ${fmt(c.k*s.pos,1)} N`,"#7fe3da",12,"center");
+  },
+  readouts(s,c){ const eq=(c.mass*9.8)/c.k; return [["Extension now",`${fmt(s.pos,3)} m`],["Equilibrium extension",`${fmt(eq,3)} m`],["Spring force",`${fmt(c.k*s.pos,1)} N`]]; }
+ },
+ {modeName:"Black-Body Radiation", tag:"INTENSITY vs WAVELENGTH", eqn:"Hotter bodies radiate more, peaking at shorter wavelength (Wien's law)",
+  controls:[{key:"temp",label:"Temperature",min:2000,max:10000,step:200,default:5500,unit:" K"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const gx=60,gy=60,gw=480,gh=260; ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const peak=2.9e6/c.temp;
+    const pts=[]; for(let wl=100;wl<=3000;wl+=20){ const x=wl/peak; const intensity=Math.pow(x,-5)/(Math.exp(1.4/x)-1+0.0001); pts.push([gx+gw*(wl/3000), gy+gh-clamp(intensity*3,0,1)*gh]); }
+    glowLine(ctx,pts,"#ffb703",2.2,7);
+    label(ctx,gx,gy-8,`peak wavelength (Wien's law) ≈ ${fmt(peak,0)} nm at T=${c.temp}K`,"#93aac4",12);
+  },
+  readouts(s,c){ const peak=2.9e6/c.temp; return [["Peak wavelength",`${fmt(peak,0)} nm`],["Temperature",`${c.temp} K`],["Wien's law","λ(peak) × T = constant"]]; }
+ }
+];
+
+/* ---------- H8. Diode / semiconductor ---------- */
+SIMS["H8"]=[{modeName:"Junction Diode — Bias", tag:"FORWARD / REVERSE BIAS", eqn:"Forward bias conducts · reverse bias blocks (ideal)",
+  controls:[{key:"voltage",label:"Applied Voltage",min:-10,max:10,step:0.5,default:3,unit:" V"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const forward=c.voltage>0.6; const cx=w/2,cy=160;
+    ctx.strokeStyle="#5c7291";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(80,cy);ctx.lineTo(w-80,cy);ctx.stroke();
+    ctx.save();ctx.fillStyle=forward?"#7fe3da":"#0d1e33";ctx.strokeStyle="#7fe3da";ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(cx-20,cy-24);ctx.lineTo(cx-20,cy+24);ctx.lineTo(cx+20,cy);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+20,cy-24);ctx.lineTo(cx+20,cy+24);ctx.stroke();ctx.restore();
+    label(ctx,cx,cy-40,forward?"forward biased — current flows":"reverse biased — blocks current",forward?"#7fe3da":"#ef7a6d",13,"center");
+    const gx=100,gy=280,gw=400,gh=90; ctx.strokeStyle="#1c3350";ctx.strokeRect(gx,gy,gw,gh);
+    const pts=[]; for(let vv=-10;vv<=10;vv+=0.2){ const i = vv>0.6 ? Math.min((vv-0.6)*8,20) : (vv<-8?-0.5:-0.02*Math.abs(vv)); pts.push([gx+gw*((vv+10)/20), gy+gh/2-i*3]); }
+    glowLine(ctx,pts,"#ffb703",2,6);
+    const curI = c.voltage>0.6?Math.min((c.voltage-0.6)*8,20):(c.voltage<-8?-0.5:-0.02*Math.abs(c.voltage));
+    dot(ctx,gx+gw*((c.voltage+10)/20), gy+gh/2-curI*3,5,"#7fe3da",8);
+    label(ctx,gx,gy-6,"I–V characteristic","#93aac4",11);
+  },
+  readouts(s,c){ const forward=c.voltage>0.6; return [["Bias",forward?"Forward":(c.voltage<0?"Reverse":"Below threshold")],["Conducts?",forward?"Yes":"~No"],["Applied V",`${c.voltage} V`]]; }
+ },
+ {modeName:"Rectification", tag:"AC → DC", eqn:"Half-wave: one diode passes half the cycle. Full-wave: bridge passes both halves",
+  controls:[{key:"type",label:"Rectifier type",type:"select",options:[{label:"Half-wave"},{label:"Full-wave (bridge)"}],default:0},{key:"freq",label:"Frequency",min:0.3,max:3,step:0.1,default:1,unit:" Hz"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const midY=200,amp=90,pxPerS=120;
+    ctx.strokeStyle="rgba(255,255,255,0.08)";ctx.beginPath();ctx.moveTo(0,midY);ctx.lineTo(w,midY);ctx.stroke();
+    const acPts=[],dcPts=[];
+    for(let x=0;x<=w;x+=3){ const tt=x/pxPerS; const v=Math.sin(TAU*c.freq*(tt-s.t));
+      acPts.push([x,midY-amp*0.5*v]);
+      const rectified=c.type===0 ? Math.max(v,0) : Math.abs(v);
+      dcPts.push([x,midY-amp*rectified]); }
+    glowLine(ctx,acPts,"rgba(255,183,3,0.35)",1.4,0);
+    glowLine(ctx,dcPts,"#7fe3da",2.2,7);
+    label(ctx,20,40,"amber = input AC · cyan = rectified output","#93aac4",12);
+  },
+  readouts(s,c){ return [["Type",c.type===0?"Half-wave":"Full-wave"],["Diodes needed",c.type===0?"1":"4 (bridge)"],["Output smoothness",c.type===0?"Choppier":"Smoother"]]; }
+ }
+];
+
+/* ---------- 2. SI base & derived units ---------- */
+SIMS["2"]=[{modeName:"SI Base & Derived Units", tag:"DIMENSIONS", eqn:"speed=[L][T]⁻¹  density=[M][L]⁻³  force=[M][L][T]⁻²",
+  controls:[{key:"qty",label:"Quantity",type:"select",options:[{label:"Speed"},{label:"Density"},{label:"Volume"},{label:"Force"},{label:"Pressure"}],default:0}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  data:[
+    {name:"Speed",unit:"m·s⁻¹",dim:"[L][T]⁻¹",base:"length ÷ time"},
+    {name:"Density",unit:"kg·m⁻³",dim:"[M][L]⁻³",base:"mass ÷ volume"},
+    {name:"Volume",unit:"m³",dim:"[L]³",base:"length × length × length"},
+    {name:"Force",unit:"N = kg·m·s⁻²",dim:"[M][L][T]⁻²",base:"mass × acceleration"},
+    {name:"Pressure",unit:"Pa = kg·m⁻¹·s⁻²",dim:"[M][L]⁻¹[T]⁻²",base:"force ÷ area"},
+  ],
+  draw(ctx,s,c,w,h){
+    const d=this.data[c.qty];
+    label(ctx,60,90,d.name,"#eef4fa",26);
+    label(ctx,60,130,`unit: ${d.unit}`,"#ffb703",16);
+    label(ctx,60,160,`dimension: ${d.dim}`,"#7fe3da",16);
+    label(ctx,60,190,`built from: ${d.base}`,"#93aac4",13);
+    const bases=[["m (length)","#7fe3da"],["kg (mass)","#ffb703"],["s (time)","#ef7a6d"]];
+    bases.forEach((b,i)=>{ ctx.strokeStyle=b[1];ctx.lineWidth=2;ctx.strokeRect(60+i*160,250,130,60); label(ctx,60+i*160+65,285,b[0],b[1],12,"center"); });
+  },
+  readouts(s,c){ const d=this.data[c.qty]; return [["Quantity",d.name],["SI unit",d.unit],["Dimension",d.dim]]; }
+}];
+
+/* ---------- 5. Measuring time — ticker-timer ---------- */
+SIMS["5"]=[{modeName:"Ticker-Timer — Measuring Time", tag:"CONSTANT INTERVAL DOTS", eqn:"Each dot interval = 1/50 s (mains frequency 50 Hz)",
+  controls:[{key:"speed",label:"Tape pull speed",min:5,max:60,step:1,default:25,unit:" cm/s"}],
+  values:null, state:{}, reset(s,c){ s.dots=[]; s.timer=0; s.x=0; },
+  step(s,c,dt){ s.x+=c.speed*dt; s.timer+=dt; if(s.timer>=0.02){ s.timer=0; s.dots.push(s.x); if(s.dots.length>60) s.dots.shift(); } },
+  draw(ctx,s,c,w,h){
+    const y=200, x0=40; ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(x0,y);ctx.lineTo(w-20,y);ctx.stroke();
+    s.dots.forEach((dx)=>{ const x=x0+500-(s.x-dx); if(x>x0&&x<w-20) dot(ctx,x,y,3.5,"#ffb703",6); });
+    label(ctx,x0,y+30,"dots closer together = slower · further apart = faster","#93aac4",12);
+    label(ctx,x0,60,`tape moving at ${c.speed} cm/s`,"#93aac4",12.5);
+  },
+  readouts(s,c){ return [["Dot interval",`0.02 s (1/50 s)`],["Tape speed",`${c.speed} cm/s`],["Distance between dots",`${fmt(c.speed*0.02,2)} cm`]]; }
+}];
+
+/* ---------- 23. Field lines explorer ---------- */
+SIMS["23"]=[{modeName:"Field Lines Explorer", tag:"GRAVITATIONAL · ELECTRIC · MAGNETIC", eqn:"Field lines show the direction of force on a test mass/charge/pole",
+  controls:[{key:"field",label:"Field type",type:"select",options:[{label:"Gravitational (mass)"},{label:"Electric (+ charge)"},{label:"Magnetic (bar magnet)"}],default:0}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const cx=w/2, cy=h/2;
+    if(c.field===2){
+      ctx.save();ctx.fillStyle="#ef7a6d";ctx.fillRect(cx-60,cy-20,60,40);ctx.fillStyle="#7fe3da";ctx.fillRect(cx,cy-20,60,40);ctx.restore();
+      label(ctx,cx-30,cy+6,"S","#050c17",13,"center"); label(ctx,cx+30,cy+6,"N","#050c17",13,"center");
+      for(let i=-3;i<=3;i++){ const y0=cy+i*30; const pts=[]; for(let t=0;t<=1;t+=0.05){ const x=cx+60+t*160; const y=y0+Math.sin(t*Math.PI)*i*14; pts.push([x,y]); }
+        glowLine(ctx,pts,"rgba(127,227,218,0.4)",1.4,0); }
+      label(ctx,40,40,"field lines leave N, curve around, and enter S","#93aac4",12);
+    } else {
+      dot(ctx,cx,cy,10, c.field===0?"#ffb703":"#ef7a6d",12);
+      for(let i=0;i<12;i++){ const ang=(i/12)*TAU; arrow(ctx,cx+Math.cos(ang)*30,cy+Math.sin(ang)*30,cx+Math.cos(ang)*140,cy+Math.sin(ang)*140, c.field===0?"rgba(255,183,3,0.5)":"rgba(239,122,109,0.5)",1.6); }
+      label(ctx,40,40,c.field===0?"lines point inward — gravity is always attractive":"lines point outward from a + charge (radial field)","#93aac4",12);
+    }
+  },
+  readouts(s,c){ return [["Field type",["Gravitational","Electric","Magnetic"][c.field]],["Source",["mass","point charge","bar magnet"][c.field]],["Always attractive?",c.field===0?"Yes":"No — depends on sign/pole"]]; }
+}];
+
+/* ---------- 31. Wave-particle duality ---------- */
+SIMS["31"]=[{modeName:"Wave–Particle Duality", tag:"ELECTRON DIFFRACTION", eqn:"Individual particles arrive one at a time, yet build up a wave interference pattern",
+  controls:[{key:"rate",label:"Electron rate",min:1,max:20,step:1,default:8,unit:" /s"}],
+  values:null, state:{}, reset(s,c){ s.hits=[]; s.timer=0; },
+  step(s,c,dt){ s.timer+=dt; const interval=1/c.rate; if(s.timer>interval){ s.timer=0;
+    const band=Math.round((Math.random()-0.5+(Math.random()-0.5))*4); const y=200+band*22+rand(-6,6); s.hits.push({x:rand(400,540), y}); if(s.hits.length>400) s.hits.shift(); } },
+  draw(ctx,s,c,w,h){
+    ctx.strokeStyle="#5c7291";ctx.beginPath();ctx.moveTo(200,80);ctx.lineTo(200,320);ctx.stroke();
+    label(ctx,180,70,"slits","#93aac4",11);
+    s.hits.forEach(p=>dot(ctx,p.x,p.y,2,"#7fe3da",4));
+    label(ctx,400,60,"detector screen builds up an interference pattern, dot by dot","#93aac4",12);
+  },
+  readouts(s,c){ return [["Electrons detected",`${s.hits.length}`],["Pattern",s.hits.length>50?"Interference bands forming":"Too few — keep watching"],["Behaves as","wave (pattern) + particle (one dot at a time)"]]; }
+}];
+
+/* ---------- H1. Dimensional analysis checker ---------- */
+SIMS["H1"]=[{modeName:"Dimensional Analysis Checker", tag:"[M][L][T]", eqn:"Check: is [LHS] = [RHS]?",
+  controls:[{key:"eqn",label:"Equation to check",type:"select",options:[{label:"v = u + at"},{label:"s = ½at²"},{label:"F = ma"}],default:0}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  data:[
+    {lhs:"v  →  [L][T]⁻¹", rhs:"u + at  →  [L][T]⁻¹ + [L][T]⁻²·[T] = [L][T]⁻¹", ok:true},
+    {lhs:"s  →  [L]", rhs:"½at²  →  [L][T]⁻²·[T]² = [L]", ok:true},
+    {lhs:"F  →  [M][L][T]⁻²", rhs:"ma  →  [M]·[L][T]⁻² = [M][L][T]⁻²", ok:true},
+  ],
+  draw(ctx,s,c,w,h){
+    const d=this.data[c.eqn];
+    label(ctx,60,100,"LHS:","#93aac4",13); label(ctx,150,100,d.lhs,"#ffb703",15);
+    label(ctx,60,150,"RHS:","#93aac4",13); label(ctx,150,150,d.rhs,"#7fe3da",15);
+    label(ctx,60,220, d.ok?"✓ dimensionally consistent":"✗ NOT consistent", d.ok?"#7fe3da":"#ef7a6d", 16);
+  },
+  readouts(s,c){ const d=this.data[c.eqn]; return [["Consistent?",d.ok?"Yes":"No"],["Use of dimensions","verify equations, derive relations, find units"]]; }
+}];
+
+/* ---------- H3. Satellite orbits ---------- */
+SIMS["H3"]=[{modeName:"Satellite Orbits", tag:"LEO vs GEOSTATIONARY", eqn:"T = 2π√(r³/GM)",
+  controls:[{key:"orbit",label:"Orbit type",type:"select",options:[{label:"Low Earth Orbit (LEO)"},{label:"Geostationary (GEO)"}],default:0}],
+  values:null, state:{}, reset(s,c){ s.theta=0; },
+  step(s,c,dt){ const r=c.orbit===0?90:220; const Gs=1400; const M=c.orbit===0?4:9; const omega=Math.sqrt(Gs*M/Math.pow(r,3)); s.theta+=omega*dt; },
+  draw(ctx,s,c,w,h){
+    const cx=w/2,cy=h/2, r=c.orbit===0?90:220;
+    ctx.save();ctx.fillStyle="#5c7291";ctx.beginPath();ctx.arc(cx,cy,26,0,TAU);ctx.fill();ctx.restore();
+    ctx.strokeStyle="rgba(127,227,218,0.3)";ctx.setLineDash([4,6]);ctx.beginPath();ctx.arc(cx,cy,r,0,TAU);ctx.stroke();ctx.setLineDash([]);
+    const px=cx+r*Math.cos(s.theta), py=cy+r*Math.sin(s.theta);
+    dot(ctx,px,py,7,"#ffb703",10);
+    label(ctx,40,40,c.orbit===0?"LEO: ~90 min period, low altitude (ISS-like)":"GEO: 24 h period, matches Earth's rotation — appears fixed overhead","#93aac4",12);
+  },
+  readouts(s,c){ return [["Orbit",c.orbit===0?"Low Earth Orbit":"Geostationary"],["Approx period",c.orbit===0?"~90 minutes":"24 hours"],["Use",c.orbit===0?"Earth observation, ISS":"Communications, weather"]]; }
+}];
+
+/* ---------- H5. Fibre optics ---------- */
+SIMS["H5"]=[{modeName:"Fibre Optics — Total Internal Reflection", tag:"n(core) > n(cladding)", eqn:"Light stays trapped by repeated total internal reflection",
+  controls:[{key:"angle",label:"Entry angle",min:60,max:85,step:1,default:75,unit:"°"}],
+  values:null, state:{}, reset(s,c){}, step(s,c,dt){},
+  draw(ctx,s,c,w,h){
+    const y0=140,y1=260, x0=60,x1=580;
+    ctx.fillStyle="rgba(127,227,218,0.1)";ctx.fillRect(x0,y0,x1-x0,y1-y0);
+    ctx.strokeStyle="#1c3350";ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+    label(ctx,x0,y0-10,"core (n ≈ 1.5)","#93aac4",11);
+    const rad=c.angle*Math.PI/180;
+    let x=x0+20, y=y0+20, dir=1, pts=[[x,y]];
+    for(let i=0;i<8 && x<x1-20;i++){ const ny=dir>0? y1-20 : y0+20; const stepx=Math.abs((ny-y)/Math.tan(rad)); x+=stepx; y=ny; pts.push([x,y]); dir*=-1; if(x>x1)break; }
+    glowLine(ctx,pts,"#ffb703",2.4,8);
+    label(ctx,x0,y1+24,`entry angle = ${c.angle}° (> critical angle → total internal reflection)`,"#93aac4",12);
+  },
+  readouts(s,c){ return [["Entry angle",`${c.angle}°`],["Mechanism","Total internal reflection"],["Used in","LAN, medical endoscopes, telecoms"]]; }
+}];
+
+/* ---------- H6. LASER — stimulated emission ---------- */
+SIMS["H6"]=[{modeName:"LASER — Stimulated Emission", tag:"PUMPED ATOMS", eqn:"One photon in → two identical, in-phase photons out",
+  controls:[{key:"pump",label:"Pumping rate",min:1,max:20,step:1,default:8,unit:" /s"}],
+  values:null, state:{}, reset(s,c){ s.photons=[]; s.timer=0; s.excited=Array.from({length:14},()=>false); },
+  step(s,c,dt){ s.timer+=dt; if(s.timer>1/c.pump){ s.timer=0; const idx=Math.floor(rand(0,14)); s.excited[idx]=true; }
+    if(s.photons.length===0 && Math.random()<0.02) s.photons.push({x:40,y:200,vx:220});
+    s.photons.forEach(p=>{ p.x+=p.vx*dt; });
+    const spawned=[];
+    s.photons=s.photons.filter(p=>{
+      if(p.x>60 && p.x<540){ for(let i=0;i<14;i++){ if(s.excited[i]){ const ex=80+(i%7)*70, ey=100+Math.floor(i/7)*160; if(Math.abs(p.x-ex)<20 && Math.abs(p.y-ey)<20){ s.excited[i]=false; spawned.push({x:ex,y:ey+8,vx:220}); } } } }
+      return p.x<600; });
+    s.photons.push(...spawned);
+  },
+  draw(ctx,s,c,w,h){
+    for(let i=0;i<14;i++){ const ex=80+(i%7)*70, ey=100+Math.floor(i/7)*160; dot(ctx,ex,ey,8,s.excited[i]?"#ffb703":"#2a352f",s.excited[i]?10:0); }
+    s.photons.forEach(p=>{ glowLine(ctx,[[p.x-14,p.y],[p.x,p.y]],"#7fe3da",2,7); });
+    label(ctx,40,320,"amber = excited atom (pumped) · cyan streak = photon triggering identical emission","#93aac4",12);
+  },
+  readouts(s,c){ return [["Excited atoms",`${s.excited.filter(Boolean).length}/14`],["Photons in flight",`${s.photons.length}`],["Key property","light emitted in phase (coherent)"]]; }
+}];
+
+/* ---------- H7. Magnetic domains ---------- */
+SIMS["H7"]=[{modeName:"Magnetic Domains", tag:"MAGNETIZATION", eqn:"Aligned domains → strong external field; random domains → unmagnetized",
+  controls:[{key:"field",label:"Magnetizing field",min:0,max:100,step:5,default:40,unit:" %"}],
+  values:null, state:{}, reset(s,c){ s.domains=[]; const rows=4,cols=6; for(let i=0;i<rows*cols;i++) s.domains.push({ang:rand(0,TAU)}); },
+  step(s,c,dt){ const align=c.field/100; s.domains.forEach(d=>{ d.ang=lerp(d.ang,0,align*0.06)+(1-align)*rand(-0.03,0.03); }); },
+  draw(ctx,s,c,w,h){
+    const cols=6, cell=80, x0=60,y0=80;
+    s.domains.forEach((d,i)=>{ const cx=x0+(i%cols)*cell+cell/2, cy=y0+Math.floor(i/cols)*cell+cell/2;
+      arrow(ctx,cx-18*Math.cos(d.ang),cy-18*Math.sin(d.ang),cx+18*Math.cos(d.ang),cy+18*Math.sin(d.ang),"#ffb703",2); });
+    label(ctx,60,340,c.field>70?"domains aligned — material is strongly magnetized":"domains disordered — little or no net magnetism","#93aac4",12.5);
+  },
+  readouts(s,c){ return [["Magnetizing field",`${c.field}%`],["State",c.field>70?"Magnetized":(c.field>30?"Partially magnetized":"Unmagnetized")],["Examples","soft iron (easy to magnetize), steel (retains it)"]]; }
+}];
+
+/* ---------- H9. Diffusion of gases ---------- */
+SIMS["H9"]=[{modeName:"Diffusion of Gases", tag:"KINETIC THEORY — DIFFUSION", eqn:"Net particle movement from high to low concentration",
+  controls:[{key:"temp",label:"Temperature",min:150,max:800,step:25,default:350,unit:" K"}],
+  values:null, state:{}, reset(s,c){ s.p=[]; for(let i=0;i<40;i++) s.p.push({x:rand(60,280),y:rand(60,300),vx:rand(-1,1),vy:rand(-1,1),col:"#7fe3da"});
+    for(let i=0;i<40;i++) s.p.push({x:rand(320,540),y:rand(60,300),vx:rand(-1,1),vy:rand(-1,1),col:"#ef7a6d"}); },
+  step(s,c,dt){ const speed=Math.sqrt(c.temp/300)*70; s.p.forEach(p=>{ p.x+=p.vx*speed*dt; p.y+=p.vy*speed*dt;
+    if(p.x<50||p.x>550){p.vx*=-1;p.x=clamp(p.x,50,550);} if(p.y<50||p.y>320){p.vy*=-1;p.y=clamp(p.y,50,320);}
+    if(Math.random()<0.02){p.vx=rand(-1,1);p.vy=rand(-1,1);} }); },
+  draw(ctx,s,c,w,h){ ctx.strokeStyle="#1c3350";ctx.strokeRect(50,50,500,270); s.p.forEach(p=>dot(ctx,p.x,p.y,5,p.col,6));
+    label(ctx,50,340,"cyan and red gases mix over time — faster diffusion at higher temperature","#93aac4",12); },
+  readouts(s,c){ return [["Temperature",`${c.temp} K`],["Relative particle speed",`×${fmt(Math.sqrt(c.temp/300),2)}`],["Process","diffusion — particles spread from high to low concentration"]]; }
+}];
+
+/* ---------- H10. de Broglie wavelength ---------- */
+SIMS["H10"]=[{modeName:"de Broglie Wavelength", tag:"λ = h/mv", eqn:"λ = h / (m·v)   (h = 6.63×10⁻³⁴ J·s)",
+  controls:[{key:"mass",label:"Particle mass",min:1,max:100,step:1,default:9,unit:" ×10⁻³¹ kg"},{key:"speed",label:"Speed",min:1,max:20,step:0.5,default:6,unit:" ×10⁶ m/s"}],
+  values:null, state:{}, reset(s,c){ s.t=0; }, step(s,c,dt){ s.t+=dt; },
+  draw(ctx,s,c,w,h){
+    const h_planck=6.63e-34; const m=c.mass*1e-31, v=c.speed*1e6;
+    const lambda=h_planck/(m*v);
+    const wlPx=clamp(lambda*4e11, 8, 300);
+    const midY=200, pts=[]; for(let x=60;x<=580;x+=3){ pts.push([x, midY-40*Math.sin(TAU*(x-60)/wlPx - s.t*2)]); }
+    glowLine(ctx,pts,"#7fe3da",2.2,8);
+    label(ctx,60,60,`de Broglie wavelength λ = ${fmt(lambda*1e12,2)} pm`,"#ffb703",13);
+    label(ctx,60,320,"heavier / faster particles → shorter wavelength → less wave-like behaviour","#93aac4",12);
+  },
+  readouts(s,c){ const h_planck=6.63e-34; const m=c.mass*1e-31, v=c.speed*1e6; const lambda=h_planck/(m*v);
+    return [["Wavelength λ",`${fmt(lambda*1e12,2)} pm`],["Momentum p=mv",`${fmt(m*v,2)} kg·m/s`],["Regime",lambda*1e12>1?"noticeably wave-like":"negligible wave effects"]]; }
+}];
+
+/* ============================================================
+   STATE + NAV + MAIN RENDER
+   ============================================================ */
+let activeKey=null, activeMode=0, openSub=null, searchTerm="";
+const openParts=new Set(SYLLABUS.map(p=>p.roman));
+
+function findTopic(num){ for(const part of SYLLABUS){ for(const t of part.topics){ if(t.num===num) return {part,topic:t}; } } return null; }
+
+function matchesSearch(topic){ if(!searchTerm) return true;
+  const hay=[topic.title,topic.num,topic.overview||"",...(topic.subs||[]).map(s=>s.t+" "+s.n)].join(" ").toLowerCase();
+  return hay.includes(searchTerm); }
+
+function countSimsCards(){ let simN=0, cardN=0;
+  SYLLABUS.forEach(p=>p.topics.forEach(t=>{ if(SIMS[t.num]) simN++; else cardN++; })); return {simN,cardN}; }
+
+const navEl=document.getElementById("nav");
+function renderNav(){
+  navEl.innerHTML="";
+  SYLLABUS.forEach(part=>{
+    const visible=part.topics.filter(matchesSearch);
+    if(searchTerm && visible.length===0) return;
+    const group=document.createElement("div"); group.className="part-group";
+    const head=document.createElement("button");
+    head.className="part-head"+(openParts.has(part.roman)||searchTerm?" open":"");
+    head.innerHTML=`<span><span class="roman">${part.roman}</span><span class="pname">${part.name}</span></span><span class="chev">▸</span>`;
+    head.addEventListener("click",()=>{ if(openParts.has(part.roman))openParts.delete(part.roman); else openParts.add(part.roman); renderNav(); });
+    group.appendChild(head);
+    const body=document.createElement("div"); body.className="part-body"+(openParts.has(part.roman)||searchTerm?" open":"");
+    (searchTerm?visible:part.topics).forEach(topic=>{
+      const key=part.roman+"::"+topic.num;
+      const hasSim=!!SIMS[topic.num];
+      const btn=document.createElement("button");
+      btn.className="topicbtn"+(activeKey===key?" active":"");
+      btn.innerHTML=`<span class="tnum">${topic.num}</span><span>${topic.title}</span><span class="simdot ${hasSim?'sim':'card'}"></span>`;
+      btn.addEventListener("click",()=>{ activeKey=key; activeMode=0; openSub=null; renderNav(); renderMain(part,topic); });
+      body.appendChild(btn);
+    });
+    group.appendChild(body); navEl.appendChild(group);
+  });
+  if(searchTerm && navEl.children.length===0) navEl.innerHTML=`<div class="no-results">No topics match "${searchTerm}".</div>`;
+  const {simN,cardN}=countSimsCards();
+  document.getElementById("simCountTag").textContent=simN; document.getElementById("cardCountTag").textContent=cardN;
+}
+
+/* ---- animation engine for currently active sim ---- */
+let rafId=null, lastTime=null, running=true, canvasEl=null, ctx=null;
+function stopEngine(){ if(rafId) cancelAnimationFrame(rafId); rafId=null; lastTime=null; }
+function startEngine(variant){
+  stopEngine(); running=true;
+  function loop(ts){
+    if(lastTime===null) lastTime=ts; let dt=(ts-lastTime)/1000; lastTime=ts; dt=Math.min(dt,0.05);
+    if(running){ const steps=2; for(let i=0;i<steps;i++) variant.step(variant.state,variant.values,dt/steps); }
+    clearScreen(ctx,canvasEl.width,canvasEl.height); drawGrid(ctx,canvasEl.width,canvasEl.height);
+    variant.draw(ctx,variant.state,variant.values,canvasEl.width,canvasEl.height);
+    renderReadouts(variant);
+    rafId=requestAnimationFrame(loop);
+  }
+  rafId=requestAnimationFrame(loop);
+}
+function renderReadouts(variant){
+  const box=document.getElementById("readouts"); if(!box) return;
+  const items=variant.readouts(variant.state,variant.values);
+  box.innerHTML=items.map(([k,v])=>`<div class="readout"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
+}
+function buildControls(variant){
+  const wrap=document.getElementById("controls"); if(!wrap) return; wrap.innerHTML="";
+  variant.controls.forEach(cc=>{
+    const div=document.createElement("div"); div.className="control";
+    if(cc.type==="select"){
+      div.innerHTML=`<label>${cc.label}</label>`;
+      const sel=document.createElement("select");
+      cc.options.forEach((opt,i)=>{ const o=document.createElement("option"); o.value=i; o.textContent=opt.label; if(variant.values[cc.key]===i)o.selected=true; sel.appendChild(o); });
+      sel.addEventListener("input",()=>{ variant.values[cc.key]=parseInt(sel.value); });
+      div.appendChild(sel);
+    } else {
+      const val=variant.values[cc.key];
+      div.innerHTML=`<label>${cc.label}<span class="val">${fmt(val,cc.dp??1)}${cc.unit||""}</span></label>`;
+      const input=document.createElement("input"); input.type="range"; input.min=cc.min; input.max=cc.max; input.step=cc.step; input.value=val;
+      input.addEventListener("input",()=>{ variant.values[cc.key]=parseFloat(input.value); div.querySelector(".val").textContent=fmt(variant.values[cc.key],cc.dp??1)+(cc.unit||""); });
+      div.appendChild(input);
+    }
+    wrap.appendChild(div);
+  });
+}
+
+function renderSubtopics(topic, key){
+  if(!topic.subs || !topic.subs.length){
+    if(topic.overview) return `<div class="card-note"><p>${topic.overview}</p></div>`;
+    return "";
+  }
+  return `<div class="subtopics"><span class="stlabel">Syllabus sub-topics</span>` + topic.subs.map((sItem,i)=>{
+    const isOpen = openSub && openSub.key===key && openSub.index===i;
+    return `<div class="subrow">
+      <button class="subrow-head${isOpen?' open':''}" data-idx="${i}" data-mark="(${sItem.l})">
+        <span class="stext">${sItem.t}</span><span class="sarrow">▸</span>
+      </button>
+      <div class="subrow-note${isOpen?' open':''}"><p>${sItem.n}</p></div>
+    </div>`;
+  }).join("") + `</div>`;
+}
+
+function renderMain(part, topic){
+  stopEngine();
+  const main=document.getElementById("main");
+  const key=part.roman+"::"+topic.num;
+  const variants=SIMS[topic.num];
+
+  let html = `<div class="stage-head">
+      <div class="stage-eyebrow"><span class="dash"></span>${part.roman} · ${part.name}</div>
+      <h2>${topic.title} <span class="spec-no">TOPIC ${topic.num}</span></h2>
+      <div class="paper-tags">${topic.papers.map(p=>`<span class="paper-tag">${p}</span>`).join("")}</div>
+    </div>`;
+
+  if(variants && variants.length){
+    if(variants.length>1){
+      html += `<div class="modebar">` + variants.map((v,i)=>`<button class="modebtn${i===activeMode?' active':''}" data-mode="${i}">${v.modeName}</button>`).join("") + `</div>`;
+    }
+    const variant = variants[activeMode] || variants[0];
+    if(!variant.values) variant.values = mv(variant.controls);
+    if(!variant.state._init){ variant.reset(variant.state, variant.values); variant.state._init=true; }
+    html += `<div class="eqn">${variant.eqn}</div>
+      <div class="stage">
+        <div class="screen">
+          <div class="crtwrap"><span class="tag"><span class="dot2"></span>LIVE</span><canvas id="cv" width="640" height="400"></canvas></div>
+        </div>
+        <div class="panel">
+          <div><h3>Controls</h3><div id="controls" style="margin-top:12px;display:flex;flex-direction:column;gap:12px;"></div></div>
+          <div class="btnrow"><button class="btn primary" id="playBtn">Pause</button><button class="btn" id="resetBtn">Reset</button></div>
+          <div><h3>Readout</h3><div class="readouts" id="readouts" style="margin-top:10px;"></div></div>
+        </div>
+      </div>`;
+    html += renderSubtopics(topic, key);
+    main.innerHTML = html;
+
+    main.querySelectorAll(".modebtn").forEach(btn=>{
+      btn.addEventListener("click",()=>{ activeMode=parseInt(btn.dataset.mode); openSub=null; renderMain(part,topic); });
+    });
+
+    canvasEl = document.getElementById("cv"); ctx = canvasEl.getContext("2d");
+    buildControls(variant);
+    document.getElementById("playBtn").addEventListener("click",()=>{ running=!running; document.getElementById("playBtn").textContent=running?"Pause":"Play"; });
+    document.getElementById("resetBtn").addEventListener("click",()=>{ variant.reset(variant.state, variant.values); });
+    startEngine(variant);
+  } else {
+    html += (topic.overview ? `<div class="card-note"><p>${topic.overview}</p></div>` : "");
+    html += renderSubtopics(topic, key);
+    main.innerHTML = html;
+  }
+
+  main.querySelectorAll(".subrow-head").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const idx=parseInt(btn.dataset.idx);
+      if(openSub && openSub.key===key && openSub.index===idx) openSub=null; else openSub={key,index:idx};
+      renderMain(part,topic);
+    });
+  });
+}
+
+document.getElementById("search").addEventListener("input",(e)=>{ searchTerm=e.target.value.trim().toLowerCase(); renderNav(); });
+
+renderNav();
+</script>
+</body>
+</html>
+
+
+<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ae21603c2b8e615e6e569ad" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-agent-runner-id="6ae215409238dbf9fd9cfb0a"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-app-host="app.netlify.com" data-account-tier="personal"></script>

@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAEC Mathematics — Syllabus Axis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF7;
+    --paper-line:#E3E6EC;
+    --ink:#1B2A4A;
+    --ink-soft:#5B6478;
+    --rail:#12203B;
+    --rail-ink:#EDEFF4;
+    --rail-ink-dim:#8C96B3;
+    --red:#B5322F;
+    --teal:#1D7A63;
+    --amber:#D9A441;
+    --card:#FFFFFF;
+    --radius:2px;
+    --rail-w:300px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+  a{color:inherit;}
+
+  /* ---------- Layout shell ---------- */
+  .app{ display:grid; grid-template-columns: var(--rail-w) 1fr; min-height:100vh; }
+
+  /* ---------- Rail / sidebar (the axis) ---------- */
+  .rail{
+    background:var(--rail); color:var(--rail-ink);
+    position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:26px 0 40px; border-right:1px solid #0A1428;
+  }
+  .rail-header{ padding:0 22px 20px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:6px; }
+  .rail-eyebrow{ font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); margin:0 0 6px; }
+  .rail-title{ font-family:'Source Serif 4', serif; font-weight:600; font-size:22px; line-height:1.25; margin:0 0 10px; }
+  .rail-sub{ font-size:12.5px; color:var(--rail-ink-dim); line-height:1.5; margin:0; }
+
+  .axis{ position:relative; margin:22px 22px 0 30px; padding-left:20px; border-left:2px solid rgba(255,255,255,.16); }
+  .axis::before{ content:""; position:absolute; left:-5px; top:-14px; width:0;height:0;
+    border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid rgba(255,255,255,.28); }
+  .tick{ position:relative; margin-bottom:2px; }
+  .tick::before{ content:""; position:absolute; left:-22px; top:19px; width:12px; height:2px; background:rgba(255,255,255,.25); }
+  .tick-btn{
+    width:100%; text-align:left; background:transparent; border:none; color:var(--rail-ink);
+    font-family:inherit; padding:11px 12px 11px 14px; display:flex; align-items:flex-start; gap:11px;
+    cursor:pointer; border-radius:var(--radius); transition:background .15s ease;
+  }
+  .tick-btn:hover{ background:rgba(255,255,255,.06); }
+  .tick-btn:focus-visible{ outline:2px solid var(--amber); outline-offset:-2px; }
+  .tick.active .tick-btn{ background:rgba(217,164,65,.14); }
+  .tick.active::before{ background:var(--amber); width:16px; }
+  .tick-glyph{
+    font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:600; color:var(--rail-ink-dim);
+    width:26px; height:26px; flex:0 0 auto; border:1px solid rgba(255,255,255,.18); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.03);
+  }
+  .tick.active .tick-glyph{ color:var(--rail); background:var(--amber); border-color:var(--amber); }
+  .tick-text{ padding-top:2px; }
+  .tick-code{ font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.08em; color:var(--rail-ink-dim); display:block; margin-bottom:2px; }
+  .tick.active .tick-code{ color:var(--amber); }
+  .tick-name{ font-size:14px; font-weight:500; line-height:1.3; }
+  .tick-count{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--rail-ink-dim); margin-top:3px; }
+  .rail-foot{ margin:26px 22px 0; padding-top:16px; border-top:1px solid rgba(255,255,255,.08); font-size:11.5px; color:var(--rail-ink-dim); line-height:1.6; }
+  .rail-foot b{ color:var(--rail-ink); }
+
+  /* ---------- Main column ---------- */
+  .main{ min-width:0; }
+  .scrim{ display:none; } /* only participates in layout on mobile — see media query */
+  .topbar{
+    position:sticky; top:0; z-index:5; background:rgba(250,250,247,.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line); padding:16px 34px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .rail-toggle{
+    display:none; background:var(--rail); color:var(--rail-ink); border:none; border-radius:var(--radius);
+    width:38px; height:38px; font-family:'JetBrains Mono',monospace; font-size:16px; cursor:pointer; flex:0 0 auto;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; text-decoration:none;
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);
+    padding:8px 13px; border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card);
+  }
+  .back-home:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  .search-wrap{ position:relative; flex:1 1 260px; max-width:460px; }
+  .search-wrap svg{ position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:.45; }
+  #search{
+    width:100%; font-family:'IBM Plex Sans', sans-serif; font-size:13.5px; padding:10px 14px 10px 36px;
+    border:1px solid var(--paper-line); background:var(--card); border-radius:var(--radius); color:var(--ink);
+  }
+  #search:focus-visible{ outline:2px solid var(--red); outline-offset:1px; }
+  .topbar-meta{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-soft); white-space:nowrap; }
+
+  .content{ padding:34px; max-width:1000px; }
+
+  .topic-head{ margin-bottom:22px; }
+  .topic-head .code-badge{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--red); letter-spacing:.1em; text-transform:uppercase; }
+  .topic-head h1{ font-family:'Source Serif 4', serif; font-weight:600; font-size:clamp(26px,4vw,36px); margin:6px 0 8px; line-height:1.15; }
+  .topic-head p{ color:var(--ink-soft); font-size:14.5px; max-width:64ch; line-height:1.55; margin:0; }
+
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1px; background:var(--paper-line); border:1px solid var(--paper-line); margin-bottom:28px; }
+  .stat{ background:var(--card); padding:16px 18px; }
+  .stat .n{ font-family:'JetBrains Mono', monospace; font-size:26px; font-weight:700; color:var(--red); line-height:1; }
+  .stat .l{ font-size:11.5px; color:var(--ink-soft); margin-top:6px; text-transform:uppercase; letter-spacing:.06em; }
+
+  .overview-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-top:8px; }
+  .overview-card{ background:var(--card); border:1px solid var(--paper-line); border-left:3px solid var(--ink); padding:16px 18px; cursor:pointer; transition:transform .12s ease, border-color .12s ease; }
+  .overview-card:hover{ transform:translateY(-2px); border-left-color:var(--red); }
+  .overview-card:focus-visible{ outline:2px solid var(--red); }
+  .overview-card .oc-code{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-soft); letter-spacing:.08em; }
+  .overview-card h3{ font-family:'Source Serif 4', serif; font-size:16.5px; margin:4px 0 6px; font-weight:600; }
+  .overview-card .oc-count{ font-size:11.5px; color:var(--ink-soft); font-family:'JetBrains Mono', monospace; }
+
+  .units-panel{ margin-top:30px; border:1px dashed var(--paper-line); padding:18px 20px; background:repeating-linear-gradient(135deg, rgba(27,42,74,.02) 0 10px, transparent 10px 20px); }
+  .units-panel h2{ font-family:'Source Serif 4', serif; font-size:17px; margin:0 0 12px; }
+  .units-table{ width:100%; border-collapse:collapse; font-size:13px; }
+  .units-table td{ padding:6px 10px 6px 0; vertical-align:top; border-bottom:1px solid var(--paper-line); }
+  .units-table td:first-child{ font-weight:600; white-space:nowrap; color:var(--ink); width:120px; }
+
+  .accordion{ display:flex; flex-direction:column; gap:10px; }
+  .item{ background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden; }
+  .item-head{
+    width:100%; display:flex; align-items:center; gap:14px; background:transparent; border:none;
+    padding:15px 18px; cursor:pointer; text-align:left; font-family:inherit; color:var(--ink);
+  }
+  .item-head:focus-visible{ outline:2px solid var(--red); outline-offset:-2px; }
+  .item-code{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:#fff; background:var(--ink);
+    min-width:24px; height:24px; padding:0 4px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .item.open .item-code{ background:var(--red); }
+  .item-title{ flex:1; font-size:15px; font-weight:600; font-family:'Source Serif 4', serif; }
+  .item-chevron{ font-family:'JetBrains Mono', monospace; color:var(--ink-soft); transition:transform .18s ease; flex:0 0 auto; }
+  .item.open .item-chevron{ transform:rotate(90deg); color:var(--red); }
+  .item-body{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .item.open .item-body{ max-height:2200px; }
+  .item-body-inner{ padding:0 20px 20px 58px; }
+  .body-block{ margin-bottom:16px; }
+  .body-block:last-child{ margin-bottom:0; }
+  .body-label{ font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; margin:0 0 6px; }
+  .body-label.content{ color:var(--teal); }
+  .body-label.notes{ color:var(--red); }
+  .body-label.sim{ color:#8A6414; }
+  ul.content-list{ margin:0; padding-left:18px; font-size:14px; line-height:1.6; color:var(--ink); }
+  ul.content-list li{ margin-bottom:4px; }
+  .note-box{
+    font-size:13.5px; line-height:1.6; color:#5a2320; background:#FBF1EE; border-left:3px solid var(--red);
+    padding:10px 14px; font-family:'Source Serif 4', serif; font-style:italic;
+  }
+
+  .empty{ padding:60px 10px; text-align:center; color:var(--ink-soft); }
+  .empty .big{ font-family:'JetBrains Mono',monospace; font-size:40px; color:var(--paper-line); }
+
+  .back-link{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-soft); background:none; border:none; cursor:pointer; padding:0; margin-bottom:16px; }
+  .back-link:hover{ color:var(--red); }
+  mark{ background:var(--amber); color:var(--ink); padding:0 1px; }
+
+  /* ---------- Simulation widgets ---------- */
+  .sim-panel{ background:#FBFAF6; border:1px solid var(--paper-line); border-radius:var(--radius); padding:16px; }
+  .sim-controls{ display:flex; flex-wrap:wrap; gap:14px 20px; margin-bottom:12px; align-items:flex-end; }
+  .sim-field{ display:flex; flex-direction:column; gap:5px; min-width:150px; flex:1 1 150px; }
+  .sim-label{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); }
+  .sim-val{ color:var(--red); font-weight:600; }
+  input[type=range]{ accent-color: var(--red); width:100%; }
+  .sim-select, .sim-input, .sim-input-text{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:7px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:#fff; color:var(--ink);
+  }
+  .sim-input{ width:100%; }
+  .sim-input-text{ width:100%; }
+  .sim-canvas-wrap{ margin-bottom:12px; overflow-x:auto; }
+  .sim-canvas{ display:block; border:1px solid var(--paper-line); background:#fff; max-width:100%; height:auto; }
+  .sim-btn{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.03em; background:var(--ink);
+    color:#fff; border:none; padding:9px 14px; border-radius:var(--radius); cursor:pointer;
+  }
+  .sim-btn:hover{ background:var(--red); }
+  .sim-result{ display:flex; flex-direction:column; gap:6px; }
+  .sim-result-row{ display:flex; justify-content:space-between; gap:12px; font-size:13px; padding:7px 10px; background:#fff; border:1px solid var(--paper-line); border-radius:var(--radius); flex-wrap:wrap; }
+  .sim-result-label{ color:var(--ink-soft); }
+  .sim-result-value{ font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink); }
+  .sim-steps{ margin-top:8px; font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; line-height:1.6; }
+  .sim-step-label{ font-size:12px; color:var(--ink-soft); margin:4px 0; }
+  .sim-hint{ font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; font-style:italic; }
+  .sim-error{ color:var(--red); font-size:12.5px; }
+  .sim-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  .sim-table th,.sim-table td{ border:1px solid var(--paper-line); padding:6px 8px; text-align:left; }
+  .sim-matrix-2x2{ display:grid; grid-template-columns:1fr 1fr; gap:4px; width:104px; }
+  .sim-matrix{ display:flex; flex-direction:column; gap:6px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px){
+    .app{ grid-template-columns:1fr; }
+    .rail{ position:fixed; z-index:20; inset:0 auto 0 0; width:min(84vw, 320px); transform:translateX(-100%); transition:transform .22s ease; box-shadow:2px 0 24px rgba(0,0,0,.35); }
+    .rail.open{ transform:translateX(0); }
+    .rail-toggle{ display:inline-flex; align-items:center; justify-content:center; }
+    .content{ padding:22px 18px; }
+    .topbar{ padding:14px 18px; }
+    .item-body-inner{ padding-left:20px; }
+    .scrim{ position:fixed; inset:0; background:rgba(10,15,30,.4); z-index:19; }
+    .scrim.show{ display:block; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
+<link rel="stylesheet" href="/labs/glass.css">
+<script src="/labs/glass.js" defer></script>
+</head>
+<body class="lab-maths">
+<div id="glass-navigation"></div>
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Syllabus topics">
+    <div class="rail-header">
+      <p class="rail-eyebrow">WAEC · Core Mathematics</p>
+      <h1 class="rail-title">Syllabus Axis</h1>
+      <p class="rail-sub">Nine topics, plotted like a number line. Expand any subtopic for its notes and a live, interactive simulation.</p>
+    </div>
+    <div class="axis" id="axis"></div>
+    <div class="rail-foot">
+      <div><b>2 papers</b> · 150 marks total</div>
+      <div>Paper 1 — 50 objective, 1½ hrs</div>
+      <div>Paper 2 — 13 essay, 2½ hrs</div>
+    </div>
+  </nav>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="rail-toggle" id="railToggle" aria-label="Toggle topic menu">☰</button>
+      <a class='back-home' href='/' title='Back to main page'>← Home</a>
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search" type="text" placeholder="Search subtopics, formulas, notes… e.g. surds, logarithms, bearings">
+      </div>
+      <div class="topbar-meta" id="topbarMeta">9 topics · 52 subtopics</div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<script>
+/* ======================================================================
+   DATA — WAEC General Mathematics / Mathematics (Core) syllabus
+   Every subtopic carries: content[], notes, and a sim{} config that
+   drives a live, interactive simulation rendered on expand.
+   ====================================================================== */
+const SYLLABUS = [
+{code:'A', glyph:'№', title:'Number and Numeration',
+ desc:'Number bases, arithmetic, indices, logarithms, sequences, sets, logic and financial mathematics.',
+ subtopics:[
+  {code:'a', title:'Number bases', content:['Conversion of numbers from one base to another', 'Basic operations on number bases: addition, subtraction and multiplication'], notes:'Conversion from one base to base 10 and vice versa; conversion from one base directly to another base.',
+   sim:{engine:'baseConverter'}},
+  {code:'b', title:'Modular Arithmetic', content:['Concept of modulo arithmetic', 'Addition, subtraction and multiplication in modulo arithmetic', 'Application to daily life'], notes:'Interpret e.g. 6 + 4 = k(mod 7), 3 × 5 = b(mod 6), m = 2(mod 3). Relate to market days, clocks and shift duty.',
+   sim:{engine:'moduloClock', a:6, b:4, n:7}},
+  {code:'c', title:'Fractions, Decimals and Approximations', content:['Basic operations on fractions and decimals', 'Approximations and significant figures'], notes:'Approximations should be realistic — e.g. a road is not measured to the nearest centimetre.',
+   sim:{engine:'numberLine', mode:'rounding'}},
+  {code:'d', title:'Indices', content:['Laws of indices: aˣ·aʸ = aˣ⁺ʸ, aˣ÷aʸ = aˣ⁻ʸ, (aˣ)ʸ = aˣʸ, for real x, y and a ≠ 0', 'Numbers in standard form (scientific notation)'], notes:'Include negative and fractional indices. E.g. 375 300 000 = 3.753 × 10⁸; 0.00000035 = 3.5 × 10⁻⁷.',
+   sim:{engine:'calcSliders', vars:[
+      {key:'a',label:'a',min:2,max:9,step:1,default:3},
+      {key:'x',label:'x',min:0,max:5,step:1,default:2},
+      {key:'y',label:'y',min:0,max:5,step:1,default:3}
+    ], formulas:[
+      {label:'aˣ', fn:v=>Math.pow(v.a,v.x)},
+      {label:'aʸ', fn:v=>Math.pow(v.a,v.y)},
+      {label:'aˣ × aʸ', fn:v=>Math.pow(v.a,v.x)*Math.pow(v.a,v.y)},
+      {label:'aˣ⁺ʸ (law check)', fn:v=>Math.pow(v.a,v.x+v.y)}
+    ]}},
+  {code:'e', title:'Logarithms', content:['Relationship between indices and logarithms: y = 10ᵏ ⇒ log₁₀y = k', 'Rules: log(pq) = log p + log q; log(p/q) = log p − log q; log pⁿ = n·log p', 'Use of tables of logarithms and antilogarithms'], notes:'Calculations involving multiplication, division, powers and roots.',
+   sim:{engine:'calcSliders', vars:[
+      {key:'p',label:'p',min:1,max:100,step:1,default:20},
+      {key:'q',label:'q',min:1,max:100,step:1,default:5}
+    ], formulas:[
+      {label:'log₁₀p', fn:v=>Math.log10(v.p), decimals:4},
+      {label:'log₁₀q', fn:v=>Math.log10(v.q), decimals:4},
+      {label:'log₁₀p + log₁₀q', fn:v=>Math.log10(v.p)+Math.log10(v.q), decimals:4},
+      {label:'log₁₀(pq) (law check)', fn:v=>Math.log10(v.p*v.q), decimals:4}
+    ]}},
+  {code:'f', title:'Sequence and Series', content:['Patterns of sequences', 'Arithmetic Progression (A.P.) and Geometric Progression (G.P.)'], notes:'Determine any term Uₙ of a sequence. Include the sum for A.P.; exclude the sum for G.P.',
+   sim:{engine:'sequenceBars', a1:3, d:4, n:8}},
+  {code:'g', title:'Sets', content:['Universal, finite and infinite sets; subsets, empty sets, disjoint sets', 'Union, intersection and complement of sets', 'Practical classification problems using Venn diagrams'], notes:'Notation: ℰ, ⊂, ∪, ∩, { }, ∅, P′. Venn diagrams restricted to at most 3 sets.',
+   sim:{engine:'venn3'}},
+  {code:'h', title:'Logical Reasoning', content:['Simple statements; true and false statements', 'Negation of statements, implications'], notes:'Use of symbols ⟹, ⇐ and Venn diagrams.',
+   sim:{engine:'truthTable'}},
+  {code:'i', title:'Positive & Negative Integers, Rational Numbers', content:['The four basic operations on rational numbers', 'Matching rational numbers with points on the number line'], notes:'Notation: Natural numbers (N), Integers (Z), Rational numbers (Q).',
+   sim:{engine:'numberLine', mode:'rational'}},
+  {code:'j', title:'Surds (Radicals)', content:['Simplification and rationalization of simple surds'], notes:'Surds of the form √b, a√b, a ± √b. Excludes surds of the form 1/(√a ± √b).',
+   sim:{engine:'calcSliders', vars:[{key:'b',label:'b (radicand)',min:2,max:200,step:1,default:48}], formulas:[
+      {label:'√b simplified', fn:v=>{
+        let n=Math.round(v.b), k=1, m=n;
+        for(let f=2; f*f<=m; f++){ while(m%(f*f)===0){ m/=(f*f); k*=f; } }
+        return k===1 ? `√${m}` : `${k}√${m}`;
+      }}
+   ]}},
+  {code:'k', title:'Matrices and Determinants', content:['Order, notation and types of matrices', 'Addition, subtraction, scalar multiplication and multiplication of matrices', 'Determinant of a matrix'], notes:'Restricted to matrices no larger than 3 × 3. Determinants restricted to 2 × 2.',
+   sim:{engine:'matrixCalc'}},
+  {code:'l', title:'Ratio, Proportions and Rates', content:['Ratio between two similar quantities', 'Proportion between two or more similar quantities', 'Financial partnerships, rates of work, costs, taxes, foreign exchange, density, speed'], notes:'Relate to real-life situations; includes average rates and taxes such as VAT.',
+   sim:{engine:'calcSliders', vars:[
+      {key:'dist',label:'Distance',min:10,max:500,step:10,default:150,unit:'km'},
+      {key:'time',label:'Time',min:0.5,max:10,step:0.5,default:2,unit:'hrs'}
+    ], formulas:[ {label:'Average speed = distance ÷ time', fn:v=>v.dist/v.time, unit:'km/h'} ]}},
+  {code:'m', title:'Percentages', content:['Simple interest, commission, discount, depreciation', 'Profit and loss, compound interest, hire purchase, percentage error'], notes:'Compound interest limited to a maximum of 3 years.',
+   sim:{engine:'calcSliders', canvas:{w:420,h:200}, vars:[
+      {key:'P',label:'Principal',min:100,max:10000,step:100,default:1000,unit:'₦'},
+      {key:'r',label:'Rate',min:1,max:20,step:1,default:10,unit:'%'},
+      {key:'t',label:'Time',min:1,max:5,step:1,default:3,unit:'yrs'}
+    ], draw:(ctx,v)=>{
+      ctx.clearRect(0,0,420,200); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,200);
+      const years=[]; for(let y=0;y<=v.t;y++){ years.push(v.P*Math.pow(1+v.r/100,y)); }
+      const max=Math.max(...years);
+      const bw=380/years.length;
+      years.forEach((val,i)=>{
+        const h=val/max*150;
+        ctx.fillStyle='#1D7A63';
+        ctx.fillRect(20+i*bw+5,180-h,bw-10,h);
+        ctx.fillStyle='#1B2A4A'; ctx.font='10px JetBrains Mono'; ctx.textAlign='center';
+        ctx.fillText('Yr '+i, 20+i*bw+bw/2, 195);
+      });
+      ctx.textAlign='start';
+    }, formulas:[
+      {label:'Simple Interest = Prt/100', fn:v=>v.P*v.r*v.t/100, unit:'₦'},
+      {label:'Compound amount = P(1+r/100)ᵗ', fn:v=>v.P*Math.pow(1+v.r/100,v.t), unit:'₦'}
+   ]}},
+  {code:'n', title:'Financial Arithmetic', content:['Depreciation and amortization on fixed / capitalized assets', 'Annuities', 'Capital market instruments — shares, debentures, bonds'], notes:'Includes simple problems on annuities and on bond/debenture interest.',
+   sim:{engine:'calcSliders', canvas:{w:420,h:200}, vars:[
+      {key:'cost',label:'Asset cost',min:1000,max:100000,step:1000,default:40000,unit:'₦'},
+      {key:'rate',label:'Depreciation rate',min:1,max:30,step:1,default:15,unit:'%'},
+      {key:'years',label:'Years',min:1,max:10,step:1,default:5}
+    ], draw:(ctx,v)=>{
+      ctx.clearRect(0,0,420,200); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,200);
+      const vals=[]; for(let y=0;y<=v.years;y++){ vals.push(v.cost*Math.pow(1-v.rate/100,y)); }
+      const max=vals[0]; const bw=380/vals.length;
+      vals.forEach((val,i)=>{
+        const h=val/max*150;
+        ctx.fillStyle='#B5322F'; ctx.fillRect(20+i*bw+5,180-h,bw-10,h);
+        ctx.fillStyle='#1B2A4A'; ctx.font='10px JetBrains Mono'; ctx.textAlign='center';
+        ctx.fillText('Y'+i, 20+i*bw+bw/2, 195);
+      });
+      ctx.textAlign='start';
+    }, formulas:[ {label:'Value after n years = cost×(1−rate)ⁿ', fn:v=>v.cost*Math.pow(1-v.rate/100,v.years), unit:'₦'} ]}},
+  {code:'o', title:'Variation', content:['Direct, inverse, partial and joint variation'], notes:'Symbols e.g. direct z ∝ n; inverse z ∝ 1/n.',
+   sim:{engine:'graphPlot', mode:'variation', range:{xMin:-10,xMax:10,yMin:-10,yMax:10,step:2}, params:[
+      {key:'type', type:'select', label:'Type', options:[{value:'direct',label:'Direct (y = kx)'},{value:'inverse',label:'Inverse (y = k/x)'}], default:'direct'},
+      {key:'k', label:'Constant k', min:1,max:8,step:1,default:2}
+   ]}},
+ ]},
+
+{code:'B', glyph:'x²', title:'Algebraic Processes',
+ desc:'Expressions, factorization, equations, inequalities, algebraic fractions, functions and relations.',
+ subtopics:[
+  {code:'a', title:'Algebraic Expressions', content:['Formulating algebraic expressions from a given situation', 'Evaluation of algebraic expressions'], notes:'E.g. cost C of 4 pens at x naira and 3 oranges at y naira: C = 4x + 3y.',
+   sim:{engine:'calcSliders', vars:[{key:'x',label:'x (pen price)',min:0,max:200,step:10,default:60},{key:'y',label:'y (orange price)',min:0,max:200,step:10,default:20}],
+     formulas:[{label:'C = 4x + 3y', fn:v=>4*v.x+3*v.y, unit:'₦'}]}},
+  {code:'b', title:'Simple Operations on Algebraic Expressions', content:['Expansion, e.g. (a + b)(c + d)', 'Factorization, e.g. ax + ay, a² − b², ax² + bx + c', 'Binary operations, e.g. a*b = 2a + b − ab'], notes:'Difference of two squares: 49² − 47² = (49+47)(49−47) = 192.',
+   sim:{engine:'calcSliders', canvas:{w:320,h:240}, vars:[{key:'a',label:'a',min:1,max:8,step:1,default:3},{key:'b',label:'b',min:1,max:8,step:1,default:2}],
+     draw:(ctx,v)=>{
+       ctx.clearRect(0,0,320,240); ctx.fillStyle='#fff'; ctx.fillRect(0,0,320,240);
+       const s=18, ox=20, oy=20;
+       ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=1.5;
+       ctx.fillStyle='rgba(181,50,47,.18)'; ctx.fillRect(ox,oy,v.a*s,v.a*s); ctx.strokeRect(ox,oy,v.a*s,v.a*s);
+       ctx.fillStyle='rgba(217,164,65,.28)'; ctx.fillRect(ox+v.a*s,oy,v.b*s,v.a*s); ctx.strokeRect(ox+v.a*s,oy,v.b*s,v.a*s);
+       ctx.fillStyle='rgba(217,164,65,.28)'; ctx.fillRect(ox,oy+v.a*s,v.a*s,v.b*s); ctx.strokeRect(ox,oy+v.a*s,v.a*s,v.b*s);
+       ctx.fillStyle='rgba(29,122,99,.22)'; ctx.fillRect(ox+v.a*s,oy+v.a*s,v.b*s,v.b*s); ctx.strokeRect(ox+v.a*s,oy+v.a*s,v.b*s,v.b*s);
+       ctx.fillStyle='#1B2A4A'; ctx.font='11px JetBrains Mono';
+       ctx.fillText('a²', ox+v.a*s/2-8, oy+v.a*s/2);
+       ctx.fillText('ab', ox+v.a*s+v.b*s/2-8, oy+v.a*s/2);
+       ctx.fillText('ab', ox+v.a*s/2-8, oy+v.a*s+v.b*s/2);
+       ctx.fillText('b²', ox+v.a*s+v.b*s/2-8, oy+v.a*s+v.b*s/2);
+     },
+     formulas:[
+       {label:'(a + b)²', fn:v=>Math.pow(v.a+v.b,2)},
+       {label:'a² + 2ab + b² (identity check)', fn:v=>v.a*v.a+2*v.a*v.b+v.b*v.b}
+     ]}},
+  {code:'c', title:'Solution of Linear Equations', content:['Linear equations in one variable', 'Simultaneous linear equations in two variables'], notes:'Solve by elimination, substitution and graphical methods.',
+   sim:{engine:'graphPlot', mode:'twoLines', range:{xMin:-10,xMax:10,yMin:-10,yMax:10,step:2}, params:[
+      {key:'line1_m', label:'Line 1: m', min:-4,max:4,step:0.5,default:1},
+      {key:'line1_c', label:'Line 1: c', min:-8,max:8,step:1,default:1},
+      {key:'line2_m', label:'Line 2: m', min:-4,max:4,step:0.5,default:-1},
+      {key:'line2_c', label:'Line 2: c', min:-8,max:8,step:1,default:5}
+   ]}},
+  {code:'d', title:'Change of Subject of a Formula / Relation', content:['Changing the subject of a formula or relation', 'Substitution'], notes:'E.g. given 1/f = 1/u + 1/v, make v the subject.',
+   sim:{engine:'calcSliders', vars:[{key:'u',label:'u',min:2,max:50,step:1,default:20},{key:'f',label:'f',min:1,max:19,step:1,default:8}],
+     formulas:[{label:'v = 1 / (1/f − 1/u)', fn:v=>1/((1/v.f)-(1/v.u))}]}},
+  {code:'e', title:'Quadratic Equations', content:['Solving quadratic equations', 'Forming a quadratic equation with given roots', 'Application to practical problems'], notes:'By factorization, completing the square, and the quadratic formula.',
+   sim:{engine:'graphPlot', mode:'quadratic', range:{xMin:-10,xMax:10,yMin:-15,yMax:15,step:2}, params:[
+      {key:'a',label:'a',min:-3,max:3,step:0.5,default:1},
+      {key:'b',label:'b',min:-8,max:8,step:1,default:-2},
+      {key:'c',label:'c',min:-10,max:10,step:1,default:-3}
+   ]}},
+  {code:'f', title:'Graphs of Linear and Quadratic Functions', content:['Interpreting graphs, tables of values, drawing quadratic graphs', 'Graphical solution with y = mx + k', 'Drawing tangents to determine the gradient at a point'], notes:'On y = x² − 2x − 3, find the gradient at any point by tangent.',
+   sim:{engine:'graphPlot', mode:'tangent', range:{xMin:-6,xMax:6,yMin:-8,yMax:12,step:2}, params:[
+      {key:'x0', label:'Point x₀', min:-4,max:4,step:0.5,default:1}
+   ]}},
+  {code:'g', title:'Linear Inequalities', content:['Solving linear inequalities in one variable, shown on a number line', 'Graphical solution of linear inequalities in two variables', 'Graphical solution of simultaneous linear inequalities'], notes:'Application to maximum/minimum values, e.g. linear programming.',
+   sim:{engine:'graphPlot', mode:'inequality', range:{xMin:-10,xMax:10,yMin:-10,yMax:10,step:2}, params:[
+      {key:'m',label:'m',min:-3,max:3,step:0.5,default:1},
+      {key:'c',label:'c',min:-6,max:6,step:1,default:0},
+      {key:'dir', type:'select', label:'Inequality', options:[{value:'>',label:'y > mx + c'},{value:'>=',label:'y ≥ mx + c'},{value:'<',label:'y < mx + c'},{value:'<=',label:'y ≤ mx + c'}], default:'>='}
+   ]}},
+  {code:'h', title:'Algebraic Fractions', content:['Operations with monomial denominators', 'Operations with binomial denominators'], notes:'Identify values for which a fraction is undefined, e.g. 1/(x+3) is undefined for x = −3.',
+   sim:{engine:'calcSliders', vars:[{key:'x',label:'x',min:-9,max:9,step:1,default:0}],
+     formulas:[{label:'1/(x−3) + 1/(x+2)', fn:v=>{ if(v.x===3||v.x===-2) return 'undefined'; return 1/(v.x-3)+1/(v.x+2); }, decimals:4}]}},
+  {code:'i', title:'Functions and Relations', content:['Types of functions: one-to-one, one-to-many, many-to-one, many-to-many', 'Functions as a mapping; determining the rule of a given mapping/function'], notes:'',
+   sim:{engine:'mappingDiagram'}},
+ ]},
+
+{code:'C', glyph:'⧉', title:'Mensuration',
+ desc:'Lengths, perimeters, areas and volumes of plane and solid shapes.',
+ subtopics:[
+  {code:'a', title:'Lengths and Perimeters', content:['Pythagoras\u2019 theorem, sine and cosine rules for lengths and distances', 'Lengths of arcs, perimeters of sectors and segments', 'Longitudes and latitudes'], notes:'No formal proofs of the theorem or rules are required.',
+   sim:{engine:'shapeCalc', mode:'pythagoras'}},
+  {code:'b', title:'Areas', content:['Triangles and special quadrilaterals — rectangles, parallelograms, trapeziums', 'Circles, sectors and segments of circles', 'Surface areas of cubes, cuboids, cylinders, pyramids, prisms, cones and spheres'], notes:'Area of triangle = ½ base × height, and ½ab sin C.',
+   sim:{engine:'shapeCalc', mode:'area'}},
+  {code:'c', title:'Volumes', content:['Volumes of cubes, cuboids, cylinders, cones, right pyramids and spheres', 'Volumes of similar solids'], notes:'Includes volumes of compound shapes.',
+   sim:{engine:'shapeCalc', mode:'volume'}},
+ ]},
+
+{code:'D', glyph:'△', title:'Plane Geometry',
+ desc:'Angles, parallel lines, triangles, polygons, circle theorems, construction and loci.',
+ subtopics:[
+  {code:'a', title:'Angles', content:['Angles at a point sum to 360°', 'Adjacent angles on a straight line are supplementary', 'Vertically opposite angles are equal'], notes:'The degree as the unit of measure.',
+   sim:{engine:'angleDiagram', mode:'point'}},
+  {code:'b', title:'Angles and Intercepts on Parallel Lines', content:['Alternate angles are equal', 'Corresponding angles are equal', 'Interior opposite angles are supplementary', 'Intercept theorem'], notes:'Application to proportional division of a line segment.',
+   sim:{engine:'angleDiagram', mode:'parallel'}},
+  {code:'c', title:'Triangles and Polygons', content:['Angle sum of a triangle = 2 right angles', 'Exterior angle = sum of the two interior opposite angles', 'Congruent triangles; properties of special triangles and quadrilaterals', 'Properties of similar triangles; polygon angle sum = (n − 2)180°'], notes:'Conditions such as SSS, SAS must be known though proofs are not generally required.',
+   sim:{engine:'angleDiagram', mode:'polygon'}},
+  {code:'d', title:'Circles', content:['Chords of a circle', 'Angle at the centre = twice the angle at the circumference', 'Angle in a semicircle is a right angle', 'Angles in the same segment are equal; opposite segments are supplementary', 'Tangent–radius and tangent–chord properties'], notes:'Includes perpendicular bisectors of chords.',
+   sim:{engine:'angleDiagram', mode:'circleTheorem'}},
+  {code:'e', title:'Construction', content:['Bisectors of angles and line segments', 'Lines parallel or perpendicular to a given line', 'Angles: 90°, 60°, 45°, 30° and combinations', 'Triangles and quadrilaterals from sufficient data'], notes:'',
+   sim:{engine:'constructionSteps'}},
+  {code:'f', title:'Loci', content:['Points at a given distance from a given point', 'Points equidistant from two given points', 'Points equidistant from two given straight lines', 'Points at a given distance from a given straight line'], notes:'Consider parallel and intersecting lines; application to real life.',
+   sim:{engine:'locusCanvas'}},
+ ]},
+
+{code:'E', glyph:'(x,y)', title:'Coordinate Geometry of Straight Lines',
+ desc:'The x-y plane, distance and midpoint, gradient, and the equation of a straight line.',
+ subtopics:[
+  {code:'i', title:'The x-y Plane and Coordinates', content:['Concept of the x-y plane', 'Coordinates of points on the x-y plane'], notes:'',
+   sim:{engine:'coordGrid', mode:'point'}},
+  {code:'ii', title:'Midpoint and Distance Between Two Points', content:['Midpoint of two points P(x₁,y₁) and Q(x₂,y₂)', 'Distance |PQ| = √[(x₂ − x₁)² + (y₂ − y₁)²]'], notes:'',
+   sim:{engine:'coordGrid', mode:'distance'}},
+  {code:'iii', title:'Gradient (Slope) of a Line', content:['Gradient m = (y₂ − y₁) / (x₂ − x₁)'], notes:'',
+   sim:{engine:'coordGrid', mode:'gradient'}},
+  {code:'iv', title:'Equation of a Line', content:['y = mx + c', 'y − y₁ = m(x − x₁)'], notes:'m is the gradient and c is a constant.',
+   sim:{engine:'coordGrid', mode:'line'}},
+ ]},
+
+{code:'F', glyph:'∠', title:'Trigonometry',
+ desc:'Trigonometric ratios, graphs, elevation/depression and bearings.',
+ subtopics:[
+  {code:'a', title:'Sine, Cosine and Tangent of an Angle', content:['Sine, cosine and tangent of acute angles; use of trig tables', 'Ratios of 30°, 45° and 60°', 'Ratios of angles from 0° to 360°', 'Graphs of sine, cosine and other trig ratios'], notes:'Relate to the unit circle, 0° ≤ x ≤ 360°.',
+   sim:{engine:'graphPlot', mode:'unitCircle', range:{xMin:-1.4,xMax:1.4,yMin:-1.4,yMax:1.4,step:0.5}, params:[
+      {key:'theta', label:'θ', min:0,max:360,step:1,default:40,unit:'°'}
+   ]}},
+  {code:'b', title:'Angles of Elevation and Depression', content:['Calculating angles of elevation and depression', 'Application to heights and distances'], notes:'Simple problems only.',
+   sim:{engine:'calcSliders', canvas:{w:360,h:220}, vars:[
+      {key:'height',label:'Height',min:1,max:100,step:1,default:30,unit:'m'},
+      {key:'distance',label:'Distance',min:1,max:100,step:1,default:40,unit:'m'}
+    ], draw:(ctx,v)=>{
+      ctx.clearRect(0,0,360,220); ctx.fillStyle='#fff'; ctx.fillRect(0,0,360,220);
+      const scale=Math.min(260/v.distance, 140/v.height);
+      const ox=40, oy=190;
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+v.distance*scale,oy); ctx.lineTo(ox+v.distance*scale, oy-v.height*scale); ctx.stroke();
+      ctx.strokeStyle='#B5322F'; ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+v.distance*scale, oy-v.height*scale); ctx.stroke();
+    }, formulas:[{label:'Angle of elevation = tan⁻¹(height/distance)', fn:v=>Math.atan2(v.height,v.distance)*180/Math.PI, unit:'°'}]}},
+  {code:'c', title:'Bearings', content:['Bearing of one point from another', 'Calculation of distances and angles'], notes:'Notation e.g. 035°, N35°E.',
+   sim:{engine:'calcSliders', canvas:{w:280,h:280}, vars:[{key:'bearing',label:'Bearing',min:0,max:359,step:1,default:60,unit:'°'}],
+     draw:(ctx,v)=>{
+       ctx.clearRect(0,0,280,280); ctx.fillStyle='#fff'; ctx.fillRect(0,0,280,280);
+       const cx=140,cy=140,r=100;
+       ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+       ['N','E','S','W'].forEach((d,i)=>{ const a=-Math.PI/2+i*Math.PI/2; ctx.font='12px JetBrains Mono'; ctx.fillStyle='#1B2A4A'; ctx.fillText(d, cx+(r+14)*Math.cos(a)-4, cy+(r+14)*Math.sin(a)+4); });
+       const rad=(v.bearing-90)*Math.PI/180;
+       ctx.strokeStyle='#B5322F'; ctx.lineWidth=2.5;
+       ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r*Math.cos(rad), cy+r*Math.sin(rad)); ctx.stroke();
+     }, formulas:[{label:'Bearing (3-figure)', fn:v=>String(Math.round(v.bearing)).padStart(3,'0')+'°'}]}},
+ ]},
+
+{code:'G', glyph:'∫', title:'Introductory Calculus',
+ desc:'Differentiation and integration of simple algebraic functions.',
+ subtopics:[
+  {code:'i', title:'Differentiation of Algebraic Functions', content:['Concept of the derived function dy/dx', 'Relationship between the gradient of a curve and the differential coefficient', 'Standard derivatives, e.g. y = x² ⇒ dy/dx = 2x'], notes:'E.g. if s = 2t³ + 4, then v = ds/dt = 6t².',
+   sim:{engine:'graphPlot', mode:'derivative', range:{xMin:-4,xMax:4,yMin:-30,yMax:30,step:2}, params:[
+      {key:'n', type:'select', label:'y = xⁿ', options:[{value:'2',label:'n = 2'},{value:'3',label:'n = 3'}], default:'2'},
+      {key:'x0', label:'Point x₀', min:-3,max:3,step:0.5,default:1}
+   ]}},
+  {code:'ii', title:'Integration of Simple Algebraic Functions', content:['Meaning and concept of integration', 'Evaluation of simple definite algebraic integrals'], notes:'',
+   sim:{engine:'graphPlot', mode:'integral', range:{xMin:-1,xMax:6,yMin:-2,yMax:30,step:2}, params:[
+      {key:'a', label:'Lower bound a', min:0,max:5,step:0.5,default:1},
+      {key:'b', label:'Upper bound b', min:0,max:5,step:0.5,default:4}
+   ]}},
+ ]},
+
+{code:'H', glyph:'σ', title:'Statistics and Probability',
+ desc:'Data presentation, averages, dispersion, and the rules of probability.',
+ subtopics:[
+  {code:'A(i)', title:'Frequency Distribution', content:['Construction of frequency distribution tables', 'Class intervals, class mark and class boundary'], notes:'Unequal class intervals are excluded.',
+   sim:{engine:'statsTool', mode:'freqTable'}},
+  {code:'A(ii)', title:'Pie Charts, Bar Charts, Histograms & Frequency Polygons', content:['Reading and drawing simple inferences from graphs', 'Interpretation of data in histograms'], notes:'',
+   sim:{engine:'statsTool', mode:'chart'}},
+  {code:'A(iii)', title:'Mean, Median and Mode', content:['For both discrete and grouped data'], notes:'For grouped data: mode from histogram; median/quartiles from the ogive.',
+   sim:{engine:'statsTool', mode:'averages'}},
+  {code:'A(iv)', title:'Cumulative Frequency Curve (Ogive)', content:['Constructing and reading the ogive'], notes:'Application of the cumulative frequency curve to everyday life.',
+   sim:{engine:'statsTool', mode:'ogive'}},
+  {code:'A(v)', title:'Measures of Dispersion', content:['Range, semi-interquartile / interquartile range', 'Variance, mean deviation and standard deviation'], notes:'Variance is the square of the standard deviation.',
+   sim:{engine:'statsTool', mode:'dispersion'}},
+  {code:'B(i)', title:'Experimental & Theoretical Probability', content:['Probability of equally likely events'], notes:'E.g. probability of a six with a fair die, or a head with a fair coin.',
+   sim:{engine:'probabilitySim', mode:'trials'}},
+  {code:'B(ii)', title:'Addition of Probabilities', content:['Mutually exclusive events', 'Independent events'], notes:'With replacement.',
+   sim:{engine:'probabilitySim', mode:'addition'}},
+  {code:'B(iii)', title:'Multiplication of Probabilities', content:['Independent events'], notes:'Without replacement. Interpretation of \u201cand\u201d and \u201cor\u201d in probability.',
+   sim:{engine:'probabilitySim', mode:'multiplication'}},
+ ]},
+
+{code:'I', glyph:'→', title:'Vectors and Transformation',
+ desc:'Vectors in a plane and geometric transformation in the Cartesian plane.',
+ subtopics:[
+  {code:'a', title:'Vectors in a Plane', content:['Vectors as a directed line segment; Cartesian components of a vector', 'Magnitude of a vector; equal, zero and parallel vectors', 'Addition and subtraction of vectors; multiplication by a scalar'], notes:'Knowledge of graphical representation is necessary.',
+   sim:{engine:'coordGrid', mode:'vectors'}},
+  {code:'b', title:'Transformation in the Cartesian Plane', content:['Reflection of points and shapes', 'Rotation of points and shapes', 'Translation using a translation vector', 'Enlargement about a given centre and scale factor'], notes:'Rotation angles restricted to −180° to 180°.',
+   sim:{engine:'coordGrid', mode:'transform'}},
+ ]},
+];
+
+const UNITS = [
+ ['Length', '1000 mm = 100 cm = 1 m; 1000 m = 1 km'],
+ ['Area', '10,000 m² = 1 hectare (ha)'],
+ ['Capacity', '1000 cm³ = 1 litre (l)'],
+ ['Mass', '1000 mg = 1 g; 1000 g = 1 kg; 1000 kg = 1 tonne'],
+ ['Currencies', 'Gambia: 100 bututs = 1 Dalasi · Ghana: 100 pesewas = 1 Cedi · Liberia: 100 cents = 1 Liberian $ · Nigeria: 100 kobo = 1 Naira · Sierra Leone: 100 cents = 1 Leone · UK: 100 pence = £1 · USA: 100 cents = $1 · Francophone: 100 centimes = 1 Franc'],
+];
+
+/* ======================================================================
+   SIM ENGINE HELPERS
+   ====================================================================== */
+function $el(tag, cls){ const e=document.createElement(tag); if(cls) e.className=cls; return e; }
+function fmt(n, d=2){ if(typeof n!=='number' || !isFinite(n)) return String(n); const f=Math.pow(10,d); return (Math.round(n*f)/f).toString(); }
+
+function simSlider(container,{label,min,max,step,value,unit='',onInput}){
+  const wrap=$el('div','sim-field');
+  const lab=$el('div','sim-label');
+  const valSpan=$el('span','sim-val'); valSpan.textContent=fmt(value, step<1?2:0);
+  lab.appendChild(document.createTextNode(label+': '));
+  lab.appendChild(valSpan);
+  if(unit) lab.appendChild(document.createTextNode(' '+unit));
+  const inp=document.createElement('input'); inp.type='range'; inp.min=min; inp.max=max; inp.step=step; inp.value=value;
+  inp.addEventListener('input', ()=>{ const v=parseFloat(inp.value); valSpan.textContent=fmt(v, step<1?2:0); onInput(v); });
+  wrap.appendChild(lab); wrap.appendChild(inp); container.appendChild(wrap);
+  return { get value(){return parseFloat(inp.value);} };
+}
+function simSelect(container,{label,options,value,onChange}){
+  const wrap=$el('div','sim-field');
+  if(label){ const lab=$el('div','sim-label'); lab.textContent=label; wrap.appendChild(lab); }
+  const sel=document.createElement('select'); sel.className='sim-select';
+  options.forEach(o=>{ const op=document.createElement('option'); op.value=o.value; op.textContent=o.label; if(String(o.value)===String(value)) op.selected=true; sel.appendChild(op); });
+  sel.addEventListener('change', ()=>onChange(sel.value));
+  wrap.appendChild(sel); container.appendChild(wrap);
+  return { get value(){return sel.value;} };
+}
+function simButton(container,label,onClick){
+  const b=document.createElement('button'); b.className='sim-btn'; b.type='button'; b.textContent=label;
+  b.addEventListener('click',onClick); container.appendChild(b); return b;
+}
+function simResult(container){ const r=$el('div','sim-result'); container.appendChild(r); return r; }
+function simCanvas(container,w,h){
+  const wrap=$el('div','sim-canvas-wrap');
+  const c=document.createElement('canvas'); c.width=w; c.height=h; c.className='sim-canvas';
+  wrap.appendChild(c); container.appendChild(wrap);
+  return c.getContext('2d');
+}
+function drawCartesian(ctx,{xMin,xMax,yMin,yMax,step=1}){
+  const w=ctx.canvas.width,h=ctx.canvas.height;
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h);
+  const X=x=>(x-xMin)/(xMax-xMin)*w;
+  const Y=y=>h-(y-yMin)/(yMax-yMin)*h;
+  ctx.strokeStyle='#E9EBF0'; ctx.lineWidth=1;
+  for(let x=Math.ceil(xMin/step)*step; x<=xMax; x+=step){ ctx.beginPath(); ctx.moveTo(X(x),0); ctx.lineTo(X(x),h); ctx.stroke(); }
+  for(let y=Math.ceil(yMin/step)*step; y<=yMax; y+=step){ ctx.beginPath(); ctx.moveTo(0,Y(y)); ctx.lineTo(w,Y(y)); ctx.stroke(); }
+  ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=1.6;
+  ctx.beginPath(); ctx.moveTo(0,Y(0)); ctx.lineTo(w,Y(0)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(X(0),0); ctx.lineTo(X(0),h); ctx.stroke();
+  return {X,Y};
+}
+
+/* ---------- calcSliders ---------- */
+function initCalcSliders(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const vals={}; sim.vars.forEach(v=>{ vals[v.key]=v.default; });
+  let ctx=null;
+  if(sim.canvas || sim.draw){ ctx = simCanvas(container, (sim.canvas&&sim.canvas.w)||420, (sim.canvas&&sim.canvas.h)||220); }
+  const resultBox = simResult(container);
+  function update(){
+    if(ctx && sim.draw) sim.draw(ctx, vals);
+    resultBox.innerHTML = sim.formulas.map(f=>{
+      const r=f.fn(vals);
+      const val = typeof r==='string' ? r : fmt(r, f.decimals ?? 2);
+      return `<div class="sim-result-row"><span class="sim-result-label">${f.label}</span><span class="sim-result-value">${val}${f.unit?(' '+f.unit):''}</span></div>`;
+    }).join('');
+  }
+  sim.vars.forEach(v=>{
+    simSlider(controls, {label:v.label, min:v.min, max:v.max, step:v.step, value:v.default, unit:v.unit,
+      onInput:(val)=>{ vals[v.key]=val; update(); }});
+  });
+  update();
+}
+
+/* ---------- graphPlot (multi-mode) ---------- */
+function initGraphPlot(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const ctx = simCanvas(container, 440, 280);
+  const resultBox = simResult(container);
+  const p={};
+  function draw(){
+    const range = sim.range || {xMin:-10,xMax:10,yMin:-10,yMax:10,step:2};
+    const {X,Y} = drawCartesian(ctx, range);
+    ctx.lineWidth=2;
+
+    if(sim.mode==='quadratic'){
+      const a=p.a,b=p.b,c=p.c;
+      ctx.strokeStyle='#B5322F'; ctx.beginPath();
+      for(let px=0; px<=ctx.canvas.width; px++){
+        const x = range.xMin + (px/ctx.canvas.width)*(range.xMax-range.xMin);
+        const y = a*x*x+b*x+c; const py=Y(y);
+        if(px===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+      const disc = b*b-4*a*c;
+      let rootsTxt='no real roots';
+      if(a!==0 && disc>=0){
+        const r1=(-b+Math.sqrt(disc))/(2*a), r2=(-b-Math.sqrt(disc))/(2*a);
+        [r1,r2].forEach(r=>{ ctx.fillStyle='#1D7A63'; ctx.beginPath(); ctx.arc(X(r),Y(0),4,0,7); ctx.fill(); });
+        rootsTxt = disc===0 ? `x = ${fmt(r1)}` : `x = ${fmt(r1)} or x = ${fmt(r2)}`;
+      }
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Discriminant b² − 4ac</span><span class="sim-result-value">${fmt(disc)}</span></div><div class="sim-result-row"><span class="sim-result-label">Roots</span><span class="sim-result-value">${rootsTxt}</span></div>`;
+    }
+    else if(sim.mode==='twoLines'){
+      [['line1_m','line1_c','#B5322F'],['line2_m','line2_c','#1D7A63']].forEach(([mk,ck,col])=>{
+        const m=p[mk], c=p[ck];
+        ctx.strokeStyle=col; ctx.beginPath();
+        ctx.moveTo(X(range.xMin),Y(m*range.xMin+c)); ctx.lineTo(X(range.xMax),Y(m*range.xMax+c)); ctx.stroke();
+      });
+      const m1=p.line1_m,c1=p.line1_c,m2=p.line2_m,c2=p.line2_c;
+      let txt;
+      if(m1===m2){ txt = c1===c2 ? 'Lines coincide (infinite solutions)' : 'Lines are parallel (no solution)'; }
+      else{ const x=(c2-c1)/(m1-m2), y=m1*x+c1; ctx.fillStyle='#D9A441'; ctx.beginPath(); ctx.arc(X(x),Y(y),5,0,7); ctx.fill(); txt=`x = ${fmt(x)}, y = ${fmt(y)}`; }
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Solution</span><span class="sim-result-value">${txt}</span></div>`;
+    }
+    else if(sim.mode==='tangent'){
+      const fn=x=>x*x-2*x-3, dfn=x=>2*x-2;
+      ctx.strokeStyle='#1B2A4A'; ctx.beginPath();
+      for(let px=0; px<=ctx.canvas.width; px++){
+        const x=range.xMin+(px/ctx.canvas.width)*(range.xMax-range.xMin); const py=Y(fn(x));
+        if(px===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+      const x0=p.x0, y0=fn(x0), grad=dfn(x0);
+      ctx.strokeStyle='#B5322F'; ctx.beginPath();
+      const xa=x0-3, xb=x0+3;
+      ctx.moveTo(X(xa), Y(y0+grad*(xa-x0))); ctx.lineTo(X(xb), Y(y0+grad*(xb-x0))); ctx.stroke();
+      ctx.fillStyle='#D9A441'; ctx.beginPath(); ctx.arc(X(x0),Y(y0),5,0,7); ctx.fill();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">f(x) = x² − 2x − 3</span><span class="sim-result-value">f(${fmt(x0)}) = ${fmt(y0)}</span></div><div class="sim-result-row"><span class="sim-result-label">Gradient (dy/dx = 2x − 2)</span><span class="sim-result-value">${fmt(grad)}</span></div>`;
+    }
+    else if(sim.mode==='inequality'){
+      const m=p.m,c=p.c, dir=p.dir_str||'>=';
+      ctx.save(); ctx.beginPath();
+      const x1=range.xMin,x2=range.xMax;
+      const yTop = dir.includes('>') ? range.yMax : range.yMin;
+      ctx.moveTo(X(x1), Y(m*x1+c)); ctx.lineTo(X(x2), Y(m*x2+c)); ctx.lineTo(X(x2), Y(yTop)); ctx.lineTo(X(x1), Y(yTop)); ctx.closePath();
+      ctx.fillStyle='rgba(217,164,65,.28)'; ctx.fill(); ctx.restore();
+      ctx.strokeStyle='#1B2A4A'; ctx.setLineDash(dir.includes('=')?[]:[6,4]);
+      ctx.beginPath(); ctx.moveTo(X(x1),Y(m*x1+c)); ctx.lineTo(X(x2),Y(m*x2+c)); ctx.stroke(); ctx.setLineDash([]);
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Region</span><span class="sim-result-value">y ${dir} ${fmt(m)}x + ${fmt(c)}</span></div>`;
+    }
+    else if(sim.mode==='variation'){
+      const k=p.k, type=p.type_str||'direct';
+      ctx.strokeStyle='#B5322F'; ctx.beginPath(); let started=false;
+      for(let px=0; px<=ctx.canvas.width; px++){
+        const x=range.xMin+(px/ctx.canvas.width)*(range.xMax-range.xMin);
+        let y;
+        if(type==='direct'){ y=k*x; }
+        else { if(Math.abs(x)<0.4){ started=false; continue; } y=k/x; }
+        const py=Y(y);
+        if(!started){ ctx.moveTo(px,py); started=true; } else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">${type==='direct'?'y = kx':'y = k/x'}</span><span class="sim-result-value">k = ${fmt(k)}</span></div>`;
+    }
+    else if(sim.mode==='unitCircle'){
+      const theta=p.theta*Math.PI/180;
+      const r=Math.min(ctx.canvas.width,ctx.canvas.height)/2-30;
+      const cx=ctx.canvas.width/2, cy=ctx.canvas.height/2;
+      ctx.strokeStyle='#D8DCE3'; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+      const px=cx+r*Math.cos(theta), py=cy-r*Math.sin(theta);
+      ctx.strokeStyle='#B5322F'; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(px,py); ctx.stroke();
+      ctx.fillStyle='#D9A441'; ctx.beginPath(); ctx.arc(px,py,5,0,7); ctx.fill();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">sin ${Math.round(p.theta)}°</span><span class="sim-result-value">${fmt(Math.sin(theta),3)}</span></div><div class="sim-result-row"><span class="sim-result-label">cos ${Math.round(p.theta)}°</span><span class="sim-result-value">${fmt(Math.cos(theta),3)}</span></div><div class="sim-result-row"><span class="sim-result-label">tan ${Math.round(p.theta)}°</span><span class="sim-result-value">${fmt(Math.tan(theta),3)}</span></div>`;
+    }
+    else if(sim.mode==='derivative'){
+      const n=parseInt(p.n_str||'2');
+      const fn=x=>Math.pow(x,n), dfn=x=>n*Math.pow(x,n-1);
+      ctx.strokeStyle='#1B2A4A'; ctx.beginPath();
+      for(let px=0;px<=ctx.canvas.width;px++){
+        const x=range.xMin+(px/ctx.canvas.width)*(range.xMax-range.xMin); const py=Y(fn(x));
+        if(px===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+      const x0=p.x0, y0=fn(x0), grad=dfn(x0);
+      ctx.strokeStyle='#B5322F'; ctx.beginPath();
+      ctx.moveTo(X(x0-2), Y(y0-grad*2)); ctx.lineTo(X(x0+2), Y(y0+grad*2)); ctx.stroke();
+      ctx.fillStyle='#D9A441'; ctx.beginPath(); ctx.arc(X(x0),Y(y0),5,0,7); ctx.fill();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">y = x^${n}, dy/dx = ${n}x^${n-1}</span><span class="sim-result-value">—</span></div><div class="sim-result-row"><span class="sim-result-label">Gradient at x = ${fmt(x0)}</span><span class="sim-result-value">${fmt(grad)}</span></div>`;
+    }
+    else if(sim.mode==='integral'){
+      const fn=x=>x*x, F=x=>x*x*x/3;
+      ctx.strokeStyle='#1B2A4A'; ctx.beginPath();
+      for(let px=0;px<=ctx.canvas.width;px++){
+        const x=range.xMin+(px/ctx.canvas.width)*(range.xMax-range.xMin); const py=Y(fn(x));
+        if(px===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.stroke();
+      const a=Math.min(p.a,p.b), b=Math.max(p.a,p.b);
+      ctx.beginPath(); ctx.moveTo(X(a),Y(0));
+      for(let x=a;x<=b;x+=(b-a)/60||1){ ctx.lineTo(X(x),Y(fn(x))); }
+      ctx.lineTo(X(b),Y(0)); ctx.closePath();
+      ctx.fillStyle='rgba(29,122,99,.28)'; ctx.fill();
+      const area=F(b)-F(a);
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">∫ x² dx from ${fmt(a)} to ${fmt(b)}</span><span class="sim-result-value">${fmt(area)}</span></div>`;
+    }
+  }
+  (sim.params||[]).forEach(v=>{
+    if(v.type==='select'){
+      p[v.key+'_str']=v.default;
+      simSelect(controls,{label:v.label, options:v.options, value:v.default, onChange:(val)=>{ p[v.key+'_str']=val; draw(); }});
+    } else {
+      p[v.key]=v.default;
+      simSlider(controls,{label:v.label,min:v.min,max:v.max,step:v.step,value:v.default,unit:v.unit,onInput:(val)=>{ p[v.key]=val; draw(); }});
+    }
+  });
+  draw();
+}
+
+/* ---------- venn3 (Sets) ---------- */
+function initVenn3(container){
+  const wrap=$el('div','sim-controls'); container.appendChild(wrap);
+  const ops=[
+    {label:'A ∪ B', fn:e=>e.inA||e.inB},
+    {label:'A ∩ B', fn:e=>e.inA&&e.inB},
+    {label:"A′ (complement)", fn:e=>!e.inA},
+    {label:'A ∩ B ∩ C', fn:e=>e.inA&&e.inB&&e.inC},
+    {label:'B − C', fn:e=>e.inB&&!e.inC},
+  ];
+  let current=ops[1];
+  simSelect(wrap,{label:'Operation', options:ops.map((o,i)=>({value:i,label:o.label})), value:1, onChange:(v)=>{current=ops[+v]; draw();}});
+  const ctx=simCanvas(container,420,300);
+  const resultBox=simResult(container);
+  const elements=[
+    {id:1,inA:true,inB:false,inC:false},{id:2,inA:true,inB:false,inC:false},
+    {id:3,inA:false,inB:true,inC:false},{id:4,inA:false,inB:true,inC:false},
+    {id:5,inA:false,inB:false,inC:true},{id:6,inA:false,inB:false,inC:true},
+    {id:7,inA:true,inB:true,inC:false},{id:8,inA:true,inB:false,inC:true},
+    {id:9,inA:false,inB:true,inC:true},{id:10,inA:true,inB:true,inC:true},
+    {id:11,inA:false,inB:false,inC:false},{id:12,inA:false,inB:false,inC:false},
+  ];
+  const pos={1:[130,90],2:[110,120],3:[290,90],4:[310,120],5:[210,235],6:[210,262],
+    7:[210,90],8:[165,175],9:[255,175],10:[210,150],11:[35,270],12:[385,270]};
+  function draw(){
+    ctx.clearRect(0,0,420,300); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,300);
+    ctx.globalAlpha=.35;
+    ctx.fillStyle='#B5322F'; ctx.beginPath(); ctx.arc(170,150,90,0,7); ctx.fill();
+    ctx.fillStyle='#1D7A63'; ctx.beginPath(); ctx.arc(250,150,90,0,7); ctx.fill();
+    ctx.fillStyle='#D9A441'; ctx.beginPath(); ctx.arc(210,210,90,0,7); ctx.fill();
+    ctx.globalAlpha=1;
+    ctx.font='600 13px IBM Plex Sans'; ctx.fillStyle='#1B2A4A';
+    ctx.fillText('A',108,68); ctx.fillText('B',302,68); ctx.fillText('C',203,288);
+    elements.forEach(e=>{
+      const [x,y]=pos[e.id]; const on=current.fn(e);
+      ctx.beginPath(); ctx.arc(x,y,10,0,7);
+      ctx.fillStyle= on? '#1B2A4A':'#fff'; ctx.fill();
+      ctx.lineWidth=2; ctx.strokeStyle= on?'#1B2A4A':'#9099AC'; ctx.stroke();
+      ctx.fillStyle= on?'#fff':'#5B6478'; ctx.font='600 11px JetBrains Mono';
+      ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(e.id, x, y+1);
+    });
+    ctx.textAlign='start'; ctx.textBaseline='alphabetic';
+    const members=elements.filter(current.fn).map(e=>e.id);
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">${current.label}</span><span class="sim-result-value">{ ${members.join(', ')||'∅'} }</span></div>`;
+  }
+  draw();
+}
+
+/* ---------- truthTable ---------- */
+function initTruthTable(container){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  let p=true,q=true;
+  simSelect(controls,{label:'p', options:[{value:'T',label:'True'},{value:'F',label:'False'}], value:'T', onChange:v=>{p=v==='T'; update();}});
+  simSelect(controls,{label:'q', options:[{value:'T',label:'True'},{value:'F',label:'False'}], value:'T', onChange:v=>{q=v==='T'; update();}});
+  const resultBox=simResult(container);
+  function tv(b){return b?'T':'F';}
+  function update(){
+    resultBox.innerHTML = `
+      <div class="sim-result-row"><span class="sim-result-label">¬p (negation)</span><span class="sim-result-value">${tv(!p)}</span></div>
+      <div class="sim-result-row"><span class="sim-result-label">p ∧ q (and)</span><span class="sim-result-value">${tv(p&&q)}</span></div>
+      <div class="sim-result-row"><span class="sim-result-label">p ∨ q (or)</span><span class="sim-result-value">${tv(p||q)}</span></div>
+      <div class="sim-result-row"><span class="sim-result-label">p ⟹ q (implies)</span><span class="sim-result-value">${tv((!p)||q)}</span></div>`;
+  }
+  update();
+}
+
+/* ---------- matrixCalc ---------- */
+function initMatrixCalc(container){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const grid=$el('div','sim-controls'); controls.appendChild(grid);
+  const vals={m1:1,m2:2,m3:3,m4:4,n1:5,n2:6,n3:7,n4:8};
+  function makeMatrixInputs(prefix,label){
+    const box=$el('div','sim-matrix');
+    const lab=$el('div','sim-label'); lab.textContent=label; box.appendChild(lab);
+    const g=$el('div','sim-matrix-2x2');
+    [1,2,3,4].forEach(i=>{
+      const key=prefix+i;
+      const inp=document.createElement('input'); inp.type='number'; inp.className='sim-input'; inp.value=vals[key];
+      inp.addEventListener('input',()=>{ vals[key]=parseFloat(inp.value)||0; update(); });
+      g.appendChild(inp);
+    });
+    box.appendChild(g); grid.appendChild(box);
+  }
+  makeMatrixInputs('m','Matrix A');
+  makeMatrixInputs('n','Matrix B');
+  const opSel = simSelect(controls,{label:'Operation', options:[
+    {value:'add',label:'A + B'},{value:'sub',label:'A − B'},{value:'mul',label:'A × B'},{value:'det',label:'det(A)'}
+  ], value:'add', onChange:update});
+  const resultBox=simResult(container);
+  function update(){
+    const A=[[vals.m1,vals.m2],[vals.m3,vals.m4]];
+    const B=[[vals.n1,vals.n2],[vals.n3,vals.n4]];
+    const op=opSel.value;
+    if(op==='det'){
+      const d=A[0][0]*A[1][1]-A[0][1]*A[1][0];
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">det(A)</span><span class="sim-result-value">${fmt(d)}</span></div>`;
+      return;
+    }
+    let out;
+    if(op==='add') out=[[A[0][0]+B[0][0],A[0][1]+B[0][1]],[A[1][0]+B[1][0],A[1][1]+B[1][1]]];
+    if(op==='sub') out=[[A[0][0]-B[0][0],A[0][1]-B[0][1]],[A[1][0]-B[1][0],A[1][1]-B[1][1]]];
+    if(op==='mul') out=[[A[0][0]*B[0][0]+A[0][1]*B[1][0], A[0][0]*B[0][1]+A[0][1]*B[1][1]],
+                         [A[1][0]*B[0][0]+A[1][1]*B[1][0], A[1][0]*B[0][1]+A[1][1]*B[1][1]]];
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Result</span><span class="sim-result-value">[ ${fmt(out[0][0])}, ${fmt(out[0][1])} / ${fmt(out[1][0])}, ${fmt(out[1][1])} ]</span></div>`;
+  }
+  update();
+}
+
+/* ---------- sequenceBars ---------- */
+function initSequenceBars(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const state={a1:sim.a1||3, d:sim.d||4, n:sim.n||8, type:'AP'};
+  simSelect(controls,{label:'Type', options:[{value:'AP',label:'Arithmetic (A.P.)'},{value:'GP',label:'Geometric (G.P.)'}], value:'AP', onChange:v=>{state.type=v; update();}});
+  simSlider(controls,{label:'First term (a)', min:1,max:10,step:1,value:state.a1, onInput:v=>{state.a1=v; update();}});
+  simSlider(controls,{label:'Common difference/ratio', min:-5,max:5,step:1,value:state.d, onInput:v=>{state.d=v; update();}});
+  simSlider(controls,{label:'Terms (n)', min:3,max:12,step:1,value:state.n, onInput:v=>{state.n=v; update();}});
+  const ctx=simCanvas(container,440,220);
+  const resultBox=simResult(container);
+  function update(){
+    const terms=[];
+    for(let i=0;i<state.n;i++){ terms.push(state.type==='AP'? state.a1+i*state.d : state.a1*Math.pow(state.d,i)); }
+    const max=Math.max(...terms.map(Math.abs),1);
+    ctx.clearRect(0,0,440,220); ctx.fillStyle='#fff'; ctx.fillRect(0,0,440,220);
+    const bw=440/terms.length;
+    terms.forEach((t,i)=>{
+      const h=Math.min(150, Math.abs(t)/max*150);
+      ctx.fillStyle= t>=0 ? '#1D7A63':'#B5322F';
+      ctx.fillRect(i*bw+6, 170-h, bw-12, h);
+      ctx.fillStyle='#1B2A4A'; ctx.font='10px JetBrains Mono'; ctx.textAlign='center';
+      ctx.fillText(fmt(t,1), i*bw+bw/2, 185);
+      ctx.fillText('U'+(i+1), i*bw+bw/2, 200);
+    });
+    ctx.textAlign='start';
+    const nth = state.type==='AP' ? `Uₙ = a + (n−1)d = ${state.a1} + (n−1)(${state.d})` : `Uₙ = ar⁽ⁿ⁻¹⁾ = ${state.a1} × ${state.d}⁽ⁿ⁻¹⁾`;
+    let sumTxt='';
+    if(state.type==='AP'){
+      const s=state.n/2*(2*state.a1+(state.n-1)*state.d);
+      sumTxt = `<div class="sim-result-row"><span class="sim-result-label">Sum of ${state.n} terms</span><span class="sim-result-value">${fmt(s)}</span></div>`;
+    }
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">nth term</span><span class="sim-result-value">${nth}</span></div>${sumTxt}`;
+  }
+  update();
+}
+
+/* ---------- baseConverter ---------- */
+function initBaseConverter(container){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const state={dec:156, base:2};
+  const wrap=$el('div','sim-field'); const lab=$el('div','sim-label'); lab.textContent='Decimal number';
+  const numInp=document.createElement('input'); numInp.type='number'; numInp.className='sim-input'; numInp.value=state.dec; numInp.min=0; numInp.max=100000;
+  wrap.append(lab,numInp); controls.appendChild(wrap);
+  numInp.addEventListener('input',()=>{ state.dec=parseInt(numInp.value)||0; update(); });
+  simSelect(controls,{label:'Convert to base', options:[2,3,5,8,16].map(b=>({value:b,label:'Base '+b})), value:2, onChange:v=>{state.base=+v; update();}});
+  const resultBox=simResult(container);
+  function toBase(n,b){
+    if(n===0) return {digits:['0'], steps:[]};
+    const digitsChars='0123456789ABCDEF';
+    let steps=[], x=n, digits=[];
+    while(x>0){ const r=x%b; steps.push(`${x} \u00F7 ${b} = ${Math.floor(x/b)} remainder ${r}`); digits.unshift(digitsChars[r]); x=Math.floor(x/b); }
+    return {digits, steps};
+  }
+  function update(){
+    const {digits, steps} = toBase(state.dec, state.base);
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">${state.dec} (base 10) in base ${state.base}</span><span class="sim-result-value">${digits.join('')}</span></div>
+      <div class="sim-steps">${steps.map(s=>`<div>${s}</div>`).join('')}</div>`;
+  }
+  update();
+}
+
+/* ---------- moduloClock ---------- */
+function initModuloClock(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const state={a:sim.a||6,b:sim.b||4,n:sim.n||7,op:'+'};
+  simSlider(controls,{label:'a',min:0,max:20,step:1,value:state.a,onInput:v=>{state.a=v;update();}});
+  simSelect(controls,{label:'Operation', options:[{value:'+',label:'+'},{value:'-',label:'\u2212'},{value:'\u00D7',label:'\u00D7'}], value:'+', onChange:v=>{state.op=v; update();}});
+  simSlider(controls,{label:'b',min:0,max:20,step:1,value:state.b,onInput:v=>{state.b=v;update();}});
+  simSlider(controls,{label:'modulus n',min:2,max:16,step:1,value:state.n,onInput:v=>{state.n=v;update();}});
+  const ctx=simCanvas(container,300,300);
+  const resultBox=simResult(container);
+  function update(){
+    let raw;
+    if(state.op==='+') raw=state.a+state.b; else if(state.op==='-') raw=state.a-state.b; else raw=state.a*state.b;
+    const m = ((raw % state.n)+state.n)%state.n;
+    ctx.clearRect(0,0,300,300); ctx.fillStyle='#fff'; ctx.fillRect(0,0,300,300);
+    const cx=150,cy=150,r=105;
+    ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+    for(let i=0;i<state.n;i++){
+      const ang=-Math.PI/2+i*2*Math.PI/state.n;
+      const x=cx+r*Math.cos(ang), y=cy+r*Math.sin(ang);
+      ctx.fillStyle= i===m?'#B5322F':'#1B2A4A';
+      ctx.beginPath(); ctx.arc(x,y, i===m?9:5,0,7); ctx.fill();
+      ctx.font='11px JetBrains Mono'; ctx.fillStyle='#1B2A4A'; ctx.textAlign='center';
+      ctx.fillText(i, cx+(r+18)*Math.cos(ang), cy+(r+18)*Math.sin(ang)+4);
+    }
+    ctx.textAlign='start';
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">${state.a} ${state.op} ${state.b} (mod ${state.n})</span><span class="sim-result-value">${m}</span></div>`;
+  }
+  update();
+}
+
+/* ---------- shapeCalc ---------- */
+function initShapeCalc(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const ctx=simCanvas(container,420,260);
+  const resultBox=simResult(container);
+  if(sim.mode==='pythagoras'){
+    const st={a:6,b:8};
+    simSlider(controls,{label:'a',min:1,max:20,step:1,value:st.a,onInput:v=>{st.a=v;update();}});
+    simSlider(controls,{label:'b',min:1,max:20,step:1,value:st.b,onInput:v=>{st.b=v;update();}});
+    function update(){
+      const c=Math.sqrt(st.a*st.a+st.b*st.b);
+      ctx.clearRect(0,0,420,260); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,260);
+      const ox=70,oy=220, scale=Math.min(280/st.a,150/st.b);
+      const ax=ox+st.a*scale, ay=oy, bx=ox, by=oy-st.b*scale;
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ax,ay); ctx.lineTo(bx,by); ctx.closePath(); ctx.stroke();
+      ctx.fillStyle='#1B2A4A'; ctx.font='12px JetBrains Mono';
+      ctx.fillText('a = '+fmt(st.a), (ox+ax)/2-14, oy+18);
+      ctx.fillText('b = '+fmt(st.b), ox-46, (oy+by)/2);
+      ctx.fillStyle='#B5322F'; ctx.fillText('c = '+fmt(c), (ax+bx)/2+8, (ay+by)/2-8);
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">c = \u221A(a\u00B2 + b\u00B2)</span><span class="sim-result-value">${fmt(c)}</span></div>`;
+    }
+    update();
+  } else if(sim.mode==='area'){
+    const st={shape:'triangle', p1:8,p2:5,p3:4};
+    simSelect(controls,{label:'Shape', options:[{value:'triangle',label:'Triangle'},{value:'circle',label:'Circle'},{value:'trapezium',label:'Trapezium'}], value:'triangle', onChange:v=>{st.shape=v; update();}});
+    simSlider(controls,{label:'Base / radius (p1)',min:1,max:20,step:1,value:st.p1,onInput:v=>{st.p1=v; update();}});
+    simSlider(controls,{label:'Height (p2)',min:1,max:20,step:1,value:st.p2,onInput:v=>{st.p2=v; update();}});
+    simSlider(controls,{label:'Top side — trapezium only (p3)',min:1,max:20,step:1,value:st.p3,onInput:v=>{st.p3=v; update();}});
+    function update(){
+      ctx.clearRect(0,0,420,260); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,260);
+      let area, label;
+      ctx.strokeStyle='#1B2A4A'; ctx.fillStyle='rgba(217,164,65,.28)'; ctx.lineWidth=2;
+      if(st.shape==='triangle'){
+        area=0.5*st.p1*st.p2; label='\u00BD \u00D7 base \u00D7 height';
+        const scale=Math.min(300/st.p1,160/st.p2), ox=60,oy=220;
+        ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+st.p1*scale,oy); ctx.lineTo(ox+st.p1*scale/2, oy-st.p2*scale); ctx.closePath();
+        ctx.fill(); ctx.stroke();
+      } else if(st.shape==='circle'){
+        area=Math.PI*st.p1*st.p1; label='\u03C0r\u00B2';
+        const scale=Math.min(1, 110/st.p1);
+        ctx.beginPath(); ctx.arc(210,140, st.p1*scale,0,7); ctx.fill(); ctx.stroke();
+      } else {
+        area=0.5*(st.p1+st.p3)*st.p2; label='\u00BD(a + c) \u00D7 h';
+        const scale=Math.min(140/Math.max(st.p1,st.p3), 120/st.p2), ox=80,oy=210;
+        ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+st.p1*scale,oy);
+        ctx.lineTo(ox+st.p1*scale-((st.p1-st.p3)/2)*scale, oy-st.p2*scale);
+        ctx.lineTo(ox+((st.p1-st.p3)/2)*scale, oy-st.p2*scale); ctx.closePath();
+        ctx.fill(); ctx.stroke();
+      }
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Area = ${label}</span><span class="sim-result-value">${fmt(area)} sq units</span></div>`;
+    }
+    update();
+  } else if(sim.mode==='volume'){
+    const st={shape:'cube', a:5, h:8};
+    simSelect(controls,{label:'Solid', options:[{value:'cube',label:'Cube'},{value:'cuboid',label:'Cuboid'},{value:'cylinder',label:'Cylinder'},{value:'cone',label:'Cone'},{value:'sphere',label:'Sphere'}], value:'cube', onChange:v=>{st.shape=v; update();}});
+    simSlider(controls,{label:'a / radius',min:1,max:15,step:1,value:st.a,onInput:v=>{st.a=v; update();}});
+    simSlider(controls,{label:'height (where applicable)',min:1,max:20,step:1,value:st.h,onInput:v=>{st.h=v; update();}});
+    function update(){
+      ctx.clearRect(0,0,420,260); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,260);
+      let vol,label; const ox=140,oy=200, scale=7;
+      ctx.strokeStyle='#1B2A4A'; ctx.fillStyle='rgba(29,122,99,.22)'; ctx.lineWidth=2;
+      if(st.shape==='cube'){ vol=Math.pow(st.a,3); label='a\u00B3'; const s=st.a*scale; ctx.strokeRect(ox,oy-s,s,s); ctx.fillRect(ox,oy-s,s,s); }
+      else if(st.shape==='cuboid'){ vol=st.a*st.a*st.h; label='l \u00D7 w \u00D7 h'; const w=st.a*scale,h=st.h*scale; ctx.strokeRect(ox,oy-h,w,h); ctx.fillRect(ox,oy-h,w,h); }
+      else if(st.shape==='cylinder'){ vol=Math.PI*st.a*st.a*st.h; label='\u03C0r\u00B2h'; const w=st.a*scale*1.4,h=st.h*scale; ctx.strokeRect(ox,oy-h,w,h); ctx.fillRect(ox,oy-h,w,h); ctx.beginPath(); ctx.ellipse(ox+w/2, oy-h, w/2, 8, 0,0,7); ctx.stroke(); }
+      else if(st.shape==='cone'){ vol=(1/3)*Math.PI*st.a*st.a*st.h; label='\u2153\u03C0r\u00B2h'; const w=st.a*scale*1.4,h=st.h*scale; ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox+w,oy); ctx.lineTo(ox+w/2,oy-h); ctx.closePath(); ctx.fill(); ctx.stroke(); }
+      else { vol=(4/3)*Math.PI*Math.pow(st.a,3); label='4/3 \u03C0r\u00B3'; const rr=Math.min(st.a*scale/2,90); ctx.beginPath(); ctx.arc(ox+80, oy-90, rr,0,7); ctx.fill(); ctx.stroke(); }
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Volume = ${label}</span><span class="sim-result-value">${fmt(vol)} cubic units</span></div>`;
+    }
+    update();
+  }
+}
+
+/* ---------- angleDiagram ---------- */
+function initAngleDiagram(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const ctx=simCanvas(container,420,280);
+  const resultBox=simResult(container);
+  if(sim.mode==='point'){
+    let theta=120;
+    simSlider(controls,{label:'\u03B8',min:5,max:355,step:1,value:theta,unit:'\u00B0',onInput:v=>{theta=v;update();}});
+    function update(){
+      ctx.clearRect(0,0,420,280); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,280);
+      const cx=210,cy=150,r=100;
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r,cy); ctx.stroke();
+      const rad=theta*Math.PI/180;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r*Math.cos(-rad),cy+r*Math.sin(-rad)); ctx.stroke();
+      ctx.strokeStyle='#B5322F'; ctx.beginPath(); ctx.arc(cx,cy,30,-rad,0); ctx.stroke();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">\u03B8</span><span class="sim-result-value">${theta}\u00B0</span></div><div class="sim-result-row"><span class="sim-result-label">Reflex (360 \u2212 \u03B8)</span><span class="sim-result-value">${360-theta}\u00B0</span></div>`;
+    }
+    update();
+  } else if(sim.mode==='parallel'){
+    let theta=60;
+    simSlider(controls,{label:'Transversal angle \u03B8',min:10,max:170,step:1,value:theta,unit:'\u00B0',onInput:v=>{theta=v;update();}});
+    function update(){
+      ctx.clearRect(0,0,420,280); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,280);
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(30,100); ctx.lineTo(390,100); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(30,200); ctx.lineTo(390,200); ctx.stroke();
+      const rad=theta*Math.PI/180, dx=Math.cos(rad)*160, dy=Math.sin(rad)*160;
+      ctx.strokeStyle='#B5322F'; ctx.beginPath(); ctx.moveTo(210-dx,150-dy); ctx.lineTo(210+dx,150+dy); ctx.stroke();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Corresponding angle</span><span class="sim-result-value">${theta}\u00B0</span></div><div class="sim-result-row"><span class="sim-result-label">Alternate angle</span><span class="sim-result-value">${theta}\u00B0</span></div><div class="sim-result-row"><span class="sim-result-label">Co-interior (supplementary)</span><span class="sim-result-value">${180-theta}\u00B0</span></div>`;
+    }
+    update();
+  } else if(sim.mode==='polygon'){
+    let n=6;
+    simSlider(controls,{label:'Sides (n)',min:3,max:12,step:1,value:n,onInput:v=>{n=v;update();}});
+    function update(){
+      ctx.clearRect(0,0,420,280); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,280);
+      const cx=210,cy=150,r=100;
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2; ctx.beginPath();
+      for(let i=0;i<=n;i++){ const a=-Math.PI/2+i*2*Math.PI/n; const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y); }
+      ctx.closePath(); ctx.stroke();
+      const sum=(n-2)*180, each=sum/n, ext=360/n;
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Interior sum (n\u22122)\u00D7180\u00B0</span><span class="sim-result-value">${sum}\u00B0</span></div><div class="sim-result-row"><span class="sim-result-label">Each interior angle (regular)</span><span class="sim-result-value">${fmt(each)}\u00B0</span></div><div class="sim-result-row"><span class="sim-result-label">Each exterior angle</span><span class="sim-result-value">${fmt(ext)}\u00B0</span></div>`;
+    }
+    update();
+  } else if(sim.mode==='circleTheorem'){
+    let theta=100;
+    simSlider(controls,{label:'Central angle',min:20,max:300,step:1,value:theta,unit:'\u00B0',onInput:v=>{theta=v;update();}});
+    function update(){
+      ctx.clearRect(0,0,420,280); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,280);
+      const cx=210,cy=150,r=100;
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.stroke();
+      const a1=-Math.PI/2, a2=a1+theta*Math.PI/180;
+      const p1=[cx+r*Math.cos(a1),cy+r*Math.sin(a1)];
+      const p2=[cx+r*Math.cos(a2),cy+r*Math.sin(a2)];
+      const remaining = a2 + (2*Math.PI-theta*Math.PI/180)/2;
+      const p3=[cx+r*Math.cos(remaining),cy+r*Math.sin(remaining)];
+      ctx.strokeStyle='#B5322F'; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(p1[0],p1[1]); ctx.moveTo(cx,cy); ctx.lineTo(p2[0],p2[1]); ctx.stroke();
+      ctx.strokeStyle='#1D7A63'; ctx.beginPath(); ctx.moveTo(p3[0],p3[1]); ctx.lineTo(p1[0],p1[1]); ctx.moveTo(p3[0],p3[1]); ctx.lineTo(p2[0],p2[1]); ctx.stroke();
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Angle at centre</span><span class="sim-result-value">${theta}\u00B0</span></div><div class="sim-result-row"><span class="sim-result-label">Angle at circumference</span><span class="sim-result-value">${fmt(theta/2)}\u00B0</span></div>`;
+    }
+    update();
+  }
+}
+
+/* ---------- locusCanvas ---------- */
+function initLocusCanvas(container){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const modeSel=simSelect(controls,{label:'Locus type', options:[
+    {value:'point',label:'Given distance from a point'},
+    {value:'twoPoints',label:'Equidistant from two points'},
+    {value:'twoLines',label:'Equidistant from two lines'},
+    {value:'lineDist',label:'Given distance from a line'},
+  ], value:'point', onChange:()=>draw()});
+  const dynControls=$el('div','sim-controls'); container.appendChild(dynControls);
+  const ctx=simCanvas(container,420,280);
+  const resultBox=simResult(container);
+  let dist=60;
+  simSlider(dynControls,{label:'Distance', min:20,max:150,step:5,value:dist,onInput:v=>{dist=v;draw();}});
+  function draw(){
+    ctx.clearRect(0,0,420,280); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,280);
+    ctx.strokeStyle='#B5322F'; ctx.lineWidth=2;
+    const mode=modeSel.value;
+    if(mode==='point'){
+      ctx.fillStyle='#1B2A4A'; ctx.beginPath(); ctx.arc(210,140,4,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(210,140,dist,0,7); ctx.stroke();
+      resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Locus</span><span class="sim-result-value">A circle of radius ${dist} units centred on the point</span></div>`;
+    } else if(mode==='twoPoints'){
+      ctx.fillStyle='#1B2A4A';
+      ctx.beginPath(); ctx.arc(210-dist,140,4,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(210+dist,140,4,0,7); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(210,20); ctx.lineTo(210,260); ctx.stroke();
+      resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Locus</span><span class="sim-result-value">The perpendicular bisector of the line joining the two points</span></div>`;
+    } else if(mode==='twoLines'){
+      ctx.strokeStyle='#1B2A4A';
+      ctx.beginPath(); ctx.moveTo(60,60); ctx.lineTo(360,60); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(60,60); ctx.lineTo(160,260); ctx.stroke();
+      ctx.strokeStyle='#B5322F';
+      ctx.beginPath(); ctx.moveTo(60,60); ctx.lineTo(260,240); ctx.stroke();
+      resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Locus</span><span class="sim-result-value">The bisector of the angle between the two lines</span></div>`;
+    } else {
+      ctx.strokeStyle='#1B2A4A'; ctx.beginPath(); ctx.moveTo(30,180); ctx.lineTo(390,180); ctx.stroke();
+      ctx.strokeStyle='#B5322F'; ctx.setLineDash([6,4]);
+      ctx.beginPath(); ctx.moveTo(30,180-dist); ctx.lineTo(390,180-dist); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(30,180+dist); ctx.lineTo(390,180+dist); ctx.stroke();
+      ctx.setLineDash([]);
+      resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Locus</span><span class="sim-result-value">Two lines parallel to the given line, each ${dist} units from it</span></div>`;
+    }
+  }
+  draw();
+}
+
+/* ---------- coordGrid ---------- */
+function initCoordGrid(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const ctx=simCanvas(container,400,400);
+  const resultBox=simResult(container);
+  const range={xMin:-10,xMax:10,yMin:-10,yMax:10,step:1};
+  let XY;
+  function redraw(){ XY = drawCartesian(ctx,range); }
+
+  if(sim.mode==='point' || sim.mode==='distance' || sim.mode==='gradient'){
+    const nPts = sim.mode==='point'?1:2;
+    const pts=[{x:3,y:4},{x:-3,y:-2}].slice(0,nPts);
+    let dragIdx=-1;
+    const hint=$el('div','sim-hint'); hint.textContent='Drag the point(s) on the grid.'; container.insertBefore(hint, ctx.canvas.parentElement);
+    function draw(){
+      redraw();
+      pts.forEach((pt,i)=>{
+        const px=XY.X(pt.x), py=XY.Y(pt.y);
+        ctx.fillStyle='#B5322F'; ctx.beginPath(); ctx.arc(px,py,6,0,7); ctx.fill();
+        ctx.font='12px JetBrains Mono'; ctx.fillStyle='#1B2A4A';
+        ctx.fillText(`(${fmt(pt.x,1)}, ${fmt(pt.y,1)})`, px+8, py-8);
+      });
+      if(nPts===2){
+        ctx.strokeStyle='#1D7A63'; ctx.beginPath();
+        ctx.moveTo(XY.X(pts[0].x),XY.Y(pts[0].y)); ctx.lineTo(XY.X(pts[1].x),XY.Y(pts[1].y)); ctx.stroke();
+      }
+      if(sim.mode==='point'){
+        resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Point</span><span class="sim-result-value">(${fmt(pts[0].x,1)}, ${fmt(pts[0].y,1)})</span></div>`;
+      } else if(sim.mode==='distance'){
+        const mx=(pts[0].x+pts[1].x)/2, my=(pts[0].y+pts[1].y)/2;
+        const d=Math.hypot(pts[1].x-pts[0].x, pts[1].y-pts[0].y);
+        resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Midpoint</span><span class="sim-result-value">(${fmt(mx)}, ${fmt(my)})</span></div><div class="sim-result-row"><span class="sim-result-label">Distance |PQ|</span><span class="sim-result-value">${fmt(d)}</span></div>`;
+      } else {
+        const denom=(pts[1].x-pts[0].x)||0.0001;
+        const m=(pts[1].y-pts[0].y)/denom;
+        resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Gradient m</span><span class="sim-result-value">${fmt(m)}</span></div>`;
+      }
+    }
+    const canvas=ctx.canvas;
+    function getMouse(e){
+      const r=canvas.getBoundingClientRect();
+      const cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY);
+      return {mx:(cx-r.left)*(canvas.width/r.width), my:(cy-r.top)*(canvas.height/r.height)};
+    }
+    canvas.addEventListener('mousedown', e=>{ const {mx,my}=getMouse(e); pts.forEach((pt,i)=>{ if(Math.hypot(XY.X(pt.x)-mx, XY.Y(pt.y)-my)<14) dragIdx=i; }); });
+    window.addEventListener('mouseup', ()=>dragIdx=-1);
+    canvas.addEventListener('mousemove', e=>{
+      if(dragIdx===-1) return;
+      const {mx,my}=getMouse(e);
+      const gx=Math.round((range.xMin + mx/canvas.width*(range.xMax-range.xMin))*2)/2;
+      const gy=Math.round((range.yMin + (canvas.height-my)/canvas.height*(range.yMax-range.yMin))*2)/2;
+      pts[dragIdx]={x:gx,y:gy}; draw();
+    });
+    draw();
+  } else if(sim.mode==='line'){
+    let m=1,c=0;
+    simSlider(controls,{label:'m (gradient)',min:-5,max:5,step:0.5,value:1,onInput:v=>{m=v;draw();}});
+    simSlider(controls,{label:'c (intercept)',min:-8,max:8,step:1,value:0,onInput:v=>{c=v;draw();}});
+    function draw(){
+      redraw();
+      ctx.strokeStyle='#B5322F'; ctx.lineWidth=2; ctx.beginPath();
+      ctx.moveTo(XY.X(range.xMin), XY.Y(m*range.xMin+c));
+      ctx.lineTo(XY.X(range.xMax), XY.Y(m*range.xMax+c));
+      ctx.stroke();
+      resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">Equation</span><span class="sim-result-value">y = ${fmt(m)}x ${c>=0?'+':'\u2212'} ${fmt(Math.abs(c))}</span></div>`;
+    }
+    draw();
+  } else if(sim.mode==='vectors'){
+    let v1={x:4,y:2}, v2={x:1,y:3};
+    simSlider(controls,{label:'Vector u \u2014 x',min:-8,max:8,step:1,value:v1.x,onInput:v=>{v1.x=v;draw();}});
+    simSlider(controls,{label:'Vector u \u2014 y',min:-8,max:8,step:1,value:v1.y,onInput:v=>{v1.y=v;draw();}});
+    simSlider(controls,{label:'Vector v \u2014 x',min:-8,max:8,step:1,value:v2.x,onInput:v=>{v2.x=v;draw();}});
+    simSlider(controls,{label:'Vector v \u2014 y',min:-8,max:8,step:1,value:v2.y,onInput:v=>{v2.y=v;draw();}});
+    function arrow(from,to,color){
+      ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(from[0],from[1]); ctx.lineTo(to[0],to[1]); ctx.stroke();
+      const ang=Math.atan2(to[1]-from[1],to[0]-from[0]);
+      ctx.beginPath(); ctx.moveTo(to[0],to[1]);
+      ctx.lineTo(to[0]-10*Math.cos(ang-0.3), to[1]-10*Math.sin(ang-0.3));
+      ctx.lineTo(to[0]-10*Math.cos(ang+0.3), to[1]-10*Math.sin(ang+0.3));
+      ctx.closePath(); ctx.fill();
+    }
+    function draw(){
+      redraw();
+      const O=[XY.X(0),XY.Y(0)];
+      arrow(O,[XY.X(v1.x),XY.Y(v1.y)],'#B5322F');
+      arrow(O,[XY.X(v2.x),XY.Y(v2.y)],'#1D7A63');
+      const sum={x:v1.x+v2.x,y:v1.y+v2.y};
+      arrow(O,[XY.X(sum.x),XY.Y(sum.y)],'#D9A441');
+      const mag=Math.hypot(v1.x,v1.y);
+      resultBox.innerHTML=`<div class="sim-result-row"><span class="sim-result-label">u + v</span><span class="sim-result-value">(${fmt(sum.x)}, ${fmt(sum.y)})</span></div><div class="sim-result-row"><span class="sim-result-label">|u|</span><span class="sim-result-value">${fmt(mag)}</span></div>`;
+    }
+    draw();
+  } else if(sim.mode==='transform'){
+    const shape=[{x:1,y:1},{x:4,y:1},{x:2,y:4}];
+    let mode='reflectX', tx=2, ty=2, scale=2;
+    simSelect(controls,{label:'Transformation', options:[
+      {value:'reflectX',label:'Reflect in x-axis'},{value:'reflectY',label:'Reflect in y-axis'},
+      {value:'rotate90',label:'Rotate 90\u00B0 about origin'},{value:'rotate180',label:'Rotate 180\u00B0 about origin'},
+      {value:'translate',label:'Translate'},{value:'enlarge',label:'Enlarge (centre O)'}
+    ], value:'reflectX', onChange:v=>{mode=v; buildSub();}});
+    const sub=$el('div','sim-controls'); container.insertBefore(sub, controls.nextSibling);
+    function buildSub(){
+      sub.innerHTML='';
+      if(mode==='translate'){
+        simSlider(sub,{label:'tx',min:-6,max:6,step:1,value:tx,onInput:v=>{tx=v;draw();}});
+        simSlider(sub,{label:'ty',min:-6,max:6,step:1,value:ty,onInput:v=>{ty=v;draw();}});
+      } else if(mode==='enlarge'){
+        simSlider(sub,{label:'Scale factor',min:0.5,max:3,step:0.5,value:scale,onInput:v=>{scale=v;draw();}});
+      }
+      draw();
+    }
+    function transform(pt){
+      if(mode==='reflectX') return {x:pt.x,y:-pt.y};
+      if(mode==='reflectY') return {x:-pt.x,y:pt.y};
+      if(mode==='rotate90') return {x:-pt.y,y:pt.x};
+      if(mode==='rotate180') return {x:-pt.x,y:-pt.y};
+      if(mode==='translate') return {x:pt.x+tx,y:pt.y+ty};
+      if(mode==='enlarge') return {x:pt.x*scale,y:pt.y*scale};
+      return pt;
+    }
+    function poly(pts,color,fill){
+      ctx.strokeStyle=color; ctx.fillStyle=fill; ctx.lineWidth=2; ctx.beginPath();
+      pts.forEach((pt,i)=>{ const px=XY.X(pt.x), py=XY.Y(pt.y); if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); });
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+    function draw(){
+      redraw();
+      poly(shape,'#1B2A4A','rgba(27,42,74,.12)');
+      const img=shape.map(transform);
+      poly(img,'#B5322F','rgba(181,50,47,.15)');
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Image vertices</span><span class="sim-result-value">${img.map(pt=>`(${fmt(pt.x)}, ${fmt(pt.y)})`).join(', ')}</span></div>`;
+    }
+    buildSub();
+  }
+}
+
+/* ---------- statsTool ---------- */
+function initStatsTool(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const wrap=$el('div','sim-field'); const lab=$el('div','sim-label'); lab.textContent='Data (comma-separated)';
+  const inp=document.createElement('input'); inp.type='text'; inp.className='sim-input-text';
+  inp.value = '12, 15, 12, 18, 20, 15, 15, 22, 18, 12';
+  wrap.append(lab,inp); controls.appendChild(wrap);
+  const needsCanvas = sim.mode==='chart' || sim.mode==='ogive';
+  const ctx = needsCanvas ? simCanvas(container,420,240) : null;
+  const resultBox=simResult(container);
+  function parse(){ return inp.value.split(',').map(s=>parseFloat(s.trim())).filter(n=>!isNaN(n)); }
+  function update(){
+    const data=parse();
+    if(data.length===0){ resultBox.innerHTML='<div class="sim-result-row"><span class="sim-result-label">Enter at least one number.</span></div>'; return; }
+    if(sim.mode==='averages'){
+      const mean=data.reduce((a,b)=>a+b,0)/data.length;
+      const sorted=[...data].sort((a,b)=>a-b);
+      const mid=Math.floor(sorted.length/2);
+      const median = sorted.length%2? sorted[mid] : (sorted[mid-1]+sorted[mid])/2;
+      const freq={}; data.forEach(d=>freq[d]=(freq[d]||0)+1);
+      const maxF=Math.max(...Object.values(freq));
+      const modes=Object.keys(freq).filter(k=>freq[k]===maxF);
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Mean</span><span class="sim-result-value">${fmt(mean)}</span></div><div class="sim-result-row"><span class="sim-result-label">Median</span><span class="sim-result-value">${fmt(median)}</span></div><div class="sim-result-row"><span class="sim-result-label">Mode</span><span class="sim-result-value">${modes.join(', ')}</span></div>`;
+    } else if(sim.mode==='dispersion'){
+      const mean=data.reduce((a,b)=>a+b,0)/data.length;
+      const range=Math.max(...data)-Math.min(...data);
+      const variance=data.reduce((s,x)=>s+Math.pow(x-mean,2),0)/data.length;
+      const sd=Math.sqrt(variance);
+      const meanDev=data.reduce((s,x)=>s+Math.abs(x-mean),0)/data.length;
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Range</span><span class="sim-result-value">${fmt(range)}</span></div><div class="sim-result-row"><span class="sim-result-label">Mean deviation</span><span class="sim-result-value">${fmt(meanDev)}</span></div><div class="sim-result-row"><span class="sim-result-label">Variance</span><span class="sim-result-value">${fmt(variance)}</span></div><div class="sim-result-row"><span class="sim-result-label">Standard deviation</span><span class="sim-result-value">${fmt(sd)}</span></div>`;
+    } else if(sim.mode==='freqTable'){
+      const min=Math.min(...data), max=Math.max(...data);
+      const classWidth=Math.max(1,Math.ceil((max-min+1)/5));
+      const classes=[];
+      for(let start=Math.floor(min); start<=max; start+=classWidth){
+        const end=start+classWidth-1;
+        classes.push({start,end,count:data.filter(d=>d>=start&&d<=end).length});
+      }
+      resultBox.innerHTML = `<table class="sim-table"><tr><th>Class interval</th><th>Frequency</th></tr>${classes.map(c=>`<tr><td>${c.start}\u2013${c.end}</td><td>${c.count}</td></tr>`).join('')}</table>`;
+    } else if(sim.mode==='chart'){
+      const freq={}; data.forEach(d=>freq[d]=(freq[d]||0)+1);
+      const keys=Object.keys(freq);
+      ctx.clearRect(0,0,420,240); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,240);
+      const max=Math.max(...Object.values(freq));
+      const bw=380/keys.length;
+      keys.forEach((k,i)=>{
+        const h=freq[k]/max*180;
+        ctx.fillStyle='#1D7A63'; ctx.fillRect(20+i*bw+6, 210-h, bw-12, h);
+        ctx.fillStyle='#1B2A4A'; ctx.font='11px JetBrains Mono'; ctx.textAlign='center';
+        ctx.fillText(k, 20+i*bw+bw/2, 225);
+      });
+      ctx.textAlign='start';
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Bar chart</span><span class="sim-result-value">${keys.length} distinct values</span></div>`;
+    } else if(sim.mode==='ogive'){
+      const sorted=[...data].sort((a,b)=>a-b);
+      const min=Math.min(...sorted), max=Math.max(...sorted);
+      const classWidth=Math.max(1,Math.ceil((max-min+1)/6));
+      const classes=[]; let cum=0;
+      for(let start=Math.floor(min); start<=max; start+=classWidth){
+        const end=start+classWidth-1;
+        cum += sorted.filter(d=>d>=start&&d<=end).length;
+        classes.push({end,cum});
+      }
+      ctx.clearRect(0,0,420,240); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,240);
+      ctx.strokeStyle='#B5322F'; ctx.lineWidth=2; ctx.beginPath();
+      classes.forEach((c,i)=>{
+        const x=30+i*(360/(classes.length-1||1));
+        const y=210-(c.cum/data.length)*180;
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+      classes.forEach((c,i)=>{
+        const x=30+i*(360/(classes.length-1||1));
+        const y=210-(c.cum/data.length)*180;
+        ctx.fillStyle='#1B2A4A'; ctx.beginPath(); ctx.arc(x,y,3,0,7); ctx.fill();
+        ctx.font='10px JetBrains Mono'; ctx.fillText(c.end, x-8, 225);
+      });
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Ogive</span><span class="sim-result-value">Cumulative frequency curve, n = ${data.length}</span></div>`;
+    }
+  }
+  inp.addEventListener('input', update);
+  update();
+}
+
+/* ---------- probabilitySim ---------- */
+function initProbabilitySim(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const resultBox=simResult(container);
+  if(sim.mode==='trials'){
+    let type='die';
+    simSelect(controls,{label:'Experiment', options:[{value:'die',label:'Roll a fair die'},{value:'coin',label:'Toss a fair coin'}], value:'die', onChange:v=>{type=v; resultBox.innerHTML='';}});
+    simButton(controls, 'Run 60 trials', ()=>{
+      const outcomes = type==='die'? [1,2,3,4,5,6] : ['H','T'];
+      const tally={};
+      for(let i=0;i<60;i++){ const o=outcomes[Math.floor(Math.random()*outcomes.length)]; tally[o]=(tally[o]||0)+1; }
+      const theo=1/outcomes.length;
+      resultBox.innerHTML = outcomes.map(o=>{
+        const exp=(tally[o]||0)/60;
+        return `<div class="sim-result-row"><span class="sim-result-label">Outcome ${o}</span><span class="sim-result-value">experimental ${fmt(exp,2)} \u00B7 theoretical ${fmt(theo,2)}</span></div>`;
+      }).join('');
+    });
+  } else if(sim.mode==='addition'){
+    let pa=0.3, pb=0.4, exclusive=true;
+    simSlider(controls,{label:'P(A)',min:0,max:1,step:0.05,value:pa,onInput:v=>{pa=v;update();}});
+    simSlider(controls,{label:'P(B)',min:0,max:1,step:0.05,value:pb,onInput:v=>{pb=v;update();}});
+    simSelect(controls,{label:'Relationship', options:[{value:'ex',label:'Mutually exclusive'},{value:'ind',label:'Independent'}], value:'ex', onChange:v=>{exclusive=v==='ex';update();}});
+    function update(){
+      const pboth = exclusive?0:pa*pb;
+      const pOr = pa+pb-pboth;
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">P(A and B)</span><span class="sim-result-value">${fmt(pboth,3)}</span></div><div class="sim-result-row"><span class="sim-result-label">P(A or B)</span><span class="sim-result-value">${fmt(pOr,3)}</span></div>`;
+    }
+    update();
+  } else if(sim.mode==='multiplication'){
+    let p1=0.5,p2=0.5;
+    simSlider(controls,{label:'P(Event 1)',min:0,max:1,step:0.05,value:p1,onInput:v=>{p1=v;draw();}});
+    simSlider(controls,{label:'P(Event 2)',min:0,max:1,step:0.05,value:p2,onInput:v=>{p2=v;draw();}});
+    const ctx=simCanvas(container,420,220);
+    function draw(){
+      ctx.clearRect(0,0,420,220); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,220);
+      ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(30,110); ctx.lineTo(160,50); ctx.moveTo(30,110); ctx.lineTo(160,170); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(160,50); ctx.lineTo(300,20); ctx.moveTo(160,50); ctx.lineTo(300,80); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(160,170); ctx.lineTo(300,140); ctx.moveTo(160,170); ctx.lineTo(300,200); ctx.stroke();
+      ctx.font='11px JetBrains Mono'; ctx.fillStyle='#1B2A4A';
+      ctx.fillText(fmt(p1,2), 85,72); ctx.fillText(fmt(1-p1,2), 85,148);
+      ctx.fillText(fmt(p2,2), 220,28); ctx.fillText(fmt(1-p2,2), 220,90);
+      ctx.fillStyle='#B5322F'; ctx.fillText('P(1\u22292) = '+fmt(p1*p2,3), 300, 24);
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">P(Event 1 AND Event 2)</span><span class="sim-result-value">${fmt(p1*p2,3)}</span></div>`;
+    }
+    draw();
+  }
+}
+
+/* ---------- mappingDiagram ---------- */
+function initMappingDiagram(container){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const domain=[1,2,3,4];
+  let ruleKey='x+1';
+  const rules={
+    'x+1': {label:'x \u2192 x + 1', fn:x=>[x+1], type:'one-to-one'},
+    'x2': {label:'x \u2192 x\u00B2', fn:x=>[x*x], type:'many-to-one'},
+    'sqrt': {label:'x \u2192 \u00B1\u221Ax', fn:x=>x>=0?[Math.sqrt(x),-Math.sqrt(x)]:[], type:'one-to-many'},
+    'const': {label:'x \u2192 3', fn:x=>[3], type:'many-to-one'},
+  };
+  simSelect(controls,{label:'Rule', options:Object.keys(rules).map(k=>({value:k,label:rules[k].label})), value:'x+1', onChange:v=>{ruleKey=v;draw();}});
+  const ctx=simCanvas(container,420,240);
+  const resultBox=simResult(container);
+  function draw(){
+    ctx.clearRect(0,0,420,240); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,240);
+    const rule=rules[ruleKey];
+    const range=new Set();
+    domain.forEach(x=>rule.fn(x).forEach(y=>range.add(y)));
+    const rangeArr=[...range];
+    const dY = x=> 40 + domain.indexOf(x)*45;
+    const rY = y=> 40 + rangeArr.indexOf(y)*45;
+    ctx.font='13px JetBrains Mono'; ctx.fillStyle='#1B2A4A';
+    domain.forEach(x=>{ ctx.beginPath(); ctx.arc(80,dY(x),4,0,7); ctx.fill(); ctx.fillText(x, 55, dY(x)+4); });
+    rangeArr.forEach(y=>{ ctx.beginPath(); ctx.arc(340,rY(y),4,0,7); ctx.fill(); ctx.fillText(fmt(y,1), 355, rY(y)+4); });
+    ctx.strokeStyle='#B5322F'; ctx.lineWidth=1.5;
+    domain.forEach(x=>{ rule.fn(x).forEach(y=>{ ctx.beginPath(); ctx.moveTo(84,dY(x)); ctx.lineTo(336,rY(y)); ctx.stroke(); }); });
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Mapping type</span><span class="sim-result-value">${rule.type}</span></div>`;
+  }
+  draw();
+}
+
+/* ---------- constructionSteps ---------- */
+function initConstructionSteps(container){
+  const ctx=simCanvas(container,360,260);
+  const resultBox=simResult(container);
+  const nav=$el('div','sim-controls'); container.appendChild(nav);
+  const steps=[
+    'Draw angle ABC with vertex B.',
+    'With centre B, draw an arc crossing both arms at P and Q.',
+    'With centre P (radius > half PQ), draw an arc between the arms.',
+    'With the same radius, centre Q, draw an arc to intersect the previous one at R.',
+    'Draw the straight line BR — this bisects angle ABC.',
+  ];
+  let step=0;
+  simButton(nav,'\u25C0 Prev', ()=>{ step=Math.max(0,step-1); draw(); });
+  simButton(nav,'Next \u25B6', ()=>{ step=Math.min(steps.length-1,step+1); draw(); });
+  function draw(){
+    ctx.clearRect(0,0,360,260); ctx.fillStyle='#fff'; ctx.fillRect(0,0,360,260);
+    const B=[60,220], C=[300,220], A=[100,40];
+    ctx.strokeStyle='#1B2A4A'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(B[0],B[1]); ctx.lineTo(C[0],C[1]); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(B[0],B[1]); ctx.lineTo(A[0],A[1]); ctx.stroke();
+    if(step>=1){ ctx.strokeStyle='#1D7A63'; ctx.beginPath(); ctx.arc(B[0],B[1],60,-0.9,0.05); ctx.stroke(); }
+    if(step>=2){ ctx.strokeStyle='#D9A441'; ctx.beginPath(); ctx.arc(120,208,55,0,7); ctx.stroke(); }
+    if(step>=3){ ctx.strokeStyle='#D9A441'; ctx.beginPath(); ctx.arc(178,150,55,0,7); ctx.stroke(); }
+    if(step>=4){ ctx.strokeStyle='#B5322F'; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(B[0],B[1]); ctx.lineTo(210,80); ctx.stroke(); }
+    resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Step ${step+1} / ${steps.length}</span><span class="sim-result-value">${steps[step]}</span></div>`;
+  }
+  draw();
+}
+
+/* ---------- numberLine ---------- */
+function initNumberLine(container, sim){
+  const controls=$el('div','sim-controls'); container.appendChild(controls);
+  const ctx=simCanvas(container,420,120);
+  const resultBox=simResult(container);
+  if(sim.mode==='rounding'){
+    let val=47.5821, dp=2;
+    simSlider(controls,{label:'Number',min:0,max:100,step:0.0001,value:val,onInput:v=>{val=v;draw();}});
+    simSlider(controls,{label:'Decimal places',min:0,max:4,step:1,value:dp,onInput:v=>{dp=v;draw();}});
+    function draw(){
+      ctx.clearRect(0,0,420,120); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,120);
+      ctx.strokeStyle='#1B2A4A'; ctx.beginPath(); ctx.moveTo(20,60); ctx.lineTo(400,60); ctx.stroke();
+      const lo=Math.floor(val)-1, hi=Math.ceil(val)+1;
+      ctx.font='11px JetBrains Mono'; ctx.fillStyle='#1B2A4A';
+      for(let i=lo;i<=hi;i++){ const x=20+(i-lo)/(hi-lo)*380; ctx.beginPath(); ctx.moveTo(x,55); ctx.lineTo(x,65); ctx.stroke(); ctx.fillText(i, x-6, 80); }
+      const x=20+(val-lo)/(hi-lo)*380;
+      ctx.fillStyle='#B5322F'; ctx.beginPath(); ctx.arc(x,60,5,0,7); ctx.fill();
+      const rounded = val.toFixed(dp);
+      const sig = Number(val.toPrecision(3));
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">To ${dp} d.p.</span><span class="sim-result-value">${rounded}</span></div><div class="sim-result-row"><span class="sim-result-label">To 3 s.f.</span><span class="sim-result-value">${sig}</span></div>`;
+    }
+    draw();
+  } else {
+    let val=0.75;
+    simSlider(controls,{label:'Point on the number line',min:-3,max:3,step:0.05,value:val,onInput:v=>{val=v;draw();}});
+    function gcd(a,b){ a=Math.abs(a);b=Math.abs(b); while(b){ const t=a%b; a=b; b=t; } return a||1; }
+    function draw(){
+      ctx.clearRect(0,0,420,120); ctx.fillStyle='#fff'; ctx.fillRect(0,0,420,120);
+      ctx.strokeStyle='#1B2A4A'; ctx.beginPath(); ctx.moveTo(20,60); ctx.lineTo(400,60); ctx.stroke();
+      ctx.font='11px JetBrains Mono'; ctx.fillStyle='#1B2A4A';
+      for(let i=-3;i<=3;i++){ const x=210+i*60; ctx.beginPath(); ctx.moveTo(x,55); ctx.lineTo(x,65); ctx.stroke(); ctx.fillText(i,x-3,80); }
+      const x=210+val*60;
+      ctx.fillStyle='#B5322F'; ctx.beginPath(); ctx.arc(x,60,5,0,7); ctx.fill();
+      const denom=20; const num=Math.round(val*denom); const g=gcd(num,denom);
+      resultBox.innerHTML = `<div class="sim-result-row"><span class="sim-result-label">Decimal</span><span class="sim-result-value">${fmt(val,2)}</span></div><div class="sim-result-row"><span class="sim-result-label">Approx. fraction</span><span class="sim-result-value">${num/g}/${denom/g}</span></div>`;
+    }
+    draw();
+  }
+}
+
+/* ---------- dispatch ---------- */
+const SIM_ENGINES = {
+  calcSliders: initCalcSliders, graphPlot: initGraphPlot, venn3: initVenn3, truthTable: initTruthTable,
+  matrixCalc: initMatrixCalc, sequenceBars: initSequenceBars, baseConverter: initBaseConverter,
+  moduloClock: initModuloClock, shapeCalc: initShapeCalc, angleDiagram: initAngleDiagram,
+  locusCanvas: initLocusCanvas, coordGrid: initCoordGrid, statsTool: initStatsTool,
+  probabilitySim: initProbabilitySim, mappingDiagram: initMappingDiagram,
+  constructionSteps: initConstructionSteps, numberLine: initNumberLine,
+};
+const simLookup = {};
+SYLLABUS.forEach(t=> t.subtopics.forEach(st=>{ if(st.sim) simLookup[t.code+'-'+st.code]=st.sim; }));
+
+function ensureMounted(item){
+  const panel = item.querySelector('.sim-panel');
+  if(!panel || panel.dataset.mounted) return;
+  const key = panel.dataset.key;
+  const simData = simLookup[key];
+  if(!simData || !SIM_ENGINES[simData.engine]) return;
+  panel.dataset.mounted='1';
+  try{ SIM_ENGINES[simData.engine](panel, simData, key); }
+  catch(err){ panel.innerHTML='<div class="sim-error">This simulation could not load.</div>'; console.error(key, err); }
+}
+
+/* ======================================================================
+   PAGE STATE + RENDER
+   ====================================================================== */
+let activeTopic = null;
+let openItems = new Set();
+let query = '';
+
+const totalSubtopics = SYLLABUS.reduce((n,t)=>n+t.subtopics.length,0);
+document.getElementById('topbarMeta').textContent = `${SYLLABUS.length} topics · ${totalSubtopics} subtopics`;
+
+function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function highlight(text){
+  if(!query.trim()) return escapeHtml(text);
+  const q=query.trim(); const idx=text.toLowerCase().indexOf(q.toLowerCase());
+  if(idx===-1) return escapeHtml(text);
+  return escapeHtml(text.slice(0,idx)) + '<mark>' + escapeHtml(text.slice(idx,idx+q.length)) + '</mark>' + escapeHtml(text.slice(idx+q.length));
+}
+function matches(str){ return str.toLowerCase().includes(query.trim().toLowerCase()); }
+function subtopicMatches(st){
+  if(!query.trim()) return true;
+  if(matches(st.title) || matches(st.notes||'')) return true;
+  return st.content.some(c=>matches(c));
+}
+
+function renderRail(){
+  const axis=document.getElementById('axis');
+  axis.innerHTML = SYLLABUS.map(t=>`
+    <div class="tick ${activeTopic===t.code?'active':''}">
+      <button class="tick-btn" data-topic="${t.code}" aria-current="${activeTopic===t.code}">
+        <span class="tick-glyph">${t.glyph}</span>
+        <span class="tick-text">
+          <span class="tick-code">TOPIC ${t.code}</span>
+          <span class="tick-name">${t.title}</span>
+          <span class="tick-count">${t.subtopics.length} subtopics</span>
+        </span>
+      </button>
+    </div>`).join('');
+  axis.querySelectorAll('.tick-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeTopic=btn.dataset.topic; openItems=new Set(); closeRailMobile(); render(); });
+  });
+}
+
+function renderOverview(){
+  return `
+    <div class="topic-head">
+      <span class="code-badge">Dashboard</span>
+      <h1>WAEC Core Mathematics — Overview</h1>
+      <p>Select a topic on the axis to the left, or search across every subtopic. Expand any subtopic to read its notes and try a live simulation or calculator built for that idea.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">${SYLLABUS.length}</div><div class="l">Topics</div></div>
+      <div class="stat"><div class="n">${totalSubtopics}</div><div class="l">Subtopics</div></div>
+      <div class="stat"><div class="n">${totalSubtopics}</div><div class="l">Simulations</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Papers</div></div>
+      <div class="stat"><div class="n">150</div><div class="l">Total marks</div></div>
+    </div>
+    <div class="overview-grid">
+      ${SYLLABUS.map(t=>`
+        <div class="overview-card" role="button" tabindex="0" data-topic="${t.code}">
+          <div class="oc-code">TOPIC ${t.code} · ${t.glyph}</div>
+          <h3>${t.title}</h3>
+          <div class="oc-count">${t.subtopics.length} subtopics</div>
+        </div>`).join('')}
+    </div>
+    <div class="units-panel">
+      <h2>Units &amp; Exam Format</h2>
+      <table class="units-table">
+        ${UNITS.map(u=>`<tr><td>${u[0]}</td><td>${u[1]}</td></tr>`).join('')}
+        <tr><td>Paper 1</td><td>50 multiple-choice questions · 1½ hours · 50 marks</td></tr>
+        <tr><td>Paper 2</td><td>13 essay questions (5 compulsory in Section A for 40 marks; answer 5 of 8 in Section B for 60 marks) · 2½ hours · 100 marks</td></tr>
+      </table>
+    </div>`;
+}
+
+function accordionItemHtml(t, st){
+  const key = t.code+'-'+st.code;
+  const open = openItems.has(key);
+  return `
+  <div class="item ${open?'open':''}" data-key="${key}">
+    <button class="item-head" data-key="${key}">
+      <span class="item-code">${st.code}</span>
+      <span class="item-title">${highlight(st.title)}</span>
+      <span class="item-chevron">›</span>
+    </button>
+    <div class="item-body">
+      <div class="item-body-inner">
+        <div class="body-block">
+          <p class="body-label content">Content</p>
+          <ul class="content-list">${st.content.map(c=>`<li>${highlight(c)}</li>`).join('')}</ul>
+        </div>
+        ${st.notes ? `<div class="body-block"><p class="body-label notes">Examiner\u2019s Note</p><div class="note-box">${highlight(st.notes)}</div></div>` : ''}
+        ${st.sim ? `<div class="body-block"><p class="body-label sim">Try it — interactive simulation</p><div class="sim-panel" data-key="${key}"></div></div>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTopic(t){
+  const list = t.subtopics.filter(subtopicMatches);
+  return `
+    <button class="back-link" id="backBtn">&larr; all topics</button>
+    <div class="topic-head">
+      <span class="code-badge">Topic ${t.code}</span>
+      <h1>${t.title}</h1>
+      <p>${t.desc}</p>
+    </div>
+    ${list.length===0 ? `<div class="empty"><div class="big">∅</div><p>No subtopics match “${escapeHtml(query)}” in this topic.</p></div>` : `
+      <div class="accordion">${list.map(st=>accordionItemHtml(t,st)).join('')}</div>`}`;
+}
+
+function renderSearchResults(){
+  const hits=[];
+  SYLLABUS.forEach(t=>{ t.subtopics.forEach(st=>{ if(subtopicMatches(st)) hits.push({t,st}); }); });
+  return `
+    <div class="topic-head">
+      <span class="code-badge">Search</span>
+      <h1>Results for “${escapeHtml(query)}”</h1>
+      <p>${hits.length} subtopic${hits.length===1?'':'s'} found across the syllabus.</p>
+    </div>
+    ${hits.length===0 ? `<div class="empty"><div class="big">∅</div><p>Try a different term — e.g. "surds", "bearings", "variance".</p></div>` : `
+    <div class="accordion">${hits.map(({t,st})=>accordionItemHtml(t,st)).join('')}</div>`}`;
+}
+
+function render(){
+  renderRail();
+  const content=document.getElementById('content');
+  if(query.trim()){
+    content.innerHTML = renderSearchResults();
+  } else if(activeTopic){
+    const t=SYLLABUS.find(x=>x.code===activeTopic);
+    content.innerHTML = renderTopic(t);
+    const back=document.getElementById('backBtn');
+    if(back) back.addEventListener('click', ()=>{ activeTopic=null; render(); });
+  } else {
+    content.innerHTML = renderOverview();
+    content.querySelectorAll('.overview-card').forEach(card=>{
+      const go=()=>{ activeTopic=card.dataset.topic; openItems=new Set(); render(); };
+      card.addEventListener('click', go);
+      card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+    });
+  }
+  content.querySelectorAll('.item-head').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const key=h.dataset.key;
+      if(openItems.has(key)) openItems.delete(key); else openItems.add(key);
+      const item=h.closest('.item');
+      item.classList.toggle('open');
+      if(item.classList.contains('open')) ensureMounted(item);
+    });
+  });
+  content.querySelectorAll('.item.open').forEach(ensureMounted);
+}
+
+const searchEl=document.getElementById('search');
+searchEl.addEventListener('input', (e)=>{ query=e.target.value; openItems=new Set(); render(); });
+
+const rail=document.getElementById('rail');
+const scrim=document.getElementById('scrim');
+function openRailMobile(){ rail.classList.add('open'); scrim.classList.add('show'); }
+function closeRailMobile(){ rail.classList.remove('open'); scrim.classList.remove('show'); }
+document.getElementById('railToggle').addEventListener('click', ()=>{ rail.classList.contains('open') ? closeRailMobile() : openRailMobile(); });
+scrim.addEventListener('click', closeRailMobile);
+
+render();
+</script>
+</body>
+</html>
+
+
+<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ae21603c2b8e615e6e569ad" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-agent-runner-id="6ae215409238dbf9fd9cfb0a"></script>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-app-host="app.netlify.com" data-account-tier="personal"></script>
