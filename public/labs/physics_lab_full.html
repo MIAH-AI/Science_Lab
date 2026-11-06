@@ -203,6 +203,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 <script src="/labs/p3d-heat-b.js"></script>
 <script src="/labs/p3d-waves.js"></script>
 <script src="/labs/p3d-sound.js"></script>
+<script src="/labs/p3d-light.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
@@ -1271,7 +1272,7 @@ SIMS["20"]=[
     return [["Image distance v",`${fmt(Math.abs(v),1)} cm`],["Magnification",`${fmt(Math.abs(m),2)}`],["Image",v>0?"Real, inverted":"Virtual, upright"]]; }
  },
  {modeName:"Refraction — Snell's Law", tag:"n₁sinθ₁ = n₂sinθ₂", eqn:"n₁ sinθ₁ = n₂ sinθ₂",
-  controls:[{key:"angle",label:"Angle of incidence",min:0,max:89,step:1,default:35,unit:"°"},{key:"n2",label:"Refractive index (glass)",min:1.1,max:2.5,step:0.05,default:1.5}],
+  controls:[{key:"angle",label:"Angle of incidence",min:0,max:89,step:1,default:35,unit:"°"},{key:"n2",label:"Refractive index (glass)",min:1.1,max:2.5,step:0.05,default:1.5},{key:"dir",label:"Light travels",type:"select",options:[{label:"Air → glass slab"},{label:"Glass → air (semicircular block)"}],default:0}],
   values:null, state:{}, reset(s,c){}, step(s,c,dt){},
   draw(ctx,s,c,w,h){
     const cx=w/2, cy=200, L=170;
