@@ -20,7 +20,7 @@
   function cv(w, h) { const c = document.createElement("canvas"); c.width = w; c.height = h; return c; }
   function tex(c, rep, aniso) {
     const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; t.wrapS = t.wrapT = T.RepeatWrapping;
-    if (rep) t.repeat.set(rep[0], rep[1]); t.anisotropy = aniso || 4; return t;
+    if (rep) t.repeat.set(rep[0], rep[1]); t.anisotropy = aniso || 16; return t;
   }
   function woodCanvas() {
     const c = cv(512, 512), g = c.getContext("2d");
