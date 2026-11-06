@@ -6,6 +6,7 @@
   const f1 = (v, d = 1) => (typeof fmt === "function" ? fmt(v, d) : v.toFixed(d));
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const rad = (d) => (d * Math.PI) / 180, deg = (r) => (r * 180) / Math.PI;
+  const clearFog = (S) => { if (S.scene.fog) { S.scene.fog.near = 40; S.scene.fog.far = 110; } };
   const CM = 0.25;          // 1 cm = 0.25 scene units on the optical bench
 
   /* a lit candle (height 1.5 u, base at y = 0). ghost → translucent additive “image” version */
@@ -30,6 +31,7 @@
   S_["Plane & Curved Mirrors"] = {
     env: "dark", envOpts: { w: 30, d: 9 }, cam: [[-5, 7, 20], [-5, 4.9, 0]], fov: 36,
     build(S, s, c) {
+      clearFog(S);
       const mk = S.mk, o = S.objs; rail(S, -17, 4, RY); S.mk.box(40, 0.3, 7, M.wood(), -5, RY - 0.25, 0); o.ax = mk.rod(V3(-17, AX, -0.3), V3(5, AX, -0.3), 0.012, M.glow(0x9fb8d8, 0.55), 6); o.mir = new T.Group(); S.scene.add(o.mir); o.sig = "";
       o.obj = candle(S, false); o.hold = holder(S, 0, RY, AX); o.img = candle(S, true, 0x9fe8ff); o.ih = holder(S, 0, RY, AX); o.ih.visible = false;
       o.bm = [0xff6b6b, 0x59f08a, 0x6bb6ff].map((col) => ({ inc: S.mk.beam(V3(), V3(1, 0, 0), col, 0.03), out: S.mk.beam(V3(), V3(1, 0, 0), col, 0.03), ext: S.mk.beam(V3(), V3(1, 0, 0), col, 0.012) }));
@@ -86,6 +88,7 @@
   S_["Refraction — Snell's Law"] = {
     env: "dark", envOpts: { w: 22, d: 16 }, cam: [[0, 15, 6], [0, 0, 1.5]], fov: 36,
     build(S, s, c) {
+      clearFog(S);
       const mk = S.mk, o = S.objs; o.blk = new T.Group(); S.scene.add(o.blk); o.sig = "";
       const mkb = (col) => S.mk.beam(V3(), V3(1, 0, 0), col, 0.05); o.bi = mkb(0xffb703); o.br = mkb(0x7fe3da); o.bx = mkb(0xff7a6b); o.bo = mkb(0xffb703); o.bt = mkb(0x7fe3da);
       o.nl = mk.rod(V3(0, 0.12, -6), V3(0, 0.12, 6), 0.012, M.glow(0xffffff, 0.5), 6); o.nl2 = mk.rod(V3(0, 0.12, 3), V3(0, 0.12, 6), 0.012, M.glow(0xffffff, 0.5), 6);
@@ -121,6 +124,7 @@
   S_["Convex Lens — Ray Diagram"] = {
     env: "dark", envOpts: { w: 36, d: 9 }, cam: [[2, 7, 22], [2, 4.9, 0]], fov: 36,
     build(S, s, c) {
+      clearFog(S);
       const mk = S.mk, o = S.objs; rail(S, -17, 17, RY); S.mk.box(44, 0.3, 7, M.wood(), 0, RY - 0.25, 0); o.ax = mk.rod(V3(-17, AX, -0.3), V3(17, AX, -0.3), 0.012, M.glow(0x9fb8d8, 0.55), 6); o.lens = new T.Group(); S.scene.add(o.lens); o.sig = "";
       o.obj = candle(S, false); o.hold = holder(S, 0, RY, AX); o.img = candle(S, true, 0x9fe8ff); o.lh = holder(S, 0, RY, AX - 2.6); o.fr = new T.Mesh(new T.TorusGeometry(2.55, 0.07, 10, 48), M.matte(0x2a2e36, 0.4)); o.fr.rotation.y = Math.PI / 2; S.scene.add(o.fr);
       o.bm = [0xff6b6b, 0x59f08a, 0x6bb6ff].map((col) => ({ inc: S.mk.beam(V3(), V3(1, 0, 0), col, 0.03), out: S.mk.beam(V3(), V3(1, 0, 0), col, 0.03), ext: S.mk.beam(V3(), V3(1, 0, 0), col, 0.012) })); o.mk = [0, 1].map(() => mk.sphere(0.07, M.emissive(0xffd27a, 1.2), 0, AX, 0));
@@ -151,5 +155,5 @@
     },
     readouts(s, c) { const inv = 1 / c.f - 1 / c.u; if (Math.abs(inv) < 1e-4) return [["Image", "at infinity (u = f)"]]; const v = 1 / inv, m = v / c.u; return [["Image distance v", `${f1(Math.abs(v), 1)} cm`], ["Magnification", `${f1(Math.abs(m), 2)}`], ["Image", v > 0 ? "Real, inverted" : "Virtual, upright"], ["Power P = 1/f", `${f1(100 / c.f, 1)} D`]]; },
   };
-  P.util.optics = { candle, setBeam, beamI, rail, holder, fres };
+  P.util.optics = { candle, setBeam, beamI, rail, holder, fres, clearFog };
 })();

@@ -31,6 +31,7 @@
   S_["Prism Dispersion"] = {
     env: "dark", envOpts: { w: 30, d: 20 }, cam: [[1, 17, 8], [1, 0, 0.5]], fov: 36,
     build(S, s, c) {
+      O.clearFog(S);
       const mk = S.mk, o = S.objs, sh = new T.Shape(); sh.moveTo(AP.x, AP.z); sh.lineTo(BL.x, BL.z); sh.lineTo(BR.x, BR.z); sh.closePath();
       const g = new T.ExtrudeGeometry(sh, { depth: 1.5, bevelEnabled: false }); g.rotateX(Math.PI / 2); g.translate(0, 1.55, 0);
       o.prism = new T.Mesh(g, new T.MeshPhysicalMaterial({ color: 0xd9f0ff, transparent: true, opacity: 0.42, roughness: 0.03, clearcoat: 1, ior: 1.52, side: T.DoubleSide, depthWrite: false, envMapIntensity: 1.6 })); o.prism.renderOrder = 2; S.scene.add(o.prism);
@@ -66,6 +67,7 @@
   S_["Pinhole Camera & Shadows"] = {
     env: "dark", envOpts: { w: 30, d: 10 }, cam: [[1, 5.5, 19], [1, 3.3, 0]], fov: 36,
     build(S, s, c) {
+      O.clearFog(S);
       const mk = S.mk, o = S.objs, wall = M.matte(0x16181d, 0.7);
       o.up = new T.Mesh(new T.BoxGeometry(0.2, 1, 3.4), wall); o.dn = new T.Mesh(new T.BoxGeometry(0.2, 1, 3.4), wall); S.scene.add(o.up, o.dn);
       o.plt = new T.Mesh(new T.BoxGeometry(1, 0.12, 3.4), wall); o.plb = new T.Mesh(new T.BoxGeometry(1, 0.12, 3.4), wall); o.plt.position.y = 7.1; o.plb.position.y = 0.2; S.scene.add(o.plt, o.plb);
@@ -101,6 +103,7 @@
   S_["Periscope"] = {
     env: "dark", envOpts: { w: 34, d: 10 }, cam: [[-1, 6, 24], [-1, 5, 0]], fov: 36,
     build(S, s, c) {
+      O.clearFog(S);
       const mk = S.mk, o = S.objs; o.tube = new T.Group(); S.scene.add(o.tube); o.sig = "";
       o.gnd = mk.box(44, 0.3, 12, M.matte(0x2b3a26, 0.95), 0, -0.15, 0);
       o.wall = new T.Mesh(new T.BoxGeometry(1.2, 1, 4), new T.MeshStandardMaterial({ color: 0x9a5b45, roughness: 0.9 })); S.scene.add(o.wall); o.pole = new T.Mesh(new T.CylinderGeometry(0.07, 0.07, 1, 12), M.steel()); S.scene.add(o.pole);

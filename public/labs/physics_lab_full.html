@@ -205,6 +205,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 <script src="/labs/p3d-sound.js"></script>
 <script src="/labs/p3d-light.js"></script>
 <script src="/labs/p3d-light-b.js"></script>
+<script src="/labs/p3d-light-c.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
@@ -2014,7 +2015,7 @@ SIMS["H3"]=[{modeName:"Satellite Orbits", tag:"LEO vs GEOSTATIONARY", eqn:"T = 2
 
 /* ---------- H5. Fibre optics ---------- */
 SIMS["H5"]=[{modeName:"Fibre Optics — Total Internal Reflection", tag:"n(core) > n(cladding)", eqn:"Light stays trapped by repeated total internal reflection",
-  controls:[{key:"angle",label:"Entry angle",min:60,max:85,step:1,default:75,unit:"°"}],
+  controls:[{key:"angle",label:"Angle of incidence at wall θ",min:60,max:85,step:1,default:75,unit:"°"},{key:"nclad",label:"Cladding index n₂ (core n₁ = 1.50)",min:1.3,max:1.49,step:0.01,default:1.4}],
   values:null, state:{}, reset(s,c){}, step(s,c,dt){},
   draw(ctx,s,c,w,h){
     const y0=140,y1=260, x0=60,x1=580;
