@@ -116,6 +116,11 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
   </div></div>
 </div>
 
+<script src="/labs/vendor/three.bundle.js"></script>
+<script src="/labs/physics3d.js"></script>
+<script src="/labs/chem3d.js"></script>
+<script src="/labs/chem3d-kit.js"></script>
+<script src="/labs/c3d-proof.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1408,7 +1413,12 @@ function loadSim(){
   panel.appendChild(body);
   inner.appendChild(panel);
 
-  currentCleanup = mod.mount(canvasWrap, controls) || (()=>{});
+  /* photoreal three.js scene registered for this module? else the original 2D drawing is used (also the WebGL fallback) */
+  let cleanup3d=null;
+  if(window.Chem3D && Chem3D.ready && Chem3D.scenes[sub.sim]){
+    try{ cleanup3d=Chem3D.mount(canvasWrap, controls, sub.sim, {$, sliderControl, selectControl, buttonControl, readout, noteBox}); }catch(e){ console.error('3D scene failed, using 2D fallback',e); cleanup3d=null; canvasWrap.innerHTML=''; controls.innerHTML=''; }
+  }
+  currentCleanup = cleanup3d || mod.mount(canvasWrap, controls) || (()=>{});
 }
 
 document.getElementById('menuToggle').addEventListener('click', ()=>document.getElementById('sidebar').classList.toggle('collapsed'));

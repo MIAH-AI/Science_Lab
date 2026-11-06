@@ -122,7 +122,7 @@
     catch (e) { c3.remove(); wrap.classList.remove("real"); return false; }
     renderer.setPixelRatio(dpr); renderer.setSize(640, 400, false);
     renderer.outputColorSpace = T.SRGBColorSpace; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = sc.exposure || 1;
-    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFShadowMap;
     const scene = new T.Scene();
     const pm = new T.PMREMGenerator(renderer);
     const rm = new T.RoomEnvironment();
