@@ -151,4 +151,5 @@
     },
     readouts(s, c) { const inv = 1 / c.f - 1 / c.u; if (Math.abs(inv) < 1e-4) return [["Image", "at infinity (u = f)"]]; const v = 1 / inv, m = v / c.u; return [["Image distance v", `${f1(Math.abs(v), 1)} cm`], ["Magnification", `${f1(Math.abs(m), 2)}`], ["Image", v > 0 ? "Real, inverted" : "Virtual, upright"], ["Power P = 1/f", `${f1(100 / c.f, 1)} D`]]; },
   };
+  P.util.optics = { candle, setBeam, beamI, rail, holder, fres };
 })();
