@@ -197,6 +197,8 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 <script src="/labs/physics3d.js"></script>
 <script src="/labs/p3d-mechanics.js"></script>
 <script src="/labs/p3d-mech-a.js"></script>
+<script src="/labs/p3d-mech-b.js"></script>
+<script src="/labs/p3d-mech-c.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
@@ -2143,7 +2145,7 @@ function startEngine(variant){
   const LW=640, LH=400;
   function loop(ts){
     if(lastTime===null) lastTime=ts; let dt=(ts-lastTime)/1000; lastTime=ts; dt=Math.min(dt,0.05);
-    if(running){ const stepFn=(real&&sc.step)?sc.step:variant.step, steps=(real&&sc.sub)||2, sdt=dt*timeScale; for(let i=0;i<steps;i++) stepFn(variant.state,variant.values,sdt/steps); }
+    if(running){ const stepFn=(real&&sc.step)?sc.step:variant.step, steps=(real&&sc.sub)||2, sdt=dt*timeScale; for(let i=0;i<steps;i++) stepFn.call((real&&sc.step)?sc:variant,variant.state,variant.values,sdt/steps); }
     if(real){ ctx.clearRect(0,0,LW,LH); P3D.frame(dt,running,timeScale); if(sc.overlay) sc.overlay(ctx,variant.state,variant.values,LW,LH,P3D.S); }
     else { clearScreen(ctx,LW,LH); drawGrid(ctx,LW,LH); variant.draw(ctx,variant.state,variant.values,LW,LH); }
     renderReadouts(variant,real&&sc.readouts);
@@ -2153,7 +2155,7 @@ function startEngine(variant){
 }
 function renderReadouts(variant,override){
   const box=document.getElementById("readouts"); if(!box) return;
-  const items=(override||variant.readouts)(variant.state,variant.values);
+  const items=(override||variant.readouts).call(override?window.P3D.scenes[variant.modeName]:variant,variant.state,variant.values);
   box.innerHTML=items.map(([k,v])=>`<div class="readout"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("");
 }
 function buildControls(variant){
