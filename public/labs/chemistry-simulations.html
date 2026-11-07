@@ -137,6 +137,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-flame.js"></script>
 <script src="/labs/c3d-qualanalysis.js"></script>
 <script src="/labs/c3d-industry.js"></script>
+<script src="/labs/c3d-corrosion.js"></script>
+<script src="/labs/c3d-water.js"></script>
+<script src="/labs/c3d-atmosphere.js"></script>
+<script src="/labs/c3d-gasprep.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1209,6 +1213,11 @@ SIM_MODULES.flameTests=only3D('Flame Tests & Emission Spectra','Dip a wire loop 
 SIM_MODULES.qualAnalysis=only3D('Qualitative Analysis Bench','Identify cations and anions with NaOH(aq), NH₃(aq) and other reagents — record the observations, then solve the mystery sample.','Cations are identified by the colour of the hydroxide precipitate and whether it dissolves in excess NaOH or NH₃; anions by gas tests and precipitates.');
 SIM_MODULES.industrialProcesses=only3D('Industrial Processes','Haber, Contact, blast furnace and crude-oil fractionation: conditions, equilibrium yield and why each compromise is chosen.','Industry balances yield, rate and cost: e.g. Haber 450 °C, 200 atm, Fe catalyst.');
 
+SIM_MODULES.corrosion=only3D('Corrosion & Rusting','Eight nails in different conditions: see that iron needs oxygen and water, and compare salt, copper, magnesium, zinc and paint.','Rusting needs oxygen and water; a more reactive metal (Mg, Zn) protects iron by sacrificial protection, a less reactive one (Cu) speeds rusting.');
+SIM_MODULES.waterHardness=only3D('Water Hardness & Softening','Test hard and soft water with soap, then soften it by boiling, washing soda or ion exchange.','Hard water contains Ca²⁺ and Mg²⁺ ions that form scum with soap. Temporary hardness is removed by boiling; permanent hardness needs washing soda or an ion-exchange resin.');
+SIM_MODULES.airPollution=only3D('Air Pollution, Greenhouse Effect & Acid Rain','See how greenhouse gases trap heat, how CO₂ changes the average temperature, and how SO₂ and NOₓ make acid rain.','Greenhouse gases absorb infrared radiation from the Earth; SO₂ and NOₓ dissolve in rain to form acids that attack limestone and marble.');
+SIM_MODULES.gasPreparation=only3D('Preparation & Tests of Gases','Prepare O₂, H₂, CO₂, NH₃ and Cl₂ in the laboratory, collect them the right way, and identify each with its test.','Each gas is made from a specific reagent pair and collected over water, by downward delivery (denser than air) or upward delivery (less dense than air).');
+
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
 /* ============================================================
@@ -1284,7 +1293,7 @@ const SECTIONS={
     {l:'c',t:'Redox equations',sim:'redoxCell'},
     {l:'d',t:'Electrochemical cells',sim:'redoxCell'},
     {l:'e',t:'Electrolysis',sim:'electrolysis'},
-    {l:'f',t:'Corrosion of metals',sim:'electrolysis'}]},
+    {l:'f',t:'Corrosion of metals',sim:'corrosion'}]},
   {num:'13.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
     {l:'a',t:'Classification',sim:'organicExplorer'},
     {l:'b',t:'Functional groups',sim:'organicExplorer'},
@@ -1301,7 +1310,7 @@ const SECTIONS={
     {l:'m',t:'Alkanoates (esters)',sim:'organicExplorer'}]},
   {num:'14.0',title:'Chemistry, Industry & Environment',cat:'industry',subs:[
     {l:'a',t:'Chemical industry',sim:'industrialProcesses'},
-    {l:'b',t:'Pollution',sim:'gasLaws'},
+    {l:'b',t:'Pollution',sim:'airPollution'},
     {l:'c',t:'Biotechnology',sim:'polymersBiomolecules'}]},
   {num:'15.0',title:'Basic Biochemistry & Synthetic Polymers',cat:'industry',subs:[
     {l:'a',t:'Proteins',sim:'polymersBiomolecules'},
@@ -1357,12 +1366,12 @@ const SECTIONS={
  C:{label:'W. Africa (C)', topics:[
   {num:'1.0',title:'Non-Metals & Their Compounds',cat:'industry',subs:[
     {l:'a',t:'Carbon & its allotropes',sim:'statesOfMatter'},
-    {l:'b',t:'Oxygen',sim:'gasLaws'},
-    {l:'c',t:'Hydrogen',sim:'gasLaws'},
-    {l:'d',t:'Water & solutions / hardness',sim:'solubilityCurve'},
-    {l:'e',t:'Chlorine',sim:'redoxCell'},
-    {l:'f',t:'Hydrogen chloride gas',sim:'gasLaws'},
-    {l:'g',t:'Nitrogen & compounds',sim:'gasLaws'},
+    {l:'b',t:'Oxygen',sim:'gasPreparation'},
+    {l:'c',t:'Hydrogen',sim:'gasPreparation'},
+    {l:'d',t:'Water & solutions / hardness',sim:'waterHardness'},
+    {l:'e',t:'Chlorine',sim:'gasPreparation'},
+    {l:'f',t:'Hydrogen chloride gas',sim:'gasPreparation'},
+    {l:'g',t:'Nitrogen & compounds',sim:'gasPreparation'},
     {l:'h',t:'Sulphur & its acids',sim:'acidBasePH'},
     {l:'i',t:'Noble gases',sim:'periodicTrends'}]},
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
