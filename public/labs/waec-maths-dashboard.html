@@ -219,6 +219,7 @@
     .scrim{ position:fixed; inset:0; background:rgba(10,15,30,.4); z-index:19; }
     .scrim.show{ display:block; }
   }
+  @media (max-width:680px){ body.lab-maths .topbar{ position:static; } }   /* tall wrapped bar would cover the simulations on phones */
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
   :root.night .item-code{ color:#211e36; }
   .course-tabs{ display:flex; gap:4px; padding:3px; border-radius:14px; background:var(--g-well); box-shadow:inset 1px 2px 4px var(--g-shadow); margin:4px 0 10px; }

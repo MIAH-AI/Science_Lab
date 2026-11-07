@@ -52,16 +52,16 @@ const FOCUS_SECONDS = 1500
 
 const subjects: Subject[] = [
   {
-    name: 'Core Mathematics',
+    name: 'Mathematics',
     code: 'MATH',
     category: 'The language of possibilities',
     description:
-      'From numbers and algebra to vectors. Build your understanding, one problem at a time.',
-    stats: ['9 topic areas', '52 subtopics', '17 simulations'],
+      'Core and Further Mathematics, from numbers and algebra to calculus and mechanics, with timed WAEC-style exam practice.',
+    stats: ['Core + Further', '94 simulations', 'Exam mode'],
     path: '/waec-maths-dashboard',
     color: 'violet',
     icon: 'ƒ',
-    topics: 'Algebra · Geometry · Statistics',
+    topics: 'Algebra · Geometry · Statistics · Further Maths · Calculus · Exam',
     Icon: BookOpen,
   },
   {
@@ -69,12 +69,12 @@ const subjects: Subject[] = [
     code: 'PHYS',
     category: 'Discover the why behind everything',
     description:
-      'Explore motion, energy, and the laws of our universe through hands-on experiments.',
-    stats: ['Full syllabus', '83+ sim modes', 'Interactive canvas'],
+      'Explore motion, energy, and the laws of our universe through hands-on 3D experiments and timed exam practice.',
+    stats: ['41 topics', '83 3D sim modes', 'Exam mode'],
     path: '/physics_lab_full',
     color: 'peach',
     icon: 'atom',
-    topics: 'Mechanics · Waves · Electricity',
+    topics: 'Mechanics · Waves · Electricity · Exam',
     Icon: Atom,
   },
   {
@@ -82,12 +82,12 @@ const subjects: Subject[] = [
     code: 'CHEM',
     category: 'Small particles. Big discoveries.',
     description:
-      'Step inside the world of atoms, reactions, and the elements that make up everything.',
-    stats: ['46 subtopics', '20 sim modules', 'Virtual lab'],
+      'Step inside the world of atoms, reactions, and the elements that make up everything, then test yourself in exam mode.',
+    stats: ['136 subtopics', '67 3D sim modules', 'Exam mode'],
     path: '/chemistry-simulations',
     color: 'mint',
     icon: 'flask',
-    topics: 'Atomic theory · Reactions · Elements',
+    topics: 'Atomic theory · Reactions · Elements · Exam',
     Icon: FlaskConical,
   },
 ]
@@ -332,7 +332,7 @@ function Home() {
                   <span className="stat-icon">
                     <Atom size={18} />
                   </span>
-                  <strong>120+</strong>
+                  <strong>240+</strong>
                   <span>interactive simulations</span>
                 </div>
                 <div>
@@ -518,8 +518,8 @@ function Home() {
                     <Check size={18} />
                   </span>
                   <div>
-                    <strong>Connect the dots</strong>
-                    <p>Learn through worked examples</p>
+                    <strong>Test yourself</strong>
+                    <p>Timed WAEC-style exams with worked solutions</p>
                   </div>
                 </div>
                 <a href={labHref('/waec-maths-dashboard')}>
@@ -551,7 +551,8 @@ function Home() {
           <DialogTitle>Make yourself at home.</DialogTitle>
           <DialogDescription>
             Choose Mathematics, Physics, or Chemistry to open its Learn with Nehy study lab.
-            Each subject includes syllabus topics and interactive simulations. Use the focus
+            Each subject includes syllabus topics, interactive simulations and a timed exam mode
+            with worked solutions. Mathematics covers both Core and Further Mathematics. Use the focus
             timer for a distraction-free 25-minute session, and switch between Light and Dark
             to find your comfortable setting.
           </DialogDescription>

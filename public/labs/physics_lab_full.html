@@ -52,6 +52,10 @@ button{font-family:inherit;}
 aside{border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;align-self:start;max-height:100vh;}
 @media (max-width:980px){aside{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--line);}}
 .search-wrap{padding:14px 14px 8px;border-bottom:1px solid var(--line-soft);}
+.exam-entry{display:flex;align-items:center;gap:11px;margin:12px 14px 2px;padding:11px 13px;border-radius:14px;border:1px solid var(--g-edge,var(--line));background:linear-gradient(135deg,rgba(255,210,122,.18),rgba(255,179,71,.08));color:inherit;cursor:pointer;text-align:left;font:inherit}
+.exam-entry b{display:block;font-size:13.5px}.exam-entry small{display:block;font-size:11px;opacity:.75;margin-top:2px}.exam-entry .ee-ico{font-size:20px;line-height:1}
+.exam-entry:hover,.exam-entry.active{background:linear-gradient(135deg,#ffd27a,#ffb347);color:#3a2a10}
+.exam-entry:focus-visible{outline:2px solid #ffd27a;outline-offset:2px}
 .search-wrap input{width:100%;background:var(--blue-1);border:1px solid var(--line);color:var(--chalk);padding:8px 10px;border-radius:3px;font-family:var(--mono);font-size:12px;outline:none;}
 .search-wrap input:focus{border-color:var(--cyan);}
 .legend{display:flex;gap:10px;padding:8px 14px 12px;font-family:var(--mono);font-size:9.5px;color:var(--chalk-faint);border-bottom:1px solid var(--line-soft);flex-wrap:wrap;}
@@ -172,13 +176,14 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
     <p class="tb-sub">Every syllabus topic as a live instrument — drag a slider, watch the physics respond, and read the formula update in real time.</p>
   </div>
   <div class="tb-right">
-    <div class="tb-cell"><span class="k">Live simulations</span><span class="v" id="simCountTag">—</span></div>
-    <div class="tb-cell"><span class="k">Concept cards</span><span class="v" id="cardCountTag">—</span></div>
+    <div class="tb-cell"><span class="k">Topics with sims</span><span class="v" id="simCountTag">—</span></div>
+    <div class="tb-cell"><span class="k">3D sim modes</span><span class="v" id="cardCountTag">—</span></div>
   </div>
 </div>
 
 <div class="layout">
   <aside>
+    <button type="button" class="exam-entry" id="examBtn" aria-pressed="false"><span class="ee-ico" aria-hidden="true">✎</span><span><b>Exam mode</b><small>Timed WAEC objective &amp; structured papers</small></span></button>
     <div class="search-wrap"><input type="text" id="search" placeholder="Search topics… e.g. 'lens', 'moments'" autocomplete="off"></div>
     <div class="legend"><span><i class="dot sim"></i>interactive simulation</span><span><i class="dot card"></i>concept notes</span></div>
     <nav class="index" id="nav"></nav>
@@ -186,7 +191,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
   <main id="main">
     <div class="welcome" id="welcome">
       <h2>Pick any topic to open its instrument</h2>
-      <p>Every numbered topic and the ten Harmonised Topics from the WAEC syllabus are listed on the left. Topics marked with a glowing cyan dot open a full interactive simulation — sliders drive a live canvas animation and the readouts and formulas update instantly. The rest open a concept card with the official syllabus notes and key equations.</p>
+      <p>Every numbered topic and the ten Harmonised Topics from the WAEC syllabus are listed on the left. Topics marked with a glowing cyan dot open a full interactive simulation — sliders drive a live canvas animation and the readouts and formulas update instantly. The rest open a concept card with the official syllabus notes and key equations. Ready to test yourself? Open <b>Exam mode</b> at the top of the topic list for a timed WAEC-style paper with worked solutions.</p>
     </div>
   </main>
 </div>
@@ -213,6 +218,8 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 <script src="/labs/p3d-nuclear.js"></script>
 <script src="/labs/p3d-solid.js"></script>
 <script src="/labs/p3d-basics.js"></script>
+<script src="/labs/exam-kit.js"></script>
+<script src="/labs/p-exam.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
@@ -2143,9 +2150,20 @@ function renderNav(){
     group.appendChild(body); navEl.appendChild(group);
   });
   if(searchTerm && navEl.children.length===0) navEl.innerHTML=`<div class="no-results">No topics match "${searchTerm}".</div>`;
+  { const eb=document.getElementById("examBtn"); if(eb){ eb.classList.toggle("active",activeKey==="EXAM"); eb.setAttribute("aria-pressed",String(activeKey==="EXAM")); } }
   const {simN,cardN}=countSimsCards();
-  document.getElementById("simCountTag").textContent=simN; document.getElementById("cardCountTag").textContent=cardN;
+  document.getElementById("simCountTag").textContent=simN; document.getElementById("cardCountTag").textContent=Object.values(SIMS).reduce((a,v)=>a+v.length,0);
 }
+
+/* ---- Exam mode (timed WAEC practice; nothing stored) ---- */
+function openExam(){
+  stopEngine(); activeKey="EXAM"; openSub=null; renderNav();
+  const main=document.getElementById("main");
+  if(window.ExamKit&&window.PhysicsExam){ ExamKit.render(main, PhysicsExam.cfg()); }
+  else main.innerHTML='<div class="card-note"><p>Exam mode could not load. Please refresh the page.</p></div>';
+  if(window.innerWidth<=980) main.scrollIntoView({behavior:"smooth",block:"start"});
+}
+document.getElementById("examBtn").addEventListener("click",openExam);
 
 /* ---- animation engine for currently active sim ---- */
 let rafId=null, lastTime=null, running=true, canvasEl=null, ctx=null, timeScale=1;
