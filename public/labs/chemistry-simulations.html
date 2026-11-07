@@ -160,6 +160,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-isomers.js"></script>
 <script src="/labs/c3d-stoich.js"></script>
 <script src="/labs/c3d-salthydrolysis.js"></script>
+<script src="/labs/c3d-collision.js"></script>
+<script src="/labs/c3d-gaslaws.js"></script>
+<script src="/labs/c3d-indicators.js"></script>
+<script src="/labs/c3d-imf.js"></script>
 <script src="/labs/c3d-measure.js"></script>
 <script>
 /* ============================================================
@@ -1257,6 +1261,10 @@ SIM_MODULES.isomerism=only3D('Isomerism','Compare chain, position, functional-gr
 SIM_MODULES.stoichiometry=only3D('Reacting Masses & Limiting Reagent','Convert masses to moles, find the limiting reagent, and calculate theoretical and percentage yield for four reactions.','n = m ÷ M; compare moles ÷ coefficient; theoretical yield = n(product) × M; % yield = actual ÷ theoretical × 100.');
 SIM_MODULES.saltHydrolysis=only3D('Salts & Hydrolysis','Predict and test whether a salt solution is acidic, neutral or alkaline using universal indicator, litmus and a pH meter.','Strong acid + strong base: neutral; strong acid + weak base: acidic; weak acid + strong base: alkaline; pH from Ka or Kb.');
 SIM_MODULES.measurement=only3D('Measurement & Apparatus Reading','Practise reading a measuring cylinder, thermometer and balance: meniscus, parallax, divisions and significant figures.','Read to half the smallest division at eye level; record every digit shown on a balance; parallax gives systematic errors.');
+SIM_MODULES.collisionTheory=only3D('Collision Theory & Rate of Reaction','Watch particles collide in a box and see how temperature, concentration, a catalyst and surface area change how many collisions are successful.','Reaction needs collisions with energy ≥ Ea and the right orientation; higher T, higher concentration, a catalyst and a larger surface area all increase the rate.');
+SIM_MODULES.gasLaws3D=only3D('Gas Laws & PV = nRT','Compress, heat and add gas in a syringe to verify Boyle, Charles, the pressure law and Avogadro, then use PV = nRT.','Boyle: PV constant; Charles: V ∝ T; pressure law: P ∝ T; Avogadro: V ∝ n; PV = nRT with R = 8.314 J mol⁻¹ K⁻¹ and T in kelvin.');
+SIM_MODULES.indicators=only3D('Acid–Base Indicators','See the colour of litmus, methyl orange, phenolphthalein, bromothymol blue and universal indicator from pH 1 to 13, and learn which to choose for a titration.','Each indicator changes colour over its own pH range; choose one whose range lies on the steep part of the titration curve.');
+SIM_MODULES.intermolecular=only3D('Intermolecular Forces & Hydrogen Bonding','Compare water, ammonia, hydrogen fluoride, hydrogen chloride and methane, heat them to the boiling point and see why hydrogen bonding raises it.','London forces act between all molecules, dipole–dipole forces between polar ones, and hydrogen bonds (H bonded to N, O or F) are the strongest; stronger forces mean higher melting and boiling points.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1294,7 +1302,7 @@ const SECTIONS={
     {l:'e',t:'Properties & coordinate bonding',sim:'bonding'},
     {l:'f',t:'Shapes of molecules',sim:'molecularShapes'},
     {l:'g',t:'Metallic bonding',sim:'bonding'},
-    {l:'h',t:'Intermolecular forces',sim:'statesOfMatter'}]},
+    {l:'h',t:'Intermolecular forces',sim:'intermolecular'}]},
   {num:'6.0',title:'Stoichiometry & Chemical Reactions',cat:'physical',subs:[
     {l:'a',t:'Symbols, formulae & equations',sim:'moleCalculator'},
     {l:'b',t:'Amount of substance',sim:'moleCalculator'},
@@ -1304,7 +1312,7 @@ const SECTIONS={
     {l:'f',t:'Limiting reagent & percentage yield',sim:'stoichiometry'}]},
   {num:'7.0',title:'States of Matter',cat:'physical',subs:[
     {l:'a',t:'Kinetic theory & diffusion',sim:'statesOfMatter'},
-    {l:'b',t:'Gases & the gas laws',sim:'gasLaws'},
+    {l:'b',t:'Gases & the gas laws',sim:'gasLaws3D'},
     {l:'c',t:'Liquids & vapour',sim:'statesOfMatter'},
     {l:'d',t:'Solids',sim:'statesOfMatter'},
     {l:'e',t:'Diamond & graphite',sim:'allotropesAlloys'},
@@ -1321,13 +1329,13 @@ const SECTIONS={
     {l:'f',t:'Salts',sim:'saltHydrolysis'},
     {l:'f2',t:'Preparation of salts',sim:'saltPrep'},
     {l:'g',t:'Deliquescent / efflorescent',sim:'saltPrep'},
-    {l:'h',t:'Acid–base indicators',sim:'titration'},
+    {l:'h',t:'Acid–base indicators',sim:'indicators'},
     {l:'i',t:'Acid–base titration',sim:'titration'}]},
   {num:'10.0',title:'Solubility of Substances',cat:'acidbase',subs:[
     {l:'a',t:'General principles',sim:'solubilityCurve'},
     {l:'b',t:'Practical applications',sim:'solubilityCurve'}]},
   {num:'11.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
-    {l:'a',t:'Rate of reactions',sim:'kineticsEquilibrium'},
+    {l:'a',t:'Rate of reactions',sim:'collisionTheory'},
     {l:'b',t:'Equilibrium & Le Chatelier',sim:'kineticsEquilibrium'}]},
   {num:'12.0',title:'Redox Reactions',cat:'acidbase',subs:[
     {l:'a',t:'Oxidation & reduction',sim:'redoxCell'},
