@@ -153,6 +153,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-massspec.js"></script>
 <script src="/labs/c3d-ratelaw.js"></script>
 <script src="/labs/c3d-allotropes.js"></script>
+<script src="/labs/c3d-redoxtit.js"></script>
+<script src="/labs/c3d-dilution.js"></script>
+<script src="/labs/c3d-empirical.js"></script>
+<script src="/labs/c3d-ioniccrystal.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1241,6 +1245,10 @@ SIM_MODULES.halogens=only3D('The Halogens (Group 7)','Compare the colours and st
 SIM_MODULES.massSpec=only3D('Mass Spectrometer','Ionise a sample, accelerate the ions and deflect them in a magnetic field to read isotope masses and abundances.','Relative atomic mass Ar = Σ(mass number × % abundance) ÷ 100; radius r = (1/B)√(2mV/q).');
 SIM_MODULES.rateLaw=only3D('Rate Law & Order of Reaction','Watch concentration fall for zero, first and second order reactions, read half-lives, and find a mystery order from initial rates.','rate = k[A]ⁿ; t½ = [A]₀/2k (0), ln2/k (1), 1/(k[A]₀) (2); order is found by experiment.');
 SIM_MODULES.allotropesAlloys=only3D('Carbon Allotropes & Alloys','Compare the bonding in diamond, graphite and C₆₀, and see why alloys are harder than pure metals.','Structure and bonding explain hardness, conductivity and melting point; foreign atoms block layer slip in alloys.');
+SIM_MODULES.redoxTitration=only3D('Redox Titration (KMnO₄)','Titrate acidified iron(II), ethanedioate or hydrogen peroxide with potassium manganate(VII) and find the end point from the first permanent pink.','n(MnO₄⁻) : n(Fe²⁺) = 1 : 5; the end point is the first permanent pale pink; Mn(+7) is reduced to Mn(+2).');
+SIM_MODULES.dilutionPrep=only3D('Preparing Solutions & Dilution','Dilute a stock solution with a pipette and volumetric flask, or make a standard solution from a weighed solid.','n = C₁V₁ = C₂V₂; c = n ÷ V; n = m ÷ M; fill to the mark with the meniscus bottom on the line.');
+SIM_MODULES.empiricalFormula=only3D('Empirical & Molecular Formulae','Burn a sample in oxygen, read the water and carbon dioxide absorbed, and work out the empirical and molecular formula.','mass of C = m(CO₂) × 12/44; mass of H = m(H₂O) × 2/18; moles ÷ smallest → whole-number ratio → empirical formula.');
+SIM_MODULES.ionicCrystal=only3D('Ionic Bonding & Crystals','See electrons transferred between atoms, build the giant ionic lattice, and test why ionic solids are brittle and only conduct when molten or dissolved.','Ionic bond = attraction between oppositely charged ions; lattices are brittle; ions must be free to move to conduct.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1272,8 +1280,8 @@ const SECTIONS={
     {l:'f',t:'First transition series',sim:'transitionMetals'}]},
   {num:'5.0',title:'Chemical Bonds',cat:'bonding',subs:[
     {l:'a',t:'Interatomic bonding',sim:'bonding'},
-    {l:'b',t:'Ionic bonds & compounds',sim:'bonding'},
-    {l:'c',t:'Naming ionic compounds',sim:'bonding'},
+    {l:'b',t:'Ionic bonds & compounds',sim:'ionicCrystal'},
+    {l:'c',t:'Naming ionic compounds',sim:'ionicCrystal'},
     {l:'d',t:'Covalent bonds & compounds',sim:'bonding'},
     {l:'e',t:'Properties & coordinate bonding',sim:'bonding'},
     {l:'f',t:'Shapes of molecules',sim:'molecularShapes'},
@@ -1283,8 +1291,8 @@ const SECTIONS={
     {l:'a',t:'Symbols, formulae & equations',sim:'moleCalculator'},
     {l:'b',t:'Amount of substance',sim:'moleCalculator'},
     {l:'c',t:'Mole ratios',sim:'moleCalculator'},
-    {l:'d',t:'Solutions & concentration',sim:'moleCalculator'},
-    {l:'e',t:'Preparing solutions by dilution',sim:'moleCalculator'}]},
+    {l:'d',t:'Solutions & concentration',sim:'dilutionPrep'},
+    {l:'e',t:'Preparing solutions by dilution',sim:'dilutionPrep'}]},
   {num:'7.0',title:'States of Matter',cat:'physical',subs:[
     {l:'a',t:'Kinetic theory & diffusion',sim:'statesOfMatter'},
     {l:'b',t:'Gases & the gas laws',sim:'gasLaws'},
@@ -1318,13 +1326,14 @@ const SECTIONS={
     {l:'c',t:'Redox equations',sim:'redoxCell'},
     {l:'d',t:'Electrochemical cells',sim:'redoxCell'},
     {l:'e',t:'Electrolysis',sim:'electrolysis'},
-    {l:'f',t:'Corrosion of metals',sim:'corrosion'}]},
+    {l:'f',t:'Corrosion of metals',sim:'corrosion'},
+    {l:'g',t:'Redox titration (KMnO₄)',sim:'redoxTitration'}]},
   {num:'13.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
     {l:'a',t:'Classification',sim:'organicExplorer'},
     {l:'b',t:'Functional groups',sim:'organicExplorer'},
     {l:'c',t:'Separation & purification',sim:'separationTechniques'},
     {l:'d',t:'Petroleum / crude oil',sim:'industrialProcesses'},
-    {l:'e',t:'Empirical & molecular formulae',sim:'moleCalculator'},
+    {l:'e',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
     {l:'f',t:'Homologous series & isomerism',sim:'organicExplorer'},
     {l:'g',t:'Alkanes',sim:'organicExplorer'},
     {l:'h',t:'Alkenes',sim:'organicReactions'},
@@ -1359,9 +1368,9 @@ const SECTIONS={
     {l:'g',t:'Shapes of complex compounds',sim:'molecularShapes'},
     {l:'h',t:'First transition series',sim:'transitionMetals'}]},
   {num:'3.0',title:'Chemical Bonds',cat:'bonding',subs:[
-    {l:'a',t:'Ionic bond formation',sim:'bonding'},
+    {l:'a',t:'Ionic bond formation',sim:'ionicCrystal'},
     {l:'b',t:'Hybridisation & σ/π bonds',sim:'molecularShapes'}]},
-  {num:'4.0',title:'Solutions',cat:'physical',subs:[{l:'a',t:'Preparation by dilution',sim:'moleCalculator'}]},
+  {num:'4.0',title:'Solutions',cat:'physical',subs:[{l:'a',t:'Preparation by dilution',sim:'dilutionPrep'}]},
   {num:'5.0',title:'Energy & Energy Changes',cat:'physical',subs:[
     {l:'a',t:'Energy in physical systems',sim:'energyProfile'},
     {l:'b',t:"Hess's Law & Born–Haber",sim:'hessLaw'},
@@ -1381,7 +1390,7 @@ const SECTIONS={
     {l:'d',t:'Law of Mass Action',sim:'kineticsEquilibrium'}]},
   {num:'9.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
     {l:'a',t:'Separation & purification',sim:'separationTechniques'},
-    {l:'b',t:'Empirical & molecular formulae',sim:'moleCalculator'},
+    {l:'b',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
     {l:'c',t:'Reactivity of organic compounds',sim:'organicExplorer'},
     {l:'d',t:'Alkanes (free-radical mechanism)',sim:'organicExplorer'},
     {l:'e',t:'Reactions of benzene',sim:'organicExplorer'}]},
@@ -1412,7 +1421,7 @@ const SECTIONS={
   {num:'16.0',title:'Practical Skills & Analysis',cat:'physical',subs:[
     {l:'a',t:'General skills & principles',sim:'moleCalculator'},
     {l:'b',t:'Quantitative — acid–base titrations',sim:'titration'},
-    {l:'c',t:'Quantitative — redox titrations',sim:'redoxCell'},
+    {l:'c',t:'Quantitative — redox titrations',sim:'redoxTitration'},
     {l:'d',t:'Qualitative analysis (cations & anions)',sim:'qualAnalysis'},
     {l:'e',t:'Flame tests & emission spectra',sim:'flameTests'}]}
  ]}
