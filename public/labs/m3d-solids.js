@@ -82,6 +82,9 @@
       return [`Same longitude: travel along the meridian (a great circle of radius R = ${c.Rk} km).`, `Angle at the centre θ = ${r.th}° (same hemisphere: subtract latitudes; opposite: add)`, `Distance = ${r.th}/360 × 2 × ${c.pi} × ${c.Rk} = ${f(r.d, 1)} km`]; },
     note: "Distances along latitudes and longitudes and their corresponding angles. Take R = 6400 km unless told otherwise; the radius of a parallel of latitude α is R cos α. 15° of longitude = 1 hour of time.",
     mistake: "Using R instead of R cos α for a journey along a parallel of latitude.",
+    draw(g, s, c, B) { const P = B.P, a = B.area, cx = a.x + a.w / 2, cy = a.y + a.h / 2 + 10, Rr = Math.min(a.w, a.h) * 0.36, lat = c.mode === "parallel" ? c.lat : c.latB, y = cy - Rr * Math.sin(R(lat)), x2 = Rr * Math.cos(R(lat));
+      B.circle(cx, cy, Rr, P.blue, P.fillB, 2.4); B.line(cx - Rr - 10, cy, cx + Rr + 10, cy, P.red, 1.8); B.text("equator", cx + Rr + 6, cy - 4, { size: 10.5, color: P.red }); B.line(cx, cy - Rr - 14, cx, cy + Rr + 14, P.soft, 1.2, [5, 4]); B.text("N", cx - 4, cy - Rr - 18, { w: 800 });
+      B.line(cx - x2, y, cx + x2, y, P.amber, 2.4); B.line(cx, cy, cx + x2, y, P.ink, 1.8); B.line(cx, y, cx + x2, y, P.green, 3); B.angle(cx, cy, 0, -R(lat), 30, P.purple, Math.abs(lat) + "°"); B.text("r = R cos α", cx + x2 / 2, y - 8, { align: "center", color: P.green, w: 700, size: 11 }); B.text("R", cx + x2 / 2 + 8, (cy + y) / 2 + 12, { w: 800 }); },
   });
 
   /* ================= C-b#nets : nets of solids ================= */
@@ -170,6 +173,10 @@
       return ["Unfold the solid into its net.", "Find the area of each face.", `Add them: ${A.sub} = ${f(A.A, 3)} cm²`]; },
     note: "Surface areas of cubes, cuboids, cylinders, pyramids, right triangular prisms, cones and spheres (4πr²). Relationship between the sector of a circle and the surface area of a cone.",
     mistake: "Using the vertical height instead of the slant height in πrl.",
+    draw(g, s, c, B) { const P = B.P, a = B.area, rect = (x, y, w, h, col) => B.poly([[x, y], [x + w, y], [x + w, y + h], [x, y + h]], P.ink, col, 1.6);
+      if (c.solid === "cyl") { const k = Math.min((a.w - 20) / (2 * Math.PI * c.r), (a.h - 40) / (c.h + 4 * c.r)), W2 = 2 * Math.PI * c.r * k, H2 = c.h * k, x0 = a.x + (a.w - W2) / 2, y0 = a.y + 20 + 2 * c.r * k; rect(x0, y0, W2, H2, P.fillB); B.circle(x0 + W2 / 2, y0 - c.r * k, c.r * k, P.ink, P.fillA, 1.6); B.circle(x0 + W2 / 2, y0 + H2 + c.r * k, c.r * k, P.ink, P.fillA, 1.6); B.text("2πr", x0 + W2 / 2, y0 + H2 / 2, { align: "center", w: 700 }); return; }
+      if (c.solid === "cone") { const l = Math.hypot(c.r, c.H), th = 2 * Math.PI * c.r / l, k = Math.min(a.w, a.h) / (2.6 * l), cx = a.x + a.w / 2, cy = a.y + a.h * 0.25; g.save(); g.beginPath(); g.moveTo(cx, cy); g.arc(cx, cy, l * k, Math.PI / 2 - th / 2, Math.PI / 2 + th / 2); g.closePath(); g.fillStyle = P.fillB; g.fill(); g.strokeStyle = P.ink; g.lineWidth = 1.6; g.stroke(); g.restore(); B.circle(cx, cy + l * k + c.r * k, c.r * k, P.ink, P.fillA, 1.6); B.text(`θ = ${f(360 * c.r / l, 1)}°`, cx, cy + 30, { align: "center", w: 700 }); return; }
+      const s0 = Math.min(a.w / 4.4, a.h / 3.4), x0 = a.x + (a.w - 4 * s0) / 2, y0 = a.y + (a.h - 3 * s0) / 2; [[1, 0], [0, 1], [1, 1], [2, 1], [3, 1], [1, 2]].forEach(([i, j], k) => rect(x0 + i * s0, y0 + j * s0, s0, s0, [P.fillB, P.fillG, P.fillA, P.fillG, P.fillB, P.fillR][k])); B.text("net of a " + c.solid, a.x + 10, a.y + a.h - 8, { size: 11, color: P.soft }); },
   });
 
   /* ================= C-c : volumes (glass solids with water) ================= */
