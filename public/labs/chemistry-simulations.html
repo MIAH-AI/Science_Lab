@@ -134,6 +134,9 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-organic.js"></script>
 <script src="/labs/c3d-polymers.js"></script>
 <script src="/labs/c3d-sciencemethod.js"></script>
+<script src="/labs/c3d-flame.js"></script>
+<script src="/labs/c3d-qualanalysis.js"></script>
+<script src="/labs/c3d-industry.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1195,6 +1198,17 @@ SIM_MODULES.polymersBiomolecules={
   }
 };
 
+/* ---- 3D-only modules: the 2D fallback shows an explanation card (these need the WebGL scene) ---- */
+function only3D(title,blurb,what){
+  return {title,blurb,mount(canvasWrap,controls){
+    canvasWrap.innerHTML='<div class="empty-state" style="padding:36px 18px"><div class="big">'+title+'</div><div>This simulation needs WebGL (3D). Please open it in a current browser with hardware acceleration on.</div><div style="margin-top:8px;opacity:.8">'+what+'</div></div>';
+    controls.appendChild(noteBox(what)); return ()=>{};
+  }};
+}
+SIM_MODULES.flameTests=only3D('Flame Tests & Emission Spectra','Dip a wire loop in a metal salt, watch the flame colour, and see the line spectrum and the electron transition (E = hf = hc/λ) behind it.','Heated metal ions emit light of characteristic colours: Li⁺ crimson, Na⁺ golden yellow, K⁺ lilac, Ca²⁺ brick-red, Ba²⁺ apple-green, Cu²⁺ blue-green.');
+SIM_MODULES.qualAnalysis=only3D('Qualitative Analysis Bench','Identify cations and anions with NaOH(aq), NH₃(aq) and other reagents — record the observations, then solve the mystery sample.','Cations are identified by the colour of the hydroxide precipitate and whether it dissolves in excess NaOH or NH₃; anions by gas tests and precipitates.');
+SIM_MODULES.industrialProcesses=only3D('Industrial Processes','Haber, Contact, blast furnace and crude-oil fractionation: conditions, equilibrium yield and why each compromise is chosen.','Industry balances yield, rate and cost: e.g. Haber 450 °C, 200 atm, Fe catalyst.');
+
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
 /* ============================================================
@@ -1275,7 +1289,7 @@ const SECTIONS={
     {l:'a',t:'Classification',sim:'organicExplorer'},
     {l:'b',t:'Functional groups',sim:'organicExplorer'},
     {l:'c',t:'Separation & purification',sim:'separationTechniques'},
-    {l:'d',t:'Petroleum / crude oil',sim:'organicExplorer'},
+    {l:'d',t:'Petroleum / crude oil',sim:'industrialProcesses'},
     {l:'e',t:'Empirical & molecular formulae',sim:'moleCalculator'},
     {l:'f',t:'Homologous series & isomerism',sim:'organicExplorer'},
     {l:'g',t:'Alkanes',sim:'organicExplorer'},
@@ -1286,7 +1300,7 @@ const SECTIONS={
     {l:'l',t:'Alkanoic acids',sim:'organicExplorer'},
     {l:'m',t:'Alkanoates (esters)',sim:'organicExplorer'}]},
   {num:'14.0',title:'Chemistry, Industry & Environment',cat:'industry',subs:[
-    {l:'a',t:'Chemical industry',sim:'organicExplorer'},
+    {l:'a',t:'Chemical industry',sim:'industrialProcesses'},
     {l:'b',t:'Pollution',sim:'gasLaws'},
     {l:'c',t:'Biotechnology',sim:'polymersBiomolecules'}]},
   {num:'15.0',title:'Basic Biochemistry & Synthetic Polymers',cat:'industry',subs:[
@@ -1352,7 +1366,7 @@ const SECTIONS={
     {l:'h',t:'Sulphur & its acids',sim:'acidBasePH'},
     {l:'i',t:'Noble gases',sim:'periodicTrends'}]},
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
-    {l:'a',t:'Extraction of metals',sim:'redoxCell'},
+    {l:'a',t:'Extraction of metals',sim:'industrialProcesses'},
     {l:'b',t:'Alloys',sim:'statesOfMatter'},
     {l:'c',t:'Sodium & compounds',sim:'bonding'},
     {l:'d',t:'Calcium & compounds',sim:'bonding'},
@@ -1364,7 +1378,8 @@ const SECTIONS={
     {l:'a',t:'General skills & principles',sim:'moleCalculator'},
     {l:'b',t:'Quantitative — acid–base titrations',sim:'titration'},
     {l:'c',t:'Quantitative — redox titrations',sim:'redoxCell'},
-    {l:'d',t:'Qualitative analysis',sim:'acidBasePH'}]}
+    {l:'d',t:'Qualitative analysis (cations & anions)',sim:'qualAnalysis'},
+    {l:'e',t:'Flame tests & emission spectra',sim:'flameTests'}]}
  ]}
 };
 

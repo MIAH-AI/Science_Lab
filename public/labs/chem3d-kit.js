@@ -273,9 +273,9 @@
       for (let i = 0; i <= 18; i++) { const t = i / 18; pts.push(new T.Vector2(R * Math.pow(Math.sin(Math.PI * Math.pow(t, 0.55)), 0.9) * (1 - 0.3 * t) + 0.0001, t * H)); }
       const mk2 = (scale, mix0) => new T.ShaderMaterial({
         transparent: true, depthWrite: false, blending: T.AdditiveBlending, side: T.DoubleSide,
-        uniforms: { uT: { value: 0 }, uMix: { value: mix0 }, uI: { value: 1 }, uH: { value: H }, uS: { value: scale } },
+        uniforms: { uT: { value: 0 }, uMix: { value: mix0 }, uI: { value: 1 }, uH: { value: H }, uS: { value: scale }, uTint: { value: new T.Vector3(1, 1, 1) }, uK: { value: 0 } },
         vertexShader: "uniform float uT; uniform float uH; varying float vY; varying vec3 vN; varying vec3 vV; void main(){ vY = position.y / uH; vec3 p = position; float w = sin(vY*9.0 - uT*16.0) * 0.045 * vY * vY + sin(vY*5.0 + uT*11.0 + position.x*20.0) * 0.03 * vY; p.x += w * uH * 0.25; p.z += cos(vY*7.0 - uT*13.0) * 0.03 * vY * uH * 0.25; vec4 mv = modelViewMatrix * vec4(p,1.0); vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix * mv; }",
-        fragmentShader: "uniform float uMix; uniform float uI; uniform float uS; varying float vY; varying vec3 vN; varying vec3 vV; void main(){ vec3 blue = mix(vec3(0.10,0.28,1.0), vec3(0.50,0.72,1.0), vY); vec3 yel = mix(vec3(1.0,0.86,0.36), vec3(1.0,0.42,0.06), vY); vec3 col = mix(blue, yel, uMix); float rim = pow(abs(dot(normalize(vN), normalize(vV))), 1.3); float a = rim * (1.0 - smoothstep(0.55, 1.0, vY)) * (0.35 + 0.65 * (1.0 - vY)) * uI * uS; gl_FragColor = vec4(col * 1.35, a); }",
+        fragmentShader: "uniform float uMix; uniform float uI; uniform float uS; uniform vec3 uTint; uniform float uK; varying float vY; varying vec3 vN; varying vec3 vV; void main(){ vec3 blue = mix(vec3(0.10,0.28,1.0), vec3(0.50,0.72,1.0), vY); vec3 yel = mix(vec3(1.0,0.86,0.36), vec3(1.0,0.42,0.06), vY); vec3 col = mix(blue, yel, uMix); col = mix(col, uTint, uK * smoothstep(0.05, 0.5, vY)); float rim = pow(abs(dot(normalize(vN), normalize(vV))), 1.3); float a = rim * (1.0 - smoothstep(0.55, 1.0, vY)) * (0.35 + 0.65 * (1.0 - vY)) * uI * uS; gl_FragColor = vec4(col * 1.35, a); }",
       });
       const outer = new T.Mesh(new T.LatheGeometry(pts, 28), mk2(0.9, 0)), innerPts = pts.map((p) => new T.Vector2(p.x * 0.5 + 0.0001, p.y * 0.55)), inner = new T.Mesh(new T.LatheGeometry(innerPts, 24), mk2(1.4, 0));
       outer.renderOrder = inner.renderOrder = 8; g.add(outer, inner);
@@ -283,12 +283,13 @@
       const light = new T.PointLight(0x9cc0ff, 4, 9, 1.6); light.position.y = H * 0.4; g.add(light);
       const F = { group: g, mix: 0, outer, inner, glow, light };
       F.set = (air, gas) => { F.mix = 1 - clamp(air, 0, 1); F.gas = gas; };
+      F.tint = (rgb, k) => { F.tk = k; if (rgb) F.trgb = rgb; [outer, inner].forEach((m) => { m.material.uniforms.uK.value = k; if (rgb) m.material.uniforms.uTint.value.set(rgb[0], rgb[1], rgb[2]); }); if (rgb && k > 0) { F.light.color.setRGB(rgb[0], rgb[1], rgb[2]); } };
       F.update = (t) => {
         const gas = F.gas == null ? 1 : F.gas; g.visible = gas > 0.03;
         [outer, inner].forEach((m) => { m.material.uniforms.uT.value = t; m.material.uniforms.uMix.value = F.mix; m.material.uniforms.uI.value = clamp(gas, 0, 1.2); });
         const sc2 = 0.35 + 0.65 * Math.min(1.1, gas); g.scale.set(sc2 * (0.85 + 0.15 * (1 - F.mix)), sc2 * (1 + 0.45 * F.mix), sc2 * (0.85 + 0.15 * (1 - F.mix)));
         inner.visible = F.mix < 0.6; inner.material.uniforms.uS.value = 1.4 * (1 - F.mix);
-        const fk = 0.85 + 0.15 * Math.sin(t * 31) + 0.08 * Math.sin(t * 17.3); light.intensity = 4 * gas * fk; light.color.setRGB(0.55 + 0.45 * F.mix, 0.75 - 0.2 * F.mix, 1 - 0.8 * F.mix); glow.material.color.copy(light.color); glow.material.opacity = 0.35 * gas;
+        const fk = 0.85 + 0.15 * Math.sin(t * 31) + 0.08 * Math.sin(t * 17.3); light.intensity = 4 * gas * fk; light.color.setRGB(0.55 + 0.45 * F.mix, 0.75 - 0.2 * F.mix, 1 - 0.8 * F.mix); if (F.tk > 0 && F.trgb) { const k = F.tk * 0.85; light.color.setRGB(light.color.r + (F.trgb[0] - light.color.r) * k, light.color.g + (F.trgb[1] - light.color.g) * k, light.color.b + (F.trgb[2] - light.color.b) * k); } glow.material.color.copy(light.color); glow.material.opacity = 0.35 * gas;
       };
       return F;
     };
