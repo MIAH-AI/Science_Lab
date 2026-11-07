@@ -168,6 +168,8 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-ksp.js"></script>
 <script src="/labs/c3d-oxides.js"></script>
 <script src="/labs/c3d-polarity.js"></script>
+<script src="/labs/c3d-radical.js"></script>
+<script src="/labs/c3d-organic2.js"></script>
 <script src="/labs/c3d-measure.js"></script>
 <script>
 /* ============================================================
@@ -1273,6 +1275,10 @@ SIM_MODULES.oxidationNumbers=only3D('Oxidation Numbers & Redox Equations','Assig
 SIM_MODULES.solubilityProduct=only3D('Solubility Product (Ksp) & Precipitation','Dissolve sparingly soluble salts, add a common ion and watch the solubility fall, then mix solutions and compare the ionic product Q with Ksp.','Ksp = [M]ᵃ[X]ᵇ at saturation; a common ion lowers solubility; a precipitate forms when Q > Ksp.');
 SIM_MODULES.periodicOxides=only3D('Oxides of Period 3 Elements','Add sodium, magnesium, aluminium, silicon, phosphorus, sulphur and chlorine oxides to water, acid and alkali and see the change from basic to amphoteric to acidic.','The oxides change from basic (ionic) through amphoteric (Al₂O₃) to acidic (covalent) across the period.');
 SIM_MODULES.bondPolarity=only3D('Bond Polarity & Dipoles','Compare electronegativity, partial charges and dipoles in ten molecules and see which ones line up in an electric field.','A polar bond has δ+ and δ− ends because of an electronegativity difference; a molecule is polar only if its bond dipoles do not cancel.');
+SIM_MODULES.radicalMech=only3D('Free-Radical Substitution','Watch methane react with chlorine in UV light: initiation, the two propagation steps and the three termination steps.','Radicals have an unpaired electron. UV light splits Cl2 by homolytic fission; Cl. and .CH3 then carry the chain until two radicals combine and stop it.');
+SIM_MODULES.unsaturated=only3D('Alkenes & Alkynes','Compare C-C, C=C and C#C bonds with their lengths and energies, test for unsaturation with bromine water and KMnO4, and follow addition reactions.','Alkenes and alkynes have a pi bond that opens in addition reactions and decolourises bromine water; alkanes have only sigma bonds and do not react.');
+SIM_MODULES.benzene=only3D('Benzene: Delocalised Ring','Compare the Kekule model with the delocalised pi ring, see the hydrogenation enthalpy evidence, and compare substitution with addition.','Six equal C-C bonds of 139 pm, six delocalised pi electrons and 152 kJ/mol extra stability make benzene substitute rather than add.');
+SIM_MODULES.functionalGroups=only3D('Functional Groups & Alkanoic Acids','Highlight the functional group in eleven organic compounds, see the hydrogen-bonded carboxylic acid dimer and test ethanoic acid with litmus, carbonate, magnesium, alkali and ethanol.','The functional group decides the characteristic reactions of a compound; carboxylic acids pair into hydrogen-bonded dimers and show typical weak-acid behaviour.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1355,18 +1361,18 @@ const SECTIONS={
     {l:'f',t:'Corrosion of metals',sim:'corrosion'},
     {l:'g',t:'Redox titration (KMnO₄)',sim:'redoxTitration'}]},
   {num:'13.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
-    {l:'a',t:'Classification',sim:'organicExplorer'},
-    {l:'b',t:'Functional groups',sim:'organicExplorer'},
+    {l:'a',t:'Classification',sim:'functionalGroups'},
+    {l:'b',t:'Functional groups',sim:'functionalGroups'},
     {l:'c',t:'Separation & purification',sim:'separationTechniques'},
     {l:'d',t:'Petroleum / crude oil',sim:'industrialProcesses'},
     {l:'e',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
     {l:'f',t:'Homologous series & isomerism',sim:'isomerism'},
-    {l:'g',t:'Alkanes',sim:'organicExplorer'},
+    {l:'g',t:'Alkanes',sim:'radicalMech'},
     {l:'h',t:'Alkenes',sim:'organicReactions'},
-    {l:'i',t:'Alkynes',sim:'organicExplorer'},
-    {l:'j',t:'Benzene',sim:'organicExplorer'},
+    {l:'i',t:'Alkynes',sim:'unsaturated'},
+    {l:'j',t:'Benzene',sim:'benzene'},
     {l:'k',t:'Alkanols',sim:'organicReactions'},
-    {l:'l',t:'Alkanoic acids',sim:'organicExplorer'},
+    {l:'l',t:'Alkanoic acids',sim:'functionalGroups'},
     {l:'m',t:'Alkanoates (esters)',sim:'organicReactions'}]},
   {num:'14.0',title:'Chemistry, Industry & Environment',cat:'industry',subs:[
     {l:'a',t:'Chemical industry',sim:'industrialProcesses'},
@@ -1418,8 +1424,8 @@ const SECTIONS={
     {l:'a',t:'Separation & purification',sim:'separationTechniques'},
     {l:'b',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
     {l:'c',t:'Reactivity of organic compounds',sim:'organicExplorer'},
-    {l:'d',t:'Alkanes (free-radical mechanism)',sim:'organicExplorer'},
-    {l:'e',t:'Reactions of benzene',sim:'organicExplorer'}]},
+    {l:'d',t:'Alkanes (free-radical mechanism)',sim:'radicalMech'},
+    {l:'e',t:'Reactions of benzene',sim:'benzene'}]},
   {num:'10.0',title:'Chemical Industry & Environment',cat:'industry',subs:[
     {l:'a',t:'Raw materials & mining',sim:'separationTechniques'},
     {l:'b',t:'Cement',sim:'energyProfile'}]}
