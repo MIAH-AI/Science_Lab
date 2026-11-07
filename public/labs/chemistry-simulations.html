@@ -172,6 +172,7 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-organic2.js"></script>
 <script src="/labs/c3d-bench.js"></script>
 <script src="/labs/c3d-acidtheory.js"></script>
+<script src="/labs/c3d-batchP.js"></script>
 <script src="/labs/c3d-measure.js"></script>
 <script>
 /* ============================================================
@@ -1285,6 +1286,10 @@ SIM_MODULES.separationBench=only3D('Separation Bench','Separate six kinds of mix
 SIM_MODULES.diffusionVapour=only3D('Diffusion, Vapour Pressure & Melting Point','Race two gases along a tube (Graham law), raise a liquid to its boiling point at different external pressures, and compare pure and impure melting points.','Rate of diffusion is proportional to 1/sqrt(M); a liquid boils when its vapour pressure equals the external pressure; pure solids melt sharply.');
 SIM_MODULES.acidDefinitions=only3D('Acid Definitions & Electrolyte Strength','Follow proton transfer and conjugate pairs (Bronsted-Lowry), a lone pair forming a dative bond (Lewis), and compare strong, weak and non-electrolytes by ions and bulb brightness.','Acids and bases are defined by proton or electron-pair transfer; strength is the degree of ionisation, not the concentration.');
 SIM_MODULES.equilibriumConstant=only3D('Equilibrium Constant Kc','Fill an ICE table, compare Q with Kc to predict the direction, and watch concentrations settle to equilibrium for four reactions.','Kc = [products]^n / [reactants]^n at equilibrium and depends only on temperature; Q compared with Kc gives the direction of change.');
+SIM_MODULES.complexShapes=only3D('Complex Ions & Silicon','Build seven complex ions to see ligands, dative bonds, coordination number, shape and charge, then dope a silicon lattice n-type and p-type.','Ligands donate lone pairs to a central metal ion; coordination number 2, 4 or 6 sets the shape. Doping turns silicon into a useful semiconductor.');
+SIM_MODULES.nobleGases=only3D('Noble Gases','Light five discharge tubes, count electron shells to see why the noble gases are inert, and compare boiling points and atomic size down the group.','Full outer shells make Group 18 unreactive; weak London forces give very low boiling points that rise down the group.');
+SIM_MODULES.biochemTests=only3D('Food Tests & Amino Acids','Test seven food samples with Benedict, iodine, biuret, emulsion and ninhydrin reagents, and move the pH to see glycine as cation, zwitterion and anion.','Each food class has a characteristic reagent colour change; amino acids are amphoteric zwitterions.');
+SIM_MODULES.limeCycle=only3D('Limestone Cycle & Sodium Compounds','Heat limestone, slake lime, test with limewater, then follow sodium reacting with water, heat and acids.','CaCO3 to CaO to Ca(OH)2 and back; sodium compounds show reactive metal, alkali, carbonate and hydrogencarbonate behaviour.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1387,11 +1392,12 @@ const SECTIONS={
     {l:'c',t:'Biotechnology',sim:'polymersBiomolecules'}]},
   {num:'15.0',title:'Basic Biochemistry & Synthetic Polymers',cat:'industry',subs:[
     {l:'a',t:'Proteins',sim:'polymersBiomolecules'},
-    {l:'b',t:'Amino acids',sim:'polymersBiomolecules'},
+    {l:'b',t:'Amino acids',sim:'biochemTests'},
     {l:'c',t:'Fats/oils',sim:'polymersBiomolecules'},
     {l:'c2',t:'Soaps & detergents',sim:'soapDetergent'},
     {l:'d',t:'Carbohydrates',sim:'polymersBiomolecules'},
-    {l:'e',t:'Synthetic polymers',sim:'polymersBiomolecules'}]}
+    {l:'e',t:'Synthetic polymers',sim:'polymersBiomolecules'},
+    {l:'f',t:'Food tests',sim:'biochemTests'}]}
  ]},
  B:{label:'Ghana (B)', topics:[
   {num:'1.0',title:'Structure of the Atom (Nuclear)',cat:'atomic',subs:[
@@ -1401,10 +1407,10 @@ const SECTIONS={
     {l:'a',t:'Acid/metal/oxide reactions',sim:'redoxCell'},
     {l:'b',t:'Acidic oxides of non-metals',sim:'periodicOxides'},
     {l:'c',t:'Period 3 element properties',sim:'periodicOxides'},
-    {l:'d',t:'Silicon',sim:'molecularShapes'},
+    {l:'d',t:'Silicon',sim:'complexShapes'},
     {l:'e',t:'Group 7 gradation',sim:'halogens'},
-    {l:'f',t:'Bonding in complex compounds',sim:'transitionMetals'},
-    {l:'g',t:'Shapes of complex compounds',sim:'molecularShapes'},
+    {l:'f',t:'Bonding in complex compounds',sim:'complexShapes'},
+    {l:'g',t:'Shapes of complex compounds',sim:'complexShapes'},
     {l:'h',t:'First transition series',sim:'transitionMetals'}]},
   {num:'3.0',title:'Chemical Bonds',cat:'bonding',subs:[
     {l:'a',t:'Ionic bond formation',sim:'ionicCrystal'},
@@ -1447,12 +1453,12 @@ const SECTIONS={
     {l:'f',t:'Hydrogen chloride gas',sim:'gasPreparation'},
     {l:'g',t:'Nitrogen & compounds',sim:'nitrogenSulphur'},
     {l:'h',t:'Sulphur & its acids',sim:'nitrogenSulphur'},
-    {l:'i',t:'Noble gases',sim:'periodicTrends'}]},
+    {l:'i',t:'Noble gases',sim:'nobleGases'}]},
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
     {l:'a',t:'Extraction of metals',sim:'industrialProcesses'},
     {l:'b',t:'Alloys',sim:'allotropesAlloys'},
-    {l:'c',t:'Sodium & compounds',sim:'metalReactivity'},
-    {l:'d',t:'Calcium & compounds',sim:'metalReactivity'},
+    {l:'c',t:'Sodium & compounds',sim:'limeCycle'},
+    {l:'d',t:'Calcium & compounds',sim:'limeCycle'},
     {l:'e',t:'Iron & aluminium reactivity',sim:'metalReactivity'},
     {l:'f',t:'Copper & compounds',sim:'electrolysis'}]}
  ]},
