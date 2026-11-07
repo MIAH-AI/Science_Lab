@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn with Nehy — Schools Platform (print)</title>
+<style>
+  :root {
+    --ink: #26215c;
+    --muted: #5d5884;
+    --bg: #f6f3ff;
+    --panel: #ffffff;
+    --line: #d9d3f5;
+    --lav: #6f5ee8;
+    --lav-soft: #ece8ff;
+    --mint: #17906d;
+    --mint-soft: #e0f5ee;
+    --peach: #d66f3c;
+    --peach-soft: #fdebe1;
+    --stage: #1b1740;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: #e7e3f6;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .deck { width: 1280px; margin: 0 auto; padding: 24px 0; }
+  .slide {
+    position: relative;
+    width: 1280px; height: 720px;
+    margin: 0 0 24px;
+    background: var(--bg);
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(38, 33, 92, .12);
+    padding: 48px 64px 56px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .slide[hidden] { display: none; }
+  .slide::after {
+    content: attr(data-footer);
+    position: absolute; left: 64px; right: 64px; bottom: 20px;
+    font-size: 13px; color: var(--muted);
+  }
+  .kicker { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--lav); font-weight: 600; margin: 0 0 8px; }
+  h1 { font-size: 60px; line-height: 1.05; margin: 0 0 20px; }
+  h2 { font-size: 36px; line-height: 1.15; margin: 0 0 22px; }
+  h3 { font-size: 20px; margin: 0 0 8px; }
+  p, li { font-size: 20px; line-height: 1.45; }
+  p { margin: 0 0 14px; }
+  .lead { font-size: 24px; color: var(--muted); max-width: 980px; }
+  ul { margin: 0; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+  li::marker { color: var(--lav); }
+  .small, .small li, .small p { font-size: 17px; }
+  .muted { color: var(--muted); }
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+  .card p, .card li { font-size: 17px; }
+  .card.lav { background: var(--lav-soft); border-color: #cfc6ff; }
+  .card.mint { background: var(--mint-soft); border-color: #b5e4d4; }
+  .card.peach { background: var(--peach-soft); border-color: #f5cdb6; }
+  .tag { display: inline-block; font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--lav-soft); color: var(--lav); margin-bottom: 10px; }
+  .tag.mint { background: var(--mint-soft); color: var(--mint); }
+  .callout { margin-top: auto; background: var(--panel); border-left: 5px solid var(--peach); border-radius: 10px; padding: 14px 18px; font-size: 18px; }
+  table.data { width: 100%; border-collapse: collapse; background: var(--panel); border-radius: 12px; overflow: hidden; }
+  .data th, .data td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.35; vertical-align: top; }
+  .data th { background: var(--lav-soft); font-weight: 600; }
+  .data tr:last-child td { border-bottom: 0; }
+  .data.tight th, .data.tight td { padding: 7px 12px; font-size: 15px; }
+  .yes { color: var(--mint); font-weight: 600; }
+  .no { color: #a39fbf; }
+  .steps { counter-reset: s; list-style: none; padding: 0; }
+  .steps li { counter-increment: s; position: relative; padding-left: 48px; margin-bottom: 14px; }
+  .steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--lav); color: #fff; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+  .diagram { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .diagram svg { width: 100%; height: 100%; flex: 1; min-height: 0; }
+  .legend { display: flex; gap: 28px; font-size: 15px; color: var(--muted); margin-top: 8px; }
+  .legend span::before { content: ""; display: inline-block; width: 28px; height: 0; border-top: 3px solid var(--lav); vertical-align: middle; margin-right: 8px; }
+  .legend .l-live::before { border-top: 3px dashed var(--mint); }
+  .legend .l-data::before { border-top-color: #8d87b5; }
+
+  svg text { font-family: inherit; fill: var(--ink); }
+  svg .t { font-size: 15px; text-anchor: middle; dominant-baseline: middle; }
+  svg .ts { font-size: 13px; text-anchor: middle; dominant-baseline: middle; }
+  svg .lbl { font-size: 12.5px; fill: var(--muted); text-anchor: middle; }
+  svg .glabel { font-size: 15px; font-weight: 600; fill: var(--muted); }
+  svg .node { fill: var(--panel); stroke: #b9afef; stroke-width: 1.5; }
+  svg .node.db { fill: var(--lav-soft); }
+  svg .node.live { fill: var(--mint-soft); stroke: #8fd3bd; }
+  svg .node.ply { fill: var(--peach-soft); stroke: #efb593; }
+  svg .grp { fill: rgba(255,255,255,.55); stroke: #cbc3f2; stroke-width: 1.5; stroke-dasharray: 6 5; }
+  svg .grp.ply { fill: rgba(253,235,225,.6); stroke: #efb593; }
+  svg .e { fill: none; stroke: #8d87b5; stroke-width: 2; marker-end: url(#a-data); }
+  svg .e.ctl { stroke: var(--lav); marker-end: url(#a-ctl); }
+  svg .e.live { stroke: var(--mint); stroke-dasharray: 7 5; marker-end: url(#a-live); }
+  svg .life { stroke: #b9afef; stroke-width: 1.5; stroke-dasharray: 5 5; }
+  svg .msg { stroke: var(--lav); stroke-width: 2; marker-end: url(#a-ctl); }
+  svg .msg.reply { stroke-dasharray: 7 5; }
+  svg .msg.ply { stroke: var(--peach); marker-end: url(#a-ply); }
+  svg .loop { fill: rgba(111,94,232,.06); stroke: #b9afef; stroke-dasharray: 4 4; }
+
+  .title-slide { justify-content: center; background: linear-gradient(135deg, #f6f3ff 0%, #ece8ff 60%, #e0f5ee 100%); }
+  .title-slide h1 { font-size: 68px; }
+  .brand { font-size: 22px; font-weight: 600; color: var(--lav); margin-bottom: 28px; }
+  .agenda { counter-reset: a; list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 40px; }
+  .agenda li { counter-increment: a; font-size: 26px; padding: 18px 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; margin: 0; }
+  .agenda li::before { content: "0" counter(a); color: var(--lav); font-weight: 600; margin-right: 16px; }
+  .agenda li span { display: block; font-size: 16px; color: var(--muted); margin-left: 44px; }
+  .agenda.compact li { font-size: 22px; padding: 12px 20px; }
+  pre.code { margin: 0; background: #1f1a4a; color: #ece8ff; border-radius: 12px; padding: 16px 18px; font-size: 13.5px; line-height: 1.5; overflow: hidden; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  pre.code .c { color: #a99cff; }
+  .tree { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.6; white-space: pre; margin: 0; }
+
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    body { background: var(--bg); }
+    .deck { padding: 0; zoom: 1 !important; }
+    .slide { margin: 0; border-radius: 0; box-shadow: none; break-after: page; page-break-after: always; break-inside: avoid; }
+    .slide:last-child { break-after: auto; page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="a-data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#8d87b5"/></marker>
+    <marker id="a-ctl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#6f5ee8"/></marker>
+    <marker id="a-live" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#17906d"/></marker>
+    <marker id="a-ply" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#d66f3c"/></marker>
+  </defs>
+</svg>
+
+<main class="deck" id="deck">
+
+<!-- Title -->
+<section class="slide title-slide">
+  <div class="brand">learnwithnehy.</div>
+  <h1>Schools platform:<br>architecture and roadmap</h1>
+  <p class="lead">Architecture, real-time activity, roles and permissions, security, and the delivery roadmap for multi-campus secondary schools and the public online app.</p>
+  <p class="muted" style="margin-top:28px">Plysoft Tech Team · November 2026</p>
+</section>
+
+<!-- Agenda -->
+<section class="slide">
+  <p class="kicker">Agenda</p>
+  <h2>What this deck covers</h2>
+  <ol class="agenda compact">
+    <li>Architecture<span>Two products, components, licensing lifecycle</span></li>
+    <li>Campus agent and updates<span>Scheduled pull, agent jobs, Go and TypeScript options</span></li>
+    <li>Real-time activity<span>Live tracking from every campus</span></li>
+    <li>Roles and permissions<span>Who sees and does what</span></li>
+    <li>Security<span>Protecting data, code, and content</span></li>
+    <li>Roadmap<span>Ten phases to a one-term pilot</span></li>
+    <li>Open decisions<span>What still needs agreement</span></li>
+  </ol>
+</section>
+
+<!-- Brief -->
+<section class="slide">
+  <p class="kicker">The brief</p>
+  <h2>A multi-campus boarding school, offline students</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>The school</h3>
+      <ul>
+        <li>Every student has a computer, with no internet access</li>
+        <li>Each campus has an IT department and its own server</li>
+        <li>Wants the app installed on each campus server</li>
+        <li>Wants to test it for one term (3 months)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The platform must</h3>
+      <ul>
+        <li>Track student work and let teachers set tasks</li>
+        <li>Give principals and directors visibility</li>
+        <li>Let a school admin invite, approve, and disable users</li>
+        <li>License, limit, deploy, and disable campuses remotely</li>
+        <li>Protect code, content, and the database on client servers</li>
+        <li>Keep a public online version with sign-in</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Two products -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2>Two products, one owner console</h2>
+  <div class="grid g2">
+    <div class="card lav">
+      <span class="tag">Public cloud</span>
+      <h3>Online app and control service</h3>
+      <p>The public study app for anyone with internet, with its own accounts. Also hosts the control service the Plysoft Tech Team uses to license, deploy, and monitor every campus.</p>
+    </div>
+    <div class="card mint">
+      <span class="tag mint">Campus appliance</span>
+      <h3>Signed package on each campus server</h3>
+      <p>Students and staff use it over the campus local network. It holds that campus's accounts, tasks, submissions, and learning records.</p>
+    </div>
+  </div>
+  <div class="callout">Student devices never need the internet. Each campus <strong>server</strong> needs one narrow outbound HTTPS connection to the control service. Without it, remote licensing, releases, and suspension cannot be guaranteed.</div>
+</section>
+
+<!-- System overview -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2 style="margin-bottom:10px">System overview</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 1200 600" role="img" aria-label="System overview: Plysoft Tech Team console, public cloud services, and each campus local network">
+      <rect class="grp ply" x="10" y="10" width="250" height="130" rx="16"/>
+      <text class="glabel" x="30" y="36">Plysoft Tech Team</text>
+      <rect class="node ply" x="35" y="60" width="200" height="56" rx="10"/>
+      <text class="t" x="135" y="88">Platform admin console</text>
+
+      <rect class="grp" x="290" y="10" width="900" height="270" rx="16"/>
+      <text class="glabel" x="310" y="36">Public cloud</text>
+      <rect class="node" x="310" y="60" width="170" height="56" rx="10"/>
+      <text class="ts" x="395" y="80">License and</text><text class="ts" x="395" y="97">deployment control</text>
+      <rect class="node db" x="500" y="60" width="170" height="56" rx="10"/>
+      <text class="t" x="585" y="88">Campus summaries</text>
+      <rect class="node live" x="720" y="60" width="170" height="56" rx="10"/>
+      <text class="t" x="805" y="88">Event ingest API</text>
+      <rect class="node db" x="940" y="60" width="170" height="56" rx="10"/>
+      <text class="ts" x="1025" y="80">Central activity</text><text class="ts" x="1025" y="97">database</text>
+      <rect class="node" x="310" y="180" width="170" height="56" rx="10"/>
+      <text class="t" x="395" y="208">Public study app</text>
+      <rect class="node" x="500" y="180" width="170" height="56" rx="10"/>
+      <text class="t" x="585" y="208">Public accounts</text>
+      <rect class="node db" x="690" y="180" width="170" height="56" rx="10"/>
+      <text class="t" x="775" y="208">Public database</text>
+      <rect class="node live" x="940" y="180" width="170" height="56" rx="10"/>
+      <text class="ts" x="1025" y="200">Live activity</text><text class="ts" x="1025" y="217">dashboard</text>
+
+      <rect class="grp" x="10" y="330" width="1180" height="260" rx="16"/>
+      <text class="glabel" x="30" y="356">Each campus local network</text>
+      <rect class="node" x="30" y="380" width="220" height="56" rx="10"/>
+      <text class="ts" x="140" y="400">Students, teachers, principals,</text><text class="ts" x="140" y="417">directors, school admin</text>
+      <rect class="node" x="300" y="380" width="180" height="56" rx="10"/>
+      <text class="t" x="390" y="408">Campus study app</text>
+      <rect class="node" x="530" y="380" width="180" height="56" rx="10"/>
+      <text class="t" x="620" y="408">School accounts</text>
+      <rect class="node db" x="760" y="380" width="200" height="56" rx="10"/>
+      <text class="ts" x="860" y="400">Encrypted campus</text><text class="ts" x="860" y="417">database</text>
+      <rect class="node db" x="300" y="500" width="180" height="56" rx="10"/>
+      <text class="t" x="390" y="528">Activity outbox</text>
+      <rect class="node" x="760" y="500" width="200" height="56" rx="10"/>
+      <text class="t" x="860" y="528">Campus agent</text>
+
+      <path class="e ctl" d="M235 88 H310"/>
+      <path class="e" d="M480 88 H500"/>
+      <path class="e live" d="M890 88 H940"/>
+      <path class="e live" d="M1025 116 V180"/>
+      <path class="e" d="M480 208 H500"/>
+      <path class="e" d="M670 208 H690"/>
+      <path class="e ctl" d="M135 116 V300 H1025 V236"/>
+      <path class="e" d="M250 408 H300"/>
+      <path class="e" d="M480 408 H530"/>
+      <path class="e" d="M710 408 H760"/>
+      <path class="e live" d="M390 436 V500"/>
+      <path class="e live" d="M760 528 H480"/>
+      <path class="e ctl" d="M800 500 L478 437"/>
+      <path class="e ctl" d="M960 518 H1150 V148 H395 V116"/>
+      <path class="e live" d="M960 540 H1170 V164 H805 V116"/>
+      <text class="lbl" x="640" y="142">outbound heartbeat, license, and release pull</text>
+      <text class="lbl" x="1000" y="176" style="text-anchor:end">live activity events</text>
+    </svg>
+    <div class="legend"><span>License, deployment, and admin</span><span class="l-live">Live activity</span><span class="l-data">Application data</span></div>
+  </div>
+</section>
+
+<!-- Components -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2>Components</h2>
+  <div class="grid g3">
+    <div class="card"><span class="tag">Cloud</span><h3>Platform admin console</h3><p>Plysoft Tech Team only. Schools, campuses, trials, seat caps, releases, suspension, and deployment health.</p></div>
+    <div class="card"><span class="tag">Cloud</span><h3>Control service</h3><p>Signs licenses, issues enrollment tokens, releases short-lived keys, hosts signed images. Never connects into a campus.</p></div>
+    <div class="card"><span class="tag">Cloud</span><h3>Ingest and live activity</h3><p>Receives events from every campus within seconds and streams them to live dashboards.</p></div>
+    <div class="card"><span class="tag">Cloud</span><h3>Public study app</h3><p>Today's dashboard and labs with public sign-in. Accounts are separate from school accounts.</p></div>
+    <div class="card"><span class="tag mint">Campus</span><h3>Campus study app</h3><p>Dashboard, labs, invites, approvals, tasks, submissions, and principal views on the local network.</p></div>
+    <div class="card"><span class="tag mint">Campus</span><h3>Campus database</h3><p>Accounts, tasks, submissions, learning events, and the activity outbox. Encrypted at rest.</p></div>
+  </div>
+</section>
+
+<!-- Agent -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2>The campus agent: the only process that calls out</h2>
+  <div class="grid g2">
+    <ul>
+      <li>Enrolls the server with a one-time token and a machine fingerprint</li>
+      <li>Pulls signed releases early and installs them only inside the campus maintenance window</li>
+      <li>Renews the license and keys on every heartbeat</li>
+      <li>Reports version, health, and approved seat count</li>
+    </ul>
+    <ul>
+      <li>Uploads campus summaries for directors</li>
+      <li>Forwards activity events from the outbox in near real time, and holds them while offline</li>
+      <li>Locks the campus app when the license is suspended or expired after the grace period</li>
+    </ul>
+  </div>
+  <div class="callout">The agent <strong>pulls</strong> from the control service. Nothing is pushed into the campus network, so it works through school firewalls.</div>
+</section>
+
+<!-- Lifecycle -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2 style="margin-bottom:6px">License and deployment lifecycle</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 1200 565" role="img" aria-label="Sequence of trial creation, enrollment, heartbeats, and remote suspension">
+      <rect class="node ply" x="40" y="12" width="220" height="44" rx="10"/><text class="t" x="150" y="34">Plysoft Tech Team</text>
+      <rect class="node" x="340" y="12" width="220" height="44" rx="10"/><text class="t" x="450" y="34">Control service</text>
+      <rect class="node" x="640" y="12" width="220" height="44" rx="10"/><text class="t" x="750" y="34">Campus agent</text>
+      <rect class="node" x="940" y="12" width="220" height="44" rx="10"/><text class="t" x="1050" y="34">Campus app</text>
+      <line class="life" x1="150" y1="56" x2="150" y2="555"/>
+      <line class="life" x1="450" y1="56" x2="450" y2="555"/>
+      <line class="life" x1="750" y1="56" x2="750" y2="555"/>
+      <line class="life" x1="1050" y1="56" x2="1050" y2="555"/>
+
+      <line class="msg ply" x1="150" y1="100" x2="446" y2="100"/><text class="lbl" x="300" y="92">Open a 3 month trial with a seat cap</text>
+      <line class="msg reply" x1="450" y1="140" x2="746" y2="140"/><text class="lbl" x="600" y="132">One time enrollment token</text>
+      <line class="msg" x1="750" y1="180" x2="454" y2="180"/><text class="lbl" x="600" y="172">Machine fingerprint and enroll</text>
+      <line class="msg reply" x1="450" y1="220" x2="746" y2="220"/><text class="lbl" x="600" y="212">Signed license and content key</text>
+      <line class="msg" x1="750" y1="260" x2="1046" y2="260"/><text class="lbl" x="900" y="252">Start with the key held in memory</text>
+
+      <rect class="loop" x="400" y="292" width="400" height="84" rx="8"/>
+      <text class="lbl" x="404" y="287" style="text-anchor:start">loop: while the term is active</text>
+      <line class="msg" x1="750" y1="330" x2="454" y2="330"/><text class="lbl" x="600" y="322">Heartbeat: seats, version, health</text>
+      <line class="msg reply" x1="450" y1="362" x2="746" y2="362"/><text class="lbl" x="600" y="354">Renew key or send the next release</text>
+
+      <line class="msg ply" x1="150" y1="410" x2="446" y2="410"/><text class="lbl" x="300" y="402">Suspend this campus</text>
+      <line class="msg" x1="750" y1="450" x2="454" y2="450"/><text class="lbl" x="600" y="442">Next heartbeat</text>
+      <line class="msg reply" x1="450" y1="490" x2="746" y2="490"/><text class="lbl" x="600" y="482">License suspended</text>
+      <line class="msg" x1="750" y1="530" x2="1046" y2="530"/><text class="lbl" x="900" y="522">Lock the app and drop the key</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Licensing -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2>Licensing, trials, and remote control</h2>
+  <div class="grid g3">
+    <div class="card"><h3>Three-month trial</h3><p>A signed <code>trial</code> license ending three months after start. Read-only during the grace period so teachers can export, then locked until extended.</p></div>
+    <div class="card"><h3>Seat cap</h3><p>Counts approved users. The server rejects approvals past the cap. The agent reports the count, and an edited license fails its signature.</p></div>
+    <div class="card"><h3>Enrollment</h3><p>One-time token, machine fingerprint, license bound to that server. A copied install never receives a key.</p></div>
+    <div class="card"><h3>Releases</h3><p>Signed images queued per campus. The agent verifies, backs up, swaps, and reports installed or rolls back.</p></div>
+    <div class="card"><h3>Remote suspension</h3><p>Key renewal stops. The app locks after the grace period, so blocking the connection only delays it briefly.</p></div>
+    <div class="card"><h3>No outbound access</h3><p>Fallback: IT carries a signed license file with a hard expiry. Suspension waits until it expires.</p></div>
+  </div>
+</section>
+
+<!-- Data flow rules -->
+<section class="slide">
+  <p class="kicker">Architecture</p>
+  <h2>Data flow rules</h2>
+  <ul>
+    <li>Student and staff browsers talk only to the campus app.</li>
+    <li>The agent pulls from the control service. The control service never pushes into the campus.</li>
+    <li>The campus server is the source of truth for learner records.</li>
+    <li>Activity events stream to the central activity database within seconds. User identities are replaced with campus-specific codes by default; each school's data agreement sets the detail level.</li>
+    <li>Aggregated summaries (completion by class, usage by subject, active seats) also leave the campus for directors.</li>
+    <li>Public and campus accounts never mix.</li>
+    <li>The labs gain a small reporting hook for lessons opened, simulations used, and time spent. The original simulation logic stays intact.</li>
+  </ul>
+</section>
+
+<!-- Scheduled pull -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2 style="margin-bottom:6px">Recommended: scheduled pull by the campus agent</h2>
+  <p class="small muted" style="margin-bottom:6px">Each release carries a schedule. The agent downloads early and installs only inside the campus maintenance window. Nothing connects into the school network.</p>
+  <div class="diagram">
+    <svg viewBox="0 0 1200 420" role="img" aria-label="Release flow: publish, queue, agent check-in, early download, wait for window, back up, switch version, health check, then installed or rolled back, and report">
+      <rect class="node ply" x="30" y="30" width="240" height="64" rx="10"/><text class="ts" x="150" y="53">Plysoft publishes the</text><text class="ts" x="150" y="72">release and rollout</text>
+      <rect class="node" x="330" y="30" width="240" height="64" rx="10"/><text class="ts" x="450" y="53">Control service queues</text><text class="ts" x="450" y="72">a job per campus</text>
+      <rect class="node" x="630" y="30" width="240" height="64" rx="10"/><text class="ts" x="750" y="53">Agent sees the job</text><text class="ts" x="750" y="72">on its next check-in</text>
+      <rect class="node db" x="930" y="30" width="240" height="64" rx="10"/><text class="ts" x="1050" y="53">Downloads early and</text><text class="ts" x="1050" y="72">verifies the signature</text>
+
+      <rect class="node db" x="930" y="170" width="240" height="64" rx="10"/><text class="ts" x="1050" y="193">Waits for the campus</text><text class="ts" x="1050" y="212">maintenance window</text>
+      <rect class="node" x="630" y="170" width="240" height="64" rx="10"/><text class="ts" x="750" y="193">Backs up the</text><text class="ts" x="750" y="212">campus database</text>
+      <rect class="node" x="330" y="170" width="240" height="64" rx="10"/><text class="ts" x="450" y="193">Switches to the</text><text class="ts" x="450" y="212">new version</text>
+      <rect class="node" x="30" y="170" width="240" height="64" rx="10"/><text class="ts" x="150" y="193">Health check</text><text class="ts" x="150" y="212">for a few minutes</text>
+
+      <rect class="node live" x="30" y="320" width="240" height="64" rx="10"/><text class="t" x="150" y="352">Installed</text>
+      <rect class="node ply" x="330" y="320" width="240" height="64" rx="10"/><text class="ts" x="450" y="343">Rolled back</text><text class="ts" x="450" y="362">automatically</text>
+      <rect class="node" x="630" y="320" width="540" height="64" rx="10"/><text class="ts" x="900" y="343">Reports the result. The console shows each</text><text class="ts" x="900" y="362">campus's version and any failed update</text>
+
+      <path class="e ctl" d="M270 62 H330"/>
+      <path class="e ctl" d="M570 62 H630"/>
+      <path class="e ctl" d="M870 62 H930"/>
+      <path class="e ctl" d="M1050 94 V170"/>
+      <path class="e ctl" d="M930 202 H870"/>
+      <path class="e ctl" d="M630 202 H570"/>
+      <path class="e ctl" d="M330 202 H270"/>
+      <path class="e live" d="M150 234 V320"/><text class="lbl" x="160" y="282" style="text-anchor:start">healthy</text>
+      <path class="e" d="M230 234 L440 320"/><text class="lbl" x="350" y="268" style="text-anchor:start">not healthy</text>
+      <path class="e" d="M570 352 H630"/>
+      <path class="e" d="M150 384 V406 H900 V384"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Scheduling settings -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2>Scheduling: any interval, no one on site</h2>
+  <div class="grid g2">
+    <div class="card lav">
+      <h3>Chosen per release</h3>
+      <ul>
+        <li><strong>Which campuses:</strong> all, a pilot campus first, or a named list</li>
+        <li><strong>When:</strong> a date and time, a weekly window, or the next school holiday</li>
+        <li><strong>Release track:</strong> pilot or stable</li>
+        <li><strong>Urgency:</strong> normal waits for the window; a security fix installs as soon as safe</li>
+      </ul>
+    </div>
+    <table class="data">
+      <tr><th style="width:40%">Per-campus setting</th><th>Example</th></tr>
+      <tr><td>Maintenance window</td><td>Every Sunday, 01:00–04:00 campus time</td></tr>
+      <tr><td>Blackout dates</td><td>Exam weeks, the first week of term</td></tr>
+      <tr><td>Postponing</td><td>The school admin can postpone once, for up to 7 days</td></tr>
+      <tr><td>Security override</td><td>Critical fixes skip the window but never install during class hours</td></tr>
+    </table>
+  </div>
+  <div class="callout">Daily, weekly, monthly, or one-off: changing the window changes the interval. The download happens ahead of time, so a slow school connection doesn't eat into the install window.</div>
+</section>
+
+<!-- Who uses it -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2 style="margin-bottom:16px">A proven model</h2>
+  <table class="data tight">
+    <tr><th style="width:30%">Organisation or product</th><th style="width:26%">What pulls</th><th>How scheduling works</th></tr>
+    <tr><td>Microsoft (Windows Update, Intune, Configuration Manager)</td><td>Update client on each PC or server</td><td>Maintenance windows and deferral periods; downloads early, installs inside the window</td></tr>
+    <tr><td>AWS Systems Manager</td><td>SSM Agent, including on-premises servers</td><td>Maintenance windows run patching on a schedule; outbound calls only</td></tr>
+    <tr><td>Microsoft Azure Arc</td><td>Agent on servers outside Azure</td><td>Update schedules set centrally</td></tr>
+    <tr><td>Tesla and Android phone makers</td><td>The car or phone</td><td>Background download, install at a chosen time, rollback on failure</td></tr>
+    <tr><td>Mender and Balena</td><td>Client on each device</td><td>Staged rollout and automatic rollback for device fleets</td></tr>
+    <tr><td>Puppet and Chef</td><td>Agent on each server</td><td>Fixed check-in interval, applies whatever is waiting</td></tr>
+    <tr><td>CrowdStrike, Sophos, Datadog</td><td>Agent on each machine</td><td>New versions pulled under policies set in the vendor console</td></tr>
+  </table>
+  <p class="small muted" style="margin-top:14px">Common pattern: the machine calls out, nothing connects in, and a central console decides what installs and when.</p>
+</section>
+
+<!-- Other options -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2 style="margin-bottom:16px">Other delivery options considered</h2>
+  <table class="data tight">
+    <tr><th style="width:24%">Option</th><th style="width:38%">How it works</th><th>Fit for these schools</th></tr>
+    <tr><td>Push over SSH (Ansible)</td><td>Plysoft connects into each server and runs the update</td><td>Poor: needs inbound access school IT usually refuses</td></tr>
+    <tr><td>Outbound VPN, then push</td><td>Server opens a tunnel (WireGuard, Tailscale); Plysoft pushes through it</td><td>Workable, but a live connection into every school network</td></tr>
+    <tr><td>Containers with an auto-updater</td><td>Updater pulls new images (Watchtower, Flux, Argo CD)</td><td>Good base; still needs windows, licensing, and reporting</td></tr>
+    <tr><td>Managed fleet service</td><td>Balena, Mender, AWS Systems Manager, Azure Arc</td><td>Fast to start; per-server cost and a third party in every school</td></tr>
+    <tr><td>Operating system packages</td><td>Linux packages installed by automatic updates</td><td>Simple, but one OS only, weak rollback and reporting</td></tr>
+    <tr><td>Offline bundle (USB)</td><td>Campus IT installs a signed update file</td><td>Fallback only, for campuses with no outbound access</td></tr>
+  </table>
+  <div class="callout">Decision: build the scheduled pull into the campus agent, run the app as containers underneath, and keep the USB bundle as the offline fallback.</div>
+</section>
+
+<!-- Agent jobs -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2 style="margin-bottom:16px">What the agent has to do</h2>
+  <table class="data tight">
+    <tr><th style="width:30%">Job</th><th>Technology</th></tr>
+    <tr><td>Run all the time, start on boot</td><td>System service: <code>systemd</code> on Linux, or a Windows Service</td></tr>
+    <tr><td>Talk to the control service securely</td><td>HTTPS with a pinned certificate and a per-campus client certificate (mutual TLS)</td></tr>
+    <tr><td>Prove it is the licensed machine</td><td>Machine fingerprint from the server's TPM chip; machine id and hardware serials as fallback</td></tr>
+    <tr><td>Hold keys safely</td><td>TPM where present, otherwise the operating system key store; never a plain file</td></tr>
+    <tr><td>Verify updates are genuine</td><td>Ed25519 signatures, <code>cosign</code> for container images, or The Update Framework (TUF) to block old, vulnerable versions</td></tr>
+    <tr><td>Schedule installs</td><td>Time-zone-aware scheduler with maintenance windows and blackout dates</td></tr>
+    <tr><td>Install, back up, roll back</td><td>Container runtime control (Docker, containerd, or Podman), database backup, health check</td></tr>
+    <tr><td>Remember its own state</td><td>Small local database such as SQLite: pending jobs, version, last check-in</td></tr>
+    <tr><td>Forward activity events</td><td>Database driver for the outbox, batching, retries, unique event ids</td></tr>
+    <tr><td>Enforce the license</td><td>Lock the app on suspension, or when no valid license is seen within the grace period</td></tr>
+    <tr><td>Update itself</td><td>A/B layout: keep the old binary and switch back if the new one fails to start</td></tr>
+  </table>
+</section>
+
+<!-- Build options -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2>Building the agent: two options</h2>
+  <div class="grid g2">
+    <div class="card mint">
+      <span class="tag mint">Option 1 · Recommended</span>
+      <h3>Go</h3>
+      <ul>
+        <li>One self-contained program, no runtime to install</li>
+        <li>Builds for Linux and Windows from one codebase</li>
+        <li>Mature libraries: TLS, TPM (<code>go-tpm</code>), TUF (<code>go-tuf</code>), container control</li>
+        <li>Used by the AWS SSM Agent, Tailscale, Docker, and Kubernetes</li>
+        <li>Compiled code is harder for campus IT to read or modify</li>
+        <li><em>Cost:</em> a second language alongside TypeScript</li>
+      </ul>
+    </div>
+    <div class="card lav">
+      <span class="tag">Option 2</span>
+      <h3>TypeScript on Node.js</h3>
+      <ul>
+        <li>Same language as the app and control service; code can be shared</li>
+        <li>Packaged as one program with Node single executable applications or Bun</li>
+        <li>Fastest start for the current team</li>
+        <li><em>Costs:</em> larger file with a bundled runtime, source easier to extract, weaker TPM libraries</li>
+        <li>Suitable for the one-term pilot if speed matters most, rewritten in Go before more campuses</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout">Either way, licensing, key release, and the activity outbox are specific to this product and must be built. The choice is only how the agent itself is written.</div>
+</section>
+
+<!-- Go agent shape -->
+<section class="slide">
+  <p class="kicker">Campus agent and updates</p>
+  <h2 style="margin-bottom:16px">Option 1 in practice: the Go agent</h2>
+  <div class="grid g2" style="grid-template-columns: 0.8fr 1.2fr">
+    <div class="card">
+      <h3>Code layout</h3>
+<pre class="tree">nehy-agent/
+  cmd/nehy-agent/    service entry point
+  internal/
+    transport/       mutual TLS client
+    identity/        TPM fingerprint
+    license/         verify, grace, lock
+    update/          stage, window, swap,
+                     health, rollback
+    outbox/          forward activity events
+    state/           SQLite agent state
+  deploy/            systemd unit, installer</pre>
+    </div>
+    <div>
+<pre class="code"><span class="c">// due reports whether a release may install now,
+// with now given in the campus time zone.</span>
+func (j ReleaseJob) due(now time.Time) bool {
+    if now.Before(j.NotBefore) {
+        return false
+    }
+    today := now.Format("2006-01-02")
+    for _, d := range j.Blackout {
+        if d == today {
+            return false
+        }
+    }
+    if j.Urgent {
+        return true
+    }
+    hm := now.Format("15:04")
+    for _, w := range j.Windows {
+        if now.Weekday() == w.Weekday &amp;&amp;
+            hm &gt;= w.Start &amp;&amp; hm &lt; w.End {
+            return true
+        }
+    }
+    return false
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- Realtime flow -->
+<section class="slide">
+  <p class="kicker">Real-time activity</p>
+  <h2>Live activity from every campus, within seconds</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 1200 360" role="img" aria-label="Activity flows from browsers to the campus app and outbox, then through the campus agent to the cloud ingest API, central database, and live dashboard">
+      <rect class="grp" x="10" y="10" width="650" height="340" rx="16"/>
+      <text class="glabel" x="30" y="38">Campus local network</text>
+      <rect class="node" x="30" y="80" width="170" height="56" rx="10"/>
+      <text class="ts" x="115" y="100">Student or staff</text><text class="ts" x="115" y="117">browser</text>
+      <rect class="node" x="330" y="80" width="170" height="56" rx="10"/>
+      <text class="t" x="415" y="108">Campus app</text>
+      <rect class="node db" x="330" y="240" width="160" height="56" rx="10"/>
+      <text class="t" x="410" y="268">Outbox table</text>
+      <rect class="node" x="540" y="240" width="112" height="56" rx="10"/>
+      <text class="ts" x="596" y="268">Campus agent</text>
+      <text class="lbl" x="30" y="330" style="text-anchor:start">Offline? Events wait in the outbox and send on reconnect.</text>
+
+      <rect class="grp" x="690" y="10" width="500" height="340" rx="16"/>
+      <text class="glabel" x="710" y="38">Plysoft cloud</text>
+      <rect class="node live" x="800" y="60" width="280" height="56" rx="10"/>
+      <text class="t" x="940" y="88">Event ingest API</text>
+      <rect class="node db" x="800" y="170" width="280" height="56" rx="10"/>
+      <text class="t" x="940" y="198">Central activity database</text>
+      <rect class="node live" x="800" y="280" width="280" height="56" rx="10"/>
+      <text class="t" x="940" y="308">Live dashboard</text>
+
+      <path class="e" d="M200 108 H330"/><text class="lbl" x="265" y="98">local network, instant</text>
+      <path class="e" d="M410 136 V240"/><text class="lbl" x="420" y="192" style="text-anchor:start">same transaction</text>
+      <path class="e" d="M540 268 H490"/><text class="lbl" x="515" y="258">reads</text>
+      <path class="e live" d="M596 240 V88 H800"/><text class="lbl" x="700" y="78">HTTPS, every few seconds</text>
+      <path class="e live" d="M940 116 V170"/>
+      <path class="e live" d="M940 226 V280"/>
+    </svg>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="slide">
+  <p class="kicker">Real-time activity</p>
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><strong>Record on campus.</strong> The campus app writes each change and its outbox event in the same database transaction, so an event is never lost or recorded without its change.</li>
+    <li><strong>Forward.</strong> The agent sends new outbox rows in small batches as they appear, over a WebSocket or repeated HTTPS calls.</li>
+    <li><strong>Survive outages.</strong> Events wait in the outbox while offline. Unique event ids mean a resend never creates a duplicate.</li>
+    <li><strong>Store centrally.</strong> The ingest API checks the campus and its license, then writes to the central activity database.</li>
+    <li><strong>Show live.</strong> Dashboards update through server-sent events or WebSockets.</li>
+  </ol>
+  <p class="small muted">Rows are marked sent only after the ingest API acknowledges them, and pruned after a retention period.</p>
+</section>
+
+<!-- Events -->
+<section class="slide">
+  <p class="kicker">Real-time activity</p>
+  <h2>Events tracked</h2>
+  <table class="data">
+    <tr><th style="width:52%">Event</th><th>Produced when</th></tr>
+    <tr><td><code>user.signed_in</code>, <code>user.signed_out</code></td><td>A session starts or ends</td></tr>
+    <tr><td><code>user.invited</code>, <code>user.approved</code>, <code>user.disabled</code>, <code>user.enabled</code></td><td>The school admin manages an account</td></tr>
+    <tr><td><code>task.created</code>, <code>task.updated</code>, <code>task.assigned</code></td><td>A teacher sets or changes work</td></tr>
+    <tr><td><code>submission.started</code>, <code>submission.submitted</code>, <code>submission.reviewed</code></td><td>A student works on a task, or a teacher reviews it</td></tr>
+    <tr><td><code>lesson.opened</code></td><td>A learner opens a syllabus topic</td></tr>
+    <tr><td><code>simulation.started</code>, <code>simulation.completed</code></td><td>A learner uses a lab simulation</td></tr>
+  </table>
+  <p class="small muted" style="margin-top:16px">Each event carries: event id, campus id, type, actor code, actor role, subject and topic, related task or class, and when it occurred on campus.</p>
+</section>
+
+<!-- Dashboards -->
+<section class="slide">
+  <p class="kicker">Real-time activity</p>
+  <h2>What the live dashboards show</h2>
+  <div class="grid g2">
+    <div class="card">
+      <ul>
+        <li>Users signed in right now, per campus</li>
+        <li>Accounts invited, approved, and disabled</li>
+        <li>Tasks created and submissions handed in, as they happen</li>
+        <li>Lessons opened and simulations used, by subject and topic</li>
+        <li>Per campus: last event received and unsent backlog</li>
+      </ul>
+    </div>
+    <div class="card lav">
+      <h3>"Real time" means seconds</h3>
+      <p>When a campus is offline, the dashboard shows its lag and the time of its last event instead of presenting old figures as current.</p>
+      <h3 style="margin-top:16px">Bandwidth</h3>
+      <p>Events are small compressed JSON batches. On a slow link the agent sends live counts first and detailed events behind them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Detail level -->
+<section class="slide">
+  <p class="kicker">Real-time activity</p>
+  <h2>How much student detail leaves the campus</h2>
+  <div class="grid g3">
+    <div class="card">
+      <h3>Live counts only</h3>
+      <p>Numbers per campus, class, and subject, updated every few seconds.</p>
+      <p class="muted">Keeps all student records on campus. No central drill-down to one student.</p>
+    </div>
+    <div class="card mint">
+      <span class="tag mint">Proposed default</span>
+      <h3>Pseudonymous events</h3>
+      <p>Each event, with user ids replaced by campus-specific codes.</p>
+      <p class="muted">Detailed trends without names. Only the campus server can match a code to a person.</p>
+    </div>
+    <div class="card">
+      <h3>Full events</h3>
+      <p>Each event with the user's identity.</p>
+      <p class="muted">Full visibility in one place. Needs consent, a retention policy, and rules on which Plysoft staff may see it.</p>
+    </div>
+  </div>
+  <div class="callout">The level is agreed with each school before the pilot. Codes use a secret held on the campus server, so students cannot be linked across campuses or identified by the cloud.</div>
+</section>
+
+<!-- Activity security -->
+<section class="slide">
+  <p class="kicker">Real-time activity</p>
+  <h2>Securing the activity stream</h2>
+  <ul>
+    <li>Events travel over HTTPS from the agent, signed with the campus deployment key.</li>
+    <li>The ingest API rejects events from suspended, expired, or unknown deployments.</li>
+    <li>The central activity database is encrypted at rest and separate from the public app's database.</li>
+    <li>Directors see only their own school.</li>
+    <li>Plysoft staff access to activity data is limited to named roles and logged.</li>
+    <li>A director opens a named student's history on the campus app, or the central view asks the campus to resolve the code while the viewer is authorized.</li>
+  </ul>
+</section>
+
+<!-- Roles -->
+<section class="slide">
+  <p class="kicker">Roles and permissions</p>
+  <h2 style="margin-bottom:16px">Roles</h2>
+  <table class="data tight">
+    <tr><th style="width:20%">Role</th><th style="width:22%">Signs in at</th><th>Can do</th></tr>
+    <tr><td>Platform admin<br><span class="muted">Plysoft Tech Team</span></td><td>Cloud console only</td><td>Schools and campuses, 3 month trials, seat caps, releases, suspension, deployment health</td></tr>
+    <tr><td>School admin</td><td>That campus app</td><td>Invite teachers and students, approve or disable them, within the seat cap</td></tr>
+    <tr><td>Teacher</td><td>That campus app</td><td>Set tasks on syllabus topics, see submissions and lab activity for their classes</td></tr>
+    <tr><td>Student</td><td>That campus app</td><td>Complete assigned tasks and use the labs. Activity recorded on the campus server</td></tr>
+    <tr><td>Principal</td><td>That campus app</td><td>Their campus: classes, task completion, usage</td></tr>
+    <tr><td>Director</td><td>Cloud portal and any campus app</td><td>Every campus in their school, live, from activity events and summaries</td></tr>
+    <tr><td>Campus IT operator</td><td>Server operating system</td><td>Start and stop services, disk space, encrypted backups. No database access</td></tr>
+    <tr><td>Public learner</td><td>Public cloud app</td><td>Own account and own activity only. No school data</td></tr>
+  </table>
+</section>
+
+<!-- Scope -->
+<section class="slide">
+  <p class="kicker">Roles and permissions</p>
+  <h2>Scope rules</h2>
+  <ul>
+    <li>A school contains one or more campuses. Every campus user belongs to exactly one campus.</li>
+    <li>Principals see only their campus.</li>
+    <li>Directors see all campuses of their school: live activity at the agreed detail level (pseudonymous by default), and named records on the campus app.</li>
+    <li>Teachers see only students in classes they teach.</li>
+    <li>Students see only their own work.</li>
+    <li>The school admin manages users only on their campus.</li>
+    <li>Platform admins manage licenses and deployments. They do not read campus learner records.</li>
+  </ul>
+  <div class="callout">Every check is enforced on the server. Hiding a button in the UI is not authorization.</div>
+</section>
+
+<!-- Lifecycle -->
+<section class="slide">
+  <p class="kicker">Roles and permissions</p>
+  <h2 style="margin-bottom:10px">User lifecycle</h2>
+  <div class="diagram" style="flex:none; height:250px">
+    <svg viewBox="0 0 1200 240" role="img" aria-label="User states: invited, pending, active, disabled, and expired">
+      <rect class="node" x="40" y="52" width="170" height="56" rx="10"/><text class="t" x="125" y="80">Invited</text>
+      <rect class="node" x="300" y="52" width="170" height="56" rx="10"/><text class="t" x="385" y="80">Pending</text>
+      <rect class="node live" x="560" y="52" width="170" height="56" rx="10"/><text class="t" x="645" y="80">Active</text>
+      <rect class="node ply" x="840" y="52" width="170" height="56" rx="10"/><text class="t" x="925" y="80">Disabled</text>
+      <rect class="node" x="40" y="168" width="170" height="56" rx="10"/><text class="t" x="125" y="196">Expired</text>
+      <path class="e ctl" d="M210 80 H300"/><text class="lbl" x="255" y="70">accepts invite</text>
+      <path class="e ctl" d="M470 80 H560"/><text class="lbl" x="515" y="70">admin approves</text>
+      <path class="e ctl" d="M730 68 H840"/><text class="lbl" x="785" y="58">admin disables</text>
+      <path class="e ctl" d="M840 94 H730"/><text class="lbl" x="785" y="114">admin re-enables</text>
+      <path class="e" d="M125 108 V168"/><text class="lbl" x="135" y="144" style="text-anchor:start">invite not used in time</text>
+      <text class="lbl" x="125" y="30">school admin sends invite</text>
+    </svg>
+  </div>
+  <div class="grid g3">
+    <div class="card"><h3>Seat cap</h3><p>An approval fails when it would push approved users above the license seat cap.</p></div>
+    <div class="card"><h3>Disabled users</h3><p>Cannot sign in. Their recorded work stays visible to teachers and principals.</p></div>
+    <div class="card"><h3>Offline invites</h3><p>No email on student devices: invite codes or class list import, with a password set on first sign-in.</p></div>
+  </div>
+</section>
+
+<!-- Permission matrix -->
+<section class="slide">
+  <p class="kicker">Roles and permissions</p>
+  <h2 style="margin-bottom:16px">Permission checks</h2>
+  <table class="data tight">
+    <tr><th style="width:21%">Action</th><th>Platform admin</th><th>School admin</th><th>Teacher</th><th>Student</th><th>Principal</th><th>Director</th></tr>
+    <tr><td>Manage licenses and releases</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Invite, approve, disable users</td><td class="no">No</td><td class="yes">Own campus</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Create and assign tasks</td><td class="no">No</td><td class="no">No</td><td class="yes">Own classes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>Submit task work</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Own</td><td class="no">No</td><td class="no">No</td></tr>
+    <tr><td>View student activity</td><td class="no">No</td><td class="no">No</td><td class="yes">Own classes</td><td class="yes">Own</td><td class="yes">Own campus</td><td class="yes">All campuses (live, pseudonymous by default)</td></tr>
+    <tr><td>View live activity dashboard</td><td class="yes">All campuses, limited roles, logged</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Own campus</td><td class="yes">Own school</td></tr>
+  </table>
+</section>
+
+<!-- Threat model -->
+<section class="slide">
+  <p class="kicker">Security</p>
+  <h2 style="margin-bottom:12px">Threat model</h2>
+  <p class="small muted" style="margin-bottom:12px">An administrator on the campus server can copy disks and read memory. The goal: casual access fails, copies are useless, leaks are traceable, and the contract covers the rest.</p>
+  <table class="data tight">
+    <tr><th style="width:38%">Threat</th><th>Control</th></tr>
+    <tr><td>IT copies the install to another machine</td><td>License and keys bound to the machine fingerprint. A copy never receives a key</td></tr>
+    <tr><td>IT opens the database file</td><td>Database and backups encrypted. Key never in config or backups</td></tr>
+    <tr><td>IT edits the license for more seats or time</td><td>Signed licenses. An edited license fails verification</td></tr>
+    <tr><td>Outbound connection blocked to avoid suspension</td><td>Short-lived keys. The app locks after the grace period</td></tr>
+    <tr><td>A tampered release is installed</td><td>Agent verifies image signature and digest first</td></tr>
+    <tr><td>Leaked content or code appears elsewhere</td><td>Content and database watermarked with the campus id</td></tr>
+    <tr><td>Students reach another student's data</td><td>Server-side role and scope checks on every request</td></tr>
+    <tr><td>Public users reach school data</td><td>Separate accounts and databases. No shared sign-in</td></tr>
+    <tr><td>Forged or replayed activity events</td><td>Signed with the deployment key, unique ids, unknown or suspended deployments rejected</td></tr>
+    <tr><td>Central activity data identifies students</td><td>Pseudonymous codes by default. Identities only with the school's agreement</td></tr>
+  </table>
+</section>
+
+<!-- Database -->
+<section class="slide">
+  <p class="kicker">Security</p>
+  <h2>Keeping campus IT out of the database</h2>
+  <ul>
+    <li>Encrypt the campus database file and every backup.</li>
+    <li>The control service releases the database key only to a valid license on the bound fingerprint.</li>
+    <li>Hold the key in memory and the operating system key store for the grace period. Never in app config, environment files, or backups.</li>
+    <li>Campus IT gets an operator role: start, stop, disk space, encrypted backups. No database password, no query console.</li>
+    <li>Every restart, backup, and restore is logged and reported on the heartbeat.</li>
+  </ul>
+  <div class="callout">Limit: an administrator who dumps the running process can still read the key. Cover that with the contract and the audit trail.</div>
+</section>
+
+<!-- Code, auth, transport -->
+<section class="slide">
+  <p class="kicker">Security</p>
+  <h2>Code, content, sign-in, and transport</h2>
+  <div class="grid g3">
+    <div class="card">
+      <h3>Code and content</h3>
+      <ul class="small">
+        <li>Signed image, not source</li>
+        <li>No source maps or dev tooling</li>
+        <li>Lesson bundles encrypted, opened with the short-lived content key</li>
+        <li>Per-campus watermark</li>
+        <li>Contract: no export, no key extraction, no reverse engineering, right to audit</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Authentication</h3>
+      <ul class="small">
+        <li>Campus: Argon2 or bcrypt, campus-bound sessions, lockout after failed attempts</li>
+        <li>Public: managed provider with email verification and reset</li>
+        <li>Console: second factor for every Plysoft Tech Team member</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Transport</h3>
+      <ul class="small">
+        <li>Agent to control service over HTTPS with a pinned certificate</li>
+        <li>Campus app serves HTTPS on the local network with a certificate issued at enrollment</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Privacy -->
+<section class="slide">
+  <p class="kicker">Security</p>
+  <h2>Privacy</h2>
+  <ul>
+    <li>The campus server is the source of truth for student records.</li>
+    <li>Live events reach the central activity database with campus-specific codes by default. Sending identities requires the school's written agreement.</li>
+    <li>Summaries sent to the cloud contain aggregates only.</li>
+    <li>Platform admins do not read campus learner records. Plysoft staff access to central activity data is limited to named roles and logged.</li>
+    <li>Retention and deletion terms are agreed with each school before the pilot, for both the campus and central databases.</li>
+  </ul>
+</section>
+
+<!-- Roadmap diagram -->
+<section class="slide">
+  <p class="kicker">Roadmap</p>
+  <h2 style="margin-bottom:8px">Ten phases to a one-term pilot</h2>
+  <p class="small muted">Build school features in the cloud first, package the appliance once tasks work, then pilot one campus for a full term.</p>
+  <div class="diagram">
+    <svg viewBox="0 0 1200 300" role="img" aria-label="Roadmap phase dependencies from product rules to the one-term pilot">
+      <rect class="node ply" x="16" y="115" width="116" height="70" rx="10"/><text class="lbl" x="74" y="137">Phase 1</text><text class="ts" x="74" y="160">Product rules</text>
+      <rect class="node" x="164" y="115" width="116" height="70" rx="10"/><text class="lbl" x="222" y="137">Phase 2</text><text class="ts" x="222" y="160">Public accounts</text>
+      <rect class="node" x="312" y="55" width="116" height="70" rx="10"/><text class="lbl" x="370" y="77">Phase 3</text><text class="ts" x="370" y="100">Learning record</text>
+      <rect class="node" x="312" y="175" width="116" height="70" rx="10"/><text class="lbl" x="370" y="197">Phase 5</text><text class="ts" x="370" y="220">School admin</text>
+      <rect class="node" x="460" y="55" width="116" height="70" rx="10"/><text class="lbl" x="518" y="77">Phase 4</text><text class="ts" x="518" y="100">Tasks</text>
+      <rect class="node db" x="608" y="115" width="116" height="70" rx="10"/><text class="lbl" x="666" y="137">Phase 6</text><text class="ts" x="666" y="160">Campus image</text>
+      <rect class="node db" x="756" y="115" width="116" height="70" rx="10"/><text class="lbl" x="814" y="137">Phase 7</text><text class="ts" x="814" y="160">Control + agent</text>
+      <rect class="node db" x="904" y="55" width="116" height="70" rx="10"/><text class="lbl" x="962" y="77">Phase 8</text><text class="ts" x="962" y="100">Key release</text>
+      <rect class="node live" x="904" y="175" width="116" height="70" rx="10"/><text class="lbl" x="962" y="193">Phase 9</text><text class="ts" x="962" y="212">Director view</text><text class="ts" x="962" y="229">+ live activity</text>
+      <rect class="node ply" x="1052" y="115" width="116" height="70" rx="10"/><text class="lbl" x="1110" y="137">Phase 10</text><text class="ts" x="1110" y="160">One-term pilot</text>
+
+      <path class="e ctl" d="M132 150 H164"/>
+      <path class="e ctl" d="M280 150 C296 150 296 90 312 90"/>
+      <path class="e ctl" d="M280 150 C296 150 296 210 312 210"/>
+      <path class="e ctl" d="M428 90 H460"/>
+      <path class="e ctl" d="M428 210 C520 210 520 150 608 150"/>
+      <path class="e ctl" d="M576 90 C592 90 592 150 608 150"/>
+      <path class="e ctl" d="M724 150 H756"/>
+      <path class="e ctl" d="M872 150 C888 150 888 90 904 90"/>
+      <path class="e ctl" d="M872 150 C888 150 888 210 904 210"/>
+      <path class="e ctl" d="M518 125 V278 H962 V245"/>
+      <path class="e ctl" d="M1020 90 C1036 90 1036 150 1052 150"/>
+      <path class="e ctl" d="M1020 210 C1036 210 1036 150 1052 150"/>
+    </svg>
+    <div class="legend" style="gap:20px"><span>Arrow points to the phase that needs it first</span></div>
+  </div>
+</section>
+
+<!-- Phases 1-5 -->
+<section class="slide">
+  <p class="kicker">Roadmap</p>
+  <h2 style="margin-bottom:16px">Phases 1 to 5: school features in the cloud</h2>
+  <table class="data tight">
+    <tr><th style="width:24%">Phase</th><th style="width:40%">Outcome</th><th>Done when</th></tr>
+    <tr><td>1. Product rules</td><td>Roles, 3 month trial, seat caps, offline student devices, outbound server access agreed</td><td>Signed-off role list, license terms, and network requirement</td></tr>
+    <tr><td>2. Public accounts</td><td>Sign-in and authorization on the online app, separate from school accounts</td><td>A public learner signs in and reaches only their own data</td></tr>
+    <tr><td>3. Learning record</td><td>Lab reporting hook for lessons, simulations, and time spent</td><td>A learner sees their own recorded activity, and nothing unrecorded</td></tr>
+    <tr><td>4. Tasks</td><td>Teachers assign work, students submit, teachers and principals see completion</td><td>A task is assigned, completed, and seen by the teacher</td></tr>
+    <tr><td>5. School admin</td><td>Invite codes, class import, approve, disable, seat cap</td><td>A class is onboarded and approval past the cap is refused</td></tr>
+  </table>
+</section>
+
+<!-- Phases 6-10 -->
+<section class="slide">
+  <p class="kicker">Roadmap</p>
+  <h2 style="margin-bottom:16px">Phases 6 to 10: campus appliance and pilot</h2>
+  <table class="data tight">
+    <tr><th style="width:24%">Phase</th><th style="width:40%">Outcome</th><th>Done when</th></tr>
+    <tr><td>6. Campus image</td><td>One signed package serving the campus network, Netlify scripts removed</td><td>Runs on a test server with student devices offline</td></tr>
+    <tr><td>7. Control service and agent</td><td>Console for trials, enrollment, scheduled releases, heartbeats, suspension; campus agent in Go</td><td>A test campus enrolls, installs inside its window, rolls back a bad release, and locks on suspension</td></tr>
+    <tr><td>8. Key release</td><td>Encrypted database, fingerprint-bound keys, signed licenses, watermarking</td><td>A copied install and a copied database both fail elsewhere</td></tr>
+    <tr><td>9. Director view and live activity</td><td>Outbox streaming to the central database and live dashboards</td><td>Activity appears within seconds; offline campuses catch up without duplicates</td></tr>
+    <tr><td>10. One-term pilot</td><td>One campus runs a full term on a trial license</td><td>Three months of use, trial ends as designed, school decides next step</td></tr>
+  </table>
+</section>
+
+<!-- Open decisions -->
+<section class="slide">
+  <p class="kicker">Open decisions</p>
+  <h2>What still needs agreement</h2>
+  <div class="grid g2 small">
+    <ul>
+      <li>Campus database and its encryption method</li>
+      <li>TypeScript (option 2) for the pilot agent, or Go from the start</li>
+      <li>Operating systems on campus servers</li>
+      <li>Grace period before a disconnected or suspended campus locks</li>
+      <li>Invites without email: printed codes, class import, or both</li>
+      <li>Which summaries directors need, and how often</li>
+      <li>Default maintenance window, and who may postpone updates</li>
+    </ul>
+    <ul>
+      <li>Live activity detail level per school</li>
+      <li>WebSocket or batched HTTPS from the agent</li>
+      <li>Retention for the central activity database and campus outbox</li>
+      <li>Which Plysoft staff roles may view activity data</li>
+      <li>Public authentication provider</li>
+      <li>Grading submissions, or completion only</li>
+      <li>Campus data when a school leaves</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Close -->
+<section class="slide title-slide">
+  <div class="brand">learnwithnehy.</div>
+  <h1>Next step: phase 1</h1>
+  <p class="lead">Agree the product rules with the first school, including outbound HTTPS from each campus server and the live activity detail level. Then build accounts, learning records, and tasks in the cloud.</p>
+  <p class="muted" style="margin-top:28px">Full detail lives in <code>doc/roadmap/</code>.</p>
+</section>
+
+</main>
+
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const slides = [...deck.querySelectorAll('.slide')];
+  const total = slides.length;
+
+  slides.forEach((slide, i) => {
+    const kicker = slide.querySelector('.kicker');
+    slide.dataset.footer = `Learn with Nehy · Plysoft Tech Team${kicker ? ' · ' + kicker.textContent : ''} · ${i + 1} / ${total}`;
+  });
+
+  const fit = () => { deck.style.zoom = Math.min(1, (window.innerWidth - 32) / 1280); };
+  window.addEventListener('resize', fit);
+  window.addEventListener('beforeprint', () => { deck.style.zoom = 1; });
+  window.addEventListener('afterprint', fit);
+  fit();
+})();
+</script>
+</body>
+</html>
