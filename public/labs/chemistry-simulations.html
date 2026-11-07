@@ -145,6 +145,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-reactivity.js"></script>
 <script src="/labs/c3d-hess.js"></script>
 <script src="/labs/c3d-soap.js"></script>
+<script src="/labs/c3d-buffer.js"></script>
+<script src="/labs/c3d-orgrx.js"></script>
+<script src="/labs/c3d-transition.js"></script>
+<script src="/labs/c3d-nitrosulf.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1225,6 +1229,10 @@ SIM_MODULES.saltPrep=only3D('Preparation of Salts','Make soluble salts by adding
 SIM_MODULES.metalReactivity=only3D('Reactivity Series & Displacement','Drop metals into water, steam and dilute acid, or into salt solutions, and rank them from the way they react.','Metals above hydrogen displace it from water, steam and acid; a more reactive metal displaces a less reactive one from its salt solution.');
 SIM_MODULES.hessLaw=only3D("Hess's Law, Born–Haber & Bond Energy",'Compare the direct route with the step-by-step route on 3D energy-level cycles and calculate the unknown enthalpy change.','Enthalpy change depends only on the start and end states, so the sum of the steps equals the direct value.');
 SIM_MODULES.soapDetergent=only3D('Soaps & Detergents','Make soap from oil and alkali, then see how soap and soapless detergents lift grease and what hard water does to them.','Saponification: fat + alkali gives glycerol and soap; the soap ion has a water-loving head and a grease-loving tail.');
+SIM_MODULES.bufferCurves=only3D('Titration Curves & Buffers','Plot pH against titrant volume for strong and weak acids and bases, pick the right indicator, and see how a buffer resists pH change.','Equivalence point, half-equivalence (pH = pKa) and Henderson–Hasselbalch buffers.');
+SIM_MODULES.organicReactions=only3D('Reactions of Organic Compounds','Test for unsaturation with bromine water, make a fruity ester, and ferment glucose with yeast.','Bromine water test, esterification and fermentation with temperature and oxygen controls.');
+SIM_MODULES.transitionMetals=only3D('Transition Metals & Complex Ions','See variable oxidation states in vanadium and chromium, how the medium changes permanganate, and how ligands change the colour of metal ions.','Partly filled d subshells give several oxidation states, coloured ions, complexes and catalysis.');
+SIM_MODULES.nitrogenSulphur=only3D('Nitrogen Cycle & Sulphuric Acid','Follow nitrogen between air, soil, plants and decay, then compare dilute and concentrated sulphuric acid as acid, dehydrating agent and oxidising agent.','Fixation, nitrification, assimilation, decay and denitrification; dehydrating and oxidising properties of conc. H₂SO₄.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1253,7 +1261,7 @@ const SECTIONS={
     {l:'c',t:'Periodic law & trends',sim:'periodicTrends'},
     {l:'d',t:'Acid–metal / oxide reactions',sim:'metalReactivity'},
     {l:'e',t:'Group 7 — the halogens',sim:'periodicTrends'},
-    {l:'f',t:'First transition series',sim:'electronConfig'}]},
+    {l:'f',t:'First transition series',sim:'transitionMetals'}]},
   {num:'5.0',title:'Chemical Bonds',cat:'bonding',subs:[
     {l:'a',t:'Interatomic bonding',sim:'bonding'},
     {l:'b',t:'Ionic bonds & compounds',sim:'bonding'},
@@ -1311,12 +1319,12 @@ const SECTIONS={
     {l:'e',t:'Empirical & molecular formulae',sim:'moleCalculator'},
     {l:'f',t:'Homologous series & isomerism',sim:'organicExplorer'},
     {l:'g',t:'Alkanes',sim:'organicExplorer'},
-    {l:'h',t:'Alkenes',sim:'organicExplorer'},
+    {l:'h',t:'Alkenes',sim:'organicReactions'},
     {l:'i',t:'Alkynes',sim:'organicExplorer'},
     {l:'j',t:'Benzene',sim:'organicExplorer'},
-    {l:'k',t:'Alkanols',sim:'organicExplorer'},
+    {l:'k',t:'Alkanols',sim:'organicReactions'},
     {l:'l',t:'Alkanoic acids',sim:'organicExplorer'},
-    {l:'m',t:'Alkanoates (esters)',sim:'organicExplorer'}]},
+    {l:'m',t:'Alkanoates (esters)',sim:'organicReactions'}]},
   {num:'14.0',title:'Chemistry, Industry & Environment',cat:'industry',subs:[
     {l:'a',t:'Chemical industry',sim:'industrialProcesses'},
     {l:'b',t:'Pollution',sim:'airPollution'},
@@ -1339,9 +1347,9 @@ const SECTIONS={
     {l:'c',t:'Period 3 element properties',sim:'periodicTrends'},
     {l:'d',t:'Silicon',sim:'molecularShapes'},
     {l:'e',t:'Group 7 gradation',sim:'periodicTrends'},
-    {l:'f',t:'Bonding in complex compounds',sim:'bonding'},
+    {l:'f',t:'Bonding in complex compounds',sim:'transitionMetals'},
     {l:'g',t:'Shapes of complex compounds',sim:'molecularShapes'},
-    {l:'h',t:'First transition series',sim:'electronConfig'}]},
+    {l:'h',t:'First transition series',sim:'transitionMetals'}]},
   {num:'3.0',title:'Chemical Bonds',cat:'bonding',subs:[
     {l:'a',t:'Ionic bond formation',sim:'bonding'},
     {l:'b',t:'Hybridisation & σ/π bonds',sim:'molecularShapes'}]},
@@ -1353,8 +1361,8 @@ const SECTIONS={
   {num:'6.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
     {l:'a',t:'Brønsted–Lowry & Lewis',sim:'acidBasePH'},
     {l:'b',t:'pH, pOH, pKw',sim:'acidBasePH'},
-    {l:'c',t:'Weak acid/base ionisation',sim:'acidBasePH'},
-    {l:'d',t:'Buffer solutions',sim:'acidBasePH'},
+    {l:'c',t:'Weak acid/base ionisation',sim:'bufferCurves'},
+    {l:'d',t:'Buffer solutions',sim:'bufferCurves'},
     {l:'e',t:'Acid–base titrations',sim:'titration'}]},
   {num:'7.0',title:'Solubility of Substances',cat:'acidbase',subs:[
     {l:'a',t:'Solubility product (Ksp)',sim:'solubilityCurve'},
@@ -1381,8 +1389,8 @@ const SECTIONS={
     {l:'d',t:'Water & solutions / hardness',sim:'waterHardness'},
     {l:'e',t:'Chlorine',sim:'gasPreparation'},
     {l:'f',t:'Hydrogen chloride gas',sim:'gasPreparation'},
-    {l:'g',t:'Nitrogen & compounds',sim:'gasPreparation'},
-    {l:'h',t:'Sulphur & its acids',sim:'acidBasePH'},
+    {l:'g',t:'Nitrogen & compounds',sim:'nitrogenSulphur'},
+    {l:'h',t:'Sulphur & its acids',sim:'nitrogenSulphur'},
     {l:'i',t:'Noble gases',sim:'periodicTrends'}]},
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
     {l:'a',t:'Extraction of metals',sim:'industrialProcesses'},
