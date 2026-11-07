@@ -141,6 +141,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-water.js"></script>
 <script src="/labs/c3d-atmosphere.js"></script>
 <script src="/labs/c3d-gasprep.js"></script>
+<script src="/labs/c3d-saltprep.js"></script>
+<script src="/labs/c3d-reactivity.js"></script>
+<script src="/labs/c3d-hess.js"></script>
+<script src="/labs/c3d-soap.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1217,6 +1221,10 @@ SIM_MODULES.corrosion=only3D('Corrosion & Rusting','Eight nails in different con
 SIM_MODULES.waterHardness=only3D('Water Hardness & Softening','Test hard and soft water with soap, then soften it by boiling, washing soda or ion exchange.','Hard water contains Ca²⁺ and Mg²⁺ ions that form scum with soap. Temporary hardness is removed by boiling; permanent hardness needs washing soda or an ion-exchange resin.');
 SIM_MODULES.airPollution=only3D('Air Pollution, Greenhouse Effect & Acid Rain','See how greenhouse gases trap heat, how CO₂ changes the average temperature, and how SO₂ and NOₓ make acid rain.','Greenhouse gases absorb infrared radiation from the Earth; SO₂ and NOₓ dissolve in rain to form acids that attack limestone and marble.');
 SIM_MODULES.gasPreparation=only3D('Preparation & Tests of Gases','Prepare O₂, H₂, CO₂, NH₃ and Cl₂ in the laboratory, collect them the right way, and identify each with its test.','Each gas is made from a specific reagent pair and collected over water, by downward delivery (denser than air) or upward delivery (less dense than air).');
+SIM_MODULES.saltPrep=only3D('Preparation of Salts','Make soluble salts by adding excess solid, by titration, or by precipitation, then see how deliquescent and efflorescent salts behave in air.','Choose the method from the solubility of the salt; the model steps through reaction, filtering, evaporation and crystallisation.');
+SIM_MODULES.metalReactivity=only3D('Reactivity Series & Displacement','Drop metals into water, steam and dilute acid, or into salt solutions, and rank them from the way they react.','Metals above hydrogen displace it from water, steam and acid; a more reactive metal displaces a less reactive one from its salt solution.');
+SIM_MODULES.hessLaw=only3D("Hess's Law, Born–Haber & Bond Energy",'Compare the direct route with the step-by-step route on 3D energy-level cycles and calculate the unknown enthalpy change.','Enthalpy change depends only on the start and end states, so the sum of the steps equals the direct value.');
+SIM_MODULES.soapDetergent=only3D('Soaps & Detergents','Make soap from oil and alkali, then see how soap and soapless detergents lift grease and what hard water does to them.','Saponification: fat + alkali gives glycerol and soap; the soap ion has a water-loving head and a grease-loving tail.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1243,7 +1251,7 @@ const SECTIONS={
     {l:'a',t:'Periodicity of the elements',sim:'periodicTrends'},
     {l:'b',t:'Categories of elements',sim:'periodicTrends'},
     {l:'c',t:'Periodic law & trends',sim:'periodicTrends'},
-    {l:'d',t:'Acid–metal / oxide reactions',sim:'redoxCell'},
+    {l:'d',t:'Acid–metal / oxide reactions',sim:'metalReactivity'},
     {l:'e',t:'Group 7 — the halogens',sim:'periodicTrends'},
     {l:'f',t:'First transition series',sim:'electronConfig'}]},
   {num:'5.0',title:'Chemical Bonds',cat:'bonding',subs:[
@@ -1278,7 +1286,8 @@ const SECTIONS={
     {l:'d',t:'Classification strong/weak',sim:'acidBasePH'},
     {l:'e',t:'Concept of pH',sim:'acidBasePH'},
     {l:'f',t:'Salts',sim:'acidBasePH'},
-    {l:'g',t:'Deliquescent / efflorescent',sim:'acidBasePH'},
+    {l:'f2',t:'Preparation of salts',sim:'saltPrep'},
+    {l:'g',t:'Deliquescent / efflorescent',sim:'saltPrep'},
     {l:'h',t:'Acid–base indicators',sim:'titration'},
     {l:'i',t:'Acid–base titration',sim:'titration'}]},
   {num:'10.0',title:'Solubility of Substances',cat:'acidbase',subs:[
@@ -1316,6 +1325,7 @@ const SECTIONS={
     {l:'a',t:'Proteins',sim:'polymersBiomolecules'},
     {l:'b',t:'Amino acids',sim:'polymersBiomolecules'},
     {l:'c',t:'Fats/oils',sim:'polymersBiomolecules'},
+    {l:'c2',t:'Soaps & detergents',sim:'soapDetergent'},
     {l:'d',t:'Carbohydrates',sim:'polymersBiomolecules'},
     {l:'e',t:'Synthetic polymers',sim:'polymersBiomolecules'}]}
  ]},
@@ -1338,8 +1348,8 @@ const SECTIONS={
   {num:'4.0',title:'Solutions',cat:'physical',subs:[{l:'a',t:'Preparation by dilution',sim:'moleCalculator'}]},
   {num:'5.0',title:'Energy & Energy Changes',cat:'physical',subs:[
     {l:'a',t:'Energy in physical systems',sim:'energyProfile'},
-    {l:'b',t:"Hess's Law & Born–Haber",sim:'energyProfile'},
-    {l:'c',t:'Bond energy',sim:'energyProfile'}]},
+    {l:'b',t:"Hess's Law & Born–Haber",sim:'hessLaw'},
+    {l:'c',t:'Bond energy',sim:'hessLaw'}]},
   {num:'6.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
     {l:'a',t:'Brønsted–Lowry & Lewis',sim:'acidBasePH'},
     {l:'b',t:'pH, pOH, pKw',sim:'acidBasePH'},
@@ -1377,9 +1387,9 @@ const SECTIONS={
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
     {l:'a',t:'Extraction of metals',sim:'industrialProcesses'},
     {l:'b',t:'Alloys',sim:'statesOfMatter'},
-    {l:'c',t:'Sodium & compounds',sim:'bonding'},
-    {l:'d',t:'Calcium & compounds',sim:'bonding'},
-    {l:'e',t:'Iron & aluminium reactivity',sim:'redoxCell'},
+    {l:'c',t:'Sodium & compounds',sim:'metalReactivity'},
+    {l:'d',t:'Calcium & compounds',sim:'metalReactivity'},
+    {l:'e',t:'Iron & aluminium reactivity',sim:'metalReactivity'},
     {l:'f',t:'Copper & compounds',sim:'electrolysis'}]}
  ]},
  P:{label:'Practicals', topics:[
