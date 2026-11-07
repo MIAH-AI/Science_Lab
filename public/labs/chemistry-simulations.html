@@ -157,6 +157,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-dilution.js"></script>
 <script src="/labs/c3d-empirical.js"></script>
 <script src="/labs/c3d-ioniccrystal.js"></script>
+<script src="/labs/c3d-isomers.js"></script>
+<script src="/labs/c3d-stoich.js"></script>
+<script src="/labs/c3d-salthydrolysis.js"></script>
+<script src="/labs/c3d-measure.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1249,6 +1253,10 @@ SIM_MODULES.redoxTitration=only3D('Redox Titration (KMnO₄)','Titrate acidified
 SIM_MODULES.dilutionPrep=only3D('Preparing Solutions & Dilution','Dilute a stock solution with a pipette and volumetric flask, or make a standard solution from a weighed solid.','n = C₁V₁ = C₂V₂; c = n ÷ V; n = m ÷ M; fill to the mark with the meniscus bottom on the line.');
 SIM_MODULES.empiricalFormula=only3D('Empirical & Molecular Formulae','Burn a sample in oxygen, read the water and carbon dioxide absorbed, and work out the empirical and molecular formula.','mass of C = m(CO₂) × 12/44; mass of H = m(H₂O) × 2/18; moles ÷ smallest → whole-number ratio → empirical formula.');
 SIM_MODULES.ionicCrystal=only3D('Ionic Bonding & Crystals','See electrons transferred between atoms, build the giant ionic lattice, and test why ionic solids are brittle and only conduct when molten or dissolved.','Ionic bond = attraction between oppositely charged ions; lattices are brittle; ions must be free to move to conduct.');
+SIM_MODULES.isomerism=only3D('Isomerism','Compare chain, position, functional-group and cis–trans isomers as 3D molecules with their boiling points.','Same molecular formula, different structure; branching lowers boiling point; hydrogen bonding raises it.');
+SIM_MODULES.stoichiometry=only3D('Reacting Masses & Limiting Reagent','Convert masses to moles, find the limiting reagent, and calculate theoretical and percentage yield for four reactions.','n = m ÷ M; compare moles ÷ coefficient; theoretical yield = n(product) × M; % yield = actual ÷ theoretical × 100.');
+SIM_MODULES.saltHydrolysis=only3D('Salts & Hydrolysis','Predict and test whether a salt solution is acidic, neutral or alkaline using universal indicator, litmus and a pH meter.','Strong acid + strong base: neutral; strong acid + weak base: acidic; weak acid + strong base: alkaline; pH from Ka or Kb.');
+SIM_MODULES.measurement=only3D('Measurement & Apparatus Reading','Practise reading a measuring cylinder, thermometer and balance: meniscus, parallax, divisions and significant figures.','Read to half the smallest division at eye level; record every digit shown on a balance; parallax gives systematic errors.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1260,7 +1268,7 @@ const CATEGORY_COLORS={atomic:'#E8654A',bonding:'#4A9B8E',physical:'#5B8DEF',aci
 const SECTIONS={
  A:{label:'Core (A)', topics:[
   {num:'1.0',title:'Introduction to Chemistry',cat:'atomic',subs:[
-    {l:'a',t:'Measurement of physical quantities',sim:'moleCalculator'},
+    {l:'a',t:'Measurement of physical quantities',sim:'measurement'},
     {l:'b',t:'Scientific methods',sim:'scientificMethod'}]},
   {num:'2.0',title:'Structure of the Atom',cat:'atomic',subs:[
     {l:'a',t:'Gross features of the atom',sim:'atomicStructure'},
@@ -1290,9 +1298,10 @@ const SECTIONS={
   {num:'6.0',title:'Stoichiometry & Chemical Reactions',cat:'physical',subs:[
     {l:'a',t:'Symbols, formulae & equations',sim:'moleCalculator'},
     {l:'b',t:'Amount of substance',sim:'moleCalculator'},
-    {l:'c',t:'Mole ratios',sim:'moleCalculator'},
+    {l:'c',t:'Mole ratios',sim:'stoichiometry'},
     {l:'d',t:'Solutions & concentration',sim:'dilutionPrep'},
-    {l:'e',t:'Preparing solutions by dilution',sim:'dilutionPrep'}]},
+    {l:'e',t:'Preparing solutions by dilution',sim:'dilutionPrep'},
+    {l:'f',t:'Limiting reagent & percentage yield',sim:'stoichiometry'}]},
   {num:'7.0',title:'States of Matter',cat:'physical',subs:[
     {l:'a',t:'Kinetic theory & diffusion',sim:'statesOfMatter'},
     {l:'b',t:'Gases & the gas laws',sim:'gasLaws'},
@@ -1309,7 +1318,7 @@ const SECTIONS={
     {l:'c',t:'Electrolytes',sim:'electrolysis'},
     {l:'d',t:'Classification strong/weak',sim:'acidBasePH'},
     {l:'e',t:'Concept of pH',sim:'acidBasePH'},
-    {l:'f',t:'Salts',sim:'acidBasePH'},
+    {l:'f',t:'Salts',sim:'saltHydrolysis'},
     {l:'f2',t:'Preparation of salts',sim:'saltPrep'},
     {l:'g',t:'Deliquescent / efflorescent',sim:'saltPrep'},
     {l:'h',t:'Acid–base indicators',sim:'titration'},
@@ -1334,7 +1343,7 @@ const SECTIONS={
     {l:'c',t:'Separation & purification',sim:'separationTechniques'},
     {l:'d',t:'Petroleum / crude oil',sim:'industrialProcesses'},
     {l:'e',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
-    {l:'f',t:'Homologous series & isomerism',sim:'organicExplorer'},
+    {l:'f',t:'Homologous series & isomerism',sim:'isomerism'},
     {l:'g',t:'Alkanes',sim:'organicExplorer'},
     {l:'h',t:'Alkenes',sim:'organicReactions'},
     {l:'i',t:'Alkynes',sim:'organicExplorer'},
