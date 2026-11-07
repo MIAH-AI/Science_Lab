@@ -170,6 +170,8 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-polarity.js"></script>
 <script src="/labs/c3d-radical.js"></script>
 <script src="/labs/c3d-organic2.js"></script>
+<script src="/labs/c3d-bench.js"></script>
+<script src="/labs/c3d-acidtheory.js"></script>
 <script src="/labs/c3d-measure.js"></script>
 <script>
 /* ============================================================
@@ -1279,6 +1281,10 @@ SIM_MODULES.radicalMech=only3D('Free-Radical Substitution','Watch methane react 
 SIM_MODULES.unsaturated=only3D('Alkenes & Alkynes','Compare C-C, C=C and C#C bonds with their lengths and energies, test for unsaturation with bromine water and KMnO4, and follow addition reactions.','Alkenes and alkynes have a pi bond that opens in addition reactions and decolourises bromine water; alkanes have only sigma bonds and do not react.');
 SIM_MODULES.benzene=only3D('Benzene: Delocalised Ring','Compare the Kekule model with the delocalised pi ring, see the hydrogenation enthalpy evidence, and compare substitution with addition.','Six equal C-C bonds of 139 pm, six delocalised pi electrons and 152 kJ/mol extra stability make benzene substitute rather than add.');
 SIM_MODULES.functionalGroups=only3D('Functional Groups & Alkanoic Acids','Highlight the functional group in eleven organic compounds, see the hydrogen-bonded carboxylic acid dimer and test ethanoic acid with litmus, carbonate, magnesium, alkali and ethanol.','The functional group decides the characteristic reactions of a compound; carboxylic acids pair into hydrogen-bonded dimers and show typical weak-acid behaviour.');
+SIM_MODULES.separationBench=only3D('Separation Bench','Separate six kinds of mixture by filtration, evaporation, decantation, magnet, sublimation and separating funnel, and match each method to the property it uses.','Separation methods use physical differences between the parts of a mixture; no chemical change takes place.');
+SIM_MODULES.diffusionVapour=only3D('Diffusion, Vapour Pressure & Melting Point','Race two gases along a tube (Graham law), raise a liquid to its boiling point at different external pressures, and compare pure and impure melting points.','Rate of diffusion is proportional to 1/sqrt(M); a liquid boils when its vapour pressure equals the external pressure; pure solids melt sharply.');
+SIM_MODULES.acidDefinitions=only3D('Acid Definitions & Electrolyte Strength','Follow proton transfer and conjugate pairs (Bronsted-Lowry), a lone pair forming a dative bond (Lewis), and compare strong, weak and non-electrolytes by ions and bulb brightness.','Acids and bases are defined by proton or electron-pair transfer; strength is the degree of ionisation, not the concentration.');
+SIM_MODULES.equilibriumConstant=only3D('Equilibrium Constant Kc','Fill an ICE table, compare Q with Kc to predict the direction, and watch concentrations settle to equilibrium for four reactions.','Kc = [products]^n / [reactants]^n at equilibrium and depends only on temperature; Q compared with Kc gives the direction of change.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1298,8 +1304,8 @@ const SECTIONS={
     {l:'c',t:'Particulate nature of matter',sim:'statesOfMatter'},
     {l:'d',t:'Electron configuration & orbitals',sim:'electronConfig'}]},
   {num:'3.0',title:'Standard Separation Techniques',cat:'atomic',subs:[
-    {l:'a',t:'Classification of mixtures',sim:'separationTechniques'},
-    {l:'b',t:'Separation techniques',sim:'separationTechniques'},
+    {l:'a',t:'Classification of mixtures',sim:'separationBench'},
+    {l:'b',t:'Separation techniques',sim:'separationBench'},
     {l:'c',t:'Criteria for purity',sim:'separationTechniques'}]},
   {num:'4.0',title:'Periodic Chemistry',cat:'bonding',subs:[
     {l:'a',t:'Periodicity of the elements',sim:'periodicTrends'},
@@ -1326,20 +1332,20 @@ const SECTIONS={
     {l:'e',t:'Preparing solutions by dilution',sim:'dilutionPrep'},
     {l:'f',t:'Limiting reagent & percentage yield',sim:'stoichiometry'}]},
   {num:'7.0',title:'States of Matter',cat:'physical',subs:[
-    {l:'a',t:'Kinetic theory & diffusion',sim:'statesOfMatter'},
+    {l:'a',t:'Kinetic theory & diffusion',sim:'diffusionVapour'},
     {l:'b',t:'Gases & the gas laws',sim:'gasLaws3D'},
-    {l:'c',t:'Liquids & vapour',sim:'statesOfMatter'},
+    {l:'c',t:'Liquids & vapour',sim:'diffusionVapour'},
     {l:'d',t:'Solids',sim:'statesOfMatter'},
     {l:'e',t:'Diamond & graphite',sim:'allotropesAlloys'},
-    {l:'f',t:'Melting point determination',sim:'statesOfMatter'}]},
+    {l:'f',t:'Melting point determination',sim:'diffusionVapour'}]},
   {num:'8.0',title:'Energy & Energy Changes',cat:'physical',subs:[
     {l:'a',t:'Energy and enthalpy',sim:'energyProfile'},
     {l:'b',t:'Energy changes & their effects',sim:'energyProfile'}]},
   {num:'9.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
-    {l:'a',t:'Definitions',sim:'acidBasePH'},
+    {l:'a',t:'Definitions',sim:'acidDefinitions'},
     {l:'b',t:'Physical/chemical properties',sim:'acidBasePH'},
-    {l:'c',t:'Electrolytes',sim:'electrolysis'},
-    {l:'d',t:'Classification strong/weak',sim:'acidBasePH'},
+    {l:'c',t:'Electrolytes',sim:'acidDefinitions'},
+    {l:'d',t:'Classification strong/weak',sim:'acidDefinitions'},
     {l:'e',t:'Concept of pH',sim:'acidBasePH'},
     {l:'f',t:'Salts',sim:'saltHydrolysis'},
     {l:'f2',t:'Preparation of salts',sim:'saltPrep'},
@@ -1351,7 +1357,8 @@ const SECTIONS={
     {l:'b',t:'Practical applications',sim:'solubilityCurve'}]},
   {num:'11.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
     {l:'a',t:'Rate of reactions',sim:'collisionTheory'},
-    {l:'b',t:'Equilibrium & Le Chatelier',sim:'kineticsEquilibrium'}]},
+    {l:'b',t:'Equilibrium & Le Chatelier',sim:'kineticsEquilibrium'},
+    {l:'c',t:'Equilibrium constant (Kc)',sim:'equilibriumConstant'}]},
   {num:'12.0',title:'Redox Reactions',cat:'acidbase',subs:[
     {l:'a',t:'Oxidation & reduction',sim:'oxidationNumbers'},
     {l:'b',t:'Oxidising/reducing agents',sim:'oxidationNumbers'},
@@ -1419,7 +1426,7 @@ const SECTIONS={
   {num:'8.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
     {l:'a',t:'Rate law & order of reaction',sim:'rateLaw'},
     {l:'b',t:'Rate-determining step',sim:'rateLaw'},
-    {l:'d',t:'Law of Mass Action',sim:'kineticsEquilibrium'}]},
+    {l:'d',t:'Law of Mass Action',sim:'equilibriumConstant'}]},
   {num:'9.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
     {l:'a',t:'Separation & purification',sim:'separationTechniques'},
     {l:'b',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
