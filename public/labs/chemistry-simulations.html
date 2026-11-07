@@ -164,6 +164,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-gaslaws.js"></script>
 <script src="/labs/c3d-indicators.js"></script>
 <script src="/labs/c3d-imf.js"></script>
+<script src="/labs/c3d-oxnum.js"></script>
+<script src="/labs/c3d-ksp.js"></script>
+<script src="/labs/c3d-oxides.js"></script>
+<script src="/labs/c3d-polarity.js"></script>
 <script src="/labs/c3d-measure.js"></script>
 <script>
 /* ============================================================
@@ -1265,6 +1269,10 @@ SIM_MODULES.collisionTheory=only3D('Collision Theory & Rate of Reaction','Watch 
 SIM_MODULES.gasLaws3D=only3D('Gas Laws & PV = nRT','Compress, heat and add gas in a syringe to verify Boyle, Charles, the pressure law and Avogadro, then use PV = nRT.','Boyle: PV constant; Charles: V ∝ T; pressure law: P ∝ T; Avogadro: V ∝ n; PV = nRT with R = 8.314 J mol⁻¹ K⁻¹ and T in kelvin.');
 SIM_MODULES.indicators=only3D('Acid–Base Indicators','See the colour of litmus, methyl orange, phenolphthalein, bromothymol blue and universal indicator from pH 1 to 13, and learn which to choose for a titration.','Each indicator changes colour over its own pH range; choose one whose range lies on the steep part of the titration curve.');
 SIM_MODULES.intermolecular=only3D('Intermolecular Forces & Hydrogen Bonding','Compare water, ammonia, hydrogen fluoride, hydrogen chloride and methane, heat them to the boiling point and see why hydrogen bonding raises it.','London forces act between all molecules, dipole–dipole forces between polar ones, and hydrogen bonds (H bonded to N, O or F) are the strongest; stronger forces mean higher melting and boiling points.');
+SIM_MODULES.oxidationNumbers=only3D('Oxidation Numbers & Redox Equations','Assign oxidation numbers to atoms in molecules and ions, then follow them through redox reactions and balance the half-equations.','Oxidation is an increase in oxidation number (loss of electrons), reduction a decrease (gain); electrons lost equal electrons gained; the oxidation numbers in a species add up to its charge.');
+SIM_MODULES.solubilityProduct=only3D('Solubility Product (Ksp) & Precipitation','Dissolve sparingly soluble salts, add a common ion and watch the solubility fall, then mix solutions and compare the ionic product Q with Ksp.','Ksp = [M]ᵃ[X]ᵇ at saturation; a common ion lowers solubility; a precipitate forms when Q > Ksp.');
+SIM_MODULES.periodicOxides=only3D('Oxides of Period 3 Elements','Add sodium, magnesium, aluminium, silicon, phosphorus, sulphur and chlorine oxides to water, acid and alkali and see the change from basic to amphoteric to acidic.','The oxides change from basic (ionic) through amphoteric (Al₂O₃) to acidic (covalent) across the period.');
+SIM_MODULES.bondPolarity=only3D('Bond Polarity & Dipoles','Compare electronegativity, partial charges and dipoles in ten molecules and see which ones line up in an electric field.','A polar bond has δ+ and δ− ends because of an electronegativity difference; a molecule is polar only if its bond dipoles do not cancel.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1302,7 +1310,8 @@ const SECTIONS={
     {l:'e',t:'Properties & coordinate bonding',sim:'bonding'},
     {l:'f',t:'Shapes of molecules',sim:'molecularShapes'},
     {l:'g',t:'Metallic bonding',sim:'bonding'},
-    {l:'h',t:'Intermolecular forces',sim:'intermolecular'}]},
+    {l:'h',t:'Intermolecular forces',sim:'intermolecular'},
+    {l:'i',t:'Bond polarity & dipoles',sim:'bondPolarity'}]},
   {num:'6.0',title:'Stoichiometry & Chemical Reactions',cat:'physical',subs:[
     {l:'a',t:'Symbols, formulae & equations',sim:'moleCalculator'},
     {l:'b',t:'Amount of substance',sim:'moleCalculator'},
@@ -1338,9 +1347,9 @@ const SECTIONS={
     {l:'a',t:'Rate of reactions',sim:'collisionTheory'},
     {l:'b',t:'Equilibrium & Le Chatelier',sim:'kineticsEquilibrium'}]},
   {num:'12.0',title:'Redox Reactions',cat:'acidbase',subs:[
-    {l:'a',t:'Oxidation & reduction',sim:'redoxCell'},
-    {l:'b',t:'Oxidising/reducing agents',sim:'redoxCell'},
-    {l:'c',t:'Redox equations',sim:'redoxCell'},
+    {l:'a',t:'Oxidation & reduction',sim:'oxidationNumbers'},
+    {l:'b',t:'Oxidising/reducing agents',sim:'oxidationNumbers'},
+    {l:'c',t:'Redox equations',sim:'oxidationNumbers'},
     {l:'d',t:'Electrochemical cells',sim:'redoxCell'},
     {l:'e',t:'Electrolysis',sim:'electrolysis'},
     {l:'f',t:'Corrosion of metals',sim:'corrosion'},
@@ -1377,8 +1386,8 @@ const SECTIONS={
     {l:'b',t:'Nuclear chemistry & radioactivity',sim:'radioactivity'}]},
   {num:'2.0',title:'Periodic Chemistry',cat:'bonding',subs:[
     {l:'a',t:'Acid/metal/oxide reactions',sim:'redoxCell'},
-    {l:'b',t:'Acidic oxides of non-metals',sim:'acidBasePH'},
-    {l:'c',t:'Period 3 element properties',sim:'periodicTrends'},
+    {l:'b',t:'Acidic oxides of non-metals',sim:'periodicOxides'},
+    {l:'c',t:'Period 3 element properties',sim:'periodicOxides'},
     {l:'d',t:'Silicon',sim:'molecularShapes'},
     {l:'e',t:'Group 7 gradation',sim:'halogens'},
     {l:'f',t:'Bonding in complex compounds',sim:'transitionMetals'},
@@ -1399,7 +1408,7 @@ const SECTIONS={
     {l:'d',t:'Buffer solutions',sim:'bufferCurves'},
     {l:'e',t:'Acid–base titrations',sim:'titration'}]},
   {num:'7.0',title:'Solubility of Substances',cat:'acidbase',subs:[
-    {l:'a',t:'Solubility product (Ksp)',sim:'solubilityCurve'},
+    {l:'a',t:'Solubility product (Ksp)',sim:'solubilityProduct'},
     {l:'c',t:'Crystallisation & recrystallisation',sim:'solubilityCurve'}]},
   {num:'8.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
     {l:'a',t:'Rate law & order of reaction',sim:'rateLaw'},
