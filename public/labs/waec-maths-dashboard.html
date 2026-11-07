@@ -220,6 +220,9 @@
     .scrim.show{ display:block; }
   }
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+  :root.night .item-code{ color:#211e36; }
+  .item.open .item-body{ max-height:none; }
+  .sim-panel.mk-host{ padding:14px; }
 </style>
 <link rel="stylesheet" href="/labs/glass.css">
 <script src="/labs/glass.js" defer></script>
@@ -256,6 +259,9 @@
   </div>
 </div>
 
+<script src="/labs/maths-kit.js"></script>
+<script src="/labs/m-number.js"></script>
+<script src="/labs/m-algebra.js"></script>
 <script>
 /* ======================================================================
    DATA — WAEC General Mathematics / Mathematics (Core) syllabus
@@ -1530,6 +1536,7 @@ function ensureMounted(item){
   const panel = item.querySelector('.sim-panel');
   if(!panel || panel.dataset.mounted) return;
   const key = panel.dataset.key;
+  if (window.MK && MK.has(key)) { panel.dataset.mounted='1'; try { MK.mount(panel, key); } catch(err){ panel.innerHTML='<div class="sim-error">This simulation could not load.</div>'; console.error(key, err); } return; }
   const simData = simLookup[key];
   if(!simData || !SIM_ENGINES[simData.engine]) return;
   panel.dataset.mounted='1';
