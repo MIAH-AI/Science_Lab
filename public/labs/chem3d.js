@@ -161,15 +161,15 @@
     function refreshControls() { syncers.forEach((f) => f()); }
     (sc.controls || []).forEach((cc) => {
       if (cc.type === "select") {
-        const el = H.selectControl({ label: cc.label, options: cc.options, value: c[cc.key], onChange: (v) => { c[cc.key] = isNaN(+v) ? v : +v; sc.onChange && sc.onChange(S, s, c, cc.key); } });
+        const el = H.selectControl({ label: cc.label, options: cc.options, value: c[cc.key], onChange: (v) => { c[cc.key] = isNaN(+v) ? v : +v; sc.onChange && sc.onChange(S, s, c, cc.key, refreshControls); } });
         controlsEl.appendChild(el); const sl = el.querySelector("select"); syncers.push(() => { sl.value = String(c[cc.key]); });
       } else if (cc.type === "button") {
         controlsEl.appendChild(H.buttonControl(cc.label, () => cc.action(S, s, c, refreshControls), cc.cls || ""));
       } else if (cc.type === "toggle") {
-        const b = H.buttonControl("", () => { c[cc.key] = c[cc.key] ? 0 : 1; paint(); sc.onChange && sc.onChange(S, s, c, cc.key); }, "secondary");
+        const b = H.buttonControl("", () => { c[cc.key] = c[cc.key] ? 0 : 1; paint(); sc.onChange && sc.onChange(S, s, c, cc.key, refreshControls); }, "secondary");
         const paint = () => { b.textContent = (c[cc.key] ? "☑ " : "☐ ") + cc.label; }; paint(); syncers.push(paint); controlsEl.appendChild(b);
       } else {
-        const el = H.sliderControl({ label: cc.label, min: cc.min, max: cc.max, step: cc.step, value: c[cc.key], unit: cc.unit || "", onInput: (v) => { c[cc.key] = v; sc.onChange && sc.onChange(S, s, c, cc.key); } });
+        const el = H.sliderControl({ label: cc.label, min: cc.min, max: cc.max, step: cc.step, value: c[cc.key], unit: cc.unit || "", onInput: (v) => { c[cc.key] = v; sc.onChange && sc.onChange(S, s, c, cc.key, refreshControls); } });
         controlsEl.appendChild(el); const inp = el.querySelector("input"), val = el.querySelector(".ctl-val");
         syncers.push(() => { inp.value = c[cc.key]; val.textContent = c[cc.key] + (cc.unit || ""); });
       }

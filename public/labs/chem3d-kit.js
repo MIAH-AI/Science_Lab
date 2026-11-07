@@ -377,8 +377,8 @@
         L.layers = layers; L.set = (e) => { L.explode = e; layers[1].position.x = e * 1.6; layers[0].position.y = -1.15 * (1 + 0.0 * e); }; L.count = { C: "layers" };
       } else if (kind === "metal") {
         const d = 1.25, P = []; for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) for (let k = 0; k < n; k++) { const b = [[0, 0, 0], [0, .5, .5], [.5, 0, .5], [.5, .5, 0]]; b.forEach((q) => P.push(V3((i + q[0] - n / 2) * d * 1.4, (j + q[1] - n / 2) * d * 1.4, (k + q[2] - n / 2) * d * 1.4))); }
-        const im = mkIn(0.34, o.color || 0xc8703f, P, 0.18); im.material.metalness = 0.9; P.forEach((p, i) => { m4.setPosition(p.x, p.y, p.z); im.setMatrixAt(i, m4); });
-        const ne = o.electrons || 220, ee = new T.InstancedMesh(new T.SphereGeometry(0.06, 8, 6), M.glow(0x7fd0ff, 0.95), ne), ep = [], ev = []; const ext = n * d * 0.7;
+        const im = mkIn(0.27, o.color || 0xc8703f, P, 0.18); im.material.metalness = 0.9; P.forEach((p, i) => { m4.setPosition(p.x, p.y, p.z); im.setMatrixAt(i, m4); });
+        const ne = o.electrons || 220, ee = new T.InstancedMesh(new T.SphereGeometry(0.1, 10, 8), M.glow(0x8fd8ff, 0.95), ne), ep = [], ev = []; const ext = n * d * 0.7;
         for (let i = 0; i < ne; i++) { ep.push(V3(rnd(-ext, ext), rnd(-ext, ext), rnd(-ext, ext))); ev.push(V3(rnd(-1, 1), rnd(-1, 1), rnd(-1, 1)).normalize().multiplyScalar(rnd(0.8, 1.6))); } g.add(ee);
         L.field = 0; L.set = (e) => { L.field = e; }; L.count = { cations: P.length, electrons: ne };
         L.update = (dt) => { for (let i = 0; i < ne; i++) { const p = ep[i], v = ev[i]; p.addScaledVector(v, dt); p.x += L.field * 1.6 * dt; for (const ax of ["x", "y", "z"]) { if (p[ax] > ext) p[ax] -= 2 * ext; if (p[ax] < -ext) p[ax] += 2 * ext; } m4.setPosition(p.x, p.y, p.z); ee.setMatrixAt(i, m4); } ee.instanceMatrix.needsUpdate = true; };

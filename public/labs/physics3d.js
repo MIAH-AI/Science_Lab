@@ -397,6 +397,11 @@
     S.cleanup = null;
   }
 
+  function arrow(ctx, x1, y1, x2, y2, color, w) {
+    const a = Math.atan2(y2 - y1, x2 - x1), hl = 8 + (w || 2) * 1.5; ctx.save(); ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = w || 2; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - Math.cos(a) * hl * 0.6, y2 - Math.sin(a) * hl * 0.6); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x2, y2); ctx.lineTo(x2 - hl * Math.cos(a - 0.4), y2 - hl * Math.sin(a - 0.4)); ctx.lineTo(x2 - hl * Math.cos(a + 0.4), y2 - hl * Math.sin(a + 0.4)); ctx.closePath(); ctx.fill(); ctx.restore();
+  }
   /* HUD helpers shared by all scenes (drawn on the transparent 2D canvas) */
   P3D.hud = {
     pill(ctx, x, y, text, color = "#e8f1ff", size = 11.5, align = "left") {
