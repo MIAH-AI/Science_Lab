@@ -149,6 +149,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-orgrx.js"></script>
 <script src="/labs/c3d-transition.js"></script>
 <script src="/labs/c3d-nitrosulf.js"></script>
+<script src="/labs/c3d-halogens.js"></script>
+<script src="/labs/c3d-massspec.js"></script>
+<script src="/labs/c3d-ratelaw.js"></script>
+<script src="/labs/c3d-allotropes.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1233,6 +1237,10 @@ SIM_MODULES.bufferCurves=only3D('Titration Curves & Buffers','Plot pH against ti
 SIM_MODULES.organicReactions=only3D('Reactions of Organic Compounds','Test for unsaturation with bromine water, make a fruity ester, and ferment glucose with yeast.','Bromine water test, esterification and fermentation with temperature and oxygen controls.');
 SIM_MODULES.transitionMetals=only3D('Transition Metals & Complex Ions','See variable oxidation states in vanadium and chromium, how the medium changes permanganate, and how ligands change the colour of metal ions.','Partly filled d subshells give several oxidation states, coloured ions, complexes and catalysis.');
 SIM_MODULES.nitrogenSulphur=only3D('Nitrogen Cycle & Sulphuric Acid','Follow nitrogen between air, soil, plants and decay, then compare dilute and concentrated sulphuric acid as acid, dehydrating agent and oxidising agent.','Fixation, nitrification, assimilation, decay and denitrification; dehydrating and oxidising properties of conc. H₂SO₄.');
+SIM_MODULES.halogens=only3D('The Halogens (Group 7)','Compare the colours and states of the halogens and use displacement reactions to rank their reactivity.','A more reactive halogen displaces a less reactive one from its halide; boiling points and colour intensity rise down the group.');
+SIM_MODULES.massSpec=only3D('Mass Spectrometer','Ionise a sample, accelerate the ions and deflect them in a magnetic field to read isotope masses and abundances.','Relative atomic mass Ar = Σ(mass number × % abundance) ÷ 100; radius r = (1/B)√(2mV/q).');
+SIM_MODULES.rateLaw=only3D('Rate Law & Order of Reaction','Watch concentration fall for zero, first and second order reactions, read half-lives, and find a mystery order from initial rates.','rate = k[A]ⁿ; t½ = [A]₀/2k (0), ln2/k (1), 1/(k[A]₀) (2); order is found by experiment.');
+SIM_MODULES.allotropesAlloys=only3D('Carbon Allotropes & Alloys','Compare the bonding in diamond, graphite and C₆₀, and see why alloys are harder than pure metals.','Structure and bonding explain hardness, conductivity and melting point; foreign atoms block layer slip in alloys.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1260,7 +1268,7 @@ const SECTIONS={
     {l:'b',t:'Categories of elements',sim:'periodicTrends'},
     {l:'c',t:'Periodic law & trends',sim:'periodicTrends'},
     {l:'d',t:'Acid–metal / oxide reactions',sim:'metalReactivity'},
-    {l:'e',t:'Group 7 — the halogens',sim:'periodicTrends'},
+    {l:'e',t:'Group 7 — the halogens',sim:'halogens'},
     {l:'f',t:'First transition series',sim:'transitionMetals'}]},
   {num:'5.0',title:'Chemical Bonds',cat:'bonding',subs:[
     {l:'a',t:'Interatomic bonding',sim:'bonding'},
@@ -1282,7 +1290,7 @@ const SECTIONS={
     {l:'b',t:'Gases & the gas laws',sim:'gasLaws'},
     {l:'c',t:'Liquids & vapour',sim:'statesOfMatter'},
     {l:'d',t:'Solids',sim:'statesOfMatter'},
-    {l:'e',t:'Diamond & graphite',sim:'statesOfMatter'},
+    {l:'e',t:'Diamond & graphite',sim:'allotropesAlloys'},
     {l:'f',t:'Melting point determination',sim:'statesOfMatter'}]},
   {num:'8.0',title:'Energy & Energy Changes',cat:'physical',subs:[
     {l:'a',t:'Energy and enthalpy',sim:'energyProfile'},
@@ -1339,14 +1347,14 @@ const SECTIONS={
  ]},
  B:{label:'Ghana (B)', topics:[
   {num:'1.0',title:'Structure of the Atom (Nuclear)',cat:'atomic',subs:[
-    {l:'a',t:'Mass spectrometer',sim:'atomicStructure'},
+    {l:'a',t:'Mass spectrometer',sim:'massSpec'},
     {l:'b',t:'Nuclear chemistry & radioactivity',sim:'radioactivity'}]},
   {num:'2.0',title:'Periodic Chemistry',cat:'bonding',subs:[
     {l:'a',t:'Acid/metal/oxide reactions',sim:'redoxCell'},
     {l:'b',t:'Acidic oxides of non-metals',sim:'acidBasePH'},
     {l:'c',t:'Period 3 element properties',sim:'periodicTrends'},
     {l:'d',t:'Silicon',sim:'molecularShapes'},
-    {l:'e',t:'Group 7 gradation',sim:'periodicTrends'},
+    {l:'e',t:'Group 7 gradation',sim:'halogens'},
     {l:'f',t:'Bonding in complex compounds',sim:'transitionMetals'},
     {l:'g',t:'Shapes of complex compounds',sim:'molecularShapes'},
     {l:'h',t:'First transition series',sim:'transitionMetals'}]},
@@ -1368,8 +1376,8 @@ const SECTIONS={
     {l:'a',t:'Solubility product (Ksp)',sim:'solubilityCurve'},
     {l:'c',t:'Crystallisation & recrystallisation',sim:'solubilityCurve'}]},
   {num:'8.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
-    {l:'a',t:'Rate law & order of reaction',sim:'kineticsEquilibrium'},
-    {l:'b',t:'Rate-determining step',sim:'kineticsEquilibrium'},
+    {l:'a',t:'Rate law & order of reaction',sim:'rateLaw'},
+    {l:'b',t:'Rate-determining step',sim:'rateLaw'},
     {l:'d',t:'Law of Mass Action',sim:'kineticsEquilibrium'}]},
   {num:'9.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
     {l:'a',t:'Separation & purification',sim:'separationTechniques'},
@@ -1383,7 +1391,7 @@ const SECTIONS={
  ]},
  C:{label:'W. Africa (C)', topics:[
   {num:'1.0',title:'Non-Metals & Their Compounds',cat:'industry',subs:[
-    {l:'a',t:'Carbon & its allotropes',sim:'statesOfMatter'},
+    {l:'a',t:'Carbon & its allotropes',sim:'allotropesAlloys'},
     {l:'b',t:'Oxygen',sim:'gasPreparation'},
     {l:'c',t:'Hydrogen',sim:'gasPreparation'},
     {l:'d',t:'Water & solutions / hardness',sim:'waterHardness'},
@@ -1394,7 +1402,7 @@ const SECTIONS={
     {l:'i',t:'Noble gases',sim:'periodicTrends'}]},
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
     {l:'a',t:'Extraction of metals',sim:'industrialProcesses'},
-    {l:'b',t:'Alloys',sim:'statesOfMatter'},
+    {l:'b',t:'Alloys',sim:'allotropesAlloys'},
     {l:'c',t:'Sodium & compounds',sim:'metalReactivity'},
     {l:'d',t:'Calcium & compounds',sim:'metalReactivity'},
     {l:'e',t:'Iron & aluminium reactivity',sim:'metalReactivity'},
