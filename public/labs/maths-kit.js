@@ -399,6 +399,14 @@
   MK.def = (key, sc) => { MK.scenes[key] = sc; return sc; };
   MK.when = (k, ...vals) => (c) => vals.includes(c[k]);
   MK.has = (key) => !!MK.scenes[key];
+  MK.extras = (key) => Object.keys(MK.scenes).filter((k) => k.startsWith(key + "#"));
+  /* generic draggable-points pointer: pts(s,c,B) -> [[px,py],...] screen coords; set(i,p,s,c,B,H) */
+  MK.dragger = (pts, set, r = 20) => ({
+    down(p, s, c, B) { const P = pts(s, c, B) || []; let best = -1, bd = r; P.forEach((q, i) => { const d = Math.hypot(q[0] - p.x, q[1] - p.y); if (d < bd) { bd = d; best = i; } }); s._drag = best; return best >= 0; },
+    move(p, s, c, B, H) { if (s._drag >= 0) set(s._drag, p, s, c, B, H); },
+    up(p, s) { s._drag = -1; },
+    hover(p, s, c, B) { return (pts(s, c, B) || []).some((q) => Math.hypot(q[0] - p.x, q[1] - p.y) < r); },
+  });
 
   MK.mount = function (panel, key) {
     const sc = MK.scenes[key]; if (!sc) return false;

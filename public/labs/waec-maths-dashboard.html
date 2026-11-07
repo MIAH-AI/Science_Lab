@@ -262,6 +262,11 @@
 <script src="/labs/maths-kit.js"></script>
 <script src="/labs/m-number.js"></script>
 <script src="/labs/m-algebra.js"></script>
+<script src="/labs/m-geometry.js"></script>
+<script src="/labs/m3d-solids.js"></script>
+<script src="/labs/m-trigcalc.js"></script>
+<script src="/labs/m-stats.js"></script>
+<script src="/labs/m3d-world.js"></script>
 <script>
 /* ======================================================================
    DATA — WAEC General Mathematics / Mathematics (Core) syllabus
@@ -1533,7 +1538,9 @@ const simLookup = {};
 SYLLABUS.forEach(t=> t.subtopics.forEach(st=>{ if(st.sim) simLookup[t.code+'-'+st.code]=st.sim; }));
 
 function ensureMounted(item){
-  const panel = item.querySelector('.sim-panel');
+  item.querySelectorAll('.sim-panel').forEach(mountPanel);
+}
+function mountPanel(panel){
   if(!panel || panel.dataset.mounted) return;
   const key = panel.dataset.key;
   if (window.MK && MK.has(key)) { panel.dataset.mounted='1'; try { MK.mount(panel, key); } catch(err){ panel.innerHTML='<div class="sim-error">This simulation could not load.</div>'; console.error(key, err); } return; }
@@ -1635,7 +1642,8 @@ function accordionItemHtml(t, st){
           <ul class="content-list">${st.content.map(c=>`<li>${highlight(c)}</li>`).join('')}</ul>
         </div>
         ${st.notes ? `<div class="body-block"><p class="body-label notes">Examiner\u2019s Note</p><div class="note-box">${highlight(st.notes)}</div></div>` : ''}
-        ${st.sim ? `<div class="body-block"><p class="body-label sim">Try it — interactive simulation</p><div class="sim-panel" data-key="${key}"></div></div>` : ''}
+        ${(st.sim || (window.MK && MK.has(key))) ? `<div class="body-block"><p class="body-label sim">Try it — interactive simulation</p><div class="sim-panel" data-key="${key}"></div></div>` : ''}
+        ${window.MK ? MK.extras(key).map(k=>`<div class="body-block"><p class="body-label sim">${MK.scenes[k].label||'3D lab'}</p><div class="sim-panel" data-key="${k}"></div></div>`).join('') : ''}
       </div>
     </div>
   </div>`;
