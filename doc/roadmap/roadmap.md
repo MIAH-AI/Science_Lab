@@ -10,7 +10,7 @@ flowchart LR
   P3 --> P4[4 Tasks]
   P4 --> P6[6 Campus image]
   P5 --> P6
-  P6 --> P7[7 Control service]
+  P6 --> P7[7 Control service and agent]
   P7 --> P8[8 Key release]
   P4 --> P9[9 Director view and live activity]
   P7 --> P9
@@ -56,11 +56,11 @@ Package the app, database, and labs as one signed image that serves the campus l
 
 Exit: the image runs on a test server with student devices offline.
 
-### 7. Control service
+### 7. Control service and campus agent
 
-The platform admin console: create trials, issue enrollment tokens, publish releases, show heartbeats and seat use, suspend campuses. Build the campus agent.
+The platform admin console: create trials, issue enrollment tokens, publish releases with a rollout schedule, show heartbeats and seat use, suspend campuses. Build the campus agent in Go (option 1; TypeScript on Node.js is option 2) using scheduled pull: download early, install only inside the campus maintenance window, health check, automatic rollback. See [licensing-and-deployment.md](./licensing-and-deployment.md).
 
-Exit: a test campus enrolls, upgrades, and locks on suspension.
+Exit: a test campus enrolls, installs an update inside its maintenance window, rolls back a deliberately bad release, and locks on suspension.
 
 ### 8. Key release
 
@@ -90,7 +90,7 @@ Exit: three months of use, the trial ends as designed, and the school decides wh
 | 4 | Tasks | 3 |
 | 5 | School admin | 2 |
 | 6 | Campus image | 4, 5 |
-| 7 | Control service | 6 |
+| 7 | Control service and campus agent | 6 |
 | 8 | Key release | 7 |
 | 9 | Director view and live activity | 4, 7 |
 | 10 | One-term pilot | 8, 9 |

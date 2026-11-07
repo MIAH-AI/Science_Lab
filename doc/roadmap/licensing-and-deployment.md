@@ -39,14 +39,50 @@ A test term is a `trial` license that ends three months after it starts.
 
 The token works once and expires after a short time.
 
-## Releases
+## Releases: scheduled pull by the campus agent
 
-1. The Plysoft Tech Team publishes a signed release and chooses which campuses receive it.
+Updates are pulled by the campus agent and installed on a schedule set per campus. Nothing connects into the school network.
+
+1. The Plysoft Tech Team publishes a signed release and chooses a rollout: which campuses (all, a pilot campus first, or a named list), when (a date and time, a weekly window, or the next school holiday), the release track (pilot or stable), and urgency (normal or security fix).
 2. The control service queues a release job per campus.
-3. On the next heartbeat the agent downloads the image, verifies the signature and digest, and backs up the database.
-4. The agent swaps versions and reports `installed`, or rolls back and reports `failed`.
+3. On its next check-in the agent receives the job, downloads the image early, and verifies the signature and digest.
+4. The agent waits until the campus maintenance window, outside blackout dates. Urgent security fixes skip the window but never install during class hours.
+5. Inside the window the agent backs up the database and switches to the new version.
+6. The agent runs a health check for a few minutes. If the new version is not healthy, it rolls back automatically.
+7. The agent reports `downloaded`, `installing`, `installed`, `failed`, or `rolled_back`, and the console shows each campus's version.
 
-Database migrations run during the swap and must be reversible.
+Database migrations run during the switch and must be reversible.
+
+### Per-campus scheduling settings
+
+| Setting | Example |
+| --- | --- |
+| Maintenance window | Every Sunday, 01:00–04:00 campus time |
+| Blackout dates | Exam weeks, the first week of term |
+| Postponing | The school admin can postpone once, for up to 7 days |
+| Security override | Critical fixes skip the window but never install during class hours |
+
+Changing the window changes the interval: daily, weekly, monthly, or one-off, with no one on site.
+
+### Other delivery options considered
+
+| Option | Why it is not the default |
+| --- | --- |
+| Push over SSH (for example, Ansible) | Needs inbound access to each school server |
+| Outbound VPN, then push | Keeps a live connection into every school network |
+| Containers with an auto-updater only | Lacks maintenance windows, licensing, and reporting on its own; used underneath the agent |
+| Managed fleet service (Balena, Mender, AWS Systems Manager, Azure Arc) | Per-server cost and a third party in every school |
+| Operating system packages | One operating system only, weak rollback and reporting |
+| Offline bundle (USB) | Kept as the fallback for campuses with no outbound access |
+
+## Building the campus agent
+
+| Option | Summary |
+| --- | --- |
+| Option 1 (recommended): Go | One self-contained program for Linux and Windows, mature TLS, TPM, TUF, and container libraries, harder to read or modify on the server |
+| Option 2: TypeScript on Node.js | Same language as the app and control service; packaged as one program with a bundled runtime. Suitable for the pilot, rewritten in Go before more campuses |
+
+The agent's jobs are listed in [README.md](./README.md#7-campus-agent).
 
 ## Remote suspension
 

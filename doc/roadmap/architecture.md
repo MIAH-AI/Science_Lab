@@ -76,7 +76,7 @@ The same dashboard and labs plus school features: invites, approvals, tasks, sub
 The only process that talks to the internet. It:
 
 - Enrolls the server with a one-time token and a machine fingerprint.
-- Pulls signed releases and verifies the signature before installing.
+- Pulls signed releases early, verifies the signature, and installs only inside the campus maintenance window, rolling back if the new version is unhealthy.
 - Renews the license and keys on every heartbeat.
 - Reports version, health, and approved seat count.
 - Uploads campus summaries for directors.

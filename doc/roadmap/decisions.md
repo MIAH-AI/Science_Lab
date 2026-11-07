@@ -8,6 +8,9 @@
 | Student devices use only the campus network | Matches the school's setup |
 | Each campus server makes outbound HTTPS calls to the control service | Required for remote licensing, releases, and suspension |
 | The agent pulls from the control service. Nothing pushes into the campus | Works through school firewalls and keeps the campus network closed |
+| Updates use scheduled pull: download early, install only inside each campus's maintenance window | Any interval with no one on site, no updates during lessons or exams |
+| Build the campus agent in Go (option 1); TypeScript on Node.js is option 2 | Go gives one self-contained, harder-to-tamper program; TypeScript is a faster start for the current team |
+| The campus app runs as containers under the agent; a signed USB bundle is the offline fallback | Reuses proven install and rollback tooling, and still covers campuses without outbound access |
 | One license per campus, bound to its server | Stops a copied install from running elsewhere |
 | Trial licenses for a 3 month test term | The school asked to test for one term |
 | The campus database is the source of truth for learner records | Campuses keep working when offline |
@@ -20,7 +23,8 @@
 ## Open questions
 
 - Which database for the campus appliance, and which encryption method for it?
-- Which runtime for the campus image: containers, a virtual machine image, or a native installer?
+- Is TypeScript (option 2) used for the pilot agent, or Go from the start?
+- What is the default maintenance window, and who may postpone an update?
 - Which operating systems do the campus servers run?
 - How long is the grace period before a disconnected or suspended campus locks?
 - How do invites reach students without email: printed codes, class list import, or both?
