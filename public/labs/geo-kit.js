@@ -131,7 +131,7 @@
     if (extra.length) { const ctl = sc.controls; sc.controls = typeof ctl === "function" ? (c) => ctl(c).concat(extra) : (ctl || []).concat(extra); }
     if (sc.story) { const own = sc.actions || []; sc.actions = [{ label: "▶ Watch explainer", run: (s, c, H) => GK.storyToggle(s, c, H, sc) }].concat(own); }
     const up = sc.update, ov = sc.overlay, hud = sc.hud;
-    sc.update = (S, s, c, dt) => { storyTick(S, s, c, dt); up && up(S, s, c, dt); };
+    sc.update = (S, s, c, dt) => { storyTick(S, s, c, dt); if (s._fly) { const F = s._fly; F.t = Math.min(1, F.t + dt / 1.2); S.orbit.target.lerpVectors(F.tg0, F.tg1, ease(F.t)); if (F.t >= 1) s._fly = null; } up && up(S, s, c, dt); };
     sc.overlay = (ctx, s, c, S, B) => {
       GK.storyOn = !!(s._story && s._story.on);
       ov && ov(ctx, s, c, S, B);
@@ -148,6 +148,83 @@
     };
     MK.def(key, sc);
   };
+  /* smooth camera move outside the explainer (e.g. when a feature is picked) */
+  GK.flyTo = (S, s, cam) => { if (!S || !cam) return; const st = {}; camTo(S, cam, st); s._fly = { tg0: st.tg0, tg1: st.tg1, t: 0 }; };
+  /* Feature tour: a diorama with a list of named features; picking one flies the camera to it.
+     o: {title, blurb, envOpts, cam, variants:[[id,label]], values, controls (extra), build(g,S,s,c), tick(S,s,c,dt),
+         feats(c,s) | feats:[{id,n,p,d,cam?}], notes:[lines] | notes(c), fly:[dx,dy,dz], intro:[story steps], overlay, hud(extra cards) } */
+  GK.tour = (key, o) => {
+    const feats = (c, s) => (typeof o.feats === "function" ? o.feats(c, s || {}) : o.feats) || [];
+    const camFor = (F) => F.cam || [[F.p[0] + (o.fly || [1.4, 1.6, 2.6])[0], F.p[1] + (o.fly || [1.4, 1.6, 2.6])[1], F.p[2] + (o.fly || [1.4, 1.6, 2.6])[2]], F.p];
+    const vctl = o.variants ? [{ type: "tabs", key: "v", label: o.vlabel || "Type", options: o.variants }] : [];
+    const values = Object.assign({ v: o.variants ? o.variants[0][0] : "" }, o.values || {});
+    values.f = values.f || (feats(values)[0] || {}).id;
+    GK.def3d(key, {
+      title: o.title, blurb: o.blurb, envOpts: o.envOpts, cam: o.cam, fov: o.fov, values,
+      controls: (c) => vctl.concat((o.variants || [[null]]).map(([v]) => ({ type: "select", key: "f", label: o.flabel || "Feature", options: feats(v == null ? c : Object.assign({}, c, { v })).map((F) => [F.id, F.n]), show: v == null ? undefined : (cc) => cc.v === v })), typeof o.controls === "function" ? o.controls(c) : o.controls || []),
+      onChange(s, c, k, H) {
+        if (k === "v") { const L = feats(c, s); if (!L.some((F) => F.id === c.f)) c.f = (L[0] || {}).id; H && H.refresh && H.refresh(); }
+        if ((k === "f" || k === "v") && H && H.S && !(s._story && s._story.on)) { const F = feats(c, s).find((x) => x.id === c.f); if (F) GK.flyTo(H.S, s, camFor(F)); }
+        o.onChange && o.onChange(s, c, k, H);
+      },
+      build(S, s) { s.key = null; },
+      update(S, s, c, dt) { const k = c.v + "|" + (o.rebuildOn ? o.rebuildOn(c) : ""); if (s.key !== k) { s.key = k; const g = BK.group(S, s); o.build(g, S, s, c); } o.tick && o.tick(S, s, c, dt); },
+      overlay: o.overlay,
+      labels: (s, c) => feats(c, s).map((F) => ({ id: F.id, p: F.lp || F.p, t: F.n, col: F.id === c.f ? "#ffd27a" : F.col || "#e8f1ff", dx: F.dx, dy: F.dy })),
+      hud: (s, c) => { const F = feats(c, s).find((x) => x.id === c.f) || {}; const notes = typeof o.notes === "function" ? o.notes(c, s) : o.notes || []; return [{ title: F.n || o.title, lines: [[F.d || "", "#ffd27a", true]].concat(notes.length ? ["—"].concat(notes) : []) }].concat(o.hud ? o.hud(s, c) : []); },
+      story: (c, s) => { const steps = [].concat(o.intro || []); (o.variants || [["", ""]]).forEach(([v]) => feats(Object.assign({}, c, { v }), s).forEach((F) => steps.push({ d: F.dur || 5.5, title: F.n, cap: F.n + ": " + F.d, set: o.variants ? { v, f: F.id } : { f: F.id }, cam: camFor(F), hl: F.id }))); return steps.slice(0, o.maxSteps || 10); },
+      draw: GK.fallback(o.title, (o.variants || [["", ""]]).flatMap(([v]) => feats(Object.assign({}, values, { v })).map((F) => F.n + ": " + F.d)).slice(0, 8)),
+    });
+  };
+
+  /* ---------- block diagram: terrain on top, rock strata on the four sides ----------
+     o: {w, d, y0 (base), h(x,z) top surface, strata(x,y,z) -> [r,g,b], tint, nx, ny, map} */
+  GK.block = (o) => {
+    const T3 = T(), g = new T3.Group(), w = o.w || 6, d = o.d || 4, y0 = o.y0 == null ? -1.5 : o.y0, nx = o.nx || 160, ny = o.ny || 60;
+    const top = GK.terrain({ w, d, nx, h: o.h, tint: o.tint, map: o.map, detail: o.detail }); g.add(top);
+    const wall = (ax, bx, az, bz, n) => { const pos = [], col = [], idx = []; for (let i = 0; i <= n; i++) { const t = i / n, x = ax + (bx - ax) * t, z = az + (bz - az) * t, yt = o.h(x, z); for (let j = 0; j <= ny; j++) { const y = y0 + (yt - y0) * j / ny; pos.push(x, y, z); const c = o.strata ? o.strata(x, y, z, yt) : [0.5, 0.4, 0.3]; col.push(c[0], c[1], c[2]); } } for (let i = 0; i < n; i++) for (let j = 0; j < ny; j++) { const a = i * (ny + 1) + j, b = a + ny + 1; idx.push(a, b, a + 1, b, b + 1, a + 1); } const geo = new T3.BufferGeometry(); geo.setAttribute("position", new T3.Float32BufferAttribute(pos, 3)); geo.setAttribute("color", new T3.Float32BufferAttribute(col, 3)); geo.setIndex(idx); geo.computeVertexNormals(); const m = new T3.Mesh(geo, new T3.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, side: T3.DoubleSide })); m.receiveShadow = true; return m; };
+    const W = w / 2, D = d / 2, nz = Math.round(nx * d / w);
+    g.add(wall(-W, W, D, D, nx), wall(W, -W, -D, -D, nx), wall(W, W, D, -D, nz), wall(-W, -W, -D, D, nz));
+    const base = new T3.Mesh(new T3.PlaneGeometry(w, d), new T3.MeshStandardMaterial({ color: 0x3a2e26 })); base.rotation.x = Math.PI / 2; base.position.y = y0; g.add(base);
+    g.top = top; return g;
+  };
+  /* banded strata helper: bands = [[topY, hex], ...] from the top down; noise wobble */
+  GK.bands = (bands, wob = 0.04) => (x, y, z) => { const n = (BK.noise3(x * 1.7, y * 3, z * 1.7) - 0.5) * wob * 2; for (const [yy, col] of bands) if (y + n > yy) return GK.hex3(col).map((v) => v * (0.92 + 0.16 * BK.noise3(x * 9, y * 14, z * 9))); return GK.hex3(bands[bands.length - 1][1]); };
+
+  /* ---------- hand-specimen rock samples (procedural textures) ---------- */
+  const ROCK = {
+    granite: { base: 0xc9a9a0, dots: [[0xf2ece4, 0.35, 3], [0x2a2a2a, 0.18, 2.4], [0xd98c7a, 0.25, 3.5]] },
+    basalt: { base: 0x34363a, dots: [[0x55585e, 0.25, 0.9], [0x1c1d20, 0.3, 0.8]], holes: true },
+    sandstone: { base: 0xd2a66e, dots: [[0xe8c590, 0.4, 0.8], [0xa9783f, 0.25, 0.7]], layers: 0x9e7040 },
+    shale: { base: 0x6a6a68, dots: [[0x5a5a58, 0.3, 0.6]], layers: 0x4a4a48, fine: true },
+    limestone: { base: 0xd8d2c0, dots: [[0xc4bca6, 0.3, 1.2]], fossils: true },
+    coal: { base: 0x1a1a1c, dots: [[0x333338, 0.2, 1]], gloss: true, layers: 0x0c0c0e },
+    gneiss: { base: 0xb8b0a8, dots: [[0x222222, 0.2, 2], [0xeeeeee, 0.2, 2]], bands: [0x2a2a2a, 0xe8e4dc] },
+    slate: { base: 0x4a5058, dots: [[0x40464e, 0.3, 0.5]], layers: 0x3a4048, fine: true },
+    marble: { base: 0xf1efe9, dots: [[0xe2ded6, 0.25, 1.5]], veins: 0x9a9a9a },
+    quartzite: { base: 0xe9dcd0, dots: [[0xf8f2ea, 0.4, 1.4], [0xd4c2b2, 0.3, 1.2]] },
+    laterite: { base: 0xa4502a, dots: [[0x7a3418, 0.35, 2.5], [0xc8743e, 0.25, 2]], holes: true },
+  };
+  GK.rockTex = (type, size = 512) => {
+    const R = ROCK[type] || ROCK.granite, c = BK.cv(size, size), g = c.getContext("2d"), rr = BK.rng(type.length * 31), hx = (h) => "#" + h.toString(16).padStart(6, "0");
+    g.fillStyle = hx(R.base); g.fillRect(0, 0, size, size);
+    if (R.bands) for (let y = 0; y < size; y += 6) { g.fillStyle = hx(R.bands[(Math.floor(y / 18 + Math.sin(y * 0.05) * 2) % 2 + 2) % 2]); g.globalAlpha = 0.55; g.fillRect(0, y + Math.sin(y * 0.1) * 3, size, 6); } g.globalAlpha = 1;
+    if (R.layers) for (let y = 0; y < size; y += R.fine ? 5 : 14) { g.strokeStyle = hx(R.layers); g.globalAlpha = 0.5; g.lineWidth = R.fine ? 1 : 2; g.beginPath(); for (let x = 0; x <= size; x += 16) g.lineTo(x, y + Math.sin(x * 0.02 + y) * 2); g.stroke(); } g.globalAlpha = 1;
+    R.dots.forEach(([col, dens, r]) => { g.fillStyle = hx(col); const n = Math.round(size * size * dens / (r * r * 12)); for (let i = 0; i < n; i++) { const x = rr() * size, y = rr() * size, s = r * (0.5 + rr()); g.beginPath(); if (r > 2) { g.moveTo(x, y); for (let k = 0; k < 5; k++) g.lineTo(x + Math.cos(k * 1.26 + rr()) * s, y + Math.sin(k * 1.26 + rr()) * s); } else g.arc(x, y, s, 0, 6.3); g.fill(); } });
+    if (R.holes) { g.fillStyle = "rgba(0,0,0,.55)"; for (let i = 0; i < 60; i++) { g.beginPath(); g.arc(rr() * size, rr() * size, 1 + rr() * 4, 0, 6.3); g.fill(); } }
+    if (R.veins) { g.strokeStyle = hx(R.veins); g.globalAlpha = 0.6; for (let k = 0; k < 7; k++) { g.lineWidth = 0.6 + rr() * 2; g.beginPath(); let x = rr() * size, y = 0; g.moveTo(x, y); while (y < size) { x += (rr() - 0.5) * 40; y += 20 + rr() * 20; g.lineTo(x, y); } g.stroke(); } g.globalAlpha = 1; }
+    if (R.fossils) { g.strokeStyle = "rgba(120,110,90,.8)"; g.lineWidth = 1.5; for (let i = 0; i < 14; i++) { const x = rr() * size, y = rr() * size, r = 6 + rr() * 10; g.beginPath(); for (let a = 0; a < 12; a += 0.3) g.lineTo(x + Math.cos(a) * r * a / 12, y + Math.sin(a) * r * a / 12); g.stroke(); } }
+    const t = new (T().CanvasTexture)(c); t.colorSpace = T().SRGBColorSpace; t.wrapS = t.wrapT = T().RepeatWrapping; return t;
+  };
+  GK.rockSample = (type, r = 0.5) => { const T3 = T(), geo = new T3.IcosahedronGeometry(r, 5), p = geo.attributes.position, seed = type.length; for (let i = 0; i < p.count; i++) { const v = new T3.Vector3().fromBufferAttribute(p, i), n = BK.fbm(v.x * 2.2 + seed, v.y * 2.2, v.z * 2.2) - 0.5; v.multiplyScalar(1 + n * 0.35); v.y *= 0.72; p.setXYZ(i, v.x, v.y, v.z); } geo.computeVertexNormals(); const tex = GK.rockTex(type); const R = ROCK[type] || {}; const m = new T3.Mesh(geo, new T3.MeshStandardMaterial({ map: tex, bumpMap: tex, bumpScale: 2, roughness: R.gloss ? 0.35 : 0.85, metalness: R.gloss ? 0.15 : 0 })); m.castShadow = true; return m; };
+  GK.ROCKS = ROCK;
+
+  /* ---------- simple particle cloud: n points with per-frame updater ---------- */
+  GK.particles = (n, color = 0xffffff, size = 0.04, opacity = 0.9) => { const T3 = T(), geo = new T3.BufferGeometry(), pos = new Float32Array(n * 3); geo.setAttribute("position", new T3.BufferAttribute(pos, 3)); if (!GK._dot) { const c = BK.cv(64, 64), x = c.getContext("2d"), gr = x.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.5, "rgba(255,255,255,.7)"); gr.addColorStop(1, "rgba(255,255,255,0)"); x.fillStyle = gr; x.fillRect(0, 0, 64, 64); GK._dot = new T3.CanvasTexture(c); }
+    const pts = new T3.Points(geo, new T3.PointsMaterial({ color, size: size * 1.6, map: GK._dot, transparent: true, opacity, depthWrite: false, alphaTest: 0.02 })); pts.frustumCulled = false; pts.pos = pos; pts.n = n; pts.flush = () => { geo.attributes.position.needsUpdate = true; }; return pts; };
+  /* arrow mesh from a to b */
+  GK.arrow = (a, b, color = 0xffd27a, r = 0.025) => { const T3 = T(), g = new T3.Group(), A = new T3.Vector3(...a), B = new T3.Vector3(...b), d = B.clone().sub(A), L = d.length(), m = new T3.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35 }); const sh = new T3.Mesh(new T3.CylinderGeometry(r, r, Math.max(0.01, L - r * 5), 10), m); sh.position.y = (L - r * 5) / 2; g.add(sh); const hd = new T3.Mesh(new T3.ConeGeometry(r * 2.6, r * 6, 14), m); hd.position.y = L - r * 3; g.add(hd); g.position.copy(A); g.quaternion.setFromUnitVectors(new T3.Vector3(0, 1, 0), d.normalize()); return g; };
+
   GK.alias = (key, from, over) => { const b = MK.scenes[from]; if (b) MK.def(key, Object.assign({}, b, over)); };
 
   /* ---------- terrain ---------- */
@@ -227,6 +304,33 @@
   /* ---------- lon/lat helpers for map scenes ---------- */
   GK.proj = (bbox, size) => { const [lo0, la0, lo1, la1] = bbox, k = size / Math.max(lo1 - lo0, la1 - la0), cx = (lo0 + lo1) / 2, cz = (la0 + la1) / 2; return { k, x: (lo) => (lo - cx) * k, z: (la) => -(la - cz) * k, lon: (x) => x / k + cx, lat: (z) => -z / k + cz, w: (lo1 - lo0) * k, d: (la1 - la0) * k }; };
   GK.rings = (geom) => (!geom ? [] : geom.type === "Polygon" ? geom.coordinates : geom.type === "MultiPolygon" ? geom.coordinates.flat() : geom.type === "LineString" ? [geom.coordinates] : geom.type === "MultiLineString" ? geom.coordinates : []);
+
+  /* ---------- flat relief map of a lon/lat box: Natural Earth II relief image + GeoJSON outlines ----------
+     o: {bbox:[lo0,la0,lo1,la1], size, img, imgBbox, geo:[{path, col, w, filter(props)}], y} → group with .P (projection) */
+  GK.mapPlane = (o) => {
+    const T3 = T(), P = GK.proj(o.bbox, o.size || 8), g = new T3.Group(), [lo0, la0, lo1, la1] = o.bbox, ib = o.imgBbox || [-26, -36, 60, 38];
+    const tex = GK.texture(o.img || "maps/africa_ne2_relief.jpg", true); tex.repeat.set((lo1 - lo0) / (ib[2] - ib[0]), (la1 - la0) / (ib[3] - ib[1])); tex.offset.set((lo0 - ib[0]) / (ib[2] - ib[0]), (la0 - ib[1]) / (ib[3] - ib[1]));
+    const plane = new T3.Mesh(new T3.PlaneGeometry(P.w, P.d), new T3.MeshStandardMaterial({ map: tex, bumpMap: tex, bumpScale: 1.5, roughness: 0.95 })); plane.rotation.x = -Math.PI / 2; plane.receiveShadow = true; g.add(plane);
+    const edge = new T3.Mesh(new T3.BoxGeometry(P.w + 0.08, 0.12, P.d + 0.08), new T3.MeshStandardMaterial({ color: 0x2a2f3a, roughness: 0.6 })); edge.position.y = -0.065; g.add(edge);
+    (o.geo || []).forEach((L) => GK.json(L.path).then((d) => { if (!d || !g.parent) return; d.features.forEach((ft) => { if (L.filter && !L.filter(ft.properties)) return; GK.rings(ft.geometry).forEach((ring) => { const pts = ring.filter(([lo, la]) => lo >= lo0 - 1 && lo <= lo1 + 1 && la >= la0 - 1 && la <= la1 + 1).map(([lo, la]) => [Math.max(-P.w / 2, Math.min(P.w / 2, P.x(lo))), (o.y || 0.006), Math.max(-P.d / 2, Math.min(P.d / 2, P.z(la)))]); if (pts.length > 1) g.add(GK.polyline(pts, L.col || 0x222222, L.op || 0.9)); }); }); }));
+    g.P = P; return g;
+  };
+
+  /* ---------- instanced vegetation ----------
+     pts: [[x, y, z, scale]]; kind: broad | emergent | umbrella | baobab | palm | shrub | grass | conifer | mangrove */
+  GK.flora = (g, pts, kind = "broad", col = 0x3a6a2a, h = 0.3) => {
+    const T3 = T(), n = pts.length; if (!n) return;
+    const spec = { broad: [0.08, 0.55, [0.55, 0.45, 0.55], 0.62], emergent: [0.05, 1.0, [0.5, 0.16, 0.5], 1.0], umbrella: [0.04, 0.55, [0.6, 0.13, 0.6], 0.6], baobab: [0.22, 0.5, [0.38, 0.2, 0.38], 0.58], palm: [0.035, 0.9, [0.35, 0.12, 0.35], 0.92], shrub: [0.04, 0.12, [0.28, 0.22, 0.28], 0.22], grass: [0, 0, [0.06, 0.35, 0.06], 0.17], conifer: [0.04, 0.3, [0.25, 0.6, 0.25], 0.62], mangrove: [0.05, 0.35, [0.45, 0.3, 0.45], 0.5] }[kind] || [0.08, 0.55, [0.5, 0.45, 0.5], 0.62];
+    const [tr, th, cs, cy] = spec, m4 = new T3.Matrix4(), q = new T3.Quaternion(), c = new T3.Color();
+    const crownGeo = kind === "grass" || kind === "conifer" ? new T3.ConeGeometry(1, 1, 7) : new T3.IcosahedronGeometry(1, 1);
+    const crown = new T3.InstancedMesh(crownGeo, new T3.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, flatShading: kind !== "grass" }), n);
+    pts.forEach(([x, y, z, sc = 1], i) => { const k = h * sc; q.setFromAxisAngle(new T3.Vector3(0, 1, 0), (x * 7.3 + z * 3.1) % 6.28); m4.compose(new T3.Vector3(x, y + cy * k, z), q, new T3.Vector3(cs[0] * k, cs[1] * k, cs[2] * k)); crown.setMatrixAt(i, m4); c.setHex(col).offsetHSL(0, 0, (BK.noise3(x * 5, z * 5, 3) - 0.5) * 0.14); crown.setColorAt(i, c); });
+    crown.castShadow = true; crown.receiveShadow = true; g.add(crown);
+    if (tr > 0) { const trunk = new T3.InstancedMesh(new T3.CylinderGeometry(0.7, 1, 1, 7), new T3.MeshStandardMaterial({ color: kind === "baobab" ? 0x8a7a6a : 0x5a4030, roughness: 0.95 }), n); pts.forEach(([x, y, z, sc = 1], i) => { const k = h * sc; m4.compose(new T3.Vector3(x, y + th * k / 2, z), q.identity(), new T3.Vector3(tr * k, th * k, tr * k)); trunk.setMatrixAt(i, m4); }); trunk.castShadow = true; g.add(trunk); }
+    if (kind === "mangrove") { const roots = new T3.InstancedMesh(new T3.ConeGeometry(1, 1, 8, 1, true), new T3.MeshStandardMaterial({ color: 0x4a3828, roughness: 1, side: T3.DoubleSide, wireframe: true }), n); pts.forEach(([x, y, z, sc = 1], i) => { const k = h * sc; m4.compose(new T3.Vector3(x, y + 0.1 * k, z), q.identity(), new T3.Vector3(0.25 * k, 0.22 * k, 0.25 * k)); roots.setMatrixAt(i, m4); }); g.add(roots); }
+  };
+  /* scatter helper: n points in a rectangle with an acceptance test, heights from h(x,z) */
+  GK.scatter = (n, x0, x1, z0, z1, h, ok, seed = 1, s0 = 0.7, s1 = 1.3) => { const r = BK.rng(seed), out = []; let tries = 0; while (out.length < n && tries++ < n * 20) { const x = x0 + r() * (x1 - x0), z = z0 + r() * (z1 - z0); if (ok && !ok(x, z)) continue; out.push([x, h ? h(x, z) : 0, z, s0 + r() * (s1 - s0)]); } return out; };
 
   /* ---------- fallbacks for no-WebGL ---------- */
   GK.fallback = (title, facts) => BK.fallback(title, facts);
