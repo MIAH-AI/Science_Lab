@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAEC Agricultural Science — Photoreal Simulation Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF7;
+    --paper-line:#E3E6EC;
+    --ink:#1B2A4A;
+    --ink-soft:#5B6478;
+    --rail:#12203B;
+    --rail-ink:#EDEFF4;
+    --rail-ink-dim:#8C96B3;
+    --red:#B5322F;
+    --teal:#1D7A63;
+    --amber:#D9A441;
+    --card:#FFFFFF;
+    --radius:2px;
+    --rail-w:300px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    min-height:100vh;
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+  a{color:inherit;}
+
+  /* ---------- Layout shell ---------- */
+  .app{ display:grid; grid-template-columns: var(--rail-w) 1fr; min-height:100vh; }
+
+  /* ---------- Rail / sidebar (the axis) ---------- */
+  .rail{
+    background:var(--rail); color:var(--rail-ink);
+    position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:26px 0 40px; border-right:1px solid #0A1428;
+  }
+  .rail-header{ padding:0 22px 20px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:6px; }
+  .rail-eyebrow{ font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); margin:0 0 6px; }
+  .rail-title{ font-family:'Source Serif 4', serif; font-weight:600; font-size:22px; line-height:1.25; margin:0 0 10px; }
+  .rail-sub{ font-size:12.5px; color:var(--rail-ink-dim); line-height:1.5; margin:0; }
+
+  .axis{ position:relative; margin:22px 22px 0 30px; padding-left:20px; border-left:2px solid rgba(255,255,255,.16); }
+  .axis::before{ content:""; position:absolute; left:-5px; top:-14px; width:0;height:0;
+    border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid rgba(255,255,255,.28); }
+  .tick{ position:relative; margin-bottom:2px; }
+  .tick::before{ content:""; position:absolute; left:-22px; top:19px; width:12px; height:2px; background:rgba(255,255,255,.25); }
+  .tick-btn{
+    width:100%; text-align:left; background:transparent; border:none; color:var(--rail-ink);
+    font-family:inherit; padding:11px 12px 11px 14px; display:flex; align-items:flex-start; gap:11px;
+    cursor:pointer; border-radius:var(--radius); transition:background .15s ease;
+  }
+  .tick-btn:hover{ background:rgba(255,255,255,.06); }
+  .tick-btn:focus-visible{ outline:2px solid var(--amber); outline-offset:-2px; }
+  .tick.active .tick-btn{ background:rgba(217,164,65,.14); }
+  .tick.active::before{ background:var(--amber); width:16px; }
+  .tick-glyph{
+    font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:600; color:var(--rail-ink-dim);
+    width:26px; height:26px; flex:0 0 auto; border:1px solid rgba(255,255,255,.18); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.03);
+  }
+  .tick.active .tick-glyph{ color:var(--rail); background:var(--amber); border-color:var(--amber); }
+  .tick-text{ padding-top:2px; }
+  .tick-code{ font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.08em; color:var(--rail-ink-dim); display:block; margin-bottom:2px; }
+  .tick.active .tick-code{ color:var(--amber); }
+  .tick-name{ font-size:14px; font-weight:500; line-height:1.3; }
+  .tick-count{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--rail-ink-dim); margin-top:3px; }
+  .rail-foot{ margin:26px 22px 0; padding-top:16px; border-top:1px solid rgba(255,255,255,.08); font-size:11.5px; color:var(--rail-ink-dim); line-height:1.6; }
+  .rail-foot b{ color:var(--rail-ink); }
+
+  /* ---------- Main column ---------- */
+  .main{ min-width:0; }
+  .scrim{ display:none; } /* only participates in layout on mobile — see media query */
+  .topbar{
+    position:sticky; top:0; z-index:5; background:rgba(250,250,247,.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line); padding:16px 34px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .rail-toggle{
+    display:none; background:var(--rail); color:var(--rail-ink); border:none; border-radius:var(--radius);
+    width:38px; height:38px; font-family:'JetBrains Mono',monospace; font-size:16px; cursor:pointer; flex:0 0 auto;
+  }
+  .back-home{
+    display:inline-flex; align-items:center; gap:6px; flex:0 0 auto; text-decoration:none;
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft);
+    padding:8px 13px; border:1px solid var(--paper-line); border-radius:var(--radius); background:var(--card);
+  }
+  .back-home:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  .search-wrap{ position:relative; flex:1 1 260px; max-width:460px; }
+  .search-wrap svg{ position:absolute; left:12px; top:50%; transform:translateY(-50%); opacity:.45; }
+  #search{
+    width:100%; font-family:'IBM Plex Sans', sans-serif; font-size:13.5px; padding:10px 14px 10px 36px;
+    border:1px solid var(--paper-line); background:var(--card); border-radius:var(--radius); color:var(--ink);
+  }
+  #search:focus-visible{ outline:2px solid var(--red); outline-offset:1px; }
+  .topbar-meta{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-soft); white-space:nowrap; }
+
+  .content{ padding:34px; max-width:1000px; }
+
+  .topic-head{ margin-bottom:22px; }
+  .topic-head .code-badge{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--red); letter-spacing:.1em; text-transform:uppercase; }
+  .topic-head h1{ font-family:'Source Serif 4', serif; font-weight:600; font-size:clamp(26px,4vw,36px); margin:6px 0 8px; line-height:1.15; }
+  .topic-head p{ color:var(--ink-soft); font-size:14.5px; max-width:64ch; line-height:1.55; margin:0; }
+
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1px; background:var(--paper-line); border:1px solid var(--paper-line); margin-bottom:28px; }
+  .stat{ background:var(--card); padding:16px 18px; }
+  .stat .n{ font-family:'JetBrains Mono', monospace; font-size:26px; font-weight:700; color:var(--red); line-height:1; }
+  .stat .l{ font-size:11.5px; color:var(--ink-soft); margin-top:6px; text-transform:uppercase; letter-spacing:.06em; }
+
+  .overview-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-top:8px; }
+  .overview-card{ background:var(--card); border:1px solid var(--paper-line); border-left:3px solid var(--ink); padding:16px 18px; cursor:pointer; transition:transform .12s ease, border-color .12s ease; }
+  .overview-card:hover{ transform:translateY(-2px); border-left-color:var(--red); }
+  .overview-card:focus-visible{ outline:2px solid var(--red); }
+  .overview-card .oc-code{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-soft); letter-spacing:.08em; }
+  .overview-card h3{ font-family:'Source Serif 4', serif; font-size:16.5px; margin:4px 0 6px; font-weight:600; }
+  .overview-card .oc-count{ font-size:11.5px; color:var(--ink-soft); font-family:'JetBrains Mono', monospace; }
+
+  .units-panel{ margin-top:30px; border:1px dashed var(--paper-line); padding:18px 20px; background:repeating-linear-gradient(135deg, rgba(27,42,74,.02) 0 10px, transparent 10px 20px); }
+  .units-panel h2{ font-family:'Source Serif 4', serif; font-size:17px; margin:0 0 12px; }
+  .units-table{ width:100%; border-collapse:collapse; font-size:13px; }
+  .units-table td{ padding:6px 10px 6px 0; vertical-align:top; border-bottom:1px solid var(--paper-line); }
+  .units-table td:first-child{ font-weight:600; white-space:nowrap; color:var(--ink); width:120px; }
+
+  .accordion{ display:flex; flex-direction:column; gap:10px; }
+  .item{ background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius); overflow:hidden; }
+  .item-head{
+    width:100%; display:flex; align-items:center; gap:14px; background:transparent; border:none;
+    padding:15px 18px; cursor:pointer; text-align:left; font-family:inherit; color:var(--ink);
+  }
+  .item-head:focus-visible{ outline:2px solid var(--red); outline-offset:-2px; }
+  .item-code{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:#fff; background:var(--ink);
+    min-width:24px; height:24px; padding:0 4px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .item.open .item-code{ background:var(--red); }
+  .item-title{ flex:1; font-size:15px; font-weight:600; font-family:'Source Serif 4', serif; }
+  .item-chevron{ font-family:'JetBrains Mono', monospace; color:var(--ink-soft); transition:transform .18s ease; flex:0 0 auto; }
+  .item.open .item-chevron{ transform:rotate(90deg); color:var(--red); }
+  .item-body{ max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .item.open .item-body{ max-height:2200px; }
+  .item-body-inner{ padding:0 20px 20px 58px; }
+  .body-block{ margin-bottom:16px; }
+  .body-block:last-child{ margin-bottom:0; }
+  .body-label{ font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; margin:0 0 6px; }
+  .body-label.content{ color:var(--teal); }
+  .body-label.notes{ color:var(--red); }
+  .body-label.sim{ color:#8A6414; }
+  ul.content-list{ margin:0; padding-left:18px; font-size:14px; line-height:1.6; color:var(--ink); }
+  ul.content-list li{ margin-bottom:4px; }
+  .note-box{
+    font-size:13.5px; line-height:1.6; color:#5a2320; background:#FBF1EE; border-left:3px solid var(--red);
+    padding:10px 14px; font-family:'Source Serif 4', serif; font-style:italic;
+  }
+
+  .empty{ padding:60px 10px; text-align:center; color:var(--ink-soft); }
+  .empty .big{ font-family:'JetBrains Mono',monospace; font-size:40px; color:var(--paper-line); }
+
+  .back-link{ display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--ink-soft); background:none; border:none; cursor:pointer; padding:0; margin-bottom:16px; }
+  .back-link:hover{ color:var(--red); }
+  mark{ background:var(--amber); color:var(--ink); padding:0 1px; }
+
+  /* ---------- Simulation widgets ---------- */
+  .sim-panel{ background:#FBFAF6; border:1px solid var(--paper-line); border-radius:var(--radius); padding:16px; }
+  .sim-controls{ display:flex; flex-wrap:wrap; gap:14px 20px; margin-bottom:12px; align-items:flex-end; }
+  .sim-field{ display:flex; flex-direction:column; gap:5px; min-width:150px; flex:1 1 150px; }
+  .sim-label{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); }
+  .sim-val{ color:var(--red); font-weight:600; }
+  input[type=range]{ accent-color: var(--red); width:100%; }
+  .sim-select, .sim-input, .sim-input-text{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:7px 8px;
+    border:1px solid var(--paper-line); border-radius:var(--radius); background:#fff; color:var(--ink);
+  }
+  .sim-input{ width:100%; }
+  .sim-input-text{ width:100%; }
+  .sim-canvas-wrap{ margin-bottom:12px; overflow-x:auto; }
+  .sim-canvas{ display:block; border:1px solid var(--paper-line); background:#fff; max-width:100%; height:auto; }
+  .sim-btn{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.03em; background:var(--ink);
+    color:#fff; border:none; padding:9px 14px; border-radius:var(--radius); cursor:pointer;
+  }
+  .sim-btn:hover{ background:var(--red); }
+  .sim-result{ display:flex; flex-direction:column; gap:6px; }
+  .sim-result-row{ display:flex; justify-content:space-between; gap:12px; font-size:13px; padding:7px 10px; background:#fff; border:1px solid var(--paper-line); border-radius:var(--radius); flex-wrap:wrap; }
+  .sim-result-label{ color:var(--ink-soft); }
+  .sim-result-value{ font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink); }
+  .sim-steps{ margin-top:8px; font-size:12px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; line-height:1.6; }
+  .sim-step-label{ font-size:12px; color:var(--ink-soft); margin:4px 0; }
+  .sim-hint{ font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; font-style:italic; }
+  .sim-error{ color:var(--red); font-size:12.5px; }
+  .sim-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  .sim-table th,.sim-table td{ border:1px solid var(--paper-line); padding:6px 8px; text-align:left; }
+  .sim-matrix-2x2{ display:grid; grid-template-columns:1fr 1fr; gap:4px; width:104px; }
+  .sim-matrix{ display:flex; flex-direction:column; gap:6px; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px){
+    .app{ grid-template-columns:1fr; }
+    .rail{ position:fixed; z-index:20; inset:0 auto 0 0; width:min(84vw, 320px); transform:translateX(-100%); transition:transform .22s ease; box-shadow:2px 0 24px rgba(0,0,0,.35); }
+    .rail.open{ transform:translateX(0); }
+    .rail-toggle{ display:inline-flex; align-items:center; justify-content:center; }
+    .content{ padding:22px 18px; }
+    .topbar{ padding:14px 18px; }
+    .item-body-inner{ padding-left:20px; }
+    .scrim{ position:fixed; inset:0; background:rgba(10,15,30,.4); z-index:19; }
+    .scrim.show{ display:block; }
+  }
+  @media (max-width:680px){ body.lab-maths .topbar{ position:static; } }   /* tall wrapped bar would cover the simulations on phones */
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+  :root.night .item-code{ color:#211e36; }
+  .course-tabs{ display:flex; gap:4px; padding:3px; border-radius:14px; background:var(--g-well); box-shadow:inset 1px 2px 4px var(--g-shadow); margin:4px 0 10px; }
+  .course-tabs button{ flex:1; border:1px solid transparent; background:transparent; color:var(--g-muted); font:600 12px 'IBM Plex Sans',sans-serif; padding:7px 8px; border-radius:11px; cursor:pointer; }
+  .course-tabs button[aria-pressed=true]{ background:var(--g-active); color:var(--g-ink); border-color:var(--g-edge); box-shadow:inset 0 2px 2px var(--g-highlight),2px 3px 6px var(--g-shadow); }
+  .tick.exam .tick-glyph{ background:linear-gradient(135deg,#ffd27a,#ffb347); color:#3a2a10; }
+  .item.open .item-body{ max-height:none; }
+  .sim-panel.mk-host{ padding:14px; }
+  .body-label.photos{ color:#7a5fb0; }
+  .photo-strip{ display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:10px; }
+  .photo-strip figure{ margin:0; background:#FBFAF6; border:1px solid var(--paper-line); border-radius:10px; overflow:hidden; }
+  .photo-strip img{ display:block; width:100%; height:120px; object-fit:cover; }
+  .photo-strip figcaption{ padding:7px 9px 8px; font-size:12px; line-height:1.35; color:var(--ink,#222); }
+  .photo-strip figcaption small{ display:block; margin-top:3px; font-size:10.5px; opacity:.7; }
+  .photo-strip figcaption a{ color:inherit; }
+  .night .photo-strip figure{ background:rgba(255,255,255,.06); }
+  .lab-geography .tick-glyph{ font-size:15px; }
+  .lab-geography .course-tabs{ flex-wrap:wrap; }
+  .lab-geography .course-tabs button{ font-size:10.5px; padding:6px 6px; flex:1 1 30%; }
+  .body-label.exp{ color:#2a7a4a; }
+  .exp-tasks{ margin:0 0 10px; padding-left:20px; font-size:13.5px; line-height:1.55; }
+  .exp-bar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:8px; }
+  .exp-hint{ font-size:11.5px; color:var(--ink-soft); }
+  .exp-empty{ font-size:12px; color:var(--ink-soft); font-style:italic; }
+  .exp-table{ overflow-x:auto; }
+  .tx{ margin-top:12px; }
+  .tx-stage{ display:grid; grid-template-columns:minmax(0,260px) 1fr; gap:14px; margin-top:10px; background:#0d1626; color:#eef4ff; border-radius:14px; padding:14px; }
+  .tx-stage[hidden]{ display:none; }
+  .tx-img img{ width:100%; height:190px; object-fit:cover; border-radius:10px; display:block; }
+  .tx-img small{ display:block; font-size:10px; opacity:.7; margin-top:4px; }
+  .tx-glyph{ height:190px; display:flex; align-items:center; justify-content:center; font-size:72px; background:rgba(255,255,255,.06); border-radius:10px; }
+  .tx-k{ font:700 10.5px 'JetBrains Mono',monospace; color:#ffd27a; letter-spacing:.06em; margin-bottom:8px; }
+  .tx-cap{ font:500 14px/1.55 'IBM Plex Sans',sans-serif; min-height:96px; }
+  .tx-bar{ height:3px; background:rgba(255,255,255,.15); margin:10px 0; border-radius:2px; } .tx-bar span{ display:block; height:100%; background:#ffd27a; width:0; transition:width .3s; }
+  .tx-nav{ display:flex; gap:6px; flex-wrap:wrap; }
+  @media (max-width:640px){ .tx-stage{ grid-template-columns:1fr; } .tx-img img,.tx-glyph{ height:150px; } }
+  .bio-sec{ display:inline-block; font:700 10px 'JetBrains Mono',monospace; letter-spacing:.1em; text-transform:uppercase; padding:4px 9px; border-radius:999px; background:var(--g-active); color:var(--g-accent); margin-bottom:8px; }
+</style>
+<link rel="stylesheet" href="/labs/glass.css">
+<script src="/labs/glass.js" defer></script>
+</head>
+<body class="lab-maths lab-geography lab-agric">
+<div id="glass-navigation"></div>
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Syllabus topics">
+    <div class="rail-header">
+      <p class="rail-eyebrow" id="railEyebrow">WAEC · Agricultural Science</p>
+      <h1 class="rail-title">Farm &amp; Field Lab</h1>
+      <div class="course-tabs" id="courseTabs" role="group" aria-label="Syllabus section"></div>
+      <p class="rail-sub" id="railSub"></p>
+    </div>
+    <div class="axis" id="axis"></div>
+    <div class="rail-foot" id="railFoot">
+      <div><b>3 papers</b> · 200 marks total</div>
+      <div>Paper 1 — 50 objective, 50 min</div>
+      <div>Paper 2 — 5 essays from 6, 2 h 10 min</div>
+      <div>Paper 3 — practical, 4 questions, 1½ h</div>
+      <div style="margin-top:10px;font-size:10.5px;opacity:.8">Skies, soil and surface textures: Poly Haven and ambientCG (CC0). Specimen photographs: iNaturalist observers, Openverse (Flickr and Wikimedia Commons creators) and NASA, credited under each photo. Crops, animals and machines are procedural 3D models. Rates, spacings and prices are typical teaching values.</div>
+    </div>
+  </nav>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="rail-toggle" id="railToggle" aria-label="Toggle topic menu">☰</button>
+      <a class='back-home' href='/' title='Back to main page'>← Home</a>
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search" type="text" placeholder="Search subtopics and notes… e.g. cassava, porosity, rumen, weevil, subsidy">
+      </div>
+      <div class="topbar-meta" id="topbarMeta"></div>
+    </div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<script src="/labs/maths-kit.js"></script>
+<script src="/labs/a-syllabus.js"></script>
+<script src="/labs/bio-kit.js"></script>
+<script src="/labs/geo-kit.js"></script>
+<script src="/labs/agric-kit.js"></script>
+<script src="/labs/agric-kit2.js"></script>
+<script src="/labs/agric-kit3.js"></script>
+<script src="/labs/a3d-basics.js"></script>
+<script src="/labs/a3d-ecology.js"></script>
+<script src="/labs/a3d-soil.js"></script>
+<script src="/labs/a3d-engineering.js"></script>
+<script src="/labs/a3d-crops.js"></script>
+<script src="/labs/a3d-protection.js"></script>
+<script src="/labs/a3d-animals.js"></script>
+<script src="/labs/a3d-animals2.js"></script>
+<script src="/labs/a2d-economics.js"></script>
+<script src="/labs/a-practical.js"></script>
+<script src="/labs/exam-kit.js"></script>
+<script src="/labs/a-exam.js"></script>
+<script>
+/* ======================================================================
+   WAEC Agricultural Science lab — page state and rendering (same layout engine as the Geography lab).
+   Syllabus data: a-syllabus.js. Simulations: MK scenes keyed "<topic>-<sub>" in a3d-*.js / a2d-*.js / a-practical.js.
+   Nothing about the learner is stored.
+   ====================================================================== */
+const UNITS = [
+  ['Area','1 hectare (ha) = 10 000 m² ≈ 2.47 acres; plant population = area ÷ (row spacing × in-row spacing) × plants per stand'],
+  ['Seed rate','kg/ha = plants per ha × seed mass ÷ (germination % × purity %)'],
+  ['Soil','bulk density = dry mass ÷ volume (g/cm³); porosity % = (1 − ρb ÷ 2.65) × 100; moisture % = (wet − dry) ÷ dry × 100'],
+  ['Fertilizer','kg of product = nutrient rate (kg/ha) × area (ha) × 100 ÷ % nutrient in the product'],
+  ['Animals','feed conversion ratio = feed eaten ÷ weight gain; gestation: cow 283 d, ewe/doe 150 d, sow 114 d, rabbit 31 d'],
+  ['Money','₦ (naira); depreciation = (cost − salvage value) ÷ useful life; premium = rate × sum insured'],
+];
+const SECT = window.AGRIC;
+let activeTopic = null, openItems = new Set(), query = '', course = 'A';
+function syl(){ return SECT[course] || SECT.A; }
+function allTopics(){ return [].concat(...SECT.order.map(k=>SECT[k])); }
+function countSubs(list){ return (list||syl()).reduce((n,t)=>n+t.subtopics.length,0); }
+function countSims(list){ let n=0, n3=0; (list||syl()).forEach(t=>t.subtopics.forEach(st=>{ const k=t.code+'-'+st.code; [k].concat(MK.extras(k)).forEach(kk=>{ if(MK.has(kk)){ n++; if(MK.scenes[kk].kind==='3d') n3++; } }); })); return {n, n3}; }
+function updateMeta(){ document.getElementById('topbarMeta').textContent = `${syl().length} topics · ${countSubs()} subtopics`; }
+function setCourse(c){
+  course = SECT[c] ? c : 'A'; activeTopic=null; openItems=new Set();
+  document.querySelectorAll('.course-tabs button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.course===course)));
+  document.getElementById('railEyebrow').textContent = 'WAEC · Agric · ' + SECT.tabs[course];
+  document.getElementById('railSub').textContent = SECT.blurbs[course];
+  updateMeta(); render();
+}
+document.getElementById('courseTabs').innerHTML = SECT.order.map(k=>`<button type="button" data-course="${k}" aria-pressed="${k===course}" title="${SECT.labels[k]}">${SECT.tabs[k]}</button>`).join('');
+document.getElementById('railSub').textContent = SECT.blurbs[course];
+updateMeta();
+
+function escapeHtml(s){ return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function highlight(text){
+  if(!query.trim()) return escapeHtml(text);
+  const q=query.trim(); const idx=text.toLowerCase().indexOf(q.toLowerCase());
+  if(idx===-1) return escapeHtml(text);
+  return escapeHtml(text.slice(0,idx)) + '<mark>' + escapeHtml(text.slice(idx,idx+q.length)) + '</mark>' + escapeHtml(text.slice(idx+q.length));
+}
+function matches(str){ return String(str||'').toLowerCase().includes(query.trim().toLowerCase()); }
+function subtopicMatches(st){ if(!query.trim()) return true; return matches(st.title) || matches(st.notes) || st.content.some(matches); }
+function codeLabel(t){ return t.num || t.code; }
+
+function renderRail(){
+  const axis=document.getElementById('axis');
+  axis.innerHTML = syl().map(t=>`
+    <div class="tick ${activeTopic===t.code?'active':''}">
+      <button class="tick-btn" data-topic="${t.code}" aria-current="${activeTopic===t.code}">
+        <span class="tick-glyph">${t.glyph}</span>
+        <span class="tick-text">
+          <span class="tick-code">TOPIC ${codeLabel(t)}</span>
+          <span class="tick-name">${t.title}</span>
+          <span class="tick-count">${t.subtopics.length} subtopic${t.subtopics.length>1?'s':''}</span>
+        </span>
+      </button>
+    </div>`).join('') + `
+    <div class="tick exam ${activeTopic==='EXAM'?'active':''}">
+      <button class="tick-btn" data-topic="EXAM" aria-current="${activeTopic==='EXAM'}">
+        <span class="tick-glyph">✎</span>
+        <span class="tick-text"><span class="tick-code">PRACTICE</span><span class="tick-name">Exam mode</span><span class="tick-count">Papers 1, 2 &amp; 3 style</span></span>
+      </button>
+    </div>`;
+  axis.querySelectorAll('.tick-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeTopic=btn.dataset.topic; openItems=new Set(); closeRailMobile(); render(); });
+  });
+}
+
+function renderOverview(){
+  const S = syl(), sims = countSims(), all = countSims(allTopics());
+  return `
+    <div class="topic-head">
+      <span class="code-badge">Dashboard</span>
+      <h1>WAEC Agricultural Science — ${SECT.labels[course]}</h1>
+      <p>Select a topic on the left, or search across every subtopic. Each subtopic opens its syllabus notes, a simulation lab lit by real farm skies, an experiment card (record your readings and download them for your practical notebook) and real specimen photos. ▶ Watch explainer plays a narrated walkthrough with voice; each topic also has a narrated topic explainer. Switch section at the top of the rail, or open Exam mode.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">${S.length}</div><div class="l">Topics</div></div>
+      <div class="stat"><div class="n">${countSubs()}</div><div class="l">Subtopics</div></div>
+      <div class="stat"><div class="n">${sims.n}</div><div class="l">Simulations</div></div>
+      <div class="stat"><div class="n">${sims.n3}</div><div class="l">3D labs</div></div>
+      <div class="stat"><div class="n">${all.n}</div><div class="l">All sections</div></div>
+    </div>
+    <div class="overview-grid">
+      ${S.map(t=>`
+        <div class="overview-card" role="button" tabindex="0" data-topic="${t.code}">
+          <div class="oc-code">TOPIC ${codeLabel(t)} · ${t.glyph}</div>
+          <h3>${t.title}</h3>
+          <div class="oc-count">${t.subtopics.length} subtopic${t.subtopics.length>1?'s':''}</div>
+        </div>`).join('')}
+    </div>
+    <div class="units-panel">
+      <h2>Units &amp; Exam Format</h2>
+      <table class="units-table">
+        ${UNITS.map(u=>`<tr><td>${u[0]}</td><td>${u[1]}</td></tr>`).join('')}
+        <tr><td>Paper 1</td><td>50 multiple-choice questions · 50 minutes · 50 marks (taken with Paper 2 at one sitting)</td></tr>
+        <tr><td>Paper 2</td><td>Six essay questions, each drawn from at least two themes; answer five · 2 h 10 min · 90 marks</td></tr>
+        <tr><td>Paper 3</td><td>Practical (alternative to practical for private candidates): four questions, all compulsory · 1½ hours · 60 marks</td></tr>
+      </table>
+    </div>`;
+}
+
+function accordionItemHtml(t, st){
+  const key = t.code+'-'+st.code, open = openItems.has(key);
+  return `
+  <div class="item ${open?'open':''}" data-key="${key}">
+    <button class="item-head" data-key="${key}">
+      <span class="item-code">${st.code}</span>
+      <span class="item-title">${highlight(st.title)}</span>
+      <span class="item-chevron">›</span>
+    </button>
+    <div class="item-body">
+      <div class="item-body-inner">
+        <div class="body-block">
+          <p class="body-label content">Content</p>
+          <ul class="content-list">${st.content.map(c=>`<li>${highlight(c)}</li>`).join('')}</ul>
+        </div>
+        ${st.notes ? `<div class="body-block"><p class="body-label notes">Examiner’s Note</p><div class="note-box">${highlight(st.notes)}</div></div>` : ''}
+        ${MK.has(key) ? `<div class="body-block"><p class="body-label sim">${MK.scenes[key].kind==='3d'?(MK.scenes[key].story?'Photoreal 3D lab · ▶ explainer':'Photoreal 3D lab'):(MK.scenes[key].label||'Interactive simulation')}</p><div class="sim-panel" data-key="${key}"></div></div>` : ''}
+        ${MK.extras(key).map(k=>`<div class="body-block"><p class="body-label sim">${MK.scenes[k].label||'Companion lab'}</p><div class="sim-panel" data-key="${k}"></div></div>`).join('')}
+        ${expBlock(key)}
+        ${photoBlock(key)}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* Real-world photographs (Wikimedia Commons, credited individually) beside matching simulations */
+let PHOTOS = {};
+fetch(MK.base + 'assets/agric/photos/index.json').then(r => r.ok ? r.json() : {}).then(d => { PHOTOS = d || {}; if (typeof render === 'function' && openItems && openItems.size) render(); }).catch(() => {});
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function photoBlock(key){
+  const L = PHOTOS[key]; if (!L || !L.length) return '';
+  return `<div class="body-block"><p class="body-label photos">Specimen photos</p><div class="photo-strip">${L.map(p => `<figure><a href="${esc(p.url)}" target="_blank" rel="noopener"><img loading="lazy" src="${MK.base}assets/agric/${esc(p.src)}" alt="${esc(p.cap)}"></a><figcaption>${esc(p.cap)}<small>${esc(p.author)} · ${p.licence_url ? `<a href="${esc(p.licence_url)}" target="_blank" rel="noopener">${esc(p.licence)}</a>` : esc(p.licence)} · ${esc(p.via || "")}</small></figcaption></figure>`).join('')}</div></div>`;
+}
+
+/* ---------- Experiment card: tasks + record the simulation's live readings into a results table ---------- */
+const RESULTS = {};
+function expBlock(key){
+  const sc = MK.scenes[key]; if(!sc) return '';
+  const tasks = sc.tasks || [];
+  const can = !!sc.readouts;
+  if(!tasks.length && !can) return '';
+  return `<div class="body-block exp-card" data-key="${key}"><p class="body-label exp">Experiment card</p>
+    ${tasks.length?`<ol class="exp-tasks">${tasks.map(t=>`<li>${t}</li>`).join('')}</ol>`:''}
+    ${can?`<div class="exp-bar"><button type="button" class="sim-btn exp-rec">● Record reading</button><button type="button" class="sim-btn exp-csv">⇩ Download CSV</button><button type="button" class="sim-btn exp-clr">Clear</button><span class="exp-hint">Change a setting, then record. Readings stay on this page only.</span></div><div class="exp-table">${resultsTable(key)}</div>`:''}
+  </div>`;
+}
+function readNow(key){ const p=document.querySelector(`.sim-panel[data-key="${key}"]`); const H=p&&p._mk; if(!H||!H.sc.readouts) return null; const ctl=(typeof H.sc.controls==='function'?H.sc.controls(H.c):(H.sc.controls||[])).filter(cc=>cc.key&&!['lbl','notes','f'].includes(cc.key)&&cc.type!=='button'); const set=ctl.map(cc=>[cc.label||cc.key, fmtSet(cc,H.c[cc.key])]); return set.concat(H.sc.readouts(H.s,H.c)||[]); }
+function fmtSet(cc,v){ if(cc.options){ const o=cc.options.find(o=>(Array.isArray(o)?o[0]:o)==v); return o?(Array.isArray(o)?o[1]:o):v; } return (typeof v==='number'?MK.fmt(v,4):v)+(cc.unit?' '+cc.unit:''); }
+function resultsTable(key){ const R=RESULTS[key]; if(!R||!R.rows.length) return '<div class="exp-empty">No readings yet.</div>'; return `<table class="sim-table"><tr><th>#</th>${R.head.map(h=>`<th>${h}</th>`).join('')}</tr>${R.rows.map((r,i)=>`<tr><td>${i+1}</td>${r.map(v=>`<td>${String(v).replace(/<[^>]+>/g,'')}</td>`).join('')}</tr>`).join('')}</table>`; }
+document.addEventListener('click',(e)=>{ const b=e.target.closest('.exp-rec,.exp-csv,.exp-clr'); if(!b) return; const card=b.closest('.exp-card'), key=card.dataset.key;
+  if(b.classList.contains('exp-rec')){ const r=readNow(key); if(!r){ card.querySelector('.exp-hint').textContent='Open the simulation first (launch it), then record.'; return; } const R=RESULTS[key]||(RESULTS[key]={head:r.map(x=>x[0]),rows:[]}); if(R.head.length!==r.length) { R.head=r.map(x=>x[0]); R.rows=[]; } R.rows.push(r.map(x=>x[1])); }
+  if(b.classList.contains('exp-clr')) delete RESULTS[key];
+  if(b.classList.contains('exp-csv')){ const R=RESULTS[key]; if(!R) return; const q=(v)=>'"'+String(v).replace(/<[^>]+>/g,'').replace(/"/g,'""')+'"'; const csv=[['#'].concat(R.head).map(q).join(',')].concat(R.rows.map((r,i)=>[i+1].concat(r).map(q).join(','))).join('\n'); const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='agric-'+key+'-readings.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); return; }
+  card.querySelector('.exp-table').innerHTML=resultsTable(key); });
+
+/* ---------- Topic explainer: narrated slideshow through every subtopic's key idea with its photo ---------- */
+function topicSlides(t){ const out=[{title:t.title, cap:t.desc, img:null}]; t.subtopics.forEach(st=>{ const ph=(PHOTOS[t.code+'-'+st.code]||[])[0]; const sc=MK.scenes[t.code+'-'+st.code]; out.push({title:st.code+' · '+st.title, cap:(st.content||[]).slice(0,2).join('. ')+'. '+(st.notes?'Exam tip: '+st.notes:''), img:ph?MK.base+'assets/agric/'+ph.src:null, credit:ph?ph.author+' · '+ph.licence:''}); }); out.push({title:'Now you try', cap:'Open each subtopic below, launch its simulation, work through the experiment card and record your readings.'}); return out; }
+function topicExplainerHtml(t){ return `<div class="tx" id="tx"><button type="button" class="sim-btn tx-play">▶ Topic explainer (narrated)</button><div class="tx-stage" hidden><div class="tx-img"></div><div class="tx-text"><div class="tx-k"></div><div class="tx-cap"></div><div class="tx-bar"><span></span></div><div class="tx-nav"><button type="button" class="sim-btn tx-prev">◀</button><button type="button" class="sim-btn tx-pause">❚❚</button><button type="button" class="sim-btn tx-next">▶</button><button type="button" class="sim-btn tx-stop">■ Close</button></div></div></div></div>`; }
+let TX=null;
+function wireTopicExplainer(t){ const root=document.getElementById('tx'); if(!root) return; const slides=topicSlides(t); const st=root.querySelector('.tx-stage');
+  const show=(i)=>{ if(!TX) return; TX.i=Math.max(0,Math.min(slides.length-1,i)); const s=slides[TX.i]; root.querySelector('.tx-k').textContent=`TOPIC EXPLAINER ${TX.i+1} / ${slides.length} · ${s.title}`; root.querySelector('.tx-cap').textContent=s.cap; root.querySelector('.tx-img').innerHTML=s.img?`<img src="${s.img}" alt=""><small>${esc(s.credit||'')}</small>`:`<div class="tx-glyph">${t.glyph}</div>`; root.querySelector('.tx-bar span').style.width=((TX.i+1)/slides.length*100)+'%'; AK.say(s.title.replace(/^[a-z0-9]+ · /,'')+'. '+s.cap); clearTimeout(TX.tm); if(!TX.paused) TX.tm=setTimeout(()=>{ if(TX && TX.i<slides.length-1) show(TX.i+1); }, Math.max(6000, s.cap.length*68)); };
+  root.querySelector('.tx-play').onclick=()=>{ st.hidden=false; TX={i:0,paused:false}; show(0); };
+  root.querySelector('.tx-next').onclick=()=>show(TX.i+1); root.querySelector('.tx-prev').onclick=()=>show(TX.i-1);
+  root.querySelector('.tx-pause').onclick=(e)=>{ TX.paused=!TX.paused; e.target.textContent=TX.paused?'▶':'❚❚'; if(TX.paused){ clearTimeout(TX.tm); AK.hush(); } else show(TX.i); };
+  root.querySelector('.tx-stop').onclick=()=>{ clearTimeout(TX&&TX.tm); TX=null; AK.hush(); st.hidden=true; };
+}
+
+function renderTopic(t){
+  const list = t.subtopics.filter(subtopicMatches);
+  return `
+    <button class="back-link" id="backBtn">&larr; all topics</button>
+    <div class="topic-head">
+      <span class="code-badge">Topic ${codeLabel(t)}</span>
+      <h1>${t.title}</h1>
+      <p>${t.desc}</p>
+      ${topicExplainerHtml(t)}
+    </div>
+    ${list.length===0 ? `<div class="empty"><div class="big">∅</div><p>No subtopics match “${escapeHtml(query)}” in this topic.</p></div>` : `
+      <div class="accordion">${list.map(st=>accordionItemHtml(t,st)).join('')}</div>`}`;
+}
+
+function renderSearchResults(){
+  const hits=[];
+  allTopics().forEach(t=>{ t.subtopics.forEach(st=>{ if(subtopicMatches(st)) hits.push({t,st}); }); });
+  return `
+    <div class="topic-head">
+      <span class="code-badge">Search</span>
+      <h1>Results for “${escapeHtml(query)}”</h1>
+      <p>${hits.length} subtopic${hits.length===1?'':'s'} found across all sections.</p>
+    </div>
+    ${hits.length===0 ? `<div class="empty"><div class="big">∅</div><p>Try a different term — e.g. "gradient", "delta", "harmattan".</p></div>` : `
+    <div class="accordion">${hits.map(({t,st})=>accordionItemHtml(t,st)).join('')}</div>`}`;
+}
+
+function mountPanel(panel){
+  if(!panel || panel.dataset.mounted) return;
+  const key = panel.dataset.key; if(!MK.has(key)) return;
+  panel.dataset.mounted='1';
+  try { MK.mount(panel, key); } catch(err){ panel.innerHTML='<div class="sim-error">This simulation could not load.</div>'; console.error(key, err); }
+}
+function ensureMounted(item){ item.querySelectorAll('.sim-panel').forEach(mountPanel); }
+
+function render(){
+  renderRail();
+  const content=document.getElementById('content');
+  if(query.trim()){
+    content.innerHTML = renderSearchResults();
+  } else if(activeTopic==='EXAM'){
+    content.innerHTML='';
+    if(window.ExamKit && window.AgricExam) ExamKit.render(content, AgricExam.cfg(course)); else content.innerHTML='<div class="empty"><p>Exam mode could not load.</p></div>';
+  } else if(activeTopic){
+    const t=syl().find(x=>x.code===activeTopic) || syl()[0];
+    content.innerHTML = renderTopic(t);
+    const back=document.getElementById('backBtn');
+    if(back) back.addEventListener('click', ()=>{ activeTopic=null; AK.hush(); render(); });
+    wireTopicExplainer(t);
+  } else {
+    content.innerHTML = renderOverview();
+    content.querySelectorAll('.overview-card').forEach(card=>{
+      const go=()=>{ activeTopic=card.dataset.topic; openItems=new Set(); render(); };
+      card.addEventListener('click', go);
+      card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+    });
+  }
+  content.querySelectorAll('.item-head').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      const key=h.dataset.key;
+      if(openItems.has(key)) openItems.delete(key); else openItems.add(key);
+      const item=h.closest('.item'); item.classList.toggle('open');
+      if(item.classList.contains('open')) ensureMounted(item);
+    });
+  });
+  content.querySelectorAll('.item.open').forEach(ensureMounted);
+}
+
+document.getElementById('courseTabs').addEventListener('click', (e)=>{ const b=e.target.closest('button[data-course]'); if(b) setCourse(b.dataset.course); });
+document.getElementById('search').addEventListener('input', (e)=>{ query=e.target.value; openItems=new Set(); render(); });
+const rail=document.getElementById('rail'), scrim=document.getElementById('scrim');
+function openRailMobile(){ rail.classList.add('open'); scrim.classList.add('show'); }
+function closeRailMobile(){ rail.classList.remove('open'); scrim.classList.remove('show'); }
+document.getElementById('railToggle').addEventListener('click', ()=>{ rail.classList.contains('open') ? closeRailMobile() : openRailMobile(); });
+scrim.addEventListener('click', closeRailMobile);
+render();
+</script>
+</body>
+</html>

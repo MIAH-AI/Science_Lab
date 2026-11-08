@@ -19,6 +19,7 @@ import {
   RotateCcw,
   Search,
   Sparkles,
+  Sprout,
   Sun,
   Timer,
   WavesHorizontal,
@@ -43,8 +44,8 @@ type Subject = {
   description: string
   stats: string[]
   path: string
-  color: 'violet' | 'peach' | 'mint' | 'leaf' | 'lilac'
-  icon: 'ƒ' | 'atom' | 'flask' | 'leaf' | 'globe'
+  color: 'violet' | 'peach' | 'mint' | 'leaf' | 'lilac' | 'soil'
+  icon: 'ƒ' | 'atom' | 'flask' | 'leaf' | 'globe' | 'sprout'
   topics: string
   Icon: LucideIcon
 }
@@ -117,6 +118,19 @@ const subjects: Subject[] = [
     icon: 'globe',
     topics: 'Map work · Landforms · Climate · Regional · Exam',
     Icon: Globe,
+  },
+  {
+    name: 'Agricultural Science',
+    code: 'AGRIC',
+    category: 'Grow food, raise animals, run the farm',
+    description:
+      'Soil, crops, farm machines, livestock, fish and bees, farm economics and Paper 3 practical benches in photoreal 3D farms, with exam practice.',
+    stats: ['274 subtopics', '3D farms & practicals', 'Exam mode'],
+    path: '/waec-agric-lab',
+    color: 'soil',
+    icon: 'sprout',
+    topics: 'Agriculture · Soil · Crops · Animals · Farm economics · Practical · Exam',
+    Icon: Sprout,
   },
 ]
 
@@ -195,7 +209,7 @@ function Home() {
               >
                 <Icon size={19} />
                 <span>{label}</span>
-                {label === 'My subjects' && <small>5</small>}
+                {label === 'My subjects' && <small>{subjects.length}</small>}
                 {view === label && <span className="nav-dot" />}
               </button>
             ))}
@@ -353,7 +367,7 @@ function Home() {
                   <span className="stat-icon">
                     <BookOpen size={18} />
                   </span>
-                  <strong>5</strong>
+                  <strong>{subjects.length}</strong>
                   <span>subjects to explore</span>
                 </div>
                 <div>
@@ -419,6 +433,8 @@ function Home() {
                           <Leaf size={44} strokeWidth={1.5} />
                         ) : s.icon === 'globe' ? (
                           <Globe size={44} strokeWidth={1.5} />
+                        ) : s.icon === 'sprout' ? (
+                          <Sprout size={44} strokeWidth={1.5} />
                         ) : (
                           <FlaskConical size={43} strokeWidth={1.5} />
                         )}
@@ -445,7 +461,7 @@ function Home() {
                     <div className="empty-state">
                       <Search size={25} />
                       <h3>No subjects found</h3>
-                      <p>Try mathematics, physics, chemistry, biology, geography, or a topic like algebra.</p>
+                      <p>Try mathematics, physics, chemistry, biology, geography, agriculture, or a topic like algebra.</p>
                       <button onClick={() => setQuery('')}>Show all subjects</button>
                     </div>
                   )}
@@ -582,7 +598,7 @@ function Home() {
         <DialogContent className="guidance-dialog">
           <DialogTitle>Make yourself at home.</DialogTitle>
           <DialogDescription>
-            Choose Mathematics, Physics, Chemistry, Biology or Geography to open its Learn with Nehy study lab.
+            Choose Mathematics, Physics, Chemistry, Biology, Geography or Agricultural Science to open its Learn with Nehy study lab.
             Each subject includes syllabus topics, interactive simulations and a timed exam mode
             with worked solutions. Mathematics covers both Core and Further Mathematics. Use the focus
             timer for a distraction-free 25-minute session, and switch between Light and Dark

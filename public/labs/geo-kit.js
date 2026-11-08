@@ -17,7 +17,9 @@
 
   /* ---------- loaders ---------- */
   GK.json = (p) => cache["j" + p] || (cache["j" + p] = fetch(GK.BASE + p).then((r) => (r.ok ? r.json() : null)).catch(() => null));
-  GK.img = (p) => cache["i" + p] || (cache["i" + p] = new Promise((res) => { const im = new Image(); im.decoding = "async"; im.onload = () => res(im); im.onerror = () => res(null); im.src = GK.BASE + p; }));
+  GK.img = (p) => cache["i" + p] || (cache["i" + p] = new Promise((res) => { const im = new Image(); im.decoding = "async"; im.onload = () => res(im); im.onerror = () => res(null); im.src = (/^(https?:|\/|\.)/.test(p) ? "" : GK.BASE) + p; }));
+  /* other labs (e.g. Agricultural Science) register extra texture sets and skies that live in their own asset folders */
+  GK.TEXBASE = {}; GK.HDRX = {};
   GK.texture = (p, srgb = true, onload) => { const t = new (T().Texture)(); t.colorSpace = srgb ? T().SRGBColorSpace : T().NoColorSpace; t.anisotropy = 8; GK.img(p).then((im) => { if (im) { t.image = im; t.needsUpdate = true; onload && onload(t); } }); return t; };
   /* ---------- photographic PBR textures (Poly Haven / ambientCG, CC0) ----------
      textures/<id>/<id>_{color|normal|arm}_1k_<size>.webp ; arm = AO (R), roughness (G), metalness (B) */
@@ -26,7 +28,7 @@
   GK.ptex = (id, kind = "color", repeat = 1) => {
     const size = kind === "color" && GK.tier !== "low" ? 1024 : 512, key = id + kind + size;
     let base = tcache[key];
-    if (!base) { const c = BK.cv(2, 2), g = c.getContext("2d"), v = PH[kind] || PH.color; g.fillStyle = "rgb(" + v.join(",") + ")"; g.fillRect(0, 0, 2, 2); base = new (T().Texture)(c); base.colorSpace = kind === "color" ? T().SRGBColorSpace : T().NoColorSpace; base.wrapS = base.wrapT = T().RepeatWrapping; base.anisotropy = 8; base.needsUpdate = true; base.clones = []; GK.img("textures/" + id + "/" + id + "_" + kind + "_1k_" + size + ".webp").then((im) => { if (!im) return; /* a new Source so the GPU texture is re-allocated at the real size (not the 2×2 placeholder) */ const all = [base].concat(base.clones); all.forEach((t) => t.dispose()); all.forEach((t) => { t.image = im; t.needsUpdate = true; }); }); tcache[key] = base; }
+    if (!base) { const c = BK.cv(2, 2), g = c.getContext("2d"), v = PH[kind] || PH.color; g.fillStyle = "rgb(" + v.join(",") + ")"; g.fillRect(0, 0, 2, 2); base = new (T().Texture)(c); base.colorSpace = kind === "color" ? T().SRGBColorSpace : T().NoColorSpace; base.wrapS = base.wrapT = T().RepeatWrapping; base.anisotropy = 8; base.needsUpdate = true; base.clones = []; const src = (sz) => (GK.TEXBASE[id] || "") + "textures/" + id + "/" + id + "_" + kind + "_1k_" + sz + ".webp"; /* hosts that carry only one colour size fall back to the other */ GK.img(src(size)).then((im) => (im || kind !== "color" ? im : GK.img(src(size === 1024 ? 512 : 1024)))).then((im) => { if (!im) return; /* a new Source so the GPU texture is re-allocated at the real size (not the 2×2 placeholder) */ const all = [base].concat(base.clones); all.forEach((t) => t.dispose()); all.forEach((t) => { t.image = im; t.needsUpdate = true; }); }); tcache[key] = base; }
     const t = base.clone(); t.needsUpdate = true; base.clones.push(t); const r = Array.isArray(repeat) ? repeat : [repeat, repeat]; t.repeat.set(r[0], r[1]); return t;
   };
   /* a full PBR material from one texture set; o: {repeat, color, normalScale, roughness, metalness, side} */
@@ -41,12 +43,13 @@
     mat.customProgramCacheKey = () => "gk-ground"; return mat;
   };
   GK.hdr = (name) => {
-    const useLow = GK.tier === "low" || !HDR_1K.includes(name);
-    if (!HDR_LOW.includes(name)) name = "noon_grass";
-    const path = useLow ? `hdri-low/${name}_512.hdr` : `hdri/${name}_1k.hdr`;
+    const xb = GK.HDRX[name] || "", useLow = GK.tier === "low" || (!xb && !HDR_1K.includes(name));
+    if (!xb && !HDR_LOW.includes(name)) name = "noon_grass";
+    const path = xb + (useLow ? `hdri-low/${name}_512.hdr` : `hdri/${name}_1k.hdr`);
     /* hosts that cannot serve .hdr files get a tone-mapped PNG of the same sky (lower dynamic range) */
-    const ldr = () => GK.img(path.replace(/\.hdr$/, ".png")).then((im) => { if (!im) return null; const t = new (T().Texture)(im); t.mapping = T().EquirectangularReflectionMapping; t.colorSpace = T().SRGBColorSpace; t.needsUpdate = true; t.userData.ldr = true; return t; });
-    return cache["h" + path] || (cache["h" + path] = new (T().HDRLoader)().loadAsync(GK.BASE + path).then((t) => { t.mapping = T().EquirectangularReflectionMapping; return t; }).catch(ldr));
+    const alt = useLow ? path.replace(`hdri-low/${name}_512`, `hdri/${name}_1k`) : path.replace(`hdri/${name}_1k`, `hdri-low/${name}_512`);
+    const ldr = () => GK.img(path.replace(/\.hdr$/, ".png")).then((im) => im || GK.img(alt.replace(/\.hdr$/, ".png"))).then((im) => { if (!im) return null; const t = new (T().Texture)(im); t.mapping = T().EquirectangularReflectionMapping; t.colorSpace = T().SRGBColorSpace; t.needsUpdate = true; t.userData.ldr = true; return t; });
+    return cache["h" + path] || (cache["h" + path] = new (T().HDRLoader)().loadAsync((xb ? "" : GK.BASE) + path).then((t) => { t.mapping = T().EquirectangularReflectionMapping; return t; }).catch(ldr));
   };
   /* pixels of an image, for sampling (elevation, masks) */
   GK.pixels = (p, w) => cache["p" + p + w] || (cache["p" + p + w] = GK.img(p).then((im) => { if (!im) return null; const h = Math.round(w * im.height / im.width), c = BK.cv(w, h), g = c.getContext("2d"); g.drawImage(im, 0, 0, w, h); return { w, h, d: g.getImageData(0, 0, w, h).data }; }));
