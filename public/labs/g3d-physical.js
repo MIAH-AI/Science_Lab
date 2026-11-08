@@ -42,7 +42,7 @@
     blurb: "Igneous rocks form when molten magma cools. Cut open the block to see intrusive rocks that cooled underground and extrusive rocks that cooled at the surface, then compare real specimens.",
     envOpts: OUT, cam: BLOCKCAM, variants: [["section", "Block diagram"], ["samples", "Rock specimens"]], vlabel: "Show",
     build(g, S, s, c) {
-      if (c.v === "section") { g.add(GK.block({ w: 6, d: 4, h: ign.h, strata: soilOn(ign.s), tint: (hn, sl, x, z) => (Math.hypot(x - 1.4, z - 0.2) < 1.2 ? mix3(hex3(0x5a524a), hex3(0x3a3430), sm(0.6, 1.2, 1.25 - Math.hypot(x - 1.4, z - 0.2))) : GK.tintSavanna(hn, sl, x, z)) })); const lava = new (T().Mesh)(new (T().CircleGeometry)(0.15, 24), new (T().MeshBasicMaterial)({ color: 0xff6a1a })); lava.rotation.x = -Math.PI / 2; lava.position.set(1.4, ign.h(1.4, 0.2) + 0.01, 0.2); g.add(lava); s.lava = lava; s.smoke = flowParticles(220, 0xc8c2bc, 0.16); g.add(s.smoke); s.sm = []; for (let i = 0; i < 220; i++) s.sm.push([Math.random() * 3]); }
+      if (c.v === "section") { g.add(GK.block({ w: 6, d: 4, h: ign.h, strata: soilOn(ign.s), tint: (hn, sl, x, z) => (Math.hypot(x - 1.4, z - 0.2) < 1.2 ? mix3(hex3(0x5a524a), hex3(0x3a3430), sm(0.6, 1.2, 1.25 - Math.hypot(x - 1.4, z - 0.2))) : GK.tintSavanna(hn, sl, x, z)) })); const lava = new (T().Mesh)(new (T().CircleGeometry)(0.15, 24), new (T().MeshBasicMaterial)({ color: 0xff6a1a, map: GK.ptex("Lava004", "color", 1) })); lava.rotation.x = -Math.PI / 2; lava.position.set(1.4, ign.h(1.4, 0.2) + 0.01, 0.2); g.add(lava); s.lava = lava; s.smoke = flowParticles(220, 0xc8c2bc, 0.16); g.add(s.smoke); s.sm = []; for (let i = 0; i < 220; i++) s.sm.push([Math.random() * 3]); }
       else { const specs = [["granite", -1.2], ["basalt", 1.2]]; specs.forEach(([t, x]) => { const y = plinth(g, x, 0, 1.3); const r = GK.rockSample(t, 0.45); r.position.set(x, y + 0.3, 0); g.add(r); }); s.smoke = null; }
     },
     tick(S, s, c, dt) { if (s.lava) s.lava.material.color.setHSL(0.05, 1, 0.45 + 0.1 * Math.sin(performance.now() / 300)); if (s.smoke) { const P = s.smoke.pos; s.sm.forEach((q, i) => { q[0] += dt * 0.5; if (q[0] > 3) q[0] = 0; const t = q[0]; P[i * 3] = 1.4 + Math.sin(i * 7.1) * t * 0.25 + t * 0.35; P[i * 3 + 1] = 1.55 + t * 0.8; P[i * 3 + 2] = 0.2 + Math.cos(i * 3.3) * t * 0.25; }); s.smoke.flush(); } },
@@ -76,7 +76,7 @@
         const glass = new T3.Mesh(new T3.BoxGeometry(5, 2.4, 1.6), new T3.MeshPhysicalMaterial({ color: 0xbfe0f0, transparent: true, opacity: 0.12, roughness: 0.05, transmission: 0.6, side: T3.DoubleSide, depthWrite: false })); glass.position.y = 1.2; g.add(glass);
         s.water = new T3.Mesh(new T3.BoxGeometry(4.96, 1.9, 1.56), new T3.MeshPhysicalMaterial({ color: 0x3d8aa8, transparent: true, opacity: 0.25, roughness: 0.1, depthWrite: false })); s.water.position.y = 1.15; g.add(s.water);
         const base = new T3.Mesh(new T3.BoxGeometry(5.2, 0.12, 1.8), mat(0x3a3530)); base.position.y = -0.06; g.add(base);
-        s.layers = SEDL.map(([n, col], i) => { const m = new T3.Mesh(new T3.BoxGeometry(4.96, 0.26, 1.56), new T3.MeshStandardMaterial({ map: GK.rockTex(["sandstone", "sandstone", "shale", "limestone", "coal"][i]), color: col, roughness: 0.9 })); m.position.y = 0.13 + i * 0.27; g.add(m); return m; });
+        s.layers = SEDL.map(([n, col], i) => { const m = new T3.Mesh(new T3.BoxGeometry(4.96, 0.26, 1.56), GK.pbr(["dry_river_pebbles", "sandstone_cracks", "rock_wall_02", "rock_boulder_dry", "bitumen"][i], { repeat: [3, 0.4] })); m.position.y = 0.13 + i * 0.27; g.add(m); return m; });
         const river = new T3.Mesh(new T3.BoxGeometry(1.2, 0.08, 0.5), new T3.MeshPhysicalMaterial({ color: 0x6a8a70, roughness: 0.2, clearcoat: 1 })); river.position.set(-3.0, 2.15, 0); river.rotation.z = -0.25; g.add(river);
         s.fall = flowParticles(400, 0xc8a676, 0.05); g.add(s.fall); s.fq = []; for (let i = 0; i < 400; i++) s.fq.push([Math.random(), Math.random() * 2 - 1, Math.random()]);
       } else {
@@ -85,7 +85,7 @@
     },
     tick(S, s, c, dt) {
       if (c.v !== "tank" || !s.layers) return; const n = c.t * SEDL.length;
-      s.layers.forEach((m, i) => { const k = Math.max(0, Math.min(1, n - i)); m.visible = k > 0.02; m.scale.y = Math.max(0.02, k); m.position.y = 0.13 * k + (i ? 0 : 0) + s.layers.slice(0, i).reduce((a, L, j) => a + 0.26 * Math.max(0, Math.min(1, n - j)) + 0.01, 0) - 0.13 * (1 - k); m.material.color.setHex(SEDL[i][1]).multiplyScalar(1 - 0.25 * Math.max(0, Math.min(1, n - i - 1))); });
+      s.layers.forEach((m, i) => { const k = Math.max(0, Math.min(1, n - i)); m.visible = k > 0.02; m.scale.y = Math.max(0.02, k); m.position.y = 0.13 * k + (i ? 0 : 0) + s.layers.slice(0, i).reduce((a, L, j) => a + 0.26 * Math.max(0, Math.min(1, n - j)) + 0.01, 0) - 0.13 * (1 - k); m.material.color.setHex(0xffffff).multiplyScalar(1 - 0.25 * Math.max(0, Math.min(1, n - i - 1))); });
       const top = s.layers.reduce((a, L, j) => a + 0.27 * Math.max(0, Math.min(1, n - j)), 0); const P = s.fall.pos; s.fq.forEach((q, i) => { q[2] += dt * (0.3 + 0.4 * ((i % 5) / 5)); if (q[2] > 1) { q[2] = 0; q[0] = Math.random(); q[1] = Math.random() * 2 - 1; } const t = q[2]; P[i * 3] = -2.6 + t * 1.2 + q[0] * 3.6 * t; P[i * 3 + 1] = 2.0 - t * (2.0 - top); P[i * 3 + 2] = q[1] * 0.7; }); s.fall.flush();
     },
     feats: (c) => c.v === "tank" ? SEDL.map(([n, , d], i) => ({ id: "L" + i, n: (i + 1) + ". " + n, p: [2.5, 0.13 + i * 0.27, 0.8], d, dx: 60 })).concat([{ id: "river", n: "River bringing sediment", p: [-3.0, 2.25, 0], d: "Rivers erode the land and carry gravel, sand and mud into lakes and the sea, where it settles out — coarsest first." }]) : [
@@ -243,7 +243,7 @@
     build(g, S, s, c) {
       const T3 = T(); const h = (x, z) => 0.45 - 0.22 * G(x, z, -1.4, -0.4, 0.4, 0.4) - 0.18 * G(x, z, 0.6, -0.8, 0.35, 0.3) - 0.2 * G(x, z, 1.4, 0.6, 0.7, 0.35) - 0.3 * G(x, z, -0.2, 1.0, 0.13, 0.13) + (BK.fbm(x * 3, z * 3, 6) - 0.5) * 0.05 - (x > 2.2 ? (x - 2.2) * 0.4 : 0);
       const cave = (x, y) => Math.hypot((x + 0.3) / 1.4, (y + 0.65) / 0.28) < 1 || (Math.abs(y + 1.05) < 0.07 && x > -2.4 && x < 3.1) || Math.hypot((x - 1.8) / 0.3, (y + 0.85) / 0.25) < 1;
-      g.add(GK.block({ w: 6, d: 4, h, strata: soilOn((x, y, z, yt) => { if (cave(x, y)) return Math.abs(y + 1.05) < 0.07 ? hex3(0x2a6a8a) : hex3(0x141210); if (y < -1.3) return hex3(0x6a645a); const j = Math.abs(((x * 2.3) % 1 + 1) % 1 - 0.5) < 0.02; return hex3(j ? 0x8a8470 : 0xd8d0b8).map((v) => v * (0.9 + 0.15 * BK.noise3(x * 4, y * 9, z))); }, 0.035), tint: (hn, sl, x, z) => mix3(hex3(0x7a8a5a), hex3(0xbab4a2), sm(0.3, 0.7, BK.fbm(x * 4, z * 4, 2))) }));
+      g.add(GK.block({ w: 6, d: 4, h, ground: "rock_boulder_dry", strata: soilOn((x, y, z, yt) => { if (cave(x, y)) return Math.abs(y + 1.05) < 0.07 ? hex3(0x2a6a8a) : hex3(0x141210); if (y < -1.3) return hex3(0x6a645a); const j = Math.abs(((x * 2.3) % 1 + 1) % 1 - 0.5) < 0.02; return hex3(j ? 0x8a8470 : 0xd8d0b8).map((v) => v * (0.9 + 0.15 * BK.noise3(x * 4, y * 9, z))); }, 0.035), tint: (hn, sl, x, z) => mix3(hex3(0x7a8a5a), hex3(0xbab4a2), sm(0.3, 0.7, BK.fbm(x * 4, z * 4, 2))) }));
       const sm1 = mat(0xe4dcc4, { roughness: 0.6 }); for (let i = 0; i < 14; i++) { const x = -1.5 + i * 0.18, L = 0.08 + Math.random() * 0.12; const st = new T3.Mesh(new T3.ConeGeometry(0.025, L, 8), sm1); st.rotation.x = Math.PI; st.position.set(x, -0.39 - L / 2, 2.03); g.add(st); const sg = new T3.Mesh(new T3.ConeGeometry(0.03, L * 0.8, 8), sm1); sg.position.set(x + 0.05, -0.92 + L * 0.4, 2.03); g.add(sg); }
       const pil = new T3.Mesh(new T3.CylinderGeometry(0.035, 0.05, 0.52, 10), sm1); pil.position.set(0.55, -0.66, 2.03); g.add(pil);
       const spring = []; for (let i = 0; i <= 12; i++) spring.push([3.02 + i * 0.05, -1.05 - i * i * 0.004, 1.9]); g.add(GK.line(spring, 0x4a9ac8, 0.03));
@@ -273,15 +273,15 @@
     build(g, S, s, c) {
       const T3 = T();
       if (c.v === "erosion") {
-        g.add(GK.terrain({ w: 8, d: 6, nx: 240, h: coastH, tint: (hn, sl, x, z) => (coastH(x, z) < 0.04 ? hex3(0xd8c89c) : sl > 0.3 ? hex3(0xc8c0b0) : GK.tintSavanna(hn, sl, x, z)) }));
-        const rock = mat(0xffffff, { map: GK.rockTex("limestone"), roughness: 0.95 });
+        g.add(GK.terrain({ w: 8, d: 6, nx: 240, h: coastH, ground: "coast_sand_rocks_02", tint: (hn, sl, x, z) => (coastH(x, z) < 0.04 ? hex3(0xd8c89c) : sl > 0.3 ? hex3(0xc8c0b0) : GK.tintSavanna(hn, sl, x, z)) }));
+        const rock = GK.rockMat("limestone", 1.5);
         const arch = new T3.Mesh(new T3.TorusGeometry(0.28, 0.12, 12, 24, Math.PI), rock); arch.position.set(-1.0, 0, 2.5); arch.rotation.y = Math.PI / 2; g.add(arch);
         const stack = new T3.Mesh(new T3.CylinderGeometry(0.13, 0.2, 0.75, 9), rock); stack.position.set(-0.7, 0.3, 3.0); g.add(stack);
         const stump = new T3.Mesh(new T3.CylinderGeometry(0.15, 0.2, 0.12, 9), rock); stump.position.set(-0.45, 0.0, 3.45); g.add(stump);
         const plat = new T3.Mesh(new T3.BoxGeometry(2.0, 0.03, 0.8), mat(0xa89c88)); plat.position.set(-0.8, -0.005, 2.8); g.add(plat);
       } else {
         const h = (x, z) => { let y = 0.45 - 0.35 * sm(-0.6, 1.0, z); const spit = Math.exp(-(((z - 1.35 - 0.12 * (x + 3)) / 0.09) ** 2)) * sm(-3.5, 2.6, -x + 3.0) * (x < 2.0 ? 1 : 0); y = Math.max(y, -0.06 + spit * 0.12); if (z > 1.8) y = -0.06; return y + (BK.fbm(x * 2, z * 2, 2) - 0.5) * 0.03; };
-        g.add(GK.terrain({ w: 8, d: 6, nx: 200, h, tint: (hn, sl, x, z) => (h(x, z) < 0.1 ? hex3(0xe2d2a4) : GK.tintSavanna(hn, sl, x, z)) }));
+        g.add(GK.terrain({ w: 8, d: 6, nx: 200, h, ground: "coast_sand_rocks_02", tint: (hn, sl, x, z) => (h(x, z) < 0.1 ? hex3(0xe2d2a4) : GK.tintSavanna(hn, sl, x, z)) }));
         const lag = GK.water(5, 0.9, 0x3d8a9a, 0.85); lag.position.set(-0.6, -0.03, 0.95); g.add(lag);
         const mangr = []; for (let i = 0; i < 40; i++) mangr.push([-2.6 + Math.random() * 3.2, 0.7 + Math.random() * 0.3]); mangr.forEach(([x, z]) => { const t = GK.tree(0.12, x * 9, 0x2e5a26); t.position.set(x, h(x, z), z); g.add(t); });
       }
@@ -316,8 +316,8 @@
     values: { t: 0.6 }, controls: [{ type: "slider", key: "t", label: "Time", min: 0, max: 1, step: 0.02 }],
     rebuildOn: (c) => Math.round(c.t * 25),
     build(g, S, s, c) {
-      const T3 = T(), t = c.t, ground = new T3.Mesh(new T3.CircleGeometry(6, 48), mat(0x8a7a52)); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; g.add(ground);
-      const rockM = (type) => new T3.MeshStandardMaterial({ map: GK.rockTex(type), roughness: 0.9 });
+      const T3 = T(), t = c.t, ground = new T3.Mesh(new T3.CircleGeometry(6, 48), GK.pbr("dry_ground_rocks", { repeat: 6 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; g.add(ground);
+      const rockM = (type) => GK.rockMat(type, 1);
       if (c.v === "phys") {
         for (let k = 0; k < 3; k++) { const sh = new T3.Mesh(new T3.SphereGeometry(1.0 - k * 0.12, 48, 24, 0, Math.PI * 2, 0, Math.PI / 2), rockM("granite")); sh.position.set(-2.2 + (k === 0 ? t * 0.35 : 0), 0, 0); sh.rotation.z = k === 0 ? -t * 0.35 : 0; sh.castShadow = true; g.add(sh); if (k === 0 && t > 0.5) sh.scale.set(1, 1, 1 - (t - 0.5)); }
         for (let i = 0; i < 8; i++) { const b = new T3.Mesh(new T3.BoxGeometry(0.42, 0.42, 0.42), rockM("sandstone")); const ix = i % 2, iy = Math.floor(i / 4), iz = Math.floor(i / 2) % 2, sp = t * 0.25; b.position.set(0.4 + (ix - 0.5) * (0.43 + sp), 0.22 + iy * (0.43 + sp * 0.2), (iz - 0.5) * (0.43 + sp)); b.rotation.set(sp * i * 0.3, sp * i, 0); b.castShadow = true; g.add(b); }
@@ -451,10 +451,10 @@
       const T3 = T(); const barchan = (x, z, cx, cz, r) => { const dx = x - cx, dz = z - cz, d = Math.hypot(dx * 1.2, dz), horn = dx > 0 ? Math.exp(-(((Math.abs(dz) - r * 0.8) / (r * 0.25)) ** 2)) * Math.exp(-dx / (r * 1.2)) * 0.4 : 0; return 0.45 * r * Math.max(0, 1 - d / r) ** 1.5 * (dx < 0 ? 1 : Math.exp(-dx * 3)) + horn * r * 0.4; };
       const h = (x, z) => 0.05 + barchan(x, z, -1.6, -0.8, 1.0) + barchan(x, z, 0.4, 0.9, 0.8) + 0.25 * Math.exp(-(((z + 2.1 - 0.15 * x) / 0.25) ** 2)) * sm(-4, -1, x) + 0.05 * Math.sin(x * 9 + z * 2) * 0.3 - 0.18 * G(x, z, 2.2, -0.9, 0.5, 0.4) + (BK.fbm(x * 2, z * 2, 3) - 0.5) * 0.04;
       g.add(GK.terrain({ w: 9, d: 6, nx: 220, h, tint: GK.tintDesert }));
-      const rk = new T3.MeshStandardMaterial({ map: GK.rockTex("sandstone"), roughness: 0.95 });
+      const rk = GK.rockMat("sandstone", 1.5);
       const ped = new T3.Group(); const cap = new T3.Mesh(new T3.SphereGeometry(0.35, 20, 12), rk); cap.scale.set(1, 0.45, 1); cap.position.y = 0.7; const stem = new T3.Mesh(new T3.CylinderGeometry(0.1, 0.18, 0.6, 12), rk); stem.position.y = 0.3; ped.add(cap, stem); ped.position.set(2.4, 0.04, 1.2); g.add(ped);
       const z1 = new T3.Mesh(new T3.BoxGeometry(1.2, 0.35, 0.25), rk); z1.position.set(-2.8, 0.18, 1.6); g.add(z1); const z2 = z1.clone(); z2.position.z = 2.05; g.add(z2);
-      const insel = new T3.Mesh(new T3.SphereGeometry(0.6, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), new T3.MeshStandardMaterial({ map: GK.rockTex("granite"), roughness: 0.9 })); insel.position.set(3.4, 0, -1.6); insel.scale.y = 1.3; g.add(insel);
+      const insel = new T3.Mesh(new T3.SphereGeometry(0.6, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), GK.pbr("rock_face_03", { repeat: 2 })); insel.position.set(3.4, 0, -1.6); insel.scale.y = 1.3; g.add(insel);
       const oasis = GK.water(0.6, 0.5, 0x2f7a8a, 0.9); oasis.position.set(2.2, -0.08, -0.9); g.add(oasis); [[2.0, -0.6], [2.5, -0.7], [2.3, -1.2]].forEach(([x, z]) => { const p = GK.tree(0.3, x * 5, 0x3a7a2a); p.position.set(x, 0, z); g.add(p); });
       s.sand = flowParticles(600, 0xe0c090, 0.035); g.add(s.sand); s.sq = Array.from({ length: 600 }, () => [Math.random() * 9 - 4.5, Math.random() * 6 - 3, Math.random() * 0.5]); s.h = h;
     },
@@ -479,7 +479,7 @@
     controls: [{ type: "tabs", key: "kind", label: "Waves", options: [["con", "Constructive"], ["des", "Destructive"]] }, { type: "slider", key: "angle", label: "Angle of waves to the beach", min: 0, max: 50, step: 1, fmt: (v) => v + "°" }],
     build(S, s) {
       const T3 = T(), g = BK.group(S, s), beachH = (x, z) => 0.3 - z * 0.18 + (BK.fbm(x, z, 2) - 0.5) * 0.02;
-      g.add(GK.terrain({ w: 8, d: 6, nx: 160, h: beachH, tint: (hn, sl, x, z) => (z < -1.6 ? GK.tintSavanna(hn, sl, x, z) : mix3(hex3(0xe2d2a4), hex3(0xbca880), sm(0.5, 2.5, z))) }));
+      g.add(GK.terrain({ w: 8, d: 6, nx: 160, h: beachH, ground: "coast_sand_01", tint: (hn, sl, x, z) => (z < -1.6 ? GK.tintSavanna(hn, sl, x, z) : mix3(hex3(0xe2d2a4), hex3(0xbca880), sm(0.5, 2.5, z))) }));
       const geo = new T3.PlaneGeometry(8, 5, 160, 100); geo.rotateX(-Math.PI / 2); s.sea = new T3.Mesh(geo, new T3.MeshPhysicalMaterial({ color: 0x2a6f8f, roughness: 0.1, clearcoat: 1, transparent: true, opacity: 0.92 })); s.sea.position.z = 3.2; g.add(s.sea); s.base = Float32Array.from(geo.attributes.position.array);
       [-2, 0.5, 3].forEach((x) => { const gy = new T3.Mesh(new T3.BoxGeometry(0.08, 0.14, 2.4), mat(0x6a4a30)); gy.position.set(x, beachH(x, 1.4) + 0.05, 1.4); gy.rotation.x = Math.atan(0.18); g.add(gy); });
       s.peb = GK.rockSample("granite", 0.06); g.add(s.peb); s.trail = []; s.t = 0; s.beachH = beachH;

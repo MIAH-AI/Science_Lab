@@ -1,0 +1,910 @@
+{
+ "version": 1,
+ "about": "Asset bundle for the WAEC Agricultural Science lab. 'codes' map to a-syllabus.js keys. Photos: Openverse (licence filter cc0,by,by-sa,pdm), iNaturalist (research grade, photo_license cc0,cc-by,cc-by-sa), Wikimedia Commons, NASA. Reject NC/ND.",
+ "elements": [
+  {
+   "id": "A-village",
+   "title": "Basic concepts village",
+   "codes": "A1a-A7c",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farm_field",
+     "farmland_overcast"
+    ],
+    "polyhaven_textures": [
+     "farm_soil",
+     "red_laterite_soil_stones",
+     "muddy_tracks",
+     "thatch_roof_angled",
+     "corrugated_iron_02"
+    ],
+    "polyhaven_models": [
+     "machete",
+     "wicker_basket_01",
+     "wooden_crate_01",
+     "compost_bags",
+     "wooden_bucket_01"
+    ],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "IITA research farm",
+     "ILRI livestock market",
+     "farmers market Nigeria",
+     "agricultural extension Africa"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Land Use Act Nigeria"
+    ],
+    "nasa": [
+     "farmland Nigeria"
+    ]
+   }
+  },
+  {
+   "id": "B-ecosystem",
+   "title": "Agro-ecosystem and land",
+   "codes": "B1a-B4b",
+   "fetch": {
+    "polyhaven_hdris": [
+     "mealie_road",
+     "waterkloof_farm"
+    ],
+    "polyhaven_textures": [
+     "farm_furrows",
+     "leafy_grass",
+     "forest_floor"
+    ],
+    "polyhaven_models": [
+     "grass_medium_01",
+     "weed_plant_02",
+     "street_rat",
+     "boulder_01"
+    ],
+    "ambientcg": [
+     "Grass004",
+     "Ground037"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "fish pond Africa",
+     "mixed cropping maize cassava",
+     "agro industry cocoa processing"
+    ],
+    "inaturalist": [
+     "Lumbricus terrestris"
+    ],
+    "commons": [],
+    "nasa": [
+     "agriculture land use Africa"
+    ]
+   }
+  },
+  {
+   "id": "B-climate-biotic",
+   "title": "Environmental factors",
+   "codes": "B5a-B5c",
+   "fetch": {
+    "polyhaven_hdris": [
+     "approaching_storm",
+     "noon_grass"
+    ],
+    "polyhaven_textures": [
+     "sparse_grass",
+     "withered_grass"
+    ],
+    "polyhaven_models": [
+     "dandelion_01"
+    ],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "root nodules legume",
+     "ladybird aphid"
+    ],
+    "inaturalist": [
+     "Coccinellidae",
+     "Aphididae",
+     "Rhizobium"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "B-rocks-soil",
+   "title": "Rocks, soil formation, profile, properties",
+   "codes": "B6a-B8d",
+   "fetch": {
+    "polyhaven_hdris": [
+     "overcast_soil",
+     "dry_field"
+    ],
+    "polyhaven_textures": [
+     "excavated_soil_wall",
+     "red_laterite_soil_stones",
+     "brown_mud_dry",
+     "dry_mud_field_001",
+     "red_dirt_mud_01",
+     "raked_dirt"
+    ],
+    "polyhaven_models": [
+     "boulder_01",
+     "rock_07",
+     "namaqualand_boulder_02",
+     "vintage_microscope",
+     "magnifying_glass_01"
+    ],
+    "ambientcg": [
+     "Ground103",
+     "Ground106",
+     "Ground109",
+     "Clay005"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "soil profile horizons",
+     "laterite soil",
+     "granite",
+     "sandstone",
+     "marble rock",
+     "soil texture"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Soil profile",
+     "Gneiss"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "B-nutrients",
+   "title": "Plant nutrients and cycles",
+   "codes": "B9a-B9e",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farm_field"
+    ],
+    "polyhaven_textures": [
+     "farm_soil"
+    ],
+    "polyhaven_models": [
+     "compost_bags"
+    ],
+    "ambientcg": [
+     "Ground054"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "nitrogen deficiency maize",
+     "potassium deficiency leaf",
+     "compost heap",
+     "organic farming Africa"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Nutrient deficiency maize"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "B-water",
+   "title": "Irrigation, drainage, pollution",
+   "codes": "B10a-B12c",
+   "fetch": {
+    "polyhaven_hdris": [
+     "dam_road",
+     "parched_canal"
+    ],
+    "polyhaven_textures": [
+     "dry_ground_01",
+     "mud_cracked_dry_03",
+     "brown_mud_02"
+    ],
+    "polyhaven_models": [
+     "garden_sprinkler_01",
+     "garden_hose_wall_mounted_01",
+     "modular_pipes_plastic_01",
+     "watering_can_metal_01"
+    ],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "drip irrigation Africa",
+     "furrow irrigation",
+     "center pivot irrigation",
+     "oil spill Niger Delta",
+     "drainage ditch farm"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Basin irrigation"
+    ],
+    "nasa": [
+     "center pivot irrigation",
+     "Niger Delta oil"
+    ]
+   }
+  },
+  {
+   "id": "C-tools",
+   "title": "Simple farm tools and maintenance",
+   "codes": "C1a-C1c,PB1,PB5",
+   "fetch": {
+    "polyhaven_hdris": [
+     "outdoor_workshop"
+    ],
+    "polyhaven_textures": [
+     "rusty_metal",
+     "wood_table_worn"
+    ],
+    "polyhaven_models": [
+     "machete",
+     "rusted_spade_01",
+     "trowel_01",
+     "hatchet",
+     "picke_dirty_01",
+     "garden_gloves_01",
+     "small_oil_can_01",
+     "measuring_tape_01",
+     "wooden_hammer_01"
+    ],
+    "ambientcg": [
+     "Metal049A"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "hoe farming Africa",
+     "cutlass farm tool",
+     "sickle harvest",
+     "secateurs pruning",
+     "budding knife"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Hoe (tool)",
+     "Sickle"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "C-machines",
+   "title": "Machinery, implements, tractor, mechanization, power",
+   "codes": "C2a-C6b,PB2-PB4,PB6",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farm_field",
+     "straw_rolls_field_01",
+     "harvest"
+    ],
+    "polyhaven_textures": [
+     "farm_furrows",
+     "corrugated_iron_02",
+     "rusty_corrugated_iron"
+    ],
+    "polyhaven_models": [
+     "tire_pump",
+     "adjustable_wrench",
+     "combination_wrench",
+     "lubricant_spray",
+     "old_tyre",
+     "metal_toolbox"
+    ],
+    "ambientcg": [
+     "CorrugatedSteel005"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "tractor ploughing Africa",
+     "disc harrow",
+     "ridger",
+     "seed planter tractor",
+     "knapsack sprayer",
+     "combine harvester",
+     "maize sheller",
+     "egg incubator",
+     "milking machine",
+     "winnower",
+     "cassava grater"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Disc harrow",
+     "Mouldboard plough",
+     "Combine harvester"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "C-survey-plan",
+   "title": "Surveying, farm and farmstead planning",
+   "codes": "C7a-C9d,PB7",
+   "fetch": {
+    "polyhaven_hdris": [
+     "rolling_hills"
+    ],
+    "polyhaven_textures": [
+     "sparse_grass",
+     "clay_block_wall",
+     "thatch_roof_angled"
+    ],
+    "polyhaven_models": [
+     "measuring_tape_01",
+     "seadogs_compass",
+     "binoculars"
+    ],
+    "ambientcg": [
+     "ThatchedRoof001A"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "theodolite",
+     "ranging pole survey",
+     "Gunter's chain",
+     "farmstead Africa"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Gunter's chain",
+     "Ranging rod"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "D-crops",
+   "title": "Crop classification and husbandry",
+   "codes": "D1a-D2k,PC1,PC3,PC4",
+   "fetch": {
+    "polyhaven_hdris": [
+     "mealie_road",
+     "citrus_orchard",
+     "sunflowers",
+     "aloe_farm_shade_house"
+    ],
+    "polyhaven_textures": [
+     "farm_soil",
+     "farm_furrows",
+     "red_laterite_soil_stones"
+    ],
+    "polyhaven_models": [
+     "bananas",
+     "lemon",
+     "food_lime_01",
+     "sweet_potato",
+     "yellow_onion",
+     "seeding_tray_01",
+     "planter_pot_clay",
+     "watering_can_metal_01"
+    ],
+    "ambientcg": [
+     "Leaf001",
+     "Leaf003",
+     "Bark004"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "yam mounds",
+     "cassava field",
+     "cocoa pod",
+     "oil palm fruit bunch",
+     "rice paddy Africa",
+     "cowpea",
+     "groundnut harvest",
+     "cotton boll",
+     "rubber tapping",
+     "sugarcane field",
+     "pineapple plantation",
+     "shea nuts",
+     "sisal",
+     "ginger rhizome",
+     "okra plant",
+     "amaranthus"
+    ],
+    "inaturalist": [
+     "Zea mays",
+     "Oryza sativa",
+     "Sorghum bicolor",
+     "Pennisetum glaucum",
+     "Vigna unguiculata",
+     "Glycine max",
+     "Cajanus cajan",
+     "Manihot esculenta",
+     "Dioscorea rotundata",
+     "Solanum lycopersicum",
+     "Allium cepa",
+     "Abelmoschus esculentus",
+     "Amaranthus hybridus",
+     "Citrus sinensis",
+     "Musa acuminata",
+     "Ananas comosus",
+     "Theobroma cacao",
+     "Camellia sinensis",
+     "Coffea arabica",
+     "Capsicum annuum",
+     "Zingiber officinale",
+     "Arachis hypogaea",
+     "Vitellaria paradoxa",
+     "Helianthus annuus",
+     "Elaeis guineensis",
+     "Gossypium hirsutum",
+     "Corchorus olitorius",
+     "Agave sisalana",
+     "Hevea brasiliensis",
+     "Saccharum officinarum"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "D-pasture-genetics",
+   "title": "Pasture, forage, crop improvement",
+   "codes": "D3a-D4d",
+   "fetch": {
+    "polyhaven_hdris": [
+     "mpumalanga_veld",
+     "hay_bales"
+    ],
+    "polyhaven_textures": [
+     "leafy_grass",
+     "sparse_grass"
+    ],
+    "polyhaven_models": [
+     "grass_bermuda_01",
+     "grass_medium_02"
+    ],
+    "ambientcg": [
+     "Grass001"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "hay bales Africa",
+     "silage",
+     "pea plants Mendel"
+    ],
+    "inaturalist": [
+     "Megathyrsus maximus",
+     "Cenchrus purpureus",
+     "Cynodon dactylon",
+     "Andropogon gayanus",
+     "Stylosanthes guianensis",
+     "Centrosema pubescens",
+     "Pueraria phaseoloides",
+     "Pisum sativum"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "E-forestry",
+   "title": "Forest management and agro-forestry",
+   "codes": "E1a-E2b,PC5",
+   "fetch": {
+    "polyhaven_hdris": [
+     "rainforest_trail",
+     "nature_reserve_forest"
+    ],
+    "polyhaven_textures": [
+     "forest_floor",
+     "forest_leaves_02",
+     "forest_ground_04"
+    ],
+    "polyhaven_models": [
+     "tree_stump_01",
+     "dead_tree_trunk",
+     "island_tree_01",
+     "jacaranda_tree"
+    ],
+    "ambientcg": [
+     "Bark001",
+     "Bark012"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "taungya",
+     "alley cropping Leucaena",
+     "deforestation Africa",
+     "timber logs",
+     "charcoal production Africa"
+    ],
+    "inaturalist": [
+     "Tectona grandis",
+     "Gmelina arborea",
+     "Leucaena leucocephala",
+     "Gliricidia sepium",
+     "Milicia excelsa"
+    ],
+    "commons": [],
+    "nasa": [
+     "deforestation West Africa"
+    ]
+   }
+  },
+  {
+   "id": "F-ornamentals",
+   "title": "Ornamental plants",
+   "codes": "F1a-F5,PC6",
+   "fetch": {
+    "polyhaven_hdris": [
+     "residential_garden",
+     "symmetrical_garden"
+    ],
+    "polyhaven_textures": [
+     "leafy_grass"
+    ],
+    "polyhaven_models": [
+     "periwinkle_plant",
+     "potted_plant_01",
+     "potted_plant_02",
+     "anthurium_botany_01",
+     "shrub_01",
+     "shrub_03",
+     "planter_box_01"
+    ],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "hedge trimming",
+     "grafting plants",
+     "air layering"
+    ],
+    "inaturalist": [
+     "Ixora coccinea",
+     "Bougainvillea spectabilis",
+     "Hibiscus rosa-sinensis",
+     "Duranta erecta",
+     "Codiaeum variegatum",
+     "Allamanda cathartica",
+     "Catharanthus roseus",
+     "Axonopus compressus"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "G-diseases",
+   "title": "Crop diseases",
+   "codes": "G1a-G1c,PC2",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farmland_overcast"
+    ],
+    "polyhaven_textures": [
+     "farm_soil"
+    ],
+    "polyhaven_models": [],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "cassava mosaic disease",
+     "maize smut",
+     "rice blast",
+     "leaf rust wheat",
+     "cercospora leaf spot groundnut",
+     "groundnut rosette",
+     "cocoa black pod",
+     "cocoa swollen shoot",
+     "coffee leaf rust",
+     "bacterial blight cassava",
+     "citrus gummosis",
+     "black arm cotton",
+     "root knot nematode tomato",
+     "damping off seedlings",
+     "onion twister",
+     "mould stored grain"
+    ],
+    "inaturalist": [
+     "Ustilago maydis",
+     "Hemileia vastatrix",
+     "Puccinia sorghi"
+    ],
+    "commons": [
+     "Cassava mosaic virus"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "G-pests-weeds",
+   "title": "Pests and weeds",
+   "codes": "G2a-G3e,PC7",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farm_field"
+    ],
+    "polyhaven_textures": [
+     "farm_soil",
+     "withered_grass"
+    ],
+    "polyhaven_models": [
+     "street_rat",
+     "weed_plant_02",
+     "nettle_plant",
+     "dandelion_01"
+    ],
+    "ambientcg": [
+     "Net002A"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "fall armyworm maize",
+     "stem borer maize",
+     "cassava mealybug",
+     "yam beetle",
+     "cocoa mirid",
+     "cotton stainer",
+     "grain weevil",
+     "bean beetle",
+     "weaver bird crop damage",
+     "thrips",
+     "scale insects"
+    ],
+    "inaturalist": [
+     "Spodoptera frugiperda",
+     "Busseola fusca",
+     "Sesamia calamistis",
+     "Helicoverpa armigera",
+     "Maruca vitrata",
+     "Aphis craccivora",
+     "Ootheca mutabilis",
+     "Sahlbergella singularis",
+     "Heteroligus meles",
+     "Phenacoccus manihoti",
+     "Mononychellus tanajoa",
+     "Zonocerus variegatus",
+     "Dysdercus",
+     "Sitophilus zeamais",
+     "Callosobruchus maculatus",
+     "Ploceus cucullatus",
+     "Achatina achatina",
+     "Imperata cylindrica",
+     "Chromolaena odorata",
+     "Ageratum conyzoides",
+     "Tridax procumbens",
+     "Cyperus rotundus",
+     "Euphorbia heterophylla"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "H-livestock",
+   "title": "Farm animals, breeds, anatomy, reproduction, management",
+   "codes": "H1a-H8d,PD1-PD4,PD7",
+   "fetch": {
+    "polyhaven_hdris": [
+     "waterkloof_farm",
+     "belfast_farmhouse"
+    ],
+    "polyhaven_textures": [
+     "wood_planks_dirt",
+     "corrugated_iron_02",
+     "brown_mud"
+    ],
+    "polyhaven_models": [
+     "wooden_bucket_02",
+     "plastic_crate_01",
+     "rubber_boots",
+     "compost_bags"
+    ],
+    "ambientcg": [
+     "Fabric084",
+     "Wicker004"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "N'Dama cattle",
+     "White Fulani cattle",
+     "Muturu cattle",
+     "West African Dwarf goat",
+     "Red Sokoto goat",
+     "Yankasa sheep",
+     "Uda sheep",
+     "Large White pig",
+     "rabbit hutch",
+     "battery cage poultry",
+     "deep litter poultry",
+     "broiler chickens",
+     "artificial insemination cattle",
+     "ear tag cattle",
+     "debeaking",
+     "dehorning",
+     "castration burdizzo",
+     "fish meal feed",
+     "groundnut cake",
+     "hides and skins"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "N'Dama",
+     "White Fulani",
+     "West African Dwarf goat",
+     "Ruminant digestive system"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "H-health",
+   "title": "Animal health, parasites",
+   "codes": "H9a-H9g,PD5,PD6",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farmland_overcast"
+    ],
+    "polyhaven_textures": [
+     "brown_mud"
+    ],
+    "polyhaven_models": [],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "foot and mouth disease cattle",
+     "Newcastle disease poultry",
+     "ringworm cattle",
+     "trypanosomiasis tsetse",
+     "coccidiosis",
+     "cattle dip tank",
+     "drenching sheep"
+    ],
+    "inaturalist": [
+     "Glossina",
+     "Rhipicephalus microplus",
+     "Amblyomma variegatum",
+     "Fasciola hepatica",
+     "Lymnaea",
+     "Taenia",
+     "Ascaris"
+    ],
+    "commons": [
+     "Foot-and-mouth disease",
+     "Anthrax",
+     "Liver fluke"
+    ],
+    "nasa": []
+   }
+  },
+  {
+   "id": "H-aquaculture",
+   "title": "Aquaculture",
+   "codes": "H10a-H10g,PD8",
+   "fetch": {
+    "polyhaven_hdris": [
+     "near_the_river_01",
+     "river_walk_1"
+    ],
+    "polyhaven_textures": [
+     "coast_sand_01",
+     "brown_mud_02"
+    ],
+    "polyhaven_models": [
+     "wooden_bucket_01",
+     "wicker_basket_02"
+    ],
+    "ambientcg": [
+     "Net001A",
+     "Net003A",
+     "Clay005"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "catfish farming",
+     "tilapia fish pond",
+     "fish smoking kiln",
+     "cast net fishing",
+     "shrimp farm",
+     "crab farming"
+    ],
+    "inaturalist": [
+     "Oreochromis niloticus",
+     "Clarias gariepinus"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "H-apiculture",
+   "title": "Apiculture",
+   "codes": "H11a-H11f",
+   "fetch": {
+    "polyhaven_hdris": [
+     "wildflower_field",
+     "citrus_orchard"
+    ],
+    "polyhaven_textures": [
+     "wood_planks_dirt"
+    ],
+    "polyhaven_models": [
+     "wooden_crate_02",
+     "rubber_boots",
+     "garden_gloves_01"
+    ],
+    "ambientcg": [
+     "Fabric030"
+    ]
+   },
+   "photos": {
+    "openverse": [
+     "Kenya top bar hive",
+     "Langstroth hive",
+     "bee smoker",
+     "bee suit beekeeper",
+     "traditional log hive Africa"
+    ],
+    "inaturalist": [
+     "Apis mellifera scutellata",
+     "Apis mellifera"
+    ],
+    "commons": [],
+    "nasa": []
+   }
+  },
+  {
+   "id": "I-economics",
+   "title": "Economics, finance, records, marketing, insurance, extension",
+   "codes": "I1a-I12d",
+   "fetch": {
+    "polyhaven_hdris": [
+     "farm_field",
+     "rural_crossroads"
+    ],
+    "polyhaven_textures": [
+     "concrete_floor_worn_001",
+     "muddy_tracks"
+    ],
+    "polyhaven_models": [
+     "wooden_crate_01",
+     "plastic_crate_02",
+     "wicker_basket_01",
+     "hand_truck",
+     "bananas",
+     "yellow_onion",
+     "sweet_potato"
+    ],
+    "ambientcg": []
+   },
+   "photos": {
+    "openverse": [
+     "yam market Nigeria",
+     "cocoa export port",
+     "farmers cooperative Africa",
+     "agricultural extension worker",
+     "grain store silo"
+    ],
+    "inaturalist": [],
+    "commons": [
+     "Apapa port"
+    ],
+    "nasa": []
+   }
+  }
+ ]
+}

@@ -19,6 +19,27 @@
   GK.json = (p) => cache["j" + p] || (cache["j" + p] = fetch(GK.BASE + p).then((r) => (r.ok ? r.json() : null)).catch(() => null));
   GK.img = (p) => cache["i" + p] || (cache["i" + p] = new Promise((res) => { const im = new Image(); im.decoding = "async"; im.onload = () => res(im); im.onerror = () => res(null); im.src = GK.BASE + p; }));
   GK.texture = (p, srgb = true, onload) => { const t = new (T().Texture)(); t.colorSpace = srgb ? T().SRGBColorSpace : T().NoColorSpace; t.anisotropy = 8; GK.img(p).then((im) => { if (im) { t.image = im; t.needsUpdate = true; onload && onload(t); } }); return t; };
+  /* ---------- photographic PBR textures (Poly Haven / ambientCG, CC0) ----------
+     textures/<id>/<id>_{color|normal|arm}_1k_<size>.webp ; arm = AO (R), roughness (G), metalness (B) */
+  GK.TEX = {}; GK.texReady = GK.json("textures/index.json").then((d) => (GK.TEX = d || {})).catch(() => ({}));
+  const PH = { color: [200, 200, 200], normal: [128, 128, 255], arm: [255, 230, 0] }, tcache = {};
+  GK.ptex = (id, kind = "color", repeat = 1) => {
+    const size = kind === "color" && GK.tier !== "low" ? 1024 : 512, key = id + kind + size;
+    let base = tcache[key];
+    if (!base) { const c = BK.cv(2, 2), g = c.getContext("2d"), v = PH[kind] || PH.color; g.fillStyle = "rgb(" + v.join(",") + ")"; g.fillRect(0, 0, 2, 2); base = new (T().Texture)(c); base.colorSpace = kind === "color" ? T().SRGBColorSpace : T().NoColorSpace; base.wrapS = base.wrapT = T().RepeatWrapping; base.anisotropy = 8; base.needsUpdate = true; base.clones = []; GK.img("textures/" + id + "/" + id + "_" + kind + "_1k_" + size + ".webp").then((im) => { if (!im) return; /* a new Source so the GPU texture is re-allocated at the real size (not the 2×2 placeholder) */ const all = [base].concat(base.clones); all.forEach((t) => t.dispose()); all.forEach((t) => { t.image = im; t.needsUpdate = true; }); }); tcache[key] = base; }
+    const t = base.clone(); t.needsUpdate = true; base.clones.push(t); const r = Array.isArray(repeat) ? repeat : [repeat, repeat]; t.repeat.set(r[0], r[1]); return t;
+  };
+  /* a full PBR material from one texture set; o: {repeat, color, normalScale, roughness, metalness, side} */
+  GK.pbr = (id, o = {}) => { const T3 = T(), m = new T3.MeshStandardMaterial({ color: o.color == null ? 0xffffff : o.color, roughness: o.roughness == null ? 1 : o.roughness, metalness: o.metalness || 0, side: o.side || T3.FrontSide }); m.map = GK.ptex(id, "color", o.repeat || 1); m.normalMap = GK.ptex(id, "normal", o.repeat || 1); const ns = o.normalScale == null ? 1 : o.normalScale; m.normalScale.set(ns, ns); const arm = GK.ptex(id, "arm", o.repeat || 1); m.roughnessMap = arm; m.aoMap = arm; m.aoMapIntensity = 0.8; if (o.metal) m.metalnessMap = arm; return m; };
+  /* ground detail for vertex-coloured terrain: real normal + roughness maps, and the photo's light/dark pattern
+     multiplied into the terrain's own colours (so a savanna stays savanna-coloured, but looks like real ground) */
+  GK.groundDetail = (mat, id, repeat, k = 0.9) => {
+    const T3 = T(); mat.normalMap = GK.ptex(id, "normal", repeat); mat.normalScale.set(0.75, 0.75); mat.roughnessMap = null; mat.roughness = 0.97; mat.metalness = 0; mat.bumpMap = null;
+    const det = GK.ptex(id, "color", repeat), U = { detailMap: { value: det }, detailMean: { value: new T3.Vector3(0.25, 0.25, 0.25) }, detailK: { value: k } };
+    GK.texReady.then(() => { const e = GK.TEX[id]; if (e) U.detailMean.value.set(...e.mean.map((v) => Math.pow(v, 2.2))); });
+    mat.onBeforeCompile = (sh) => { Object.assign(sh.uniforms, U); sh.fragmentShader = "uniform sampler2D detailMap; uniform vec3 detailMean; uniform float detailK;\n" + sh.fragmentShader.replace("#include <color_fragment>", "#include <color_fragment>\n#ifdef USE_NORMALMAP\n vec3 gkd = texture2D( detailMap, vNormalMapUv ).rgb, gka = texture2D( detailMap, vNormalMapUv, 12.0 ).rgb; float gkl = dot( gkd, vec3( 0.299, 0.587, 0.114 ) ), gkm = dot( gka, vec3( 0.299, 0.587, 0.114 ) );\n diffuseColor.rgb *= mix( vec3( 1.0 ), clamp( gkd / max( gka, vec3( 0.02 ) ), 0.2, 2.5 ), detailK );\n#endif"); };
+    mat.customProgramCacheKey = () => "gk-ground"; return mat;
+  };
   GK.hdr = (name) => {
     const useLow = GK.tier === "low" || !HDR_1K.includes(name);
     if (!HDR_LOW.includes(name)) name = "noon_grass";
@@ -183,7 +204,7 @@
      o: {w, d, y0 (base), h(x,z) top surface, strata(x,y,z) -> [r,g,b], tint, nx, ny, map} */
   GK.block = (o) => {
     const T3 = T(), g = new T3.Group(), w = o.w || 6, d = o.d || 4, y0 = o.y0 == null ? -1.5 : o.y0, nx = o.nx || 160, ny = o.ny || 60;
-    const top = GK.terrain({ w, d, nx, h: o.h, tint: o.tint, map: o.map, detail: o.detail }); g.add(top);
+    const top = GK.terrain({ w, d, nx, h: o.h, tint: o.tint, map: o.map, detail: o.detail, ground: o.ground }); g.add(top);
     const wall = (ax, bx, az, bz, n) => { const pos = [], col = [], idx = []; for (let i = 0; i <= n; i++) { const t = i / n, x = ax + (bx - ax) * t, z = az + (bz - az) * t, yt = o.h(x, z); for (let j = 0; j <= ny; j++) { const y = y0 + (yt - y0) * j / ny; pos.push(x, y, z); const c = o.strata ? o.strata(x, y, z, yt) : [0.5, 0.4, 0.3]; col.push(c[0], c[1], c[2]); } } for (let i = 0; i < n; i++) for (let j = 0; j < ny; j++) { const a = i * (ny + 1) + j, b = a + ny + 1; idx.push(a, b, a + 1, b, b + 1, a + 1); } const geo = new T3.BufferGeometry(); geo.setAttribute("position", new T3.Float32BufferAttribute(pos, 3)); geo.setAttribute("color", new T3.Float32BufferAttribute(col, 3)); geo.setIndex(idx); geo.computeVertexNormals(); const m = new T3.Mesh(geo, new T3.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, side: T3.DoubleSide })); m.receiveShadow = true; return m; };
     const W = w / 2, D = d / 2, nz = Math.round(nx * d / w);
     g.add(wall(-W, W, D, D, nx), wall(W, -W, -D, -D, nx), wall(W, W, D, -D, nz), wall(-W, -W, -D, D, nz));
@@ -207,7 +228,7 @@
     quartzite: { base: 0xe9dcd0, dots: [[0xf8f2ea, 0.4, 1.4], [0xd4c2b2, 0.3, 1.2]] },
     laterite: { base: 0xa4502a, dots: [[0x7a3418, 0.35, 2.5], [0xc8743e, 0.25, 2]], holes: true },
   };
-  GK.rockTex = (type, size = 512) => {
+  const rockTexProc = (type, size = 512) => {
     const R = ROCK[type] || ROCK.granite, c = BK.cv(size, size), g = c.getContext("2d"), rr = BK.rng(type.length * 31), hx = (h) => "#" + h.toString(16).padStart(6, "0");
     g.fillStyle = hx(R.base); g.fillRect(0, 0, size, size);
     if (R.bands) for (let y = 0; y < size; y += 6) { g.fillStyle = hx(R.bands[(Math.floor(y / 18 + Math.sin(y * 0.05) * 2) % 2 + 2) % 2]); g.globalAlpha = 0.55; g.fillRect(0, y + Math.sin(y * 0.1) * 3, size, 6); } g.globalAlpha = 1;
@@ -218,7 +239,11 @@
     if (R.fossils) { g.strokeStyle = "rgba(120,110,90,.8)"; g.lineWidth = 1.5; for (let i = 0; i < 14; i++) { const x = rr() * size, y = rr() * size, r = 6 + rr() * 10; g.beginPath(); for (let a = 0; a < 12; a += 0.3) g.lineTo(x + Math.cos(a) * r * a / 12, y + Math.sin(a) * r * a / 12); g.stroke(); } }
     const t = new (T().CanvasTexture)(c); t.colorSpace = T().SRGBColorSpace; t.wrapS = t.wrapT = T().RepeatWrapping; return t;
   };
-  GK.rockSample = (type, r = 0.5) => { const T3 = T(), geo = new T3.IcosahedronGeometry(r, 5), p = geo.attributes.position, seed = type.length; for (let i = 0; i < p.count; i++) { const v = new T3.Vector3().fromBufferAttribute(p, i), n = BK.fbm(v.x * 2.2 + seed, v.y * 2.2, v.z * 2.2) - 0.5; v.multiplyScalar(1 + n * 0.35); v.y *= 0.72; p.setXYZ(i, v.x, v.y, v.z); } geo.computeVertexNormals(); const tex = GK.rockTex(type); const R = ROCK[type] || {}; const m = new T3.Mesh(geo, new T3.MeshStandardMaterial({ map: tex, bumpMap: tex, bumpScale: 2, roughness: R.gloss ? 0.35 : 0.85, metalness: R.gloss ? 0.15 : 0 })); m.castShadow = true; return m; };
+  /* photographic rock surfaces where a good CC0 match exists; granite and coal keep their crystal/gloss pattern */
+  GK.ROCKPHOTO = { sandstone: "sandstone_cracks", limestone: "rock_boulder_dry", marble: "marble_rock_01", basalt: "dark_rock", slate: "dark_rock_02", laterite: "rock_06", gneiss: "marble_cliff_04", shale: "rock_wall_02", quartzite: "marble_cliff_01" };
+  GK.rockTex = (type, size = 512) => (GK.ROCKPHOTO[type] ? GK.ptex(GK.ROCKPHOTO[type], "color", 1) : rockTexProc(type, size));
+  GK.rockMat = (type, repeat = 1, o = {}) => (GK.ROCKPHOTO[type] ? GK.pbr(GK.ROCKPHOTO[type], Object.assign({ repeat, normalScale: 1.2 }, o)) : new (T().MeshStandardMaterial)({ map: rockTexProc(type), roughness: 0.9, normalMap: GK.ptex("rock_face_03", "normal", repeat) }));
+  GK.rockSample = (type, r = 0.5) => { const T3 = T(), geo = new T3.IcosahedronGeometry(r, 5), p = geo.attributes.position, seed = type.length; for (let i = 0; i < p.count; i++) { const v = new T3.Vector3().fromBufferAttribute(p, i), n = BK.fbm(v.x * 2.2 + seed, v.y * 2.2, v.z * 2.2) - 0.5; v.multiplyScalar(1 + n * 0.35); v.y *= 0.72; p.setXYZ(i, v.x, v.y, v.z); } geo.computeVertexNormals(); const R = ROCK[type] || {}, ph = GK.ROCKPHOTO[type]; const mt = ph ? GK.pbr(ph, { repeat: 1.5, normalScale: 1.4 }) : new T3.MeshStandardMaterial({ map: rockTexProc(type), roughness: R.gloss ? 0.35 : 0.85, metalness: R.gloss ? 0.15 : 0 }); if (!ph) { mt.normalMap = GK.ptex("rock_face_03", "normal", 1.5); } const m = new T3.Mesh(geo, mt); m.castShadow = true; return m; };
   GK.ROCKS = ROCK;
 
   /* ---------- simple particle cloud: n points with per-frame updater ---------- */
@@ -238,10 +263,12 @@
     let hmin = 1e9, hmax = -1e9; const hs = new Float32Array(p.count);
     for (let i = 0; i < p.count; i++) { const y = o.h(p.getX(i), p.getZ(i)); hs[i] = y; hmin = Math.min(hmin, y); hmax = Math.max(hmax, y); p.setY(i, y); }
     g.computeVertexNormals(); const n = g.attributes.normal;
-    for (let i = 0; i < p.count; i++) { const hn = (hs[i] - hmin) / ((hmax - hmin) || 1), slope = 1 - n.getY(i); const c = (o.tint || GK.tintSavanna)(hn, slope, p.getX(i), p.getZ(i), hs[i]); col.set(c, i * 3); }
+    for (let i = 0; i < p.count; i++) { const hn = (hs[i] - hmin) / ((hmax - hmin) || 1), slope = 1 - n.getY(i); const c = (o.tint || GK.tintSavanna)(hn, slope, p.getX(i), p.getZ(i), hs[i]); col[i * 3] = Math.pow(c[0], o.gamma || 1.6); col[i * 3 + 1] = Math.pow(c[1], o.gamma || 1.6); col[i * 3 + 2] = Math.pow(c[2], o.gamma || 1.6); }  /* tints are sRGB-ish; vertex colours are linear */
     g.setAttribute("color", new T3.BufferAttribute(col, 3));
     const mat = new T3.MeshStandardMaterial({ vertexColors: true, roughness: 0.93, metalness: 0, map: o.map || null });
-    if (o.detail !== false) { const d = GK.detailTex(); mat.roughnessMap = d; mat.bumpMap = d; mat.bumpScale = o.bump == null ? 1.2 : o.bump; }
+    const ground = o.ground === undefined ? (o.map ? null : o.tint === GK.tintForest ? "forest_ground_05" : o.tint === GK.tintDesert ? "aerial_sand" : "rocky_terrain_02") : o.ground;
+    if (ground && o.detail !== false) GK.groundDetail(mat, ground, o.groundRepeat || Math.max(3, Math.round(sx * 0.9)));
+    else if (o.detail !== false) { const d = GK.detailTex(); mat.roughnessMap = d; mat.bumpMap = d; mat.bumpScale = o.bump == null ? 1.2 : o.bump; }
     const m = new T3.Mesh(g, mat); m.receiveShadow = true; m.castShadow = true; m.userData = { hmin, hmax }; return m;
   };
   /* tileable grain for ground (roughness + bump) */
@@ -298,8 +325,9 @@
   GK.polyline = (pts, color = 0xffffff, opacity = 1) => { const T3 = T(), g = new T3.BufferGeometry().setFromPoints(pts.map((p) => new T3.Vector3(p[0], p[1], p[2]))); return new T3.Line(g, new T3.LineBasicMaterial({ color, transparent: opacity < 1, opacity })); };
   GK.water = (w, d, color = 0x2d6a8a, opacity = 0.85) => { const T3 = T(), m = new T3.Mesh(new T3.PlaneGeometry(w, d), new T3.MeshPhysicalMaterial({ color, roughness: 0.08, metalness: 0, clearcoat: 1, transparent: opacity < 1, opacity, normalMap: GK.waterNormal(), normalScale: new T3.Vector2(0.35, 0.35) })); m.rotation.x = -Math.PI / 2; m.receiveShadow = true; return m; };
   GK.waterNormal = () => { const t = GK.texture("textures/water_normal_512.png", false); t.wrapS = t.wrapT = T().RepeatWrapping; t.repeat.set(6, 6); return t; };
-  GK.house = (w = 0.12, roof = 0x8a3a2a, wall = 0xe8dcc8) => { const T3 = T(), g = new T3.Group(); const b = new T3.Mesh(new T3.BoxGeometry(w, w * 0.7, w * 0.8), new T3.MeshStandardMaterial({ color: wall, roughness: 0.85 })); b.position.y = w * 0.35; g.add(b); const r = new T3.Mesh(new T3.ConeGeometry(w * 0.75, w * 0.45, 4), new T3.MeshStandardMaterial({ color: roof, roughness: 0.7 })); r.rotation.y = Math.PI / 4; r.position.y = w * 0.92; g.add(r); return BK.shadow(g); };
-  GK.hut = (r = 0.06) => { const T3 = T(), g = new T3.Group(); const b = new T3.Mesh(new T3.CylinderGeometry(r, r, r * 1.1, 14), new T3.MeshStandardMaterial({ color: 0xa8643a, roughness: 0.95 })); b.position.y = r * 0.55; g.add(b); const t = new T3.Mesh(new T3.ConeGeometry(r * 1.35, r * 1.2, 14), new T3.MeshStandardMaterial({ color: 0xc9a85a, roughness: 1 })); t.position.y = r * 1.6; g.add(t); return BK.shadow(g); };
+  const MATS = {}; const sharedMat = (k, f) => MATS[k] || (MATS[k] = f());
+  GK.house = (w = 0.12, roof = 0x8a3a2a, wall = 0xe8dcc8) => { const T3 = T(), g = new T3.Group(); const b = new T3.Mesh(new T3.BoxGeometry(w, w * 0.7, w * 0.8), sharedMat("wall" + wall, () => GK.pbr("rough_plaster_03", { color: wall, repeat: 0.6 }))); b.position.y = w * 0.35; g.add(b); const r = new T3.Mesh(new T3.ConeGeometry(w * 0.75, w * 0.45, 4), sharedMat("roof" + roof, () => GK.pbr("corrugated_iron", { color: roof, repeat: [2, 1], roughness: 0.8 }))); r.rotation.y = Math.PI / 4; r.position.y = w * 0.92; g.add(r); return BK.shadow(g); };
+  GK.hut = (r = 0.06) => { const T3 = T(), g = new T3.Group(); const b = new T3.Mesh(new T3.CylinderGeometry(r, r, r * 1.1, 14), sharedMat("hutwall", () => GK.pbr("red_mud_stones", { repeat: [1.5, 0.5] }))); b.position.y = r * 0.55; g.add(b); const t = new T3.Mesh(new T3.ConeGeometry(r * 1.35, r * 1.2, 14), sharedMat("thatch", () => GK.pbr("thatch_roof_angled", { repeat: [2, 1], color: 0xd8c08a }))); t.position.y = r * 1.6; g.add(t); return BK.shadow(g); };
   GK.pin = (color = 0xff5a3a, h = 0.35) => { const T3 = T(), g = new T3.Group(); const s = new T3.Mesh(new T3.CylinderGeometry(0.008, 0.008, h, 6), new T3.MeshStandardMaterial({ color: 0x333333 })); s.position.y = h / 2; g.add(s); const b = new T3.Mesh(new T3.SphereGeometry(0.04, 16, 12), new T3.MeshStandardMaterial({ color, roughness: 0.3, emissive: color, emissiveIntensity: 0.25 })); b.position.y = h; g.add(b); return g; };
   GK.tree = (h = 0.25, seed = 1, col = 0x3a6a2a) => { const t = BK.tree(1, seed, col); t.scale.setScalar(h); return t; };
 
