@@ -214,7 +214,7 @@
       s.holder = new T3.Group(); g.add(s.holder); s.tilt = new T3.Group(); s.tilt.rotation.z = -23.44 * D2R; s.holder.add(s.tilt); s.gl = GK.globe(1.0, { clouds: false }); s.tilt.add(s.gl); const ax = new T3.Mesh(new T3.CylinderGeometry(0.01, 0.01, 3.0, 8), new T3.MeshBasicMaterial({ color: 0xffd27a })); s.tilt.add(ax); s.tilt.add(latTube(0, 1.005, 0xff6a4a, 0.007)); s.tilt.add(latTube(23.44, 1.005, 0xffc04a, 0.006)); s.tilt.add(latTube(-23.44, 1.005, 0xffc04a, 0.006)); s.latRing = new T3.Group(); s.tilt.add(s.latRing); s.kl = null; },
     update(S, s, c, dt) { const p = orbPos(c.day); s.holder.position.set(...p); s.gl.earth.rotation.y += dt * 0.6; s.gl.setSun(S, V(-p[0], 0, -p[2])); if (s.kl !== c.lat) { s.kl = c.lat; BK.dispose(S, s.latRing); s.latRing = latTube(c.lat, 1.01, 0x7fffd4, 0.007); s.tilt.add(s.latRing); } },
     overlay(ctx, s, c, S, B) {
-      const d = decl(c.day), alt = 90 - Math.abs(c.lat - d), x0 = 12, y0 = (GK.storyOn ? 168 : 240), w = 200, h = 148; B.panel(x0, y0, w, h);
+      const d = decl(c.day), alt = 90 - Math.abs(c.lat - d), x0 = GK.storyOn ? 428 : 12, y0 = (GK.storyOn ? 168 : 240), w = 200, h = 148; B.panel(x0, y0, w, h);
       ctx.fillStyle = "#cfe0f5"; ctx.font = "700 10px 'IBM Plex Sans',sans-serif"; ctx.fillText("NOON SUN AT " + Math.abs(c.lat) + "°" + (c.lat >= 0 ? "N" : "S"), x0 + 10, y0 + 16);
       const gx = x0 + 100, gy = y0 + 122; ctx.strokeStyle = "#8fd06a"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0 + 12, gy); ctx.lineTo(x0 + w - 12, gy); ctx.stroke();
       const dirS = (c.lat - d) >= 0 ? -1 : 1, a = alt * D2R, L = 90; const sx = gx + dirS * Math.cos(a) * L, sy = gy - Math.sin(a) * L;

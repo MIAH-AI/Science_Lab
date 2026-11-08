@@ -23,7 +23,9 @@
     const useLow = GK.tier === "low" || !HDR_1K.includes(name);
     if (!HDR_LOW.includes(name)) name = "noon_grass";
     const path = useLow ? `hdri-low/${name}_512.hdr` : `hdri/${name}_1k.hdr`;
-    return cache["h" + path] || (cache["h" + path] = new (T().HDRLoader)().loadAsync(GK.BASE + path).then((t) => { t.mapping = T().EquirectangularReflectionMapping; return t; }).catch(() => null));
+    /* hosts that cannot serve .hdr files get a tone-mapped PNG of the same sky (lower dynamic range) */
+    const ldr = () => GK.img(path.replace(/\.hdr$/, ".png")).then((im) => { if (!im) return null; const t = new (T().Texture)(im); t.mapping = T().EquirectangularReflectionMapping; t.colorSpace = T().SRGBColorSpace; t.needsUpdate = true; t.userData.ldr = true; return t; });
+    return cache["h" + path] || (cache["h" + path] = new (T().HDRLoader)().loadAsync(GK.BASE + path).then((t) => { t.mapping = T().EquirectangularReflectionMapping; return t; }).catch(ldr));
   };
   /* pixels of an image, for sampling (elevation, masks) */
   GK.pixels = (p, w) => cache["p" + p + w] || (cache["p" + p + w] = GK.img(p).then((im) => { if (!im) return null; const h = Math.round(w * im.height / im.width), c = BK.cv(w, h), g = c.getContext("2d"); g.drawImage(im, 0, 0, w, h); return { w, h, d: g.getImageData(0, 0, w, h).data }; }));
@@ -48,7 +50,7 @@
     sc.environmentIntensity = o.envI == null ? 1 : o.envI;
     GK.hdr(o.hdri || "noon_grass").then((t) => {
       if (!t || window.P3D.S !== S) return;
-      sc.environment = S.pm.fromEquirectangular(t).texture;
+      sc.environment = S.pm.fromEquirectangular(t).texture; if (t.userData && t.userData.ldr) sc.environmentIntensity *= 1.6;
       if (o.bg === "hdri") { sc.background = t; sc.backgroundBlurriness = o.blur || 0; sc.backgroundIntensity = o.bgI || 1; if (o.fog !== true) sc.fog = null; }
     });
   };
