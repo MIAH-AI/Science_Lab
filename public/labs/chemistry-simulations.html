@@ -32,6 +32,7 @@ button{font-family:inherit;cursor:pointer;} select,input{font-family:inherit;}
 .brand small{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;}
 .menu-toggle{display:none;}
 .topbar-right{margin-left:auto;display:flex;gap:10px;}
+@media (max-width:560px){.topbar-right{display:none}.brand small{display:none}.brand{font-size:15px}.topbar{gap:8px}}
 .btn-ghost{background:var(--bg-panel-2);border:1px solid var(--line);color:var(--paper);padding:8px 13px;border-radius:8px;font-size:12.5px;font-weight:500;}
 .btn-ghost:hover{border-color:var(--teal);}
 a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
@@ -51,6 +52,10 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 
 .main{grid-area:main;overflow-y:auto;background:var(--paper);color:var(--ink);}
 .main-inner{max-width:980px;margin:0 auto;padding:34px 36px 90px;}
+.exam-entry{display:flex;align-items:center;gap:11px;width:100%;margin:0 0 12px;padding:11px 13px;border-radius:14px;border:1px solid var(--g-edge,var(--line));background:linear-gradient(135deg,rgba(255,210,122,.18),rgba(255,179,71,.08));color:inherit;cursor:pointer;text-align:left;font:inherit}
+.exam-entry b{display:block;font-size:13.5px}.exam-entry small{display:block;font-size:11px;opacity:.75;margin-top:2px}.exam-entry .ee-ico{font-size:20px;line-height:1}
+.exam-entry:hover,.exam-entry.active{background:linear-gradient(135deg,#ffd27a,#ffb347);color:#3a2a10}
+.exam-entry:focus-visible{outline:2px solid #ffd27a;outline-offset:2px}
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;text-align:center;color:var(--ink-soft);}
 .empty-state .big{font-family:'Spectral',serif;font-size:24px;color:var(--ink);margin-bottom:8px;}
 
@@ -86,7 +91,8 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 .note-box{font-size:11.5px;line-height:1.55;color:var(--ink-soft);background:#fff;border:1px dashed var(--line-paper);border-radius:8px;padding:9px 10px;}
 
 @media (max-width:900px){
-  .app{grid-template-columns:1fr;grid-template-rows:58px auto 1fr;grid-template-areas:"topbar" "sidebar" "main";}
+  .app{grid-template-columns:minmax(0,1fr);grid-template-rows:58px auto 1fr;grid-template-areas:"topbar" "sidebar" "main";}
+  .main,.sidebar,.topbar{min-width:0;}
   .sidebar{border-right:none;border-bottom:1px solid var(--line);max-height:38vh;}
   .sidebar.collapsed{display:none;}
   .menu-toggle{display:block;}
@@ -105,14 +111,15 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
     <div class="brand"><div class="tile">Sim</div><div>Chemistry Sim Lab<small>Dynamic concept visualiser</small></div></div>
     <a class='btn-ghost' href='/'>← Home</a>
     <button class="btn-ghost menu-toggle" id="menuToggle">☰ Topics</button>
-    <div class="topbar-right"><span class="btn-ghost" id="countBadge">20 simulation modules</span></div>
+    <div class="topbar-right"><span class="btn-ghost" id="countBadge">67 simulation modules</span></div>
   </div>
   <div class="sidebar" id="sidebar">
+    <button type="button" class="exam-entry" id="examBtn" aria-pressed="false"><span class="ee-ico" aria-hidden="true">✎</span><span><b>Exam mode</b><small>Timed WAEC objective &amp; structured papers</small></span></button>
     <div class="section-tabs" id="sectionTabs"></div>
     <div id="sidebarTopics"></div>
   </div>
   <div class="main"><div class="main-inner" id="mainInner">
-    <div class="empty-state"><div class="big">Choose a topic to launch a simulation</div><div>Every subtopic below links to a live, interactive model of its underlying concept, law or principle.</div></div>
+    <div class="empty-state"><div class="big">Choose a topic to launch a simulation</div><div>Every subtopic below links to a live, interactive model of its underlying concept, law or principle. Ready to test yourself? Open <b>Exam mode</b> at the top of the topic list.</div></div>
   </div></div>
 </div>
 
@@ -174,6 +181,8 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/c3d-acidtheory.js"></script>
 <script src="/labs/c3d-batchP.js"></script>
 <script src="/labs/c3d-measure.js"></script>
+<script src="/labs/exam-kit.js"></script>
+<script src="/labs/c-exam.js"></script>
 <script>
 /* ============================================================
    0. GENERIC HELPERS
@@ -1501,10 +1510,11 @@ function currentTopic(){
   return SECTIONS[activeSection].topics.find(t=>t.num===num);
 }
 function loadSim(){
+  setExamActive(false);
   if(currentCleanup){ try{currentCleanup();}catch(e){} currentCleanup=null; }
   const inner=document.getElementById('mainInner');
   const topic=currentTopic();
-  if(!topic){ inner.innerHTML=`<div class="empty-state"><div class="big">Choose a topic to launch a simulation</div><div>Every subtopic below links to a live, interactive model of its underlying concept, law or principle.</div></div>`; return; }
+  if(!topic){ inner.innerHTML=`<div class="empty-state"><div class="big">Choose a topic to launch a simulation</div><div>Every subtopic below links to a live, interactive model of its underlying concept, law or principle. Ready to test yourself? Open <b>Exam mode</b> at the top of the topic list.</div></div>`; return; }
   const sub=topic.subs[activeSubIdx];
   const color=CATEGORY_COLORS[topic.cat];
   const mod=SIM_MODULES[sub.sim];
@@ -1538,6 +1548,18 @@ function loadSim(){
   currentCleanup = cleanup3d || mod.mount(canvasWrap, controls) || (()=>{});
 }
 
+/* Exam mode (timed WAEC practice; nothing stored) */
+function openExam(){
+  if(currentCleanup){ try{currentCleanup();}catch(e){} currentCleanup=null; }
+  activeTopicKey=null; renderTopicList();
+  const inner=document.getElementById('mainInner');
+  if(window.ExamKit&&window.ChemistryExam) ExamKit.render(inner, ChemistryExam.cfg());
+  else inner.innerHTML='<div class="empty-state"><div class="big">Exam mode could not load</div><div>Please refresh the page.</div></div>';
+  setExamActive(true);
+  if(window.innerWidth<=900) document.getElementById('sidebar').classList.add('collapsed');
+}
+function setExamActive(on){ const b=document.getElementById('examBtn'); if(b){ b.classList.toggle('active',on); b.setAttribute('aria-pressed',String(on)); } }
+document.getElementById('examBtn').addEventListener('click',openExam);
 document.getElementById('menuToggle').addEventListener('click', ()=>document.getElementById('sidebar').classList.toggle('collapsed'));
 
 renderSectionTabs();

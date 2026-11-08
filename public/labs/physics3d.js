@@ -184,7 +184,7 @@
       return { x: (v.x * 0.5 + 0.5) * 640, y: (-v.y * 0.5 + 0.5) * 400, z: v.z };
     };
     const o = S.orbit, wrap = S.wrap;
-    const hint = document.createElement("span"); hint.className = "orbit-hint"; hint.textContent = "⟳ drag to orbit · scroll to zoom"; wrap.appendChild(hint);
+    const hint = document.createElement("span"); hint.className = "orbit-hint"; hint.textContent = (window.matchMedia && matchMedia("(pointer: coarse)").matches) ? "⟳ drag to orbit" : "⟳ drag to orbit · scroll to zoom"; wrap.appendChild(hint);
     let lx = 0, ly = 0;
     S._pd = (e) => { if (e.button > 0) return; o.touched = true; o.dragging = true; lx = e.clientX; ly = e.clientY; wrap.classList.add("grabbing"); hint.style.opacity = 0; };
     S._pm = (e) => {

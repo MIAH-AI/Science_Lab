@@ -9,6 +9,7 @@ import {
   CircleQuestionMark,
   FlaskConical,
   GraduationCap,
+  Leaf,
   Grid2x2,
   Menu,
   Moon,
@@ -41,8 +42,8 @@ type Subject = {
   description: string
   stats: string[]
   path: string
-  color: 'violet' | 'peach' | 'mint'
-  icon: 'ƒ' | 'atom' | 'flask'
+  color: 'violet' | 'peach' | 'mint' | 'leaf'
+  icon: 'ƒ' | 'atom' | 'flask' | 'leaf'
   topics: string
   Icon: LucideIcon
 }
@@ -52,16 +53,16 @@ const FOCUS_SECONDS = 1500
 
 const subjects: Subject[] = [
   {
-    name: 'Core Mathematics',
+    name: 'Mathematics',
     code: 'MATH',
     category: 'The language of possibilities',
     description:
-      'From numbers and algebra to vectors. Build your understanding, one problem at a time.',
-    stats: ['9 topic areas', '52 subtopics', '17 simulations'],
+      'Core and Further Mathematics, from numbers and algebra to calculus and mechanics, with timed WAEC-style exam practice.',
+    stats: ['Core + Further', '94 simulations', 'Exam mode'],
     path: '/waec-maths-dashboard',
     color: 'violet',
     icon: 'ƒ',
-    topics: 'Algebra · Geometry · Statistics',
+    topics: 'Algebra · Geometry · Statistics · Further Maths · Calculus · Exam',
     Icon: BookOpen,
   },
   {
@@ -69,12 +70,12 @@ const subjects: Subject[] = [
     code: 'PHYS',
     category: 'Discover the why behind everything',
     description:
-      'Explore motion, energy, and the laws of our universe through hands-on experiments.',
-    stats: ['Full syllabus', '83+ sim modes', 'Interactive canvas'],
+      'Explore motion, energy, and the laws of our universe through hands-on 3D experiments and timed exam practice.',
+    stats: ['41 topics', '83 3D sim modes', 'Exam mode'],
     path: '/physics_lab_full',
     color: 'peach',
     icon: 'atom',
-    topics: 'Mechanics · Waves · Electricity',
+    topics: 'Mechanics · Waves · Electricity · Exam',
     Icon: Atom,
   },
   {
@@ -82,13 +83,26 @@ const subjects: Subject[] = [
     code: 'CHEM',
     category: 'Small particles. Big discoveries.',
     description:
-      'Step inside the world of atoms, reactions, and the elements that make up everything.',
-    stats: ['46 subtopics', '20 sim modules', 'Virtual lab'],
+      'Step inside the world of atoms, reactions, and the elements that make up everything, then test yourself in exam mode.',
+    stats: ['136 subtopics', '67 3D sim modules', 'Exam mode'],
     path: '/chemistry-simulations',
     color: 'mint',
     icon: 'flask',
-    topics: 'Atomic theory · Reactions · Elements',
+    topics: 'Atomic theory · Reactions · Elements · Exam',
     Icon: FlaskConical,
+  },
+  {
+    name: 'Biology',
+    code: 'BIO',
+    category: 'The science of life',
+    description:
+      'Cells, body systems, plants, ecology and genetics in photoreal 3D labs, with Ghana and Section C topics and exam practice.',
+    stats: ['99 subtopics', '92 3D labs', 'Exam mode'],
+    path: '/waec-biology-lab',
+    color: 'leaf',
+    icon: 'leaf',
+    topics: 'Cells · Body systems · Ecology · Genetics · Exam',
+    Icon: Leaf,
   },
 ]
 
@@ -167,7 +181,7 @@ function Home() {
               >
                 <Icon size={19} />
                 <span>{label}</span>
-                {label === 'My subjects' && <small>3</small>}
+                {label === 'My subjects' && <small>4</small>}
                 {view === label && <span className="nav-dot" />}
               </button>
             ))}
@@ -325,14 +339,14 @@ function Home() {
                   <span className="stat-icon">
                     <BookOpen size={18} />
                   </span>
-                  <strong>3</strong>
+                  <strong>4</strong>
                   <span>subjects to explore</span>
                 </div>
                 <div>
                   <span className="stat-icon">
                     <Atom size={18} />
                   </span>
-                  <strong>120+</strong>
+                  <strong>340+</strong>
                   <span>interactive simulations</span>
                 </div>
                 <div>
@@ -349,7 +363,7 @@ function Home() {
                   <div>
                     <h2>
                       {view === 'Simulations' ? 'Your virtual labs' : 'Your subjects'}{' '}
-                      <span>03</span>
+                      <span>{String(visible.length).padStart(2, '0')}</span>
                     </h2>
                     <p>
                       {view === 'Simulations'
@@ -387,6 +401,8 @@ function Home() {
                           </span>
                         ) : s.icon === 'atom' ? (
                           <Atom size={46} strokeWidth={1.4} />
+                        ) : s.icon === 'leaf' ? (
+                          <Leaf size={44} strokeWidth={1.5} />
                         ) : (
                           <FlaskConical size={43} strokeWidth={1.5} />
                         )}
@@ -413,7 +429,7 @@ function Home() {
                     <div className="empty-state">
                       <Search size={25} />
                       <h3>No subjects found</h3>
-                      <p>Try mathematics, physics, chemistry, or a topic like algebra.</p>
+                      <p>Try mathematics, physics, chemistry, biology, or a topic like algebra.</p>
                       <button onClick={() => setQuery('')}>Show all subjects</button>
                     </div>
                   )}
@@ -518,8 +534,8 @@ function Home() {
                     <Check size={18} />
                   </span>
                   <div>
-                    <strong>Connect the dots</strong>
-                    <p>Learn through worked examples</p>
+                    <strong>Test yourself</strong>
+                    <p>Timed WAEC-style exams with worked solutions</p>
                   </div>
                 </div>
                 <a href={labHref('/waec-maths-dashboard')}>
@@ -550,8 +566,9 @@ function Home() {
         <DialogContent className="guidance-dialog">
           <DialogTitle>Make yourself at home.</DialogTitle>
           <DialogDescription>
-            Choose Mathematics, Physics, or Chemistry to open its Learn with Nehy study lab.
-            Each subject includes syllabus topics and interactive simulations. Use the focus
+            Choose Mathematics, Physics, Chemistry or Biology to open its Learn with Nehy study lab.
+            Each subject includes syllabus topics, interactive simulations and a timed exam mode
+            with worked solutions. Mathematics covers both Core and Further Mathematics. Use the focus
             timer for a distraction-free 25-minute session, and switch between Light and Dark
             to find your comfortable setting.
           </DialogDescription>

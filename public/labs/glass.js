@@ -4,6 +4,7 @@
     ['Mathematics', '/waec-maths-dashboard'],
     ['Physics', '/physics_lab_full'],
     ['Chemistry', '/chemistry-simulations'],
+    ['Biology', '/waec-biology-lab'],
   ];
   const container = document.getElementById('glass-navigation');
   const brand = document.createElement('a');

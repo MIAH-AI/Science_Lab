@@ -219,7 +219,15 @@
     .scrim{ position:fixed; inset:0; background:rgba(10,15,30,.4); z-index:19; }
     .scrim.show{ display:block; }
   }
+  @media (max-width:680px){ body.lab-maths .topbar{ position:static; } }   /* tall wrapped bar would cover the simulations on phones */
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+  :root.night .item-code{ color:#211e36; }
+  .course-tabs{ display:flex; gap:4px; padding:3px; border-radius:14px; background:var(--g-well); box-shadow:inset 1px 2px 4px var(--g-shadow); margin:4px 0 10px; }
+  .course-tabs button{ flex:1; border:1px solid transparent; background:transparent; color:var(--g-muted); font:600 12px 'IBM Plex Sans',sans-serif; padding:7px 8px; border-radius:11px; cursor:pointer; }
+  .course-tabs button[aria-pressed=true]{ background:var(--g-active); color:var(--g-ink); border-color:var(--g-edge); box-shadow:inset 0 2px 2px var(--g-highlight),2px 3px 6px var(--g-shadow); }
+  .tick.exam .tick-glyph{ background:linear-gradient(135deg,#ffd27a,#ffb347); color:#3a2a10; }
+  .item.open .item-body{ max-height:none; }
+  .sim-panel.mk-host{ padding:14px; }
 </style>
 <link rel="stylesheet" href="/labs/glass.css">
 <script src="/labs/glass.js" defer></script>
@@ -229,12 +237,13 @@
 <div class="app">
   <nav class="rail" id="rail" aria-label="Syllabus topics">
     <div class="rail-header">
-      <p class="rail-eyebrow">WAEC · Core Mathematics</p>
+      <p class="rail-eyebrow" id="railEyebrow">WAEC · Core Mathematics</p>
       <h1 class="rail-title">Syllabus Axis</h1>
-      <p class="rail-sub">Nine topics, plotted like a number line. Expand any subtopic for its notes and a live, interactive simulation.</p>
+      <div class="course-tabs" role="group" aria-label="Course"><button type="button" data-course="core" aria-pressed="true">Core</button><button type="button" data-course="further" aria-pressed="false">Further</button></div>
+      <p class="rail-sub" id="railSub">Nine topics, plotted like a number line. Expand any subtopic for its notes and a live, interactive simulation.</p>
     </div>
     <div class="axis" id="axis"></div>
-    <div class="rail-foot">
+    <div class="rail-foot" id="railFoot">
       <div><b>2 papers</b> · 150 marks total</div>
       <div>Paper 1 — 50 objective, 1½ hrs</div>
       <div>Paper 2 — 13 essay, 2½ hrs</div>
@@ -256,6 +265,17 @@
   </div>
 </div>
 
+<script src="/labs/maths-kit.js"></script>
+<script src="/labs/m-number.js"></script>
+<script src="/labs/m-algebra.js"></script>
+<script src="/labs/m-geometry.js"></script>
+<script src="/labs/m3d-solids.js"></script>
+<script src="/labs/m-trigcalc.js"></script>
+<script src="/labs/m-stats.js"></script>
+<script src="/labs/m3d-world.js"></script>
+<script src="/labs/m-further.js"></script>
+<script src="/labs/m-further2.js"></script>
+<script src="/labs/m-exam.js"></script>
 <script>
 /* ======================================================================
    DATA — WAEC General Mathematics / Mathematics (Core) syllabus
@@ -1527,9 +1547,12 @@ const simLookup = {};
 SYLLABUS.forEach(t=> t.subtopics.forEach(st=>{ if(st.sim) simLookup[t.code+'-'+st.code]=st.sim; }));
 
 function ensureMounted(item){
-  const panel = item.querySelector('.sim-panel');
+  item.querySelectorAll('.sim-panel').forEach(mountPanel);
+}
+function mountPanel(panel){
   if(!panel || panel.dataset.mounted) return;
   const key = panel.dataset.key;
+  if (window.MK && MK.has(key)) { panel.dataset.mounted='1'; try { MK.mount(panel, key); } catch(err){ panel.innerHTML='<div class="sim-error">This simulation could not load.</div>'; console.error(key, err); } return; }
   const simData = simLookup[key];
   if(!simData || !SIM_ENGINES[simData.engine]) return;
   panel.dataset.mounted='1';
@@ -1544,8 +1567,20 @@ let activeTopic = null;
 let openItems = new Set();
 let query = '';
 
-const totalSubtopics = SYLLABUS.reduce((n,t)=>n+t.subtopics.length,0);
-document.getElementById('topbarMeta').textContent = `${SYLLABUS.length} topics · ${totalSubtopics} subtopics`;
+let course = 'core';
+function syl(){ return (course==='further' && window.MK && MK.FM) ? MK.FM : SYLLABUS; }
+function countSubs(){ return syl().reduce((n,t)=>n+t.subtopics.length,0); }
+function countSims(){ if(!window.MK) return countSubs(); let n=0, n3=0; syl().forEach(t=>t.subtopics.forEach(st=>{ const k=t.code+'-'+st.code; [k].concat(MK.extras(k)).forEach(kk=>{ if(MK.has(kk)){ n++; if(MK.scenes[kk].kind==='3d') n3++; } }); })); return {n, n3}; }
+function updateMeta(){ document.getElementById('topbarMeta').textContent = `${syl().length} topics · ${countSubs()} subtopics`; }
+function setCourse(c){
+  course = (c==='further' && window.MK && MK.FM) ? 'further' : 'core'; activeTopic=null; openItems=new Set();
+  document.querySelectorAll('.course-tabs button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.course===course)));
+  document.getElementById('railEyebrow').textContent = course==='further' ? 'WAEC · Further Mathematics' : 'WAEC · Core Mathematics';
+  document.getElementById('railSub').textContent = course==='further' ? 'Twenty-one Elective topics: pure mathematics, statistics & probability, vectors & mechanics — each with live simulations.' : 'Nine topics, plotted like a number line. Expand any subtopic for its notes and a live, interactive simulation.';
+  document.getElementById('railFoot').innerHTML = course==='further' ? '<div><b>2 papers</b> · 140 marks total</div><div>Paper 1 — 40 objective, 1½ hrs</div><div>Paper 2 — 8 + 4 essay, 2½ hrs</div>' : '<div><b>2 papers</b> · 150 marks total</div><div>Paper 1 — 50 objective, 1½ hrs</div><div>Paper 2 — 13 essay, 2½ hrs</div>';
+  updateMeta(); render();
+}
+updateMeta();
 
 function escapeHtml(s){ return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 function highlight(text){
@@ -1563,50 +1598,59 @@ function subtopicMatches(st){
 
 function renderRail(){
   const axis=document.getElementById('axis');
-  axis.innerHTML = SYLLABUS.map(t=>`
+  axis.innerHTML = syl().map(t=>`
     <div class="tick ${activeTopic===t.code?'active':''}">
       <button class="tick-btn" data-topic="${t.code}" aria-current="${activeTopic===t.code}">
         <span class="tick-glyph">${t.glyph}</span>
         <span class="tick-text">
-          <span class="tick-code">TOPIC ${t.code}</span>
+          <span class="tick-code">TOPIC ${String(t.code).replace(/^FM/,'')}</span>
           <span class="tick-name">${t.title}</span>
           <span class="tick-count">${t.subtopics.length} subtopics</span>
         </span>
       </button>
-    </div>`).join('');
+    </div>`).join('') + (window.MK && MK.exam ? `
+    <div class="tick exam ${activeTopic==='EXAM'?'active':''}">
+      <button class="tick-btn" data-topic="EXAM" aria-current="${activeTopic==='EXAM'}">
+        <span class="tick-glyph">✎</span>
+        <span class="tick-text"><span class="tick-code">PRACTICE</span><span class="tick-name">Exam mode</span><span class="tick-count">Paper 1 &amp; Paper 2 style</span></span>
+      </button>
+    </div>` : '');
   axis.querySelectorAll('.tick-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{ activeTopic=btn.dataset.topic; openItems=new Set(); closeRailMobile(); render(); });
   });
 }
 
 function renderOverview(){
+  const S = syl(), sims = countSims(), fm = course==='further';
   return `
     <div class="topic-head">
       <span class="code-badge">Dashboard</span>
-      <h1>WAEC Core Mathematics — Overview</h1>
-      <p>Select a topic on the axis to the left, or search across every subtopic. Expand any subtopic to read its notes and try a live simulation or calculator built for that idea.</p>
+      <h1>WAEC ${fm?'Further Mathematics (Elective)':'Core Mathematics'} — Overview</h1>
+      <p>Select a topic on the axis to the left, or search across every subtopic. Expand any subtopic for notes, a live simulation with formulas, units and worked solutions${sims.n3?', and photoreal 3D labs':''}. Switch between Core and Further at the top of the axis, or open Exam mode.</p>
     </div>
     <div class="stats">
-      <div class="stat"><div class="n">${SYLLABUS.length}</div><div class="l">Topics</div></div>
-      <div class="stat"><div class="n">${totalSubtopics}</div><div class="l">Subtopics</div></div>
-      <div class="stat"><div class="n">${totalSubtopics}</div><div class="l">Simulations</div></div>
-      <div class="stat"><div class="n">2</div><div class="l">Papers</div></div>
-      <div class="stat"><div class="n">150</div><div class="l">Total marks</div></div>
+      <div class="stat"><div class="n">${S.length}</div><div class="l">Topics</div></div>
+      <div class="stat"><div class="n">${countSubs()}</div><div class="l">Subtopics</div></div>
+      <div class="stat"><div class="n">${sims.n||countSubs()}</div><div class="l">Simulations</div></div>
+      <div class="stat"><div class="n">${sims.n3||0}</div><div class="l">3D labs</div></div>
+      <div class="stat"><div class="n">${fm?140:150}</div><div class="l">Total marks</div></div>
     </div>
     <div class="overview-grid">
-      ${SYLLABUS.map(t=>`
+      ${S.map(t=>`
         <div class="overview-card" role="button" tabindex="0" data-topic="${t.code}">
-          <div class="oc-code">TOPIC ${t.code} · ${t.glyph}</div>
+          <div class="oc-code">TOPIC ${String(t.code).replace(/^FM/,'')} · ${t.glyph}</div>
           <h3>${t.title}</h3>
-          <div class="oc-count">${t.subtopics.length} subtopics</div>
+          <div class="oc-count">${t.subtopics.length} subtopic${t.subtopics.length>1?'s':''}</div>
         </div>`).join('')}
     </div>
     <div class="units-panel">
       <h2>Units &amp; Exam Format</h2>
       <table class="units-table">
         ${UNITS.map(u=>`<tr><td>${u[0]}</td><td>${u[1]}</td></tr>`).join('')}
-        <tr><td>Paper 1</td><td>50 multiple-choice questions · 1½ hours · 50 marks</td></tr>
-        <tr><td>Paper 2</td><td>13 essay questions (5 compulsory in Section A for 40 marks; answer 5 of 8 in Section B for 60 marks) · 2½ hours · 100 marks</td></tr>
+        ${fm ? `<tr><td>Paper 1</td><td>40 multiple-choice questions (30 pure, 4 statistics & probability, 6 vectors & mechanics) · 1½ hours · 40 marks</td></tr>
+        <tr><td>Paper 2</td><td>Section A: 8 compulsory questions (48 marks). Section B: answer 4 of 7 with at least one from each part (52 marks) · 2½ hours</td></tr>
+        <tr><td>Key</td><td>* topics for Ghana only · ** topics for Nigeria only</td></tr>` : `<tr><td>Paper 1</td><td>50 multiple-choice questions · 1½ hours · 50 marks</td></tr>
+        <tr><td>Paper 2</td><td>13 essay questions (5 compulsory in Section A for 40 marks; answer 5 of 8 in Section B for 60 marks) · 2½ hours · 100 marks</td></tr>`}
       </table>
     </div>`;
 }
@@ -1628,7 +1672,8 @@ function accordionItemHtml(t, st){
           <ul class="content-list">${st.content.map(c=>`<li>${highlight(c)}</li>`).join('')}</ul>
         </div>
         ${st.notes ? `<div class="body-block"><p class="body-label notes">Examiner\u2019s Note</p><div class="note-box">${highlight(st.notes)}</div></div>` : ''}
-        ${st.sim ? `<div class="body-block"><p class="body-label sim">Try it — interactive simulation</p><div class="sim-panel" data-key="${key}"></div></div>` : ''}
+        ${(st.sim || (window.MK && MK.has(key))) ? `<div class="body-block"><p class="body-label sim">Try it — interactive simulation</p><div class="sim-panel" data-key="${key}"></div></div>` : ''}
+        ${window.MK ? MK.extras(key).map(k=>`<div class="body-block"><p class="body-label sim">${MK.scenes[k].label||'3D lab'}</p><div class="sim-panel" data-key="${k}"></div></div>`).join('') : ''}
       </div>
     </div>
   </div>`;
@@ -1639,7 +1684,7 @@ function renderTopic(t){
   return `
     <button class="back-link" id="backBtn">&larr; all topics</button>
     <div class="topic-head">
-      <span class="code-badge">Topic ${t.code}</span>
+      <span class="code-badge">Topic ${String(t.code).replace(/^FM/,'')}</span>
       <h1>${t.title}</h1>
       <p>${t.desc}</p>
     </div>
@@ -1649,7 +1694,7 @@ function renderTopic(t){
 
 function renderSearchResults(){
   const hits=[];
-  SYLLABUS.forEach(t=>{ t.subtopics.forEach(st=>{ if(subtopicMatches(st)) hits.push({t,st}); }); });
+  syl().forEach(t=>{ t.subtopics.forEach(st=>{ if(subtopicMatches(st)) hits.push({t,st}); }); });
   return `
     <div class="topic-head">
       <span class="code-badge">Search</span>
@@ -1665,8 +1710,10 @@ function render(){
   const content=document.getElementById('content');
   if(query.trim()){
     content.innerHTML = renderSearchResults();
+  } else if(activeTopic==='EXAM' && window.MK && MK.exam){
+    content.innerHTML=''; MK.exam.render(content, course);
   } else if(activeTopic){
-    const t=SYLLABUS.find(x=>x.code===activeTopic);
+    const t=syl().find(x=>x.code===activeTopic) || syl()[0];
     content.innerHTML = renderTopic(t);
     const back=document.getElementById('backBtn');
     if(back) back.addEventListener('click', ()=>{ activeTopic=null; render(); });
@@ -1690,6 +1737,7 @@ function render(){
   content.querySelectorAll('.item.open').forEach(ensureMounted);
 }
 
+document.querySelectorAll('.course-tabs button').forEach(b=>b.addEventListener('click', ()=>setCourse(b.dataset.course)));
 const searchEl=document.getElementById('search');
 searchEl.addEventListener('input', (e)=>{ query=e.target.value; openItems=new Set(); render(); });
 

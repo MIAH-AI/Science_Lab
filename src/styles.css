@@ -363,6 +363,11 @@ a svg {
   --tint: #d7eee7;
   --light: #f0fcf7;
 }
+.leaf {
+  --tone: #6f9a4a;
+  --tint: #e2efd2;
+  --light: #f6fbef;
+}
 .tiny-icon {
   color: var(--tone);
   background: var(--tint);
@@ -1328,6 +1333,11 @@ footer {
   --tint: #355a58;
   --light: #55877c;
   --tone: #abd5c7;
+}
+.night .leaf {
+  --tint: #3f5530;
+  --light: #66804c;
+  --tone: #c2dca2;
 }
 .night .subject-art,
 .night .open-subject {
