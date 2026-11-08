@@ -373,6 +373,11 @@ a svg {
   --tint: #e7e0f6;
   --light: #f7f4fd;
 }
+.soil {
+  --tone: #a87a3c;
+  --tint: #f1e3c8;
+  --light: #fcf7ec;
+}
 .tiny-icon {
   color: var(--tone);
   background: var(--tint);
@@ -1348,6 +1353,11 @@ footer {
   --tint: #463a66;
   --light: #6e5e9a;
   --tone: #cfc2f0;
+}
+.night .soil {
+  --tint: #5a4426;
+  --light: #8a6a3e;
+  --tone: #e8c890;
 }
 .night .subject-art,
 .night .open-subject {

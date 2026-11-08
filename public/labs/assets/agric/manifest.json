@@ -1,0 +1,4578 @@
+{
+ "hdri/farm_field_1k.hdr": {
+  "source": "https://polyhaven.com/a/farm_field",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/farm_field_512.hdr": {
+  "source": "https://polyhaven.com/a/farm_field",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri/farmland_overcast_1k.hdr": {
+  "source": "https://polyhaven.com/a/farmland_overcast",
+  "licence": "CC0 1.0",
+  "author": "Grzegorz Wronkowski",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/farmland_overcast_512.hdr": {
+  "source": "https://polyhaven.com/a/farmland_overcast",
+  "licence": "CC0 1.0",
+  "author": "Grzegorz Wronkowski",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_soil/farm_soil_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_soil",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/red_laterite_soil_stones/red_laterite_soil_stones_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_laterite_soil_stones",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/muddy_tracks/muddy_tracks_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/muddy_tracks",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/thatch_roof_angled/thatch_roof_angled_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/thatch_roof_angled",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/corrugated_iron_02/corrugated_iron_02_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/corrugated_iron_02",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri/mealie_road_1k.hdr": {
+  "source": "https://polyhaven.com/a/mealie_road",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/mealie_road_512.hdr": {
+  "source": "https://polyhaven.com/a/mealie_road",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri/waterkloof_farm_1k.hdr": {
+  "source": "https://polyhaven.com/a/waterkloof_farm",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/waterkloof_farm_512.hdr": {
+  "source": "https://polyhaven.com/a/waterkloof_farm",
+  "licence": "CC0 1.0",
+  "author": "Jenelle van Heerden",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/farm_furrows/farm_furrows_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/farm_furrows",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/leafy_grass/leafy_grass_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/leafy_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_floor/forest_floor_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_floor",
+  "licence": "CC0 1.0",
+  "author": "eye-candy.xyz",
+  "provider": "Poly Haven"
+ },
+ "textures/Grass004/Grass004_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass004/Grass004_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground037/Ground037_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground037",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/approaching_storm_1k.hdr": {
+  "source": "https://polyhaven.com/a/approaching_storm",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/approaching_storm_512.hdr": {
+  "source": "https://polyhaven.com/a/approaching_storm",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri/noon_grass_1k.hdr": {
+  "source": "https://polyhaven.com/a/noon_grass",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/noon_grass_512.hdr": {
+  "source": "https://polyhaven.com/a/noon_grass",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/sparse_grass/sparse_grass_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/sparse_grass",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/withered_grass/withered_grass_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/withered_grass",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "hdri/overcast_soil_1k.hdr": {
+  "source": "https://polyhaven.com/a/overcast_soil",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/overcast_soil_512.hdr": {
+  "source": "https://polyhaven.com/a/overcast_soil",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri/dry_field_1k.hdr": {
+  "source": "https://polyhaven.com/a/dry_field",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/dry_field_512.hdr": {
+  "source": "https://polyhaven.com/a/dry_field",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/excavated_soil_wall/excavated_soil_wall_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/excavated_soil_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_dry/brown_mud_dry_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_dry",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_mud_field_001/dry_mud_field_001_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_mud_field_001",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/red_dirt_mud_01/red_dirt_mud_01_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/red_dirt_mud_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/raked_dirt/raked_dirt_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/raked_dirt",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/Ground103/Ground103_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground103/Ground103_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground103",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground106/Ground106_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground106",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground109/Ground109_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground109",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Clay005/Clay005_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Clay005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Ground054/Ground054_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Ground054",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/dam_road_1k.hdr": {
+  "source": "https://polyhaven.com/a/dam_road",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/dam_road_512.hdr": {
+  "source": "https://polyhaven.com/a/dam_road",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri/parched_canal_1k.hdr": {
+  "source": "https://polyhaven.com/a/parched_canal",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/parched_canal_512.hdr": {
+  "source": "https://polyhaven.com/a/parched_canal",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/dry_ground_01/dry_ground_01_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/dry_ground_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/mud_cracked_dry_03/mud_cracked_dry_03_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/mud_cracked_dry_03",
+  "licence": "CC0 1.0",
+  "author": "Dario Barresi, Dimitrios Savva",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud_02/brown_mud_02_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "hdri/outdoor_workshop_1k.hdr": {
+  "source": "https://polyhaven.com/a/outdoor_workshop",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/outdoor_workshop_512.hdr": {
+  "source": "https://polyhaven.com/a/outdoor_workshop",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_metal/rusty_metal_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_metal",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_table_worn/wood_table_worn_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_table_worn",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/Metal049A/Metal049A_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Metal049A/Metal049A_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Metal049A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/straw_rolls_field_01_1k.hdr": {
+  "source": "https://polyhaven.com/a/straw_rolls_field_01",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/straw_rolls_field_01_512.hdr": {
+  "source": "https://polyhaven.com/a/straw_rolls_field_01",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri/harvest_1k.hdr": {
+  "source": "https://polyhaven.com/a/harvest",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/harvest_512.hdr": {
+  "source": "https://polyhaven.com/a/harvest",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal, Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/rusty_corrugated_iron/rusty_corrugated_iron_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/rusty_corrugated_iron",
+  "licence": "CC0 1.0",
+  "author": "Charlotte Baglioni",
+  "provider": "Poly Haven"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/CorrugatedSteel005/CorrugatedSteel005_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=CorrugatedSteel005",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/rolling_hills_1k.hdr": {
+  "source": "https://polyhaven.com/a/rolling_hills",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/rolling_hills_512.hdr": {
+  "source": "https://polyhaven.com/a/rolling_hills",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/clay_block_wall/clay_block_wall_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/clay_block_wall",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/ThatchedRoof001A/ThatchedRoof001A_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=ThatchedRoof001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/citrus_orchard_1k.hdr": {
+  "source": "https://polyhaven.com/a/citrus_orchard",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/citrus_orchard_512.hdr": {
+  "source": "https://polyhaven.com/a/citrus_orchard",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri/sunflowers_1k.hdr": {
+  "source": "https://polyhaven.com/a/sunflowers",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/sunflowers_512.hdr": {
+  "source": "https://polyhaven.com/a/sunflowers",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri/aloe_farm_shade_house_1k.hdr": {
+  "source": "https://polyhaven.com/a/aloe_farm_shade_house",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/aloe_farm_shade_house_512.hdr": {
+  "source": "https://polyhaven.com/a/aloe_farm_shade_house",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "textures/Leaf001/Leaf001_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf001/Leaf001_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Leaf003/Leaf003_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Leaf003",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark004/Bark004_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/mpumalanga_veld_1k.hdr": {
+  "source": "https://polyhaven.com/a/mpumalanga_veld",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/mpumalanga_veld_512.hdr": {
+  "source": "https://polyhaven.com/a/mpumalanga_veld",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri/hay_bales_1k.hdr": {
+  "source": "https://polyhaven.com/a/hay_bales",
+  "licence": "CC0 1.0",
+  "author": "Grzegorz Wronkowski",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/hay_bales_512.hdr": {
+  "source": "https://polyhaven.com/a/hay_bales",
+  "licence": "CC0 1.0",
+  "author": "Grzegorz Wronkowski",
+  "provider": "Poly Haven"
+ },
+ "textures/Grass001/Grass001_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Grass001/Grass001_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Grass001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/rainforest_trail_1k.hdr": {
+  "source": "https://polyhaven.com/a/rainforest_trail",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/rainforest_trail_512.hdr": {
+  "source": "https://polyhaven.com/a/rainforest_trail",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri/nature_reserve_forest_1k.hdr": {
+  "source": "https://polyhaven.com/a/nature_reserve_forest",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/nature_reserve_forest_512.hdr": {
+  "source": "https://polyhaven.com/a/nature_reserve_forest",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_leaves_02/forest_leaves_02_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_leaves_02",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/forest_ground_04/forest_ground_04_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/forest_ground_04",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/Bark001/Bark001_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark001/Bark001_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark001",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Bark012/Bark012_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Bark012",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/residential_garden_1k.hdr": {
+  "source": "https://polyhaven.com/a/residential_garden",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/residential_garden_512.hdr": {
+  "source": "https://polyhaven.com/a/residential_garden",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "hdri/symmetrical_garden_1k.hdr": {
+  "source": "https://polyhaven.com/a/symmetrical_garden",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/symmetrical_garden_512.hdr": {
+  "source": "https://polyhaven.com/a/symmetrical_garden",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "textures/Net002A/Net002A_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net002A/Net002A_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net002A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/belfast_farmhouse_1k.hdr": {
+  "source": "https://polyhaven.com/a/belfast_farmhouse",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/belfast_farmhouse_512.hdr": {
+  "source": "https://polyhaven.com/a/belfast_farmhouse",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Jarod Guest",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/wood_planks_dirt/wood_planks_dirt_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/wood_planks_dirt",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/brown_mud/brown_mud_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/brown_mud",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/Fabric084/Fabric084_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric084/Fabric084_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric084",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Wicker004/Wicker004_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Wicker004",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/near_the_river_01_1k.hdr": {
+  "source": "https://polyhaven.com/a/near_the_river_01",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/near_the_river_01_512.hdr": {
+  "source": "https://polyhaven.com/a/near_the_river_01",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri/river_walk_1_1k.hdr": {
+  "source": "https://polyhaven.com/a/river_walk_1",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/river_walk_1_512.hdr": {
+  "source": "https://polyhaven.com/a/river_walk_1",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/coast_sand_01/coast_sand_01_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/coast_sand_01",
+  "licence": "CC0 1.0",
+  "author": "Rob Tuytel",
+  "provider": "Poly Haven"
+ },
+ "textures/Net001A/Net001A_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net001A/Net001A_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net001A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Net003A/Net003A_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Net003A",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/wildflower_field_1k.hdr": {
+  "source": "https://polyhaven.com/a/wildflower_field",
+  "licence": "CC0 1.0",
+  "author": "Alexander Scholten",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/wildflower_field_512.hdr": {
+  "source": "https://polyhaven.com/a/wildflower_field",
+  "licence": "CC0 1.0",
+  "author": "Alexander Scholten",
+  "provider": "Poly Haven"
+ },
+ "textures/Fabric030/Fabric030_ao_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_ao_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_ao_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_color_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_color_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_color_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_disp_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_disp_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_disp_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_normal_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_normal_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_normal_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_rough_1k.jpg": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_rough_1k_1024.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "textures/Fabric030/Fabric030_rough_1k_512.webp": {
+  "source": "https://ambientcg.com/view?id=Fabric030",
+  "licence": "CC0 1.0",
+  "author": "ambientCG (Lennart Demes)",
+  "provider": "ambientCG"
+ },
+ "hdri/rural_crossroads_1k.hdr": {
+  "source": "https://polyhaven.com/a/rural_crossroads",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "hdri-low/rural_crossroads_512.hdr": {
+  "source": "https://polyhaven.com/a/rural_crossroads",
+  "licence": "CC0 1.0",
+  "author": "Sergej Majboroda",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_color_1k.jpg": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_color_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_color_1k_512.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_normal_1k.jpg": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_normal_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_normal_1k_512.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_arm_1k.jpg": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_arm_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_arm_1k_512.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_disp_1k.jpg": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_disp_1k_1024.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "textures/concrete_floor_worn_001/concrete_floor_worn_001_disp_1k_512.webp": {
+  "source": "https://polyhaven.com/a/concrete_floor_worn_001",
+  "licence": "CC0 1.0",
+  "author": "Dimitrios Savva, Rico Cilliers",
+  "provider": "Poly Haven"
+ },
+ "photos/web/b1_a_maize_field_nigeria_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=121289556",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "author": "Kambai Akau",
+  "provider": "Openverse / Wikimedia",
+  "query": "maize field Nigeria"
+ },
+ "photos/web/c3_b_tractor_maintenance_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=155681905",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "author": "Geoff Charles",
+  "provider": "Openverse / Wikimedia",
+  "query": "tractor maintenance"
+ },
+ "photos/web/h2_a_n_dama_cattle_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=12792170",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "ILRI",
+  "provider": "Openverse / Wikimedia",
+  "query": "N'Dama cattle"
+ },
+ "photos/web/h3_e_egg_candling_0.jpg": {
+  "source": "https://www.flickr.com/photos/54430347@N04/25534481404",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "USFWS Pacific Southwest Region",
+  "provider": "Openverse / Flickr",
+  "query": "egg candling"
+ },
+ "photos/web/h4_b_poultry_house_ventilation_0.jpg": {
+  "source": "https://www.flickr.com/photos/125352975@N03/15680905775",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Delaware Cooperative Extension",
+  "provider": "Openverse / Flickr",
+  "query": "poultry house ventilation"
+ },
+ "photos/web/h5_b_battery_cage_poultry_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=128932153",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "author": "Miquel Pujol Palol",
+  "provider": "Openverse / Wikimedia",
+  "query": "battery cage poultry"
+ },
+ "photos/web/h5_b_goat_pen_0.jpg": {
+  "source": "https://www.flickr.com/photos/99287245@N00/3010131690",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Todd Huffman",
+  "provider": "Openverse / Flickr",
+  "query": "goat pen"
+ },
+ "photos/web/h6_b_silage_0.jpg": {
+  "source": "https://www.flickr.com/photos/25874444@N00/9462243970",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "Peter Mooney",
+  "provider": "Openverse / Flickr",
+  "query": "silage"
+ },
+ "photos/web/h6_b_groundnut_cake_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=39608318",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "author": "Thamizhpparithi Maari",
+  "provider": "Openverse / Wikimedia",
+  "query": "groundnut cake"
+ },
+ "photos/web/h8_c_holstein_cow_0.jpg": {
+  "source": "https://www.flickr.com/photos/67826425@N02/7980839256",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "huggleperson",
+  "provider": "Openverse / Flickr",
+  "query": "Holstein cow"
+ },
+ "photos/web/h8_d_artificial_insemination_cattle_0.jpg": {
+  "source": "https://www.flickr.com/photos/55244200@N05/14260356166",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "SurfaceWarriors",
+  "provider": "Openverse / Flickr",
+  "query": "artificial insemination cattle"
+ },
+ "photos/web/h9_e_foot_and_mouth_disease_cattle_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=58243268",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Bryan Ledgard",
+  "provider": "Openverse / Wikimedia",
+  "query": "foot and mouth disease cattle"
+ },
+ "photos/web/h9_e_newcastle_disease_poultry_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=35439997",
+  "licence": "CC BY 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by/3.0/",
+  "author": "Dr. Peter Hooper, CSIRO",
+  "provider": "Openverse / Wikimedia",
+  "query": "Newcastle disease poultry"
+ },
+ "photos/web/h9_g_cattle_dip_tank_0.jpg": {
+  "source": "https://www.flickr.com/photos/21550937@N03/5531151070",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "roy.luck",
+  "provider": "Openverse / Flickr",
+  "query": "cattle dip tank"
+ },
+ "photos/web/h10_e_oreochromis_niloticus_0.jpg": {
+  "source": "https://www.inaturalist.org/observations/192357372",
+  "licence": "CC0 1.0",
+  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "author": "no rights reserved",
+  "provider": "iNaturalist",
+  "query": "Oreochromis niloticus"
+ },
+ "photos/web/h10_e_clarias_gariepinus_0.jpg": {
+  "source": "https://www.inaturalist.org/observations/147956944",
+  "licence": "CC0 1.0",
+  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "author": "no rights reserved",
+  "provider": "iNaturalist",
+  "query": "Clarias gariepinus"
+ },
+ "photos/web/h10_g_fish_smoking_kiln_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=156338056",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "Anne Burgess",
+  "provider": "Openverse / Wikimedia",
+  "query": "fish smoking kiln"
+ },
+ "photos/web/h10_g_cast_net_fishing_0.jpg": {
+  "source": "https://www.flickr.com/photos/19731486@N07/5337673437",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "brian.gratwicke",
+  "provider": "Openverse / Flickr",
+  "query": "cast net fishing"
+ },
+ "photos/web/h11_b_apis_mellifera_scutellata_0.jpg": {
+  "source": "https://www.inaturalist.org/observations/10850147",
+  "licence": "CC BY-SA",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "author": "Tony Rebelo",
+  "provider": "iNaturalist",
+  "query": "Apis mellifera scutellata"
+ },
+ "photos/web/h11_b_apis_mellifera_0.jpg": {
+  "source": "https://www.inaturalist.org/observations/128011193",
+  "licence": "CC0 1.0",
+  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "author": "no rights reserved",
+  "provider": "iNaturalist",
+  "query": "Apis mellifera"
+ },
+ "photos/web/h11_d_langstroth_hive_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=107360",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "author": "Robert Engelhardt.",
+  "provider": "Openverse / Wikimedia",
+  "query": "Langstroth hive"
+ },
+ "photos/web/h11_e_bee_smoker_0.jpg": {
+  "source": "https://www.flickr.com/photos/26344495@N05/48429662551",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Ivan Radic",
+  "provider": "Openverse / Flickr",
+  "query": "bee smoker"
+ },
+ "photos/web/h11_e_beekeeper_suit_0.jpg": {
+  "source": "https://www.flickr.com/photos/55883850@N02/8723599243",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "Hashoo Foundation USA - Houston, TX",
+  "provider": "Openverse / Flickr",
+  "query": "beekeeper suit"
+ },
+ "photos/web/i3_a_yam_market_nigeria_0.jpg": {
+  "source": "https://www.flickr.com/photos/72476440@N00/4184503453",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "satanoid",
+  "provider": "Openverse / Flickr",
+  "query": "yam market Nigeria"
+ },
+ "photos/web/i10_d_cocoa_export_port_0.jpg": {
+  "source": "https://www.flickr.com/photos/78404196@N05/48902987238",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "adzneefotografia",
+  "provider": "Openverse / Flickr",
+  "query": "cocoa export port"
+ },
+ "photos/web/i10_e_cashew_nuts_processing_0.jpg": {
+  "source": "https://www.flickr.com/photos/35580185@N08/3453745219",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "Abhishek Jacob",
+  "provider": "Openverse / Flickr",
+  "query": "cashew nuts processing"
+ },
+ "photos/web/i12_b_farmer_field_school_africa_0.jpg": {
+  "source": "https://www.flickr.com/photos/62256332@N08/54340083880",
+  "licence": "Public domain",
+  "licence_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+  "author": "USAID Mozambique",
+  "provider": "Openverse / Flickr",
+  "query": "farmer field school Africa"
+ },
+ "photos/web/pa_3_basalt_rock_0.jpg": {
+  "source": "https://www.flickr.com/photos/38451115@N04/6483706465",
+  "licence": "CC0 1.0",
+  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "author": "pasukaru76",
+  "provider": "Openverse / Flickr",
+  "query": "basalt rock"
+ },
+ "photos/web/pa_3_gneiss_rock_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=17689124",
+  "licence": "CC BY-SA 3.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "author": "Daniel Mayer (Mav)",
+  "provider": "Openverse / Wikimedia",
+  "query": "gneiss rock"
+ },
+ "photos/web/pa_5d_farmyard_manure_0.jpg": {
+  "source": "https://www.flickr.com/photos/59993138@N00/33250500702",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "samsaundersbristol",
+  "provider": "Openverse / Flickr",
+  "query": "farmyard manure"
+ },
+ "photos/web/pb_1_garden_trowel_hand_fork_0.jpg": {
+  "source": "https://www.flickr.com/photos/43188309@N00/4022031209",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "janetmck",
+  "provider": "Openverse / Flickr",
+  "query": "garden trowel hand fork"
+ },
+ "photos/web/pb_1_secateurs_0.jpg": {
+  "source": "https://www.flickr.com/photos/11569642@N00/12033655704",
+  "licence": "CC0 1.0",
+  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "author": "karenblakeman",
+  "provider": "Openverse / Flickr",
+  "query": "secateurs"
+ },
+ "photos/web/pb_1_rake_garden_tool_0.jpg": {
+  "source": "https://www.flickr.com/photos/188454520@N02/49906467736",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "chimpwithcan",
+  "provider": "Openverse / Flickr",
+  "query": "rake garden tool"
+ },
+ "photos/web/pb_3_winnowing_grain_africa_0.jpg": {
+  "source": "https://www.flickr.com/photos/40595948@N00/3157508890",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "A.Davey",
+  "provider": "Openverse / Flickr",
+  "query": "winnowing grain Africa"
+ },
+ "photos/web/pb_6_milking_machine_0.jpg": {
+  "source": "https://www.flickr.com/photos/54891040@N04/8443373961",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "granada_turnier",
+  "provider": "Openverse / Flickr",
+  "query": "milking machine"
+ },
+ "photos/web/pc_1_maize_grains_0.jpg": {
+  "source": "https://www.flickr.com/photos/139791896@N06/37646434250",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Mary Gillham Archive Project",
+  "provider": "Openverse / Flickr",
+  "query": "maize grains"
+ },
+ "photos/web/pc_1_ginger_rhizome_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=65759569",
+  "licence": "CC BY-SA 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "author": "Mk2010",
+  "provider": "Openverse / Wikimedia",
+  "query": "ginger rhizome"
+ },
+ "photos/web/pc_4_seed_germination_test_0.jpg": {
+  "source": "https://www.flickr.com/photos/39108150@N05/3820639783",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Region 5 Photography",
+  "provider": "Openverse / Flickr",
+  "query": "seed germination test"
+ },
+ "photos/web/pc_5_charcoal_production_africa_0.jpg": {
+  "source": "https://www.flickr.com/photos/62126383@N00/3536171501",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "hoyasmeg",
+  "provider": "Openverse / Flickr",
+  "query": "charcoal production Africa"
+ },
+ "photos/web/pd_3_hides_and_skins_drying_0.jpg": {
+  "source": "https://www.flickr.com/photos/31167421@N07/4017073869",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "Associated Fabrication",
+  "provider": "Openverse / Flickr",
+  "query": "hides and skins drying"
+ },
+ "photos/web/pd_5_taenia_0.jpg": {
+  "source": "https://www.inaturalist.org/observations/230781883",
+  "licence": "CC BY-SA",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "author": "Micha Baum",
+  "provider": "iNaturalist",
+  "query": "Taenia"
+ },
+ "photos/web/pd_7_burdizzo_castration_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=36096173",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "author": "Unknown",
+  "provider": "Openverse / Wikimedia",
+  "query": "burdizzo castration"
+ },
+ "photos/web/pd_7_ear_tag_cattle_0.jpg": {
+  "source": "https://www.flickr.com/photos/43145783@N00/3203745877",
+  "licence": "CC BY 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by/2.0/",
+  "author": "foxypar4",
+  "provider": "Openverse / Flickr",
+  "query": "ear tag cattle"
+ },
+ "photos/web/pd_8_smoked_fish_market_0.jpg": {
+  "source": "https://commons.wikimedia.org/w/index.php?curid=8627241",
+  "licence": "CC BY-SA 2.0",
+  "licence_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+  "author": "michael clarke stuff",
+  "provider": "Openverse / Wikimedia",
+  "query": "smoked fish market"
+ }
+}

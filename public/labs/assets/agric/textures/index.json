@@ -1,0 +1,352 @@
+{
+"Bark001": {
+"mean": [
+0.484,
+0.477,
+0.45
+],
+"lum": 0.476,
+"normal": true,
+"arm": true
+},
+"Bark004": {
+"mean": [
+0.598,
+0.554,
+0.519
+],
+"lum": 0.563,
+"normal": true,
+"arm": true
+},
+"Bark012": {
+"mean": [
+0.541,
+0.477,
+0.317
+],
+"lum": 0.478,
+"normal": true,
+"arm": true
+},
+"Clay005": {
+"mean": [
+0.623,
+0.471,
+0.361
+],
+"lum": 0.504,
+"normal": true,
+"arm": true
+},
+"Fabric030": {
+"mean": [
+0.358,
+0.358,
+0.358
+],
+"lum": 0.358,
+"normal": true,
+"arm": true
+},
+"Fabric084": {
+"mean": [
+0.361,
+0.556,
+0.748
+],
+"lum": 0.52,
+"normal": true,
+"arm": true
+},
+"Grass001": {
+"mean": [
+0.268,
+0.36,
+0.158
+],
+"lum": 0.309,
+"normal": true,
+"arm": true
+},
+"Ground054": {
+"mean": [
+0.611,
+0.546,
+0.429
+],
+"lum": 0.552,
+"normal": true,
+"arm": true
+},
+"Ground103": {
+"mean": [
+0.482,
+0.411,
+0.319
+],
+"lum": 0.422,
+"normal": true,
+"arm": true
+},
+"Ground109": {
+"mean": [
+0.493,
+0.434,
+0.331
+],
+"lum": 0.44,
+"normal": true,
+"arm": true
+},
+"Leaf001": {
+"mean": [
+0.154,
+0.195,
+0.058
+],
+"lum": 0.167,
+"normal": true,
+"arm": true
+},
+"Leaf003": {
+"mean": [
+0.148,
+0.156,
+0.113
+],
+"lum": 0.149,
+"normal": true,
+"arm": true
+},
+"Metal049A": {
+"mean": [
+0.99,
+0.983,
+0.966
+],
+"lum": 0.983,
+"normal": true,
+"arm": true
+},
+"Net001A": {
+"mean": [
+0.337,
+0.307,
+0.224
+],
+"lum": 0.307,
+"normal": true,
+"arm": true
+},
+"Net002A": {
+"mean": [
+0.429,
+0.387,
+0.281
+],
+"lum": 0.387,
+"normal": true,
+"arm": true
+},
+"Net003A": {
+"mean": [
+0.098,
+0.092,
+0.072
+],
+"lum": 0.092,
+"normal": true,
+"arm": true
+},
+"ThatchedRoof001A": {
+"mean": [
+0.431,
+0.386,
+0.329
+],
+"lum": 0.393,
+"normal": true,
+"arm": true
+},
+"Wicker004": {
+"mean": [
+0.388,
+0.275,
+0.196
+],
+"lum": 0.3,
+"normal": true,
+"arm": true
+},
+"brown_mud": {
+"mean": [
+0.368,
+0.339,
+0.295
+],
+"lum": 0.343,
+"normal": true,
+"arm": true
+},
+"brown_mud_02": {
+"mean": [
+0.302,
+0.269,
+0.215
+],
+"lum": 0.273,
+"normal": true,
+"arm": true
+},
+"brown_mud_dry": {
+"mean": [
+0.452,
+0.357,
+0.242
+],
+"lum": 0.372,
+"normal": true,
+"arm": true
+},
+"clay_block_wall": {
+"mean": [
+0.513,
+0.401,
+0.277
+],
+"lum": 0.42,
+"normal": true,
+"arm": true
+},
+"concrete_floor_worn_001": {
+"mean": [
+0.337,
+0.341,
+0.33
+],
+"lum": 0.339,
+"normal": true,
+"arm": true
+},
+"corrugated_iron_02": {
+"mean": [
+0.347,
+0.346,
+0.318
+],
+"lum": 0.343,
+"normal": true,
+"arm": true
+},
+"farm_furrows": {
+"mean": [
+0.358,
+0.296,
+0.193
+],
+"lum": 0.303,
+"normal": true,
+"arm": true
+},
+"farm_soil": {
+"mean": [
+0.344,
+0.249,
+0.154
+],
+"lum": 0.267,
+"normal": true,
+"arm": true
+},
+"forest_ground_04": {
+"mean": [
+0.417,
+0.354,
+0.265
+],
+"lum": 0.363,
+"normal": true,
+"arm": true
+},
+"leafy_grass": {
+"mean": [
+0.593,
+0.516,
+0.35
+],
+"lum": 0.52,
+"normal": true,
+"arm": true
+},
+"raked_dirt": {
+"mean": [
+0.437,
+0.389,
+0.316
+],
+"lum": 0.395,
+"normal": true,
+"arm": true
+},
+"rusty_corrugated_iron": {
+"mean": [
+0.344,
+0.161,
+0.096
+],
+"lum": 0.208,
+"normal": true,
+"arm": true
+},
+"rusty_metal": {
+"mean": [
+0.638,
+0.385,
+0.179
+],
+"lum": 0.437,
+"normal": true,
+"arm": true
+},
+"sparse_grass": {
+"mean": [
+0.312,
+0.242,
+0.082
+],
+"lum": 0.245,
+"normal": true,
+"arm": true
+},
+"withered_grass": {
+"mean": [
+0.676,
+0.58,
+0.476
+],
+"lum": 0.597,
+"normal": true,
+"arm": true
+},
+"wood_planks_dirt": {
+"mean": [
+0.454,
+0.358,
+0.272
+],
+"lum": 0.377,
+"normal": true,
+"arm": true
+},
+"wood_table_worn": {
+"mean": [
+0.326,
+0.186,
+0.082
+],
+"lum": 0.216,
+"normal": true,
+"arm": true
+}
+}
