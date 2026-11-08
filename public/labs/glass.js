@@ -66,4 +66,13 @@
   enhanceTopics();
   const topicList = document.getElementById('sidebarTopics');
   if (topicList) new MutationObserver(enhanceTopics).observe(topicList, {childList:true, subtree:true});
+  // A link ending in #exam (the home page "Practise" buttons) opens the lab straight into Exam mode.
+  function openExamFromLink() {
+    if (location.hash !== '#exam') return;
+    const entry = document.getElementById('examBtn') || document.querySelector('[data-topic="EXAM"]');
+    if (entry) entry.click();
+  }
+  if (document.readyState === 'complete') openExamFromLink();
+  else window.addEventListener('load', openExamFromLink, { once: true });
+  window.addEventListener('hashchange', openExamFromLink);
 })();

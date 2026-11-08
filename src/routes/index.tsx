@@ -1,595 +1,462 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import {
-  ArrowRight,
   Atom,
   BookOpen,
-  Check,
-  ChevronRight,
-  CircleQuestionMark,
+  Clock,
   FlaskConical,
-  GraduationCap,
-  Leaf,
   Globe,
-  Grid2x2,
-  Menu,
-  Moon,
+  House,
+  Leaf,
+  PenLine,
   Pause,
   Play,
   RotateCcw,
   Search,
-  Sparkles,
+  Sigma,
   Sun,
-  Timer,
-  WavesHorizontal,
+  Moon,
   X,
   type LucideIcon,
 } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import deskCss from '../desk.css?url'
+import { findTopics, type SubjectKey } from '../lib/topics'
 
 export const Route = createFileRoute('/')({
+  head: () => ({ links: [{ rel: 'stylesheet', href: deskCss }] }),
   component: Home,
 })
 
 type Subject = {
+  key: SubjectKey
   name: string
-  code: string
-  category: string
-  description: string
-  stats: string[]
+  facts: string[]
   path: string
-  color: 'violet' | 'peach' | 'mint' | 'leaf' | 'lilac'
-  icon: 'ƒ' | 'atom' | 'flask' | 'leaf' | 'globe'
-  topics: string
   Icon: LucideIcon
 }
 
-const LAB_ORIGIN = ''
-const FOCUS_SECONDS = 1500
-
 const subjects: Subject[] = [
   {
+    key: 'maths',
     name: 'Mathematics',
-    code: 'MATH',
-    category: 'The language of possibilities',
-    description:
-      'Core and Further Mathematics, from numbers and algebra to calculus and mechanics, with timed WAEC-style exam practice.',
-    stats: ['Core + Further', '94 simulations', 'Exam mode'],
+    facts: ['Core + Further', '94 simulations'],
     path: '/waec-maths-dashboard',
-    color: 'violet',
-    icon: 'ƒ',
-    topics: 'Algebra · Geometry · Statistics · Further Maths · Calculus · Exam',
-    Icon: BookOpen,
+    Icon: Sigma,
   },
   {
+    key: 'physics',
     name: 'Physics',
-    code: 'PHYS',
-    category: 'Discover the why behind everything',
-    description:
-      'Explore motion, energy, and the laws of our universe through hands-on 3D experiments and timed exam practice.',
-    stats: ['41 topics', '83 3D sim modes', 'Exam mode'],
+    facts: ['41 topics', '83 3D sim modes'],
     path: '/physics_lab_full',
-    color: 'peach',
-    icon: 'atom',
-    topics: 'Mechanics · Waves · Electricity · Exam',
     Icon: Atom,
   },
   {
+    key: 'chemistry',
     name: 'Chemistry',
-    code: 'CHEM',
-    category: 'Small particles. Big discoveries.',
-    description:
-      'Step inside the world of atoms, reactions, and the elements that make up everything, then test yourself in exam mode.',
-    stats: ['136 subtopics', '67 3D sim modules', 'Exam mode'],
+    facts: ['136 subtopics', '67 3D modules'],
     path: '/chemistry-simulations',
-    color: 'mint',
-    icon: 'flask',
-    topics: 'Atomic theory · Reactions · Elements · Exam',
     Icon: FlaskConical,
   },
   {
+    key: 'biology',
     name: 'Biology',
-    code: 'BIO',
-    category: 'The science of life',
-    description:
-      'Cells, body systems, plants, ecology and genetics in photoreal 3D labs, with Ghana and Section C topics and exam practice.',
-    stats: ['99 subtopics', '92 3D labs', 'Exam mode'],
+    facts: ['99 subtopics', '92 3D labs'],
     path: '/waec-biology-lab',
-    color: 'leaf',
-    icon: 'leaf',
-    topics: 'Cells · Body systems · Ecology · Genetics · Exam',
     Icon: Leaf,
   },
   {
+    key: 'geography',
     name: 'Geography',
-    code: 'GEOG',
-    category: 'Read the land, understand the world',
-    description:
-      'Map work, the earth, landforms, climate and people in 3D landscapes and relief maps, with regional geography for every WAEC country and exam practice.',
-    stats: ['144 subtopics', '3D maps & explainers', 'Exam mode'],
+    facts: ['144 subtopics', '3D maps'],
     path: '/waec-geography-lab',
-    color: 'lilac',
-    icon: 'globe',
-    topics: 'Map work · Landforms · Climate · Regional · Exam',
     Icon: Globe,
   },
 ]
 
-const navItems: [LucideIcon, string][] = [
-  [Grid2x2, 'Overview'],
-  [BookOpen, 'My subjects'],
-  [Atom, 'Simulations'],
+const TRY = [
+  'Photosynthesis',
+  'Logarithms',
+  'Refraction',
+  'Titration',
+  'Map work',
 ]
+const LENGTHS = [15, 25, 45]
+
+function Highlight({ text, q }: { text: string; q: string }) {
+  const words = q.trim().split(/\s+/).filter(Boolean)
+  if (!words.length) return <>{text}</>
+  const re = new RegExp(
+    `(${words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'i',
+  )
+  // split() with one capture group puts the matched words at the odd positions
+  return (
+    <>
+      {text
+        .split(re)
+        .map((part, i) => (i % 2 ? <mark key={i}>{part}</mark> : part))}
+    </>
+  )
+}
 
 function Home() {
   const [night, setNight] = useState(false)
-  useEffect(() => {
-    setNight(new URLSearchParams(window.location.search).get('appearance') === 'night')
-  }, [])
-  const labHref = (path: string) =>
-    `${LAB_ORIGIN}${path}?appearance=${night ? 'night' : 'default'}`
-
-  const [view, setView] = useState('Overview')
   const [query, setQuery] = useState('')
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [helpOpen, setHelpOpen] = useState(false)
+  const [examSubject, setExamSubject] = useState<SubjectKey>('biology')
+  const [minutes, setMinutes] = useState(25)
+  const [seconds, setSeconds] = useState(25 * 60)
   const [running, setRunning] = useState(false)
-  const [seconds, setSeconds] = useState(FOCUS_SECONDS)
 
+  // Appearance follows the ?appearance= hand-off from the labs, otherwise the device setting. Nothing is stored.
   useEffect(() => {
-    if (!running) return
-    if (seconds === 0) {
-      setRunning(false)
-      return
-    }
-    const id = window.setTimeout(() => setSeconds(seconds - 1), 1000)
-    return () => window.clearTimeout(id)
-  }, [running, seconds])
+    const param = new URLSearchParams(window.location.search).get('appearance')
+    // Browser-only values, read after hydration so the server and first client render match.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setNight(
+      param
+        ? param === 'night'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches,
+    )
+  }, [])
 
-  const visible = subjects.filter((s) =>
-    (s.name + ' ' + s.topics).toLowerCase().includes(query.toLowerCase()),
+  // The timer only ticks while it is running and has time left; reaching 0:00 stops it.
+  const ticking = running && seconds > 0
+  useEffect(() => {
+    if (!ticking) return
+    const id = window.setInterval(
+      () => setSeconds((s) => Math.max(0, s - 1)),
+      1000,
+    )
+    return () => window.clearInterval(id)
+  }, [ticking])
+
+  const labHref = (path: string, hash = '') =>
+    `${path}?appearance=${night ? 'night' : 'default'}${hash}`
+
+  const q = query.trim()
+  const results = useMemo(
+    () =>
+      subjects
+        .map((s) => ({ s, hits: q ? findTopics(s.key, q) : [] }))
+        .filter(
+          ({ s, hits }) =>
+            !q || hits.length || s.name.toLowerCase().includes(q.toLowerCase()),
+        ),
+    [q],
   )
 
-  function navigate(next: string) {
-    setView(next)
-    setMenuOpen(false)
-    setQuery('')
+  const exam = subjects.find((s) => s.key === examSubject)!
+  const mm = String(Math.floor(seconds / 60)).padStart(2, '0')
+  const ss = String(seconds % 60).padStart(2, '0')
+
+  function chooseLength(m: number) {
+    setMinutes(m)
+    setSeconds(m * 60)
+    setRunning(false)
   }
 
   return (
-    <div className={`workspace ${night ? 'night' : ''}`}>
-      <div className="ambient" aria-hidden="true" />
-      <div className="app-shell">
-        {menuOpen && (
-          <button
-            className="mobile-backdrop"
-            aria-label="Close navigation"
-            onClick={() => setMenuOpen(false)}
-          />
-        )}
-        <aside className={`sidebar glass ${menuOpen ? 'is-open' : ''}`}>
-          <a href="/" className="brand">
-            <span className="brand-mark">
-              <GraduationCap size={25} />
-            </span>
-            <span>
-              learnwith
-              <span className="brand-name">
-                nehy<span className="brand-dot">.</span>
-              </span>
-            </span>
+    <div className="sd" data-theme={night ? 'night' : 'day'}>
+      <header className="sd-top">
+        <a className="sd-brand" href={labHref('/')}>
+          <img src="/favicon.svg" alt="" />
+          <span>
+            learnwith<b>nehy.</b>
+          </span>
+        </a>
+        <nav className="sd-nav" aria-label="Main">
+          <a href="#top" aria-current="page">
+            Home
           </a>
-          <div className="sidebar-label">YOUR LEARNING SPACE</div>
-          <nav className="primary-nav" aria-label="Main navigation">
-            {navItems.map(([Icon, label]) => (
-              <button
-                key={label}
-                className={view === label ? 'nav-item selected' : 'nav-item'}
-                aria-current={view === label ? 'page' : undefined}
-                onClick={() => navigate(label)}
-              >
-                <Icon size={19} />
-                <span>{label}</span>
-                {label === 'My subjects' && <small>5</small>}
-                {view === label && <span className="nav-dot" />}
-              </button>
-            ))}
-          </nav>
-          <div className="sidebar-label subject-label">EXPLORE SUBJECTS</div>
-          <nav className="subject-nav" aria-label="Subjects">
-            {subjects.map((s) => (
-              <a key={s.code} href={labHref(s.path)}>
-                <span className={`tiny-icon ${s.color}`}>
-                  <s.Icon size={15} />
-                </span>
-                {s.name}
-                <ChevronRight size={14} />
-              </a>
-            ))}
-          </nav>
-          <div className="sidebar-bottom">
-            <div className="little-note">
-              <span className="little-spark">
-                <Sparkles size={21} />
-              </span>
-              <h3>
-                A little every day.
-                <br />A lot over time.
-              </h3>
-              <p>
-                Your next discovery is just
-                <br />
-                one lesson away.
-              </p>
-              <a href="#subjects" onClick={() => navigate('My subjects')}>
-                Find your next lesson <ArrowRight size={14} />
-              </a>
+          <a href="#subjects">Subjects</a>
+          <a href="#practice">Exam practice</a>
+          <a href="#focus">Focus timer</a>
+        </nav>
+        <div className="sd-theme" role="group" aria-label="Appearance">
+          <button
+            type="button"
+            aria-label="Day"
+            aria-pressed={!night}
+            onClick={() => setNight(false)}
+          >
+            <Sun size={17} aria-hidden="true" />
+            <span>Day</span>
+          </button>
+          <button
+            type="button"
+            aria-label="Night"
+            aria-pressed={night}
+            onClick={() => setNight(true)}
+          >
+            <Moon size={17} aria-hidden="true" />
+            <span>Night</span>
+          </button>
+        </div>
+      </header>
+
+      <main className="sd-wrap" id="top">
+        <div>
+          <section className="sd-hello">
+            <h1>What are you studying today?</h1>
+            <p>
+              Search any topic across five WAEC subjects, then learn it, see it
+              in 3D and test yourself.
+            </p>
+            <form
+              className="sd-search"
+              role="search"
+              onSubmit={(e) => {
+                e.preventDefault()
+                document.getElementById('subjects')?.scrollIntoView()
+              }}
+            >
+              <Search size={22} aria-hidden="true" />
+              <label className="sd-sr" htmlFor="sd-q">
+                Search topics
+              </label>
+              <input
+                id="sd-q"
+                type="search"
+                placeholder="Search a topic, e.g. photosynthesis, logarithms, refraction"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                autoComplete="off"
+              />
+              {query && (
+                <button
+                  type="button"
+                  className="clear"
+                  aria-label="Clear search"
+                  onClick={() => setQuery('')}
+                >
+                  <X size={18} />
+                </button>
+              )}
+            </form>
+            <div className="sd-chips">
+              Try:{' '}
+              {TRY.map((t) => (
+                <button type="button" key={t} onClick={() => setQuery(t)}>
+                  {t}
+                </button>
+              ))}
             </div>
-            <button className="help-link" onClick={() => setHelpOpen(true)}>
-              <CircleQuestionMark size={18} /> A little guidance <ChevronRight size={15} />
-            </button>
-            <div className="student">
-              <div className="avatar">N</div>
-              <div>
-                <strong>Your learning space</strong>
-                <span>WAEC study companion</span>
-              </div>
-              <span className="online-dot" />
-            </div>
+          </section>
+
+          <div className="sd-sec-h" id="subjects">
+            <h2>{q ? `Topics matching “${q}”` : 'Your subjects'}</h2>
+            <span aria-live="polite">
+              {q
+                ? `${results.length} subject${results.length === 1 ? '' : 's'}`
+                : 'Open a lab or go straight to exam practice'}
+            </span>
           </div>
+          <section className="sd-subjects">
+            {results.map(({ s, hits }) => (
+              <article
+                key={s.key}
+                className="sd-card sd-subj"
+                style={
+                  {
+                    '--c': `var(--${s.key})`,
+                    '--t': `var(--${s.key}-t)`,
+                  } as CSSProperties
+                }
+              >
+                <div className="row">
+                  <span className="badge">
+                    <s.Icon size={26} aria-hidden="true" />
+                  </span>
+                  <div>
+                    <h3>{s.name}</h3>
+                    <div className="facts">{s.facts.join(' · ')}</div>
+                  </div>
+                </div>
+                {hits.length > 0 && (
+                  <div className="topics">
+                    {hits.map((h, i) => (
+                      <span key={h}>
+                        {i > 0 && ' · '}
+                        <Highlight text={h} q={q} />
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <div className="acts">
+                  <a className="open" href={labHref(s.path)}>
+                    Open lab
+                  </a>
+                  <a className="exam" href={labHref(s.path, '#exam')}>
+                    Practise
+                  </a>
+                </div>
+              </article>
+            ))}
+            {!results.length && (
+              <div className="sd-card sd-empty">
+                <h3>No topics found</h3>
+                <p>Try a shorter word, like “cell”, “circle” or “acid”.</p>
+                <button
+                  type="button"
+                  className="sd-btn ghost"
+                  onClick={() => setQuery('')}
+                >
+                  Show all subjects
+                </button>
+              </div>
+            )}
+          </section>
+
+          <div className="sd-sec-h" id="practice">
+            <h2>Quick exam practice</h2>
+            <span>WAEC-style, timed, with worked solutions</span>
+          </div>
+          <form
+            className="sd-card sd-quick"
+            onSubmit={(e) => {
+              e.preventDefault()
+              window.location.href = labHref(exam.path, '#exam')
+            }}
+          >
+            <div className="grow">
+              <label htmlFor="sd-subject">Subject</label>
+              <select
+                id="sd-subject"
+                value={examSubject}
+                onChange={(e) => setExamSubject(e.target.value as SubjectKey)}
+              >
+                {subjects.map((s) => (
+                  <option key={s.key} value={s.key}>
+                    {s.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button type="submit" className="sd-btn primary">
+              <Play size={18} aria-hidden="true" /> Start practice
+            </button>
+            <p>
+              Choose Paper 1 or Paper 2 and the number of questions on the next
+              screen. Your score stays on that page only.
+            </p>
+          </form>
+        </div>
+
+        <aside className="sd-side" aria-label="Study tools">
+          <section className="sd-card" id="focus">
+            <h2>
+              <Clock size={18} aria-hidden="true" /> Focus timer
+            </h2>
+            <div className="sd-timer">
+              <strong
+                className="sd-num"
+                role="timer"
+                aria-label={`${mm} minutes ${ss} seconds left`}
+              >
+                {mm}:{ss}
+              </strong>
+              <small>
+                {seconds === 0
+                  ? 'Well done. Take a 5 minute break.'
+                  : 'One topic, no distractions.'}
+              </small>
+            </div>
+            <div className="sd-len" role="group" aria-label="Session length">
+              {LENGTHS.map((m) => (
+                <button
+                  type="button"
+                  key={m}
+                  aria-pressed={minutes === m}
+                  disabled={ticking}
+                  onClick={() => chooseLength(m)}
+                >
+                  {m} min
+                </button>
+              ))}
+            </div>
+            <div className="sd-timer-acts">
+              <button
+                type="button"
+                className="sd-btn"
+                onClick={() => {
+                  if (seconds === 0) {
+                    setSeconds(minutes * 60)
+                    setRunning(true)
+                  } else setRunning(!ticking)
+                }}
+              >
+                {ticking ? (
+                  <Pause size={18} aria-hidden="true" />
+                ) : (
+                  <Play size={18} aria-hidden="true" />
+                )}
+                {ticking
+                  ? 'Pause'
+                  : seconds === 0
+                    ? 'Start again'
+                    : seconds < minutes * 60
+                      ? 'Resume'
+                      : 'Start a session'}
+              </button>
+              <button
+                type="button"
+                className="sd-btn ghost"
+                aria-label="Reset timer"
+                onClick={() => chooseLength(minutes)}
+              >
+                <RotateCcw size={18} />
+              </button>
+            </div>
+          </section>
+          <section className="sd-card">
+            <h2>How to use a topic</h2>
+            <ol className="sd-steps">
+              <li>
+                <span className="n">1</span>
+                <div>
+                  <b>Read the notes</b>Syllabus points and examiner’s tips
+                </div>
+              </li>
+              <li>
+                <span className="n">2</span>
+                <div>
+                  <b>Try the 3D lab</b>Move the sliders and watch it change
+                </div>
+              </li>
+              <li>
+                <span className="n">3</span>
+                <div>
+                  <b>Test yourself</b>Fresh questions every time
+                </div>
+              </li>
+            </ol>
+          </section>
         </aside>
 
-        <div className="main-shell">
-          <header className="topbar">
-            <div className="breadcrumb">
-              <button
-                className="mobile-menu icon-button"
-                aria-label="Open navigation"
-                onClick={() => setMenuOpen(true)}
-              >
-                <Menu size={20} />
-              </button>
-              <span>My workspace</span>
-              <ChevronRight size={13} />
-              <strong>{view}</strong>
-            </div>
-            <div className="top-actions">
-              <span className="syllabus-pill">
-                <span /> WAEC syllabus
-              </span>
-              <div className="theme-switch" aria-label="Appearance">
-                <button
-                  className={night ? '' : 'active'}
-                  aria-label="Day mode"
-                  aria-pressed={!night}
-                  onClick={() => setNight(false)}
-                >
-                  <Sun size={15} />
-                  <span>Light</span>
-                </button>
-                <button
-                  className={night ? 'active' : ''}
-                  aria-label="Night mode"
-                  aria-pressed={night}
-                  onClick={() => setNight(true)}
-                >
-                  <Moon size={15} />
-                  <span>Dark</span>
-                </button>
-              </div>
-              <span className="top-avatar">N</span>
-            </div>
-          </header>
+        <footer className="sd-foot">
+          <span>Independent study companion. Not affiliated with WAEC.</span>
+          <span>Five subjects · full WAEC syllabus</span>
+        </footer>
+      </main>
 
-          <div className="page-grid">
-            <main>
-              <div className="page-heading">
-                <div>
-                  <div className="eyebrow">A FRESH PAGE, A NEW POSSIBILITY</div>
-                  <h1>
-                    Your space to <span>grow.</span>
-                  </h1>
-                  <p>A curious mind is all you need. Let’s learn something today.</p>
-                </div>
-                <span className="welcome-spark" aria-hidden="true">
-                  ✳
-                </span>
-              </div>
-
-              <section className="hero glass">
-                <div className="hero-copy">
-                  <div className="hero-tag">
-                    <span /> MADE FOR YOUR NEXT AHA! MOMENT
-                  </div>
-                  <h2>
-                    Big ideas.
-                    <br />
-                    Brighter futures.
-                  </h2>
-                  <p>
-                    Your entire WAEC syllabus, brought to life.
-                    <br />
-                    Explore, experiment, and make it click.
-                  </p>
-                  <a
-                    className="primary-button"
-                    href="#subjects"
-                    onClick={() => navigate('My subjects')}
-                  >
-                    Explore your subjects <ArrowRight size={17} />
-                  </a>
-                  <div className="hero-caption">
-                    <Check size={13} /> No installs. Just possibilities.
-                  </div>
-                </div>
-                <div className="hero-art" aria-hidden="true">
-                  <div className="orbit orbit-one" />
-                  <div className="orbit orbit-two" />
-                  <div className="orb">
-                    <GraduationCap size={77} strokeWidth={1.25} />
-                  </div>
-                  <span className="floating-tile formula">
-                    ƒ<span> x</span>
-                  </span>
-                  <span className="floating-tile atom">
-                    <Atom size={33} />
-                  </span>
-                  <span className="floating-tile flask">
-                    <FlaskConical size={29} />
-                  </span>
-                  <span className="art-dot one" />
-                  <span className="art-dot two" />
-                  <span className="art-star">✧</span>
-                </div>
-              </section>
-
-              <div className="quick-stats">
-                <div>
-                  <span className="stat-icon">
-                    <BookOpen size={18} />
-                  </span>
-                  <strong>5</strong>
-                  <span>subjects to explore</span>
-                </div>
-                <div>
-                  <span className="stat-icon">
-                    <Atom size={18} />
-                  </span>
-                  <strong>480+</strong>
-                  <span>interactive simulations</span>
-                </div>
-                <div>
-                  <span className="stat-icon">
-                    <GraduationCap size={19} />
-                  </span>
-                  <strong>WAEC</strong>
-                  <span>aligned learning</span>
-                </div>
-              </div>
-
-              <section id="subjects" className="subjects-section">
-                <div className="section-header">
-                  <div>
-                    <h2>
-                      {view === 'Simulations' ? 'Your virtual labs' : 'Your subjects'}{' '}
-                      <span>{String(visible.length).padStart(2, '0')}</span>
-                    </h2>
-                    <p>
-                      {view === 'Simulations'
-                        ? 'Learn by doing. Open a subject to explore its simulations.'
-                        : 'Choose a subject. Follow your curiosity.'}
-                    </p>
-                  </div>
-                  <label className="search">
-                    <Search size={16} />
-                    <input
-                      aria-label="Search subjects"
-                      placeholder="Find a subject..."
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                    />
-                    {query && (
-                      <button aria-label="Clear search" onClick={() => setQuery('')}>
-                        <X size={13} />
-                      </button>
-                    )}
-                  </label>
-                </div>
-                <div className="subject-list">
-                  {visible.map((s, i) => (
-                    <a
-                      key={s.code}
-                      className={`subject-card glass ${s.color}`}
-                      href={labHref(s.path)}
-                      style={{ animationDelay: `${i * 80}ms` }}
-                    >
-                      <span className="subject-art" aria-hidden="true">
-                        {s.icon === 'ƒ' ? (
-                          <span className="math-symbol">
-                            ƒ<span>x</span>
-                          </span>
-                        ) : s.icon === 'atom' ? (
-                          <Atom size={46} strokeWidth={1.4} />
-                        ) : s.icon === 'leaf' ? (
-                          <Leaf size={44} strokeWidth={1.5} />
-                        ) : s.icon === 'globe' ? (
-                          <Globe size={44} strokeWidth={1.5} />
-                        ) : (
-                          <FlaskConical size={43} strokeWidth={1.5} />
-                        )}
-                      </span>
-                      <div className="subject-info">
-                        <div className="subject-code">
-                          {s.code}
-                          <span>{s.category}</span>
-                        </div>
-                        <h3>{s.name}</h3>
-                        <p>{s.description}</p>
-                        <div className="subject-stats">
-                          {s.stats.map((stat) => (
-                            <span key={stat}>{stat}</span>
-                          ))}
-                        </div>
-                      </div>
-                      <span className="open-subject">
-                        <ArrowRight size={20} />
-                      </span>
-                    </a>
-                  ))}
-                  {!visible.length && (
-                    <div className="empty-state">
-                      <Search size={25} />
-                      <h3>No subjects found</h3>
-                      <p>Try mathematics, physics, chemistry, biology, geography, or a topic like algebra.</p>
-                      <button onClick={() => setQuery('')}>Show all subjects</button>
-                    </div>
-                  )}
-                </div>
-              </section>
-
-              <footer>
-                <span>Built for curious minds. Made for your future.</span>
-                <span>Independent study companion · Not affiliated with WAEC</span>
-              </footer>
-            </main>
-
-            <aside className="right-sidebar" aria-label="Study tools">
-              <section className="focus-card glass">
-                <div className="panel-title">
-                  <span>
-                    <Timer size={17} /> A moment to focus
-                  </span>
-                  <span className="mini-dot" />
-                </div>
-                <p>Small sessions. Meaningful progress.</p>
-                <div
-                  className={`timer-ring ${running ? 'is-running' : ''}`}
-                  style={
-                    { '--progress': `${(seconds / FOCUS_SECONDS) * 100}%` } as CSSProperties
-                  }
-                >
-                  <div>
-                    <span className="timer-caption">
-                      {seconds === 0
-                        ? 'WELL DONE'
-                        : running
-                          ? 'YOU’VE GOT THIS'
-                          : 'YOUR FOCUS TIME'}
-                    </span>
-                    <strong role="timer" aria-label="Focus time remaining">
-                      {String(Math.floor(seconds / 60)).padStart(2, '0')}
-                      <span>:</span>
-                      {String(seconds % 60).padStart(2, '0')}
-                    </strong>
-                    <span className="timer-sub">
-                      {seconds === 0 ? 'Take a well-earned break' : 'One thing at a time'}
-                    </span>
-                  </div>
-                </div>
-                <div className="timer-actions">
-                  <button
-                    className="focus-button"
-                    onClick={() => {
-                      if (!seconds) setSeconds(FOCUS_SECONDS)
-                      setRunning(!running)
-                    }}
-                  >
-                    {running ? <Pause size={15} /> : <Play size={15} />}{' '}
-                    {running ? 'Pause session' : seconds === 0 ? 'Start again' : 'Start focusing'}
-                  </button>
-                  <button
-                    className="reset-button"
-                    aria-label="Reset focus timer"
-                    onClick={() => {
-                      setRunning(false)
-                      setSeconds(FOCUS_SECONDS)
-                    }}
-                  >
-                    <RotateCcw size={16} />
-                  </button>
-                </div>
-                <div className="focus-footer">
-                  <span />
-                  <span>25 min focus</span>
-                  <i />
-                  <span>5 min break after</span>
-                </div>
-              </section>
-
-              <section className="path-card glass">
-                <div className="panel-title">
-                  <span>
-                    <BookOpen size={17} /> Your learning toolkit
-                  </span>
-                </div>
-                <div className="tool-row">
-                  <span className="tool-icon">
-                    <BookOpen size={17} />
-                  </span>
-                  <div>
-                    <strong>Understand the concepts</strong>
-                    <p>Clear topics, at your own pace</p>
-                  </div>
-                </div>
-                <div className="tool-row">
-                  <span className="tool-icon">
-                    <WavesHorizontal size={17} />
-                  </span>
-                  <div>
-                    <strong>See it in action</strong>
-                    <p>Try interactive simulations</p>
-                  </div>
-                </div>
-                <div className="tool-row">
-                  <span className="tool-icon">
-                    <Check size={18} />
-                  </span>
-                  <div>
-                    <strong>Test yourself</strong>
-                    <p>Timed WAEC-style exams with worked solutions</p>
-                  </div>
-                </div>
-                <a href={labHref('/waec-maths-dashboard')}>
-                  Start with Mathematics <ArrowRight size={15} />
-                </a>
-              </section>
-
-              <div className="quote-card">
-                <span className="quote-mark">“</span>
-                <blockquote>
-                  The beautiful thing about learning is that nobody can take it away from
-                  you.
-                </blockquote>
-                <span className="quote-author">— B. B. KING</span>
-                <div className="quote-decor" aria-hidden="true">
-                  <Sparkles size={25} />
-                </div>
-              </div>
-              <div className="right-foot">
-                <span className="live-dot" /> A calmer place to learn.
-              </div>
-            </aside>
-          </div>
-        </div>
-      </div>
-
-      <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
-        <DialogContent className="guidance-dialog">
-          <DialogTitle>Make yourself at home.</DialogTitle>
-          <DialogDescription>
-            Choose Mathematics, Physics, Chemistry, Biology or Geography to open its Learn with Nehy study lab.
-            Each subject includes syllabus topics, interactive simulations and a timed exam mode
-            with worked solutions. Mathematics covers both Core and Further Mathematics. Use the focus
-            timer for a distraction-free 25-minute session, and switch between Light and Dark
-            to find your comfortable setting.
-          </DialogDescription>
-        </DialogContent>
-      </Dialog>
+      <nav className="sd-tabbar" aria-label="Main">
+        <a href="#top" aria-current="page">
+          <House size={22} aria-hidden="true" />
+          Home
+        </a>
+        <a href="#subjects">
+          <BookOpen size={22} aria-hidden="true" />
+          Subjects
+        </a>
+        <a href="#practice">
+          <PenLine size={22} aria-hidden="true" />
+          Practice
+        </a>
+        <a href="#focus">
+          <Clock size={22} aria-hidden="true" />
+          Timer
+        </a>
+      </nav>
     </div>
   )
 }
