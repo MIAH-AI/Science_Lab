@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WAEC Physics — Interactive Simulation Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="/fonts/fonts.css" rel="stylesheet">
 <style>
 :root{
   --blue-0:#081321; --blue-1:#0d1e33; --blue-2:#132a45;
@@ -2149,7 +2148,7 @@ function renderNav(){
     });
     group.appendChild(body); navEl.appendChild(group);
   });
-  if(searchTerm && navEl.children.length===0) navEl.innerHTML=`<div class="no-results">No topics match "${searchTerm}".</div>`;
+  if(searchTerm && navEl.children.length===0){ const none=document.createElement("div"); none.className="no-results"; none.textContent=`No topics match "${searchTerm}".`; navEl.replaceChildren(none); }
   { const eb=document.getElementById("examBtn"); if(eb){ eb.classList.toggle("active",activeKey==="EXAM"); eb.setAttribute("aria-pressed",String(activeKey==="EXAM")); } }
   const {simN,cardN}=countSimsCards();
   document.getElementById("simCountTag").textContent=simN; document.getElementById("cardCountTag").textContent=Object.values(SIMS).reduce((a,v)=>a+v.length,0);
@@ -2295,5 +2294,3 @@ renderNav();
 </html>
 
 
-<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ae21603c2b8e615e6e569ad" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-agent-runner-id="6ae215409238dbf9fd9cfb0a"></script>
-<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-app-host="app.netlify.com" data-account-tier="personal"></script>
