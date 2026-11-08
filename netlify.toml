@@ -28,3 +28,8 @@
   from = "/waec-biology-lab"
   to = "/labs/waec-biology-lab.html"
   status = 200
+
+[[redirects]]
+  from = "/waec-geography-lab"
+  to = "/labs/waec-geography-lab.html"
+  status = 200

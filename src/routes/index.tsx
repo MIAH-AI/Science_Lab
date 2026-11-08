@@ -10,6 +10,7 @@ import {
   FlaskConical,
   GraduationCap,
   Leaf,
+  Globe,
   Grid2x2,
   Menu,
   Moon,
@@ -42,8 +43,8 @@ type Subject = {
   description: string
   stats: string[]
   path: string
-  color: 'violet' | 'peach' | 'mint' | 'leaf'
-  icon: 'ƒ' | 'atom' | 'flask' | 'leaf'
+  color: 'violet' | 'peach' | 'mint' | 'leaf' | 'lilac'
+  icon: 'ƒ' | 'atom' | 'flask' | 'leaf' | 'globe'
   topics: string
   Icon: LucideIcon
 }
@@ -103,6 +104,19 @@ const subjects: Subject[] = [
     icon: 'leaf',
     topics: 'Cells · Body systems · Ecology · Genetics · Exam',
     Icon: Leaf,
+  },
+  {
+    name: 'Geography',
+    code: 'GEOG',
+    category: 'Read the land, understand the world',
+    description:
+      'Map work, the earth, landforms, climate and people in 3D landscapes and relief maps, with regional geography for every WAEC country and exam practice.',
+    stats: ['144 subtopics', '3D maps & explainers', 'Exam mode'],
+    path: '/waec-geography-lab',
+    color: 'lilac',
+    icon: 'globe',
+    topics: 'Map work · Landforms · Climate · Regional · Exam',
+    Icon: Globe,
   },
 ]
 
@@ -181,7 +195,7 @@ function Home() {
               >
                 <Icon size={19} />
                 <span>{label}</span>
-                {label === 'My subjects' && <small>4</small>}
+                {label === 'My subjects' && <small>5</small>}
                 {view === label && <span className="nav-dot" />}
               </button>
             ))}
@@ -339,14 +353,14 @@ function Home() {
                   <span className="stat-icon">
                     <BookOpen size={18} />
                   </span>
-                  <strong>4</strong>
+                  <strong>5</strong>
                   <span>subjects to explore</span>
                 </div>
                 <div>
                   <span className="stat-icon">
                     <Atom size={18} />
                   </span>
-                  <strong>340+</strong>
+                  <strong>480+</strong>
                   <span>interactive simulations</span>
                 </div>
                 <div>
@@ -403,6 +417,8 @@ function Home() {
                           <Atom size={46} strokeWidth={1.4} />
                         ) : s.icon === 'leaf' ? (
                           <Leaf size={44} strokeWidth={1.5} />
+                        ) : s.icon === 'globe' ? (
+                          <Globe size={44} strokeWidth={1.5} />
                         ) : (
                           <FlaskConical size={43} strokeWidth={1.5} />
                         )}
@@ -429,7 +445,7 @@ function Home() {
                     <div className="empty-state">
                       <Search size={25} />
                       <h3>No subjects found</h3>
-                      <p>Try mathematics, physics, chemistry, biology, or a topic like algebra.</p>
+                      <p>Try mathematics, physics, chemistry, biology, geography, or a topic like algebra.</p>
                       <button onClick={() => setQuery('')}>Show all subjects</button>
                     </div>
                   )}
@@ -566,7 +582,7 @@ function Home() {
         <DialogContent className="guidance-dialog">
           <DialogTitle>Make yourself at home.</DialogTitle>
           <DialogDescription>
-            Choose Mathematics, Physics, Chemistry or Biology to open its Learn with Nehy study lab.
+            Choose Mathematics, Physics, Chemistry, Biology or Geography to open its Learn with Nehy study lab.
             Each subject includes syllabus topics, interactive simulations and a timed exam mode
             with worked solutions. Mathematics covers both Core and Further Mathematics. Use the focus
             timer for a distraction-free 25-minute session, and switch between Light and Dark

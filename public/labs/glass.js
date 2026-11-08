@@ -5,6 +5,7 @@
     ['Physics', '/physics_lab_full'],
     ['Chemistry', '/chemistry-simulations'],
     ['Biology', '/waec-biology-lab'],
+    ['Geography', '/waec-geography-lab'],
   ];
   const container = document.getElementById('glass-navigation');
   const brand = document.createElement('a');
