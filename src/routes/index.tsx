@@ -20,6 +20,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import deskCss from '../desk.css?url'
+import { formatFocus, parseFocus } from '../lib/focus'
 import { findTopics, type SubjectKey } from '../lib/topics'
 
 export const Route = createFileRoute('/')({
@@ -105,11 +106,14 @@ function Home() {
   const [examSubject, setExamSubject] = useState<SubjectKey>('biology')
   const [minutes, setMinutes] = useState(25)
   const [seconds, setSeconds] = useState(25 * 60)
-  const [running, setRunning] = useState(false)
+  // When the timer is running, the moment it reaches 0:00 (epoch ms); null when paused or stopped.
+  const [endAt, setEndAt] = useState<number | null>(null)
 
-  // Appearance follows the ?appearance= hand-off from the labs, otherwise the device setting. Nothing is stored.
+  // Appearance and the focus timer follow the ?appearance= and ?focus= hand-off from the labs,
+  // otherwise the device setting. Nothing is stored.
   useEffect(() => {
-    const param = new URLSearchParams(window.location.search).get('appearance')
+    const params = new URLSearchParams(window.location.search)
+    const param = params.get('appearance')
     // Browser-only values, read after hydration so the server and first client render match.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setNight(
@@ -117,21 +121,39 @@ function Home() {
         ? param === 'night'
         : window.matchMedia('(prefers-color-scheme: dark)').matches,
     )
+    const focus = parseFocus(params.get('focus'), Date.now())
+    if (focus) {
+      setMinutes(focus.minutes)
+      setSeconds(focus.seconds)
+      setEndAt(focus.endAt)
+    }
   }, [])
 
-  // The timer only ticks while it is running and has time left; reaching 0:00 stops it.
-  const ticking = running && seconds > 0
+  // While running, the display is worked out from the end time, so it stays right across page changes.
+  const ticking = endAt !== null && seconds > 0
   useEffect(() => {
-    if (!ticking) return
-    const id = window.setInterval(
-      () => setSeconds((s) => Math.max(0, s - 1)),
-      1000,
-    )
+    if (endAt === null) return
+    const tick = () => {
+      const left = Math.max(0, Math.ceil((endAt - Date.now()) / 1000))
+      setSeconds(left)
+      if (left === 0) setEndAt(null)
+    }
+    const id = window.setInterval(tick, 1000)
     return () => window.clearInterval(id)
-  }, [ticking])
+  }, [endAt])
+
+  // Keep the address bar in step, so a reload or the Back button picks the timer up again.
+  const focus = formatFocus({ minutes, seconds, endAt })
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (focus) url.searchParams.set('focus', focus)
+    else url.searchParams.delete('focus')
+    if (url.href !== window.location.href)
+      window.history.replaceState(window.history.state, '', url)
+  }, [focus])
 
   const labHref = (path: string, hash = '') =>
-    `${path}?appearance=${night ? 'night' : 'default'}${hash}`
+    `${path}?appearance=${night ? 'night' : 'default'}${focus ? `&focus=${focus}` : ''}${hash}`
 
   const q = query.trim()
   const results = useMemo(
@@ -152,7 +174,7 @@ function Home() {
   function chooseLength(m: number) {
     setMinutes(m)
     setSeconds(m * 60)
-    setRunning(false)
+    setEndAt(null)
   }
 
   return (
@@ -358,7 +380,9 @@ function Home() {
               <small>
                 {seconds === 0
                   ? 'Well done. Take a 5 minute break.'
-                  : 'One topic, no distractions.'}
+                  : ticking
+                    ? 'Keeps running when you open a lab.'
+                    : 'One topic, no distractions.'}
               </small>
             </div>
             <div className="sd-len" role="group" aria-label="Session length">
@@ -379,10 +403,12 @@ function Home() {
                 type="button"
                 className="sd-btn"
                 onClick={() => {
-                  if (seconds === 0) {
-                    setSeconds(minutes * 60)
-                    setRunning(true)
-                  } else setRunning(!ticking)
+                  if (ticking) setEndAt(null)
+                  else {
+                    const left = seconds === 0 ? minutes * 60 : seconds
+                    setSeconds(left)
+                    setEndAt(Date.now() + left * 1000)
+                  }
                 }}
               >
                 {ticking ? (

@@ -1,4 +1,4 @@
-/* Appearance stays in transient URL/UI state; no learner data is stored. */
+/* Appearance and the focus timer stay in transient URL/UI state; no learner data is stored. */
 (() => {
   const subjects = [
     ['Mathematics', '/waec-maths-dashboard'],
@@ -24,6 +24,58 @@
     nav.append(link);
   }
   container.append(nav);
+  /* Focus timer started on the home page. It arrives as ?focus= (same format as src/lib/focus.ts:
+     "<end ms>-<minutes>" while running, "p<seconds left>-<minutes>" while paused) and goes back out on every link. */
+  const focus = readFocus(new URLSearchParams(location.search).get('focus'));
+  let focusBtn = null, focusSay = null;
+  if (focus) {
+    focusBtn = document.createElement('button');
+    focusBtn.type = 'button';
+    focusBtn.className = 'glass-focus';
+    focusSay = document.createElement('span');
+    focusSay.className = 'glass-sr';
+    focusSay.setAttribute('role', 'status');
+    focusBtn.addEventListener('click', () => {
+      if (focus.left === 0) return;
+      if (focus.endAt) { focus.left = secondsLeft(); focus.endAt = null; }
+      else focus.endAt = Date.now() + focus.left * 1000;
+      paintFocus(); refreshLinks();
+    });
+    container.append(focusBtn, focusSay);
+    paintFocus();
+    setInterval(() => { if (focus.endAt) paintFocus(); }, 1000);
+  }
+  function readFocus(value) {
+    const m = /^(p?)(\d{1,15})-(\d{1,3})$/.exec(value || '');
+    if (!m) return null;
+    const minutes = +m[3], n = +m[2], now = Date.now();
+    if (minutes < 1 || minutes > 180) return null;
+    if (m[1]) return n >= 1 && n <= minutes * 60 ? { minutes, endAt: null, left: n } : null;
+    const left = Math.ceil((n - now) / 1000);
+    if (left > minutes * 60 + 5 || now - n > 3600000) return null;
+    return { minutes, endAt: n, left: Math.max(0, left) };
+  }
+  function secondsLeft() { return focus.endAt ? Math.max(0, Math.ceil((focus.endAt - Date.now()) / 1000)) : focus.left; }
+  function focusParam() {
+    if (!focus) return '';
+    if (focus.endAt) return focus.endAt + '-' + focus.minutes;
+    return focus.left > 0 ? 'p' + focus.left + '-' + focus.minutes : '';
+  }
+  function paintFocus() {
+    const was = focus.left;
+    focus.left = secondsLeft();
+    const mm = String(Math.floor(focus.left / 60)).padStart(2, '0'), ss = String(focus.left % 60).padStart(2, '0');
+    if (focus.left === 0) {
+      focusBtn.textContent = '✓ Break time';
+      focusBtn.setAttribute('aria-label', 'Focus session finished. Take a 5 minute break.');
+      focusBtn.dataset.state = 'done';
+      if (was > 0) focusSay.textContent = 'Focus session finished. Take a 5 minute break.';
+      return;
+    }
+    focusBtn.textContent = (focus.endAt ? '⏱ ' : '⏸ ') + mm + ':' + ss;
+    focusBtn.setAttribute('aria-label', 'Focus timer, ' + +mm + ' minutes ' + +ss + ' seconds left. ' + (focus.endAt ? 'Pause' : 'Resume'));
+    focusBtn.dataset.state = focus.endAt ? 'running' : 'paused';
+  }
   const appearance = document.createElement('div');
   appearance.className = 'glass-appearance';
   appearance.setAttribute('role', 'group');
@@ -37,14 +89,23 @@
     return button;
   });
   container.append(appearance);
+  let isNight = false;
   function setAppearance(night) {
+    isNight = night;
     document.documentElement.classList.toggle('night', night);
     buttons.forEach((button, index) => button.setAttribute('aria-pressed', String(night === (index === 1))));
+    refreshLinks();
+  }
+  // Rewrites the address bar and every lab link so appearance and the focus timer carry over.
+  function refreshLinks() {
+    const appearanceValue = isNight ? 'night' : 'default', focusValue = focusParam();
     const url = new URL(location.href);
-    url.searchParams.set('appearance', night ? 'night' : 'default');
+    url.searchParams.set('appearance', appearanceValue);
+    if (focusValue) url.searchParams.set('focus', focusValue); else url.searchParams.delete('focus');
     history.replaceState(null, '', url);
-    nav.querySelectorAll('a').forEach((link, i) => { link.href = subjects[i][1] + '?appearance=' + (night ? 'night' : 'default'); });
-    brand.href = '/?appearance=' + (night ? 'night' : 'default');
+    const query = '?appearance=' + appearanceValue + (focusValue ? '&focus=' + focusValue : '');
+    nav.querySelectorAll('a').forEach((link, i) => { link.href = subjects[i][1] + query; });
+    brand.href = '/' + query;
   }
   setAppearance(new URLSearchParams(location.search).get('appearance') === 'night');
   document.querySelectorAll('input[type=text], input:not([type])').forEach(input => {

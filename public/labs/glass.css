@@ -90,3 +90,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[t
   .lab-chemistry .topbar {padding:0 10px;gap:8px}.brand {font-size:15px}.btn-ghost {padding:7px 9px;font-size:11px}
 }
 @media(prefers-reduced-motion:reduce) {*,*::before,*::after {scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* Focus timer carried over from the home page (glass.js). */
+.glass-focus {margin-left:auto;border:1px solid var(--g-edge);background:var(--g-well);color:var(--g-ink);font-family:inherit;font-size:13px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;padding:9px 12px;border-radius:13px;cursor:pointer;white-space:nowrap;box-shadow:inset 1px 2px 4px var(--g-shadow)}
+.glass-focus[data-state=done] {cursor:default;color:var(--teal)}
+.glass-sr {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:680px) {.glass-focus {font-size:11px;padding:6px 9px}}

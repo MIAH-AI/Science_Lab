@@ -428,7 +428,9 @@
     // transport / bar
     const bReset = el("button", { type: "button", class: "mk-btn" }, "⟲ Reset");
     bReset.addEventListener("click", () => { const v = JSON.parse(JSON.stringify(sc.values || {})); Object.keys(c).forEach((k) => delete c[k]); Object.assign(c, v); const ns = sc.state ? sc.state(c) : {}; Object.keys(s).forEach((k) => delete s[k]); Object.assign(s, ns); sc.reset && sc.reset(s, c, H); H.shown = 2; onCh("_reset"); if (H.reset3d) H.reset3d(); });
-    if (sc.tick) { H.playing = sc.autoplay !== false; const bp = el("button", { type: "button", class: "mk-btn" }); const paint = () => { bp.textContent = H.playing ? "❚❚ Pause" : "▶ Play"; }; paint(); bp.addEventListener("click", () => { H.playing = !H.playing; paint(); if (H.playing) H.kick && H.kick(); }); bar.appendChild(bp); H.paintPlay = paint; }
+    // Reduced motion: animations start paused. 3D scenes animate even without a tick, so they get the button too.
+    const reduced = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (sc.tick || is3d) { H.playing = sc.autoplay !== false && !reduced; const bp = el("button", { type: "button", class: "mk-btn" }); const paint = () => { bp.textContent = H.playing ? "❚❚ Pause" : "▶ Play"; }; paint(); bp.addEventListener("click", () => { H.playing = !H.playing; paint(); if (H.playing) H.kick && H.kick(); }); bar.appendChild(bp); H.paintPlay = paint; }
     bar.appendChild(bReset);
     (sc.actions || []).forEach((a) => { const b = el("button", { type: "button", class: "mk-btn" }, a.label); b.addEventListener("click", () => { a.run(s, c, H); onCh("_act"); H.kick && H.kick(); }); bar.appendChild(b); });
     if (is3d && sc.views) { bar.appendChild(el("span", { class: "sp" })); bar.appendChild(el("span", { class: "lbl" }, "view")); sc.views.forEach((v) => { const b = el("button", { type: "button", class: "mk-btn" }, v.label); b.addEventListener("click", () => H.setView && H.setView(v)); bar.appendChild(b); }); }
@@ -527,7 +529,7 @@
       const ok = await MK.load3D(); if (!ok) { showFallback(); return; }
       MK.unmount3d();
       stage.innerHTML = ""; const hud = el("canvas", { class: "mk-hud", width: 640, height: 400 }); stage.appendChild(hud);
-      const variant = { state: s, values: c, modeName: "maths:" + H.key };
+      const variant = { state: s, values: c, modeName: "maths:" + H.key, label: sc.title };
       const P3D = window.P3D; let ok2 = false;
       try { ok2 = P3D.begin(variant, sc, hud); } catch (e) { console.error("maths3d begin", e); }
       if (!ok2) { try { P3D.end(); } catch (e) { } showFallback(); return; }

@@ -2169,10 +2169,12 @@ let rafId=null, lastTime=null, running=true, canvasEl=null, ctx=null, timeScale=
 function resetVariant(variant){ variant.reset(variant.state,variant.values); const sc=window.P3D&&P3D.ready&&P3D.scenes[variant.modeName]; if(sc&&sc.reset) sc.reset(variant.state,variant.values); }
 function stopEngine(){ if(rafId) cancelAnimationFrame(rafId); rafId=null; lastTime=null; if(window.P3D&&P3D.S) P3D.end(); }
 function startEngine(variant){
-  stopEngine(); running=true;
+  stopEngine(); running=!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches); // reduced motion: start paused
+  { const pb=document.getElementById("playBtn"); if(pb) pb.textContent=running?"Pause":"Play"; }
   /* photoreal three.js scene registered for this simulation? else the original 2D drawing is used */
   const sc=(window.P3D&&P3D.ready)?P3D.scenes[variant.modeName]:null;
   const real=!!(sc&&P3D.begin(variant,sc,canvasEl));
+  if(!real&&canvasEl){ canvasEl.setAttribute("role","img"); canvasEl.setAttribute("aria-label",(variant.label?variant.label+". ":"")+"Simulation. The current values are listed under Readout."); }
   const LW=640, LH=400;
   function loop(ts){
     if(lastTime===null) lastTime=ts; let dt=(ts-lastTime)/1000; lastTime=ts; dt=Math.min(dt,0.05);
@@ -2243,6 +2245,7 @@ function renderMain(part, topic){
       html += `<div class="modebar">` + variants.map((v,i)=>`<button class="modebtn${i===activeMode?' active':''}" data-mode="${i}">${v.modeName}</button>`).join("") + `</div>`;
     }
     const variant = variants[activeMode] || variants[0];
+    variant.label = topic.title + (variants.length>1 ? " — " + variant.modeName : "");
     if(!variant.values) variant.values = mv(variant.controls);
     if(!variant.state._init){ resetVariant(variant); variant.state._init=true; }
     html += `<div class="eqn">${variant.eqn}</div>

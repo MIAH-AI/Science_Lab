@@ -118,6 +118,11 @@ if (only.includes('chemistry')) {
           await p.locator('.subpill').nth(s).click()
           await p.waitForTimeout(350)
         }
+        // 3D scene files download the first time a subtopic opens; wait for that before pressing anything.
+        await p
+          .locator('.c3-loading')
+          .waitFor({ state: 'detached', timeout: 15000 })
+          .catch(() => failures.push(`chemistry | ${title} | 3D scene still loading after 15s`))
         const b = p.locator('.sim-btn').first()
         if (await b.count()) {
           await b.click({ timeout: 1500 }).catch(() => {})
