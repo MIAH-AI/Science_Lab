@@ -21,7 +21,7 @@ UA = "LearnWithNehy-asset-fetch/1.0 (educational WAEC simulations)"
 PHOTO_LICENCES = re.compile(r"^(CC0|Public domain|PD|CC BY(-SA)? [0-9.]+|CC BY(-SA)?)", re.I)
 
 
-def get(url, binary=False, tries=3):
+def get(url, binary=False, tries=4):
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA})
@@ -32,7 +32,11 @@ def get(url, binary=False, tries=3):
             if i == tries - 1:
                 print("  ! failed", url, e)
                 return None
-            time.sleep(2 * (i + 1))
+            # Wikimedia rate-limits bursts (HTTP 429): back off much longer before retrying
+            time.sleep((15 if "429" in str(e) else 2) * (i + 1))
+        finally:
+            if "wikimedia.org" in url:
+                time.sleep(1.5)  # stay well inside Wikimedia's polite request rate
 
 
 def save(path, data):
@@ -192,6 +196,7 @@ def main():
     ap.add_argument("--only", default="hdris,textures,models,ambientcg,photos")
     ap.add_argument("--res", default="1k")
     ap.add_argument("--photos", type=int, default=2)
+    ap.add_argument("--skip-existing", action="store_true", help="skip photo searches for elements that already have photos")
     a = ap.parse_args()
     only = set(a.only.split(","))
     cat = json.load(open(os.path.join(ROOT, "catalogue.json")))
@@ -215,7 +220,7 @@ def main():
                     ambientcg(asset, a.res, manifest)
                 except Exception as e:  # noqa: BLE001
                     print("  ! skipped", asset, e)
-        if "photos" in only:
+        if "photos" in only and not (a.skip_existing and os.path.isdir(os.path.join(ROOT, "photos", el["id"]))):
             for q in el.get("photos", []):
                 print("  photos", q)
                 try:

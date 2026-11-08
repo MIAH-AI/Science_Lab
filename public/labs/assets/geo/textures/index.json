@@ -1,0 +1,902 @@
+{
+"Asphalt031": {
+"mean": [
+0.472,
+0.472,
+0.472
+],
+"lum": 0.472,
+"normal": true,
+"arm": true
+},
+"Bark007": {
+"mean": [
+0.637,
+0.626,
+0.524
+],
+"lum": 0.618,
+"normal": true,
+"arm": true
+},
+"Bark014": {
+"mean": [
+0.476,
+0.402,
+0.316
+],
+"lum": 0.414,
+"normal": true,
+"arm": true
+},
+"CorrugatedSteel005": {
+"mean": [
+0.602,
+0.609,
+0.619
+],
+"lum": 0.608,
+"normal": true,
+"arm": true
+},
+"CorrugatedSteel007A": {
+"mean": [
+0.497,
+0.667,
+0.716
+],
+"lum": 0.621,
+"normal": true,
+"arm": true
+},
+"Grass004": {
+"mean": [
+0.379,
+0.427,
+0.189
+],
+"lum": 0.385,
+"normal": true,
+"arm": true
+},
+"Ground037": {
+"mean": [
+0.599,
+0.576,
+0.343
+],
+"lum": 0.557,
+"normal": true,
+"arm": true
+},
+"Ground106": {
+"mean": [
+0.463,
+0.384,
+0.282
+],
+"lum": 0.396,
+"normal": true,
+"arm": true
+},
+"Lava001": {
+"mean": [
+0.292,
+0.22,
+0.233
+],
+"lum": 0.243,
+"normal": true,
+"arm": true
+},
+"Lava002": {
+"mean": [
+0.237,
+0.208,
+0.241
+],
+"lum": 0.221,
+"normal": true,
+"arm": true
+},
+"Lava003": {
+"mean": [
+0.307,
+0.217,
+0.235
+],
+"lum": 0.246,
+"normal": true,
+"arm": true
+},
+"Lava004": {
+"mean": [
+0.676,
+0.27,
+0.183
+],
+"lum": 0.381,
+"normal": true,
+"arm": true
+},
+"Lava005": {
+"mean": [
+0.486,
+0.253,
+0.235
+],
+"lum": 0.321,
+"normal": true,
+"arm": true
+},
+"PaintedWood009C": {
+"mean": [
+0.7,
+0.653,
+0.589
+],
+"lum": 0.66,
+"normal": true,
+"arm": true
+},
+"aerial_beach_01": {
+"mean": [
+0.568,
+0.526,
+0.478
+],
+"lum": 0.533,
+"normal": true,
+"arm": true
+},
+"aerial_beach_03": {
+"mean": [
+0.426,
+0.377,
+0.341
+],
+"lum": 0.388,
+"normal": true,
+"arm": true
+},
+"aerial_grass_rock": {
+"mean": [
+0.446,
+0.382,
+0.142
+],
+"lum": 0.374,
+"normal": true,
+"arm": true
+},
+"aerial_mud_1": {
+"mean": [
+0.243,
+0.219,
+0.205
+],
+"lum": 0.225,
+"normal": true,
+"arm": true
+},
+"aerial_rocks_02": {
+"mean": [
+0.431,
+0.364,
+0.204
+],
+"lum": 0.366,
+"normal": true,
+"arm": true
+},
+"aerial_sand": {
+"mean": [
+0.622,
+0.544,
+0.504
+],
+"lum": 0.563,
+"normal": true,
+"arm": true
+},
+"bark_brown_02": {
+"mean": [
+0.372,
+0.338,
+0.249
+],
+"lum": 0.338,
+"normal": true,
+"arm": true
+},
+"bitumen": {
+"mean": [
+0.23,
+0.214,
+0.204
+],
+"lum": 0.218,
+"normal": true,
+"arm": true
+},
+"box_profile_metal_sheet": {
+"mean": [
+0.417,
+0.149,
+0.091
+],
+"lum": 0.223,
+"normal": true,
+"arm": true
+},
+"brown_mud_03": {
+"mean": [
+0.325,
+0.289,
+0.231
+],
+"lum": 0.293,
+"normal": true,
+"arm": true
+},
+"brown_mud_leaves_01": {
+"mean": [
+0.396,
+0.33,
+0.2
+],
+"lum": 0.335,
+"normal": true,
+"arm": true
+},
+"burned_ground_01": {
+"mean": [
+0.385,
+0.336,
+0.286
+],
+"lum": 0.345,
+"normal": true,
+"arm": true
+},
+"clay_roof_tiles": {
+"mean": [
+0.351,
+0.202,
+0.109
+],
+"lum": 0.236,
+"normal": true,
+"arm": true
+},
+"cliff_side": {
+"mean": [
+0.487,
+0.325,
+0.193
+],
+"lum": 0.358,
+"normal": true,
+"arm": true
+},
+"coast_sand_01": {
+"mean": [
+0.51,
+0.45,
+0.359
+],
+"lum": 0.457,
+"normal": true,
+"arm": true
+},
+"coast_sand_rocks_02": {
+"mean": [
+0.294,
+0.269,
+0.176
+],
+"lum": 0.266,
+"normal": true,
+"arm": true
+},
+"concrete_rock_path": {
+"mean": [
+0.361,
+0.315,
+0.265
+],
+"lum": 0.323,
+"normal": true,
+"arm": true
+},
+"coral_mud_01": {
+"mean": [
+0.663,
+0.559,
+0.434
+],
+"lum": 0.576,
+"normal": true,
+"arm": true
+},
+"corrugated_iron": {
+"mean": [
+0.666,
+0.702,
+0.684
+],
+"lum": 0.689,
+"normal": true,
+"arm": true
+},
+"cracked_red_ground": {
+"mean": [
+0.395,
+0.292,
+0.202
+],
+"lum": 0.313,
+"normal": true,
+"arm": true
+},
+"damp_beach_sand_02": {
+"mean": [
+0.36,
+0.334,
+0.27
+],
+"lum": 0.335,
+"normal": true,
+"arm": true
+},
+"dark_rock": {
+"mean": [
+0.128,
+0.111,
+0.093
+],
+"lum": 0.114,
+"normal": true,
+"arm": true
+},
+"dark_rock_02": {
+"mean": [
+0.229,
+0.203,
+0.172
+],
+"lum": 0.207,
+"normal": true,
+"arm": true
+},
+"dirt": {
+"mean": [
+0.388,
+0.323,
+0.243
+],
+"lum": 0.334,
+"normal": true,
+"arm": true
+},
+"dirt_aerial_02": {
+"mean": [
+0.484,
+0.371,
+0.253
+],
+"lum": 0.391,
+"normal": true,
+"arm": true
+},
+"dry_ground_01": {
+"mean": [
+0.518,
+0.478,
+0.413
+],
+"lum": 0.482,
+"normal": true,
+"arm": true
+},
+"dry_ground_rocks": {
+"mean": [
+0.584,
+0.453,
+0.307
+],
+"lum": 0.476,
+"normal": true,
+"arm": true
+},
+"dry_mud_field_001": {
+"mean": [
+0.398,
+0.347,
+0.272
+],
+"lum": 0.354,
+"normal": true,
+"arm": true
+},
+"dry_river_pebbles": {
+"mean": [
+0.484,
+0.411,
+0.319
+],
+"lum": 0.422,
+"normal": true,
+"arm": true
+},
+"dry_riverbed_rock": {
+"mean": [
+0.402,
+0.336,
+0.289
+],
+"lum": 0.35,
+"normal": true,
+"arm": true
+},
+"eucalyptus_bark": {
+"mean": [
+0.331,
+0.271,
+0.189
+],
+"lum": 0.28,
+"normal": true,
+"arm": true
+},
+"excavated_soil_wall": {
+"mean": [
+0.424,
+0.305,
+0.165
+],
+"lum": 0.325,
+"normal": true,
+"arm": true
+},
+"factory_wall": {
+"mean": [
+0.383,
+0.465,
+0.294
+],
+"lum": 0.421,
+"normal": true,
+"arm": true
+},
+"forest_floor": {
+"mean": [
+0.632,
+0.503,
+0.343
+],
+"lum": 0.523,
+"normal": true,
+"arm": true
+},
+"forest_ground_05": {
+"mean": [
+0.347,
+0.268,
+0.18
+],
+"lum": 0.282,
+"normal": true,
+"arm": true
+},
+"forest_leaves_02": {
+"mean": [
+0.558,
+0.441,
+0.228
+],
+"lum": 0.452,
+"normal": true,
+"arm": true
+},
+"ganges_river_pebbles": {
+"mean": [
+0.5,
+0.461,
+0.412
+],
+"lum": 0.467,
+"normal": true,
+"arm": true
+},
+"grass_ground": {
+"mean": [
+0.431,
+0.379,
+0.243
+],
+"lum": 0.379,
+"normal": true,
+"arm": true
+},
+"gravel_road": {
+"mean": [
+0.475,
+0.348,
+0.249
+],
+"lum": 0.375,
+"normal": true,
+"arm": true
+},
+"gravelly_sand": {
+"mean": [
+0.573,
+0.434,
+0.299
+],
+"lum": 0.46,
+"normal": true,
+"arm": true
+},
+"gray_rocks": {
+"mean": [
+0.473,
+0.444,
+0.393
+],
+"lum": 0.447,
+"normal": true,
+"arm": true
+},
+"leaves_forest_ground": {
+"mean": [
+0.449,
+0.344,
+0.189
+],
+"lum": 0.358,
+"normal": true,
+"arm": true
+},
+"low_tide_rocks": {
+"mean": [
+0.401,
+0.352,
+0.277
+],
+"lum": 0.358,
+"normal": true,
+"arm": true
+},
+"marble_cliff_01": {
+"mean": [
+0.676,
+0.561,
+0.458
+],
+"lum": 0.584,
+"normal": true,
+"arm": true
+},
+"marble_cliff_04": {
+"mean": [
+0.752,
+0.639,
+0.535
+],
+"lum": 0.661,
+"normal": true,
+"arm": true
+},
+"marble_rock_01": {
+"mean": [
+0.593,
+0.542,
+0.475
+],
+"lum": 0.55,
+"normal": true,
+"arm": true
+},
+"mud_cracked_dry_03": {
+"mean": [
+0.813,
+0.663,
+0.507
+],
+"lum": 0.69,
+"normal": true,
+"arm": true
+},
+"mud_cracked_dry_riverbed_002": {
+"mean": [
+0.561,
+0.469,
+0.379
+],
+"lum": 0.486,
+"normal": true,
+"arm": true
+},
+"muddy_tracks": {
+"mean": [
+0.314,
+0.187,
+0.107
+],
+"lum": 0.216,
+"normal": true,
+"arm": true
+},
+"palm_bark": {
+"mean": [
+0.346,
+0.305,
+0.268
+],
+"lum": 0.313,
+"normal": true,
+"arm": true
+},
+"palm_tree_bark": {
+"mean": [
+0.613,
+0.566,
+0.505
+],
+"lum": 0.573,
+"normal": true,
+"arm": true
+},
+"plaster_brick_01": {
+"mean": [
+0.428,
+0.393,
+0.245
+],
+"lum": 0.386,
+"normal": true,
+"arm": true
+},
+"quarry_wall": {
+"mean": [
+0.337,
+0.298,
+0.229
+],
+"lum": 0.302,
+"normal": true,
+"arm": true
+},
+"red_brick": {
+"mean": [
+0.559,
+0.404,
+0.315
+],
+"lum": 0.44,
+"normal": true,
+"arm": true
+},
+"red_dirt_mud_01": {
+"mean": [
+0.493,
+0.328,
+0.208
+],
+"lum": 0.364,
+"normal": true,
+"arm": true
+},
+"red_laterite_soil_stones": {
+"mean": [
+0.395,
+0.245,
+0.18
+],
+"lum": 0.283,
+"normal": true,
+"arm": true
+},
+"red_mud_stones": {
+"mean": [
+0.43,
+0.26,
+0.153
+],
+"lum": 0.299,
+"normal": true,
+"arm": true
+},
+"red_sand": {
+"mean": [
+0.504,
+0.353,
+0.273
+],
+"lum": 0.389,
+"normal": true,
+"arm": true
+},
+"reed_roof_03": {
+"mean": [
+0.543,
+0.464,
+0.354
+],
+"lum": 0.475,
+"normal": true,
+"arm": true
+},
+"riet_01": {
+"mean": [
+0.372,
+0.351,
+0.322
+],
+"lum": 0.354,
+"normal": true,
+"arm": true
+},
+"river_small_rocks": {
+"mean": [
+0.473,
+0.425,
+0.356
+],
+"lum": 0.432,
+"normal": true,
+"arm": true
+},
+"rock_06": {
+"mean": [
+0.493,
+0.382,
+0.274
+],
+"lum": 0.403,
+"normal": true,
+"arm": true
+},
+"rock_08": {
+"mean": [
+0.558,
+0.489,
+0.396
+],
+"lum": 0.499,
+"normal": true,
+"arm": true
+},
+"rock_boulder_dry": {
+"mean": [
+0.658,
+0.61,
+0.551
+],
+"lum": 0.618,
+"normal": true,
+"arm": true
+},
+"rock_face": {
+"mean": [
+0.38,
+0.274,
+0.193
+],
+"lum": 0.296,
+"normal": true,
+"arm": true
+},
+"rock_face_03": {
+"mean": [
+0.514,
+0.413,
+0.315
+],
+"lum": 0.432,
+"normal": true,
+"arm": true
+},
+"rock_pitted_mossy": {
+"mean": [
+0.765,
+0.613,
+0.463
+],
+"lum": 0.642,
+"normal": true,
+"arm": true
+},
+"rock_wall_02": {
+"mean": [
+0.349,
+0.304,
+0.21
+],
+"lum": 0.307,
+"normal": true,
+"arm": true
+},
+"rocks_ground_02": {
+"mean": [
+0.427,
+0.369,
+0.275
+],
+"lum": 0.376,
+"normal": true,
+"arm": true
+},
+"rocky_terrain_02": {
+"mean": [
+0.313,
+0.309,
+0.108
+],
+"lum": 0.287,
+"normal": true,
+"arm": true
+},
+"rocky_trail_02": {
+"mean": [
+0.532,
+0.422,
+0.322
+],
+"lum": 0.443,
+"normal": true,
+"arm": true
+},
+"rough_block_wall": {
+"mean": [
+0.51,
+0.466,
+0.377
+],
+"lum": 0.469,
+"normal": true,
+"arm": true
+},
+"rough_plaster_03": {
+"mean": [
+0.568,
+0.504,
+0.439
+],
+"lum": 0.516,
+"normal": true,
+"arm": true
+},
+"sandstone_cracks": {
+"mean": [
+0.82,
+0.632,
+0.453
+],
+"lum": 0.668,
+"normal": true,
+"arm": true
+},
+"sandy_gravel_02": {
+"mean": [
+0.604,
+0.452,
+0.321
+],
+"lum": 0.482,
+"normal": true,
+"arm": true
+},
+"thatch_roof_angled": {
+"mean": [
+0.331,
+0.314,
+0.286
+],
+"lum": 0.316,
+"normal": true,
+"arm": true
+}
+}

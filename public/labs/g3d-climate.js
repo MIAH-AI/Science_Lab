@@ -48,7 +48,7 @@
     controls: [{ type: "slider", key: "wdir", label: "Wind blowing from", min: 0, max: 359, step: 1, fmt: (v) => ["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(v / 45) % 8] + " (" + v + "°)" }, { type: "slider", key: "wspd", label: "Wind speed", min: 0, max: 1, step: 0.05 }],
     build(g, S, s) {
       const T3 = T(), white = mat(0xf4f4f0, { roughness: 0.6 });
-      const grass = new T3.Mesh(new T3.CircleGeometry(6, 48), mat(0x5c7d34)); grass.rotation.x = -Math.PI / 2; grass.receiveShadow = true; g.add(grass);
+      const grass = new T3.Mesh(new T3.CircleGeometry(6, 48), GK.pbr("grass_ground", { repeat: 8, color: 0xd8e8c0 })); grass.rotation.x = -Math.PI / 2; grass.receiveShadow = true; g.add(grass);
       const fence = []; for (let i = 0; i < 24; i++) { const a = i / 24 * 6.283; const p = new T3.Mesh(new T3.BoxGeometry(0.05, 0.6, 0.05), mat(0x8a6a4a)); p.position.set(Math.cos(a) * 3.2, 0.3, Math.sin(a) * 3.2); g.add(p); }
       const scr = new T3.Group(); scr.position.set(-1.2, 0, 0); g.add(scr);
       [[-0.3, -0.25], [0.3, -0.25], [-0.3, 0.25], [0.3, 0.25]].forEach(([x, z]) => { const l = new T3.Mesh(new T3.BoxGeometry(0.05, 1.2, 0.05), white); l.position.set(x, 0.6, z); scr.add(l); });
@@ -442,7 +442,7 @@
       const rills = (x, z) => ero && z < 0 ? 0.03 * Math.max(0, Math.sin(z * 18)) * sm(2.8, 0, x) : 0;
       const terr = (x, z) => (!ero && x < 0 ? Math.floor(slope(x, z) / 0.25) * 0.25 - slope(x, z) : 0);
       const h = (x, z) => slope(x, z) + terr(x, z) * (x < 0 ? 1 : 0) - gully(x, z) - rills(x, z) + (BK.fbm(x, z, 3) - 0.5) * 0.04;
-      g.add(GK.block({ w: 6, d: 4, h, strata: (x, y, z, yt) => (y > yt - 0.12 ? hex3(0x4a3420) : y > yt - 0.5 ? hex3(0x9a5a2a) : hex3(0xb8a07a)), tint: (hn, sl, x, z) => (ero ? mix3(hex3(0xa4582c), hex3(0x7a5a3a), BK.fbm(x * 2, z * 2, 1)) : x < 0 ? hex3(0x5a8a30) : mix3(hex3(0x4f7a2a), hex3(0x6a8a3a), BK.fbm(x * 3, z * 3, 2))) }));
+      g.add(GK.block({ w: 6, d: 4, h, ground: ero ? "red_laterite_soil_stones" : "grass_ground", strata: (x, y, z, yt) => (y > yt - 0.12 ? hex3(0x4a3420) : y > yt - 0.5 ? hex3(0x9a5a2a) : hex3(0xb8a07a)), tint: (hn, sl, x, z) => (ero ? mix3(hex3(0xa4582c), hex3(0x7a5a3a), BK.fbm(x * 2, z * 2, 1)) : x < 0 ? hex3(0x5a8a30) : mix3(hex3(0x4f7a2a), hex3(0x6a8a3a), BK.fbm(x * 3, z * 3, 2))) }));
       if (!ero) { for (let i = 0; i < 9; i++) { const P = []; for (let k = 0; k <= 20; k++) { const z = -1.9 + k * 0.19, x = 0.4 + i * 0.28; P.push([x, h(x, z) + 0.03, z]); } g.add(GK.line(P, 0x6a4a2a, 0.02)); } GK.flora(g, GK.scatter(60, -2.9, -0.2, -1.9, 1.9, h, null, 101).map(([x, y, z]) => [x, y, z, 0.6]), "shrub", 0x4a8a2a, 0.3); GK.flora(g, GK.scatter(12, 2.6, 2.95, -1.9, 1.9, h, null, 102), "broad", 0x2f5e26, 0.4); }
       else { const sp = GK.water(1.4, 0.8, 0x8a6a3a, 0.9); sp.position.set(3.4, 0.04, 0.9); g.add(sp); }
       s.rain = GK.particles(400, 0x9ac8ff, 0.03, 0.8); g.add(s.rain); s.rq = Array.from({ length: 400 }, () => [Math.random() * 6 - 3, Math.random(), Math.random() * 4 - 2]); s.h = h;
