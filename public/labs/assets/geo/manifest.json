@@ -1,0 +1,322 @@
+{
+ "hdri-low/aristea_wreck_puresky_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/aristea_wreck_puresky",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/blouberg_sunrise_2_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/blouberg_sunrise_2",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "mrdoob/three.js",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/dikhololo_night_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/dikhololo_night",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/forest_slope_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/forest_slope",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/hilly_terrain_01_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/hilly_terrain_01",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/immenstadter_horn_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/immenstadter_horn",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/kiara_1_dawn_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/kiara_1_dawn",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/narrow_moonlit_road_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/narrow_moonlit_road",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/noon_grass_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/noon_grass",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/quarry_01_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/quarry_01",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "mrdoob/three.js",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/rainforest_trail_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rainforest_trail",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/rooitou_park_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rooitou_park",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/spruit_sunrise_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/spruit_sunrise",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "mrdoob/three.js",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri-low/venice_sunset_512.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/venice_sunset",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": "512x256 copy made with OpenCV"
+ },
+ "hdri/aristea_wreck_puresky_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/aristea_wreck_puresky",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": ""
+ },
+ "hdri/blouberg_sunrise_2_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/blouberg_sunrise_2",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "mrdoob/three.js",
+  "note": ""
+ },
+ "hdri/cape_hill_2k.pmrem.ktx2": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/cape_hill",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "via": "mrdoob/three.js (PMREM KTX2)",
+  "note": ""
+ },
+ "hdri/dikhololo_night_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/dikhololo_night",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": ""
+ },
+ "hdri/kiara_1_dawn_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/kiara_1_dawn",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": ""
+ },
+ "hdri/noon_grass_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/noon_grass",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": ""
+ },
+ "hdri/rainforest_trail_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rainforest_trail",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "gkjohnson/3d-demo-data",
+  "note": ""
+ },
+ "hdri/rooitou_park_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rooitou_park",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "pmndrs/drei-assets",
+  "note": ""
+ },
+ "hdri/spruit_sunrise_1k.hdr": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/spruit_sunrise",
+  "licence": "CC0 1.0",
+  "author": "Poly Haven photographer (named on source page)",
+  "via": "mrdoob/three.js",
+  "note": ""
+ },
+ "hdri/the_sky_is_on_fire_2k.pmrem.ktx2": {
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/the_sky_is_on_fire",
+  "licence": "CC0 1.0",
+  "author": "Greg Zaal",
+  "via": "mrdoob/three.js (PMREM KTX2)",
+  "note": ""
+ },
+ "earth/earth_day_4096.jpg": {
+  "provider": "Solar System Scope",
+  "source": "https://www.solarsystemscope.com/textures/",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "author": "Solar System Scope (INOVE)",
+  "via": "mrdoob/three.js (resized and merged)"
+ },
+ "earth/earth_night_4096.jpg": {
+  "provider": "Solar System Scope",
+  "source": "https://www.solarsystemscope.com/textures/",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "author": "Solar System Scope (INOVE)",
+  "via": "mrdoob/three.js (resized and merged)"
+ },
+ "earth/earth_bump_roughness_clouds_4096.jpg": {
+  "provider": "Solar System Scope",
+  "source": "https://www.solarsystemscope.com/textures/",
+  "licence": "CC BY 4.0",
+  "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+  "author": "Solar System Scope (INOVE)",
+  "via": "mrdoob/three.js (resized and merged)"
+ },
+ "earth/nasa_2_no_clouds_4k.jpg": {
+  "provider": "NASA",
+  "source": "https://visibleearth.nasa.gov/collection/1484/blue-marble",
+  "licence": "Public domain (NASA imagery)",
+  "author": "NASA Visible Earth / Blue Marble; SRTM elevation",
+  "via": "turban/webgl-earth"
+ },
+ "earth/nasa_elev_bump_4k.jpg": {
+  "provider": "NASA",
+  "source": "https://visibleearth.nasa.gov/collection/1484/blue-marble",
+  "licence": "Public domain (NASA imagery)",
+  "author": "NASA Visible Earth / Blue Marble; SRTM elevation",
+  "via": "turban/webgl-earth"
+ },
+ "earth/nasa_water_4k.png": {
+  "provider": "NASA",
+  "source": "https://visibleearth.nasa.gov/collection/1484/blue-marble",
+  "licence": "Public domain (NASA imagery)",
+  "author": "NASA Visible Earth / Blue Marble; SRTM elevation",
+  "via": "turban/webgl-earth"
+ },
+ "earth/ne2_shaded_relief_2048.jpg": {
+  "provider": "Natural Earth",
+  "source": "https://www.naturalearthdata.com/downloads/10m-raster-data/10m-natural-earth-2/",
+  "licence": "Public domain",
+  "author": "Natural Earth II (Tom Patterson), recoloured by Cesium",
+  "via": "CesiumGS/cesium (NaturalEarthII level-2 tiles, stitched)"
+ },
+ "maps/africa_ne2_relief.jpg": {
+  "provider": "Natural Earth",
+  "source": "https://www.naturalearthdata.com/downloads/10m-raster-data/10m-natural-earth-2/",
+  "licence": "Public domain",
+  "author": "Natural Earth II (Tom Patterson), recoloured by Cesium",
+  "via": "CesiumGS/cesium (NaturalEarthII level-2 tiles, stitched)"
+ },
+ "maps/africa_countries_50m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/africa_lakes_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/africa_region_points_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/africa_regions_50m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/africa_rivers_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/focus_admin1_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/westafrica_coast_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/westafrica_countries_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "maps/westafrica_places_10m.geojson": {
+  "provider": "Natural Earth",
+  "source": "https://github.com/nvkelso/natural-earth-vector",
+  "licence": "Public domain",
+  "author": "Natural Earth",
+  "via": "nvkelso/natural-earth-vector (clipped to Africa / West Africa, simplified)"
+ },
+ "textures/water_normal_512.png": {
+  "provider": "Learn with Nehy",
+  "source": "generated (spectral noise)",
+  "licence": "Own work",
+  "author": "Learn with Nehy"
+ }
+}

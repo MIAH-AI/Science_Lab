@@ -1,0 +1,890 @@
+{
+ "about": "Photorealism catalogue for the WAEC Geography lab. 'bundled' files are already in this folder. 'fetch' entries are exact asset IDs to download with tools/fetch_geo_assets.py (Poly Haven: polyhaven.com/a/<id>; ambientCG: ambientcg.com/view?id=<id>). 'photos' are reference/real-photo searches to collect with the same script (Wikimedia Commons API, licence-filtered) or by hand from public-domain agencies. All Poly Haven and ambientCG assets are CC0.",
+ "licence_rules": {
+  "in_scene_textures_models_hdris": [
+   "CC0",
+   "Public domain",
+   "CC BY 4.0 (with attribution)"
+  ],
+  "reference_and_real_photo_panels": [
+   "CC0",
+   "Public domain",
+   "CC BY",
+   "CC BY-SA (show as-is, credit and licence link)"
+  ],
+  "never": [
+   "CC BY-NC*",
+   "CC BY-ND (no edits)",
+   "Getty/Shutterstock/Alamy/Pinterest/Google Images results without a licence",
+   "EOX Sentinel-2 cloudless 2018+ (NC)",
+   "photos of identifiable private people used without consent",
+   "photos of public figures"
+  ]
+ },
+ "elements": [
+  {
+   "id": "sky_clear_noon",
+   "label": "Clear tropical midday sky",
+   "topics": [
+    "weather",
+    "climate",
+    "landforms"
+   ],
+   "bundled": [
+    "hdri/noon_grass_1k.hdr",
+    "hdri/aristea_wreck_puresky_1k.hdr",
+    "hdri-low/noon_grass_512.hdr",
+    "hdri-low/aristea_wreck_puresky_512.hdr"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "kloofendal_48d_partly_cloudy_puresky",
+     "clarens_midday"
+    ]
+   }
+  },
+  {
+   "id": "sky_savanna_morning",
+   "label": "Savanna / grassland morning",
+   "topics": [
+    "vegetation",
+    "climate",
+    "agriculture"
+   ],
+   "bundled": [
+    "hdri/spruit_sunrise_1k.hdr",
+    "hdri/rooitou_park_1k.hdr",
+    "hdri/kiara_1_dawn_1k.hdr"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "bambanani_sunset",
+     "bloem_field_sunrise",
+     "aarfontein_sunrise"
+    ]
+   }
+  },
+  {
+   "id": "sky_overcast_rain",
+   "label": "Overcast / rainy-season / approaching storm",
+   "topics": [
+    "weather",
+    "climate",
+    "hazards"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "approaching_storm",
+     "belfast_open_field",
+     "bloem_hill_01"
+    ]
+   }
+  },
+  {
+   "id": "sky_arid_harmattan",
+   "label": "Arid Sahel / desert / dry-season haze",
+   "topics": [
+    "climate",
+    "desertification",
+    "wind landforms"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "aarfontein_pan",
+     "aarfontein_dirt_road",
+     "aarfontein_dusk"
+    ]
+   }
+  },
+  {
+   "id": "sky_sunset",
+   "label": "Sunset / sunrise",
+   "topics": [
+    "earth rotation",
+    "weather"
+   ],
+   "bundled": [
+    "hdri/the_sky_is_on_fire_2k.pmrem.ktx2",
+    "hdri/cape_hill_2k.pmrem.ktx2",
+    "hdri-low/venice_sunset_512.hdr"
+   ],
+   "note": "the_sky_is_on_fire shows apartment blocks: lighting only, never as the visible background in rural scenes."
+  },
+  {
+   "id": "sky_coast",
+   "label": "Coast / beach light",
+   "topics": [
+    "coastal landforms",
+    "fishing",
+    "tourism"
+   ],
+   "bundled": [
+    "hdri/blouberg_sunrise_2_1k.hdr"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "aristea_wreck",
+     "beach_cloudy_bridge"
+    ]
+   },
+   "note": "blouberg_sunrise_2 shows tower blocks behind the beach: use it for lighting (scene.environment) only, with backgroundBlurriness >= 0.6 or a procedural sky as the visible background."
+  },
+  {
+   "id": "sky_rainforest",
+   "label": "Tropical rainforest interior",
+   "topics": [
+    "vegetation",
+    "lumbering",
+    "climate"
+   ],
+   "bundled": [
+    "hdri/rainforest_trail_1k.hdr"
+   ]
+  },
+  {
+   "id": "sky_mountain",
+   "label": "Mountains, hills, valleys",
+   "topics": [
+    "relief",
+    "tectonics",
+    "map work"
+   ],
+   "bundled": [
+    "hdri-low/immenstadter_horn_512.hdr",
+    "hdri-low/hilly_terrain_01_512.hdr"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "champagne_castle_1",
+     "autumn_hill_view"
+    ]
+   }
+  },
+  {
+   "id": "sky_night",
+   "label": "Night sky, stars",
+   "topics": [
+    "earth as a planet",
+    "day and night"
+   ],
+   "bundled": [
+    "hdri/dikhololo_night_1k.hdr",
+    "hdri-low/narrow_moonlit_road_512.hdr"
+   ],
+   "fetch": {
+    "polyhaven_hdris": [
+     "clarens_night_02"
+    ]
+   }
+  },
+  {
+   "id": "sky_quarry",
+   "label": "Quarry / mining site light",
+   "topics": [
+    "rocks",
+    "mining"
+   ],
+   "bundled": [
+    "hdri-low/quarry_01_512.hdr"
+   ]
+  },
+  {
+   "id": "globe",
+   "label": "Earth globe (day, night lights, clouds, relief, water mask)",
+   "topics": [
+    "earth as a planet",
+    "latitude and longitude",
+    "ocean currents"
+   ],
+   "bundled": [
+    "earth/earth_day_4096.jpg",
+    "earth/earth_night_4096.jpg",
+    "earth/earth_bump_roughness_clouds_4096.jpg",
+    "earth/nasa_2_no_clouds_4k.jpg",
+    "earth/nasa_elev_bump_4k.jpg",
+    "earth/nasa_water_4k.png",
+    "earth/ne2_shaded_relief_2048.jpg"
+   ]
+  },
+  {
+   "id": "africa_maps",
+   "label": "Africa and West Africa base maps and vector layers",
+   "topics": [
+    "regional geography",
+    "ECOWAS",
+    "population",
+    "drainage"
+   ],
+   "bundled": [
+    "maps/africa_ne2_relief.jpg",
+    "maps/africa_countries_50m.geojson",
+    "maps/westafrica_countries_10m.geojson",
+    "maps/focus_admin1_10m.geojson",
+    "maps/africa_rivers_10m.geojson",
+    "maps/africa_lakes_10m.geojson",
+    "maps/westafrica_places_10m.geojson",
+    "maps/westafrica_coast_10m.geojson",
+    "maps/africa_regions_50m.geojson",
+    "maps/africa_region_points_10m.geojson"
+   ],
+   "fetch": {
+    "dem": [
+     "Copernicus GLO-90 or AWS Terrarium tiles for: Jos Plateau, Volta basin/Akosombo, Kainji reservoir, Niger Delta, Gambia estuary, Freetown peninsula, Mount Cameroon, Fouta Djallon edge"
+    ]
+   }
+  },
+  {
+   "id": "laterite",
+   "label": "Laterite soil, red earth, laterite roads",
+   "topics": [
+    "soils",
+    "settlement",
+    "transport"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "red_laterite_soil_stones",
+     "red_mud_stones",
+     "red_dirt_mud_01",
+     "cracked_red_ground",
+     "red_sand"
+    ]
+   },
+   "photos": [
+    "laterite road West Africa",
+    "laterite soil profile",
+    "laterite Nigeria",
+    "laterite Ghana"
+   ]
+  },
+  {
+   "id": "savanna_ground",
+   "label": "Savanna grass and dry ground",
+   "topics": [
+    "vegetation",
+    "agriculture",
+    "bush burning"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "grass_ground",
+     "rocky_terrain_02",
+     "aerial_grass_rock",
+     "dry_ground_rocks"
+    ],
+    "ambientcg": [
+     "Grass004",
+     "Ground037"
+    ]
+   },
+   "photos": [
+    "Guinea savanna Nigeria",
+    "Sudan savanna",
+    "Mole National Park savanna"
+   ]
+  },
+  {
+   "id": "forest_floor",
+   "label": "Rainforest floor and leaf litter",
+   "topics": [
+    "vegetation",
+    "lumbering",
+    "soil formation"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "forest_floor",
+     "forest_leaves_02",
+     "leaves_forest_ground",
+     "forest_ground_05"
+    ],
+    "ambientcg": [
+     "Ground106"
+    ]
+   },
+   "photos": [
+    "tropical rainforest floor Ghana",
+    "Kakum National Park forest",
+    "Gola Rainforest"
+   ]
+  },
+  {
+   "id": "desert_sahel",
+   "label": "Desert sand, Sahel, dunes",
+   "topics": [
+    "climate",
+    "desertification",
+    "wind landforms"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "sandy_gravel_02",
+     "dry_ground_01",
+     "aerial_sand",
+     "red_sand",
+     "gravelly_sand"
+    ]
+   },
+   "photos": [
+    "Sahel landscape",
+    "sand dunes Sahara",
+    "desert encroachment northern Nigeria",
+    "harmattan haze"
+   ]
+  },
+  {
+   "id": "beach",
+   "label": "Beaches and wet sand",
+   "topics": [
+    "coastal landforms",
+    "tourism",
+    "fishing"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "aerial_beach_01",
+     "aerial_beach_03",
+     "coast_sand_01",
+     "damp_beach_sand_02",
+     "low_tide_rocks"
+    ]
+   },
+   "photos": [
+    "Labadi beach Ghana",
+    "Lumley beach Freetown",
+    "Bar Beach Lagos",
+    "spit sand bar coast"
+   ]
+  },
+  {
+   "id": "mud_flood",
+   "label": "Mud, flood plains, swamps, mangrove mud",
+   "topics": [
+    "hazards (flooding)",
+    "rivers",
+    "delta"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "brown_mud_03",
+     "aerial_mud_1",
+     "muddy_tracks",
+     "coral_mud_01",
+     "brown_mud_leaves_01"
+    ]
+   },
+   "photos": [
+    "Niger Delta mangrove",
+    "flood Nigeria 2012",
+    "flood plain Niger river"
+   ]
+  },
+  {
+   "id": "drought_cracked",
+   "label": "Drought, cracked mud, dry riverbed",
+   "topics": [
+    "hazards (drought)",
+    "climate change"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "mud_cracked_dry_03",
+     "mud_cracked_dry_riverbed_002",
+     "dry_mud_field_001"
+    ]
+   },
+   "photos": [
+    "Lake Chad shrinking",
+    "dry river bed Sahel"
+   ]
+  },
+  {
+   "id": "erosion_soil_profile",
+   "label": "Soil erosion, gullies, soil profile walls",
+   "topics": [
+    "soil",
+    "hazards (erosion)",
+    "conservation"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "excavated_soil_wall",
+     "dirt_aerial_02",
+     "rocks_ground_02",
+     "dirt"
+    ]
+   },
+   "photos": [
+    "gully erosion Anambra",
+    "gully erosion Nigeria",
+    "soil horizon profile",
+    "sheet erosion"
+   ]
+  },
+  {
+   "id": "burned_ground",
+   "label": "Burned bush",
+   "topics": [
+    "bush burning",
+    "environmental problems"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "burned_ground_01"
+    ]
+   },
+   "photos": [
+    "bush burning savanna",
+    "bushfire West Africa"
+   ]
+  },
+  {
+   "id": "riverbed",
+   "label": "River beds, pebbles, rapids",
+   "topics": [
+    "running water",
+    "drainage"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "dry_river_pebbles",
+     "river_small_rocks",
+     "ganges_river_pebbles",
+     "dry_riverbed_rock"
+    ]
+   },
+   "photos": [
+    "waterfall Erin Ijesha",
+    "Kintampo waterfalls",
+    "Wli waterfalls",
+    "Gurara falls",
+    "meander river aerial",
+    "oxbow lake"
+   ]
+  },
+  {
+   "id": "road_gravel",
+   "label": "Gravel and asphalt roads",
+   "topics": [
+    "transport"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "gravel_road",
+     "rocky_trail_02",
+     "bitumen"
+    ],
+    "ambientcg": [
+     "Asphalt031"
+    ]
+   },
+   "photos": [
+    "Lagos Ibadan expressway",
+    "rural road Ghana"
+   ]
+  },
+  {
+   "id": "rock_igneous",
+   "label": "Igneous rock: granite, inselbergs, basalt",
+   "topics": [
+    "rocks",
+    "inselbergs",
+    "vulcanicity"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "rock_boulder_dry",
+     "gray_rocks",
+     "rock_08",
+     "dark_rock_02"
+    ],
+    "polyhaven_models": [
+     "namaqualand_boulder_02",
+     "namaqualand_boulder_04",
+     "namaqualand_boulders_01",
+     "boulder_01"
+    ],
+    "ambientcg": [
+     "Lava001",
+     "Lava004"
+    ]
+   },
+   "photos": [
+    "Olumo Rock Abeokuta",
+    "Zuma Rock",
+    "Aso Rock Abuja",
+    "Idanre Hills",
+    "granite inselberg",
+    "basalt columns",
+    "Mount Cameroon lava"
+   ]
+  },
+  {
+   "id": "rock_sedimentary",
+   "label": "Sedimentary rock: sandstone, strata, limestone",
+   "topics": [
+    "rocks",
+    "karst",
+    "fossils"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "sandstone_cracks",
+     "rock_06",
+     "cliff_side",
+     "marble_cliff_01",
+     "rock_pitted_mossy",
+     "quarry_wall"
+    ]
+   },
+   "photos": [
+    "sandstone strata cliff",
+    "limestone quarry Nigeria",
+    "karst limestone",
+    "stalactites cave"
+   ]
+  },
+  {
+   "id": "rock_metamorphic",
+   "label": "Metamorphic rock: marble, gneiss, schist",
+   "topics": [
+    "rocks"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "dark_rock",
+     "marble_rock_01",
+     "marble_cliff_04"
+    ]
+   },
+   "photos": [
+    "gneiss outcrop",
+    "banded gneiss",
+    "schist",
+    "marble rock"
+   ]
+  },
+  {
+   "id": "coastal_cliffs",
+   "label": "Coastal cliffs, stacks, rocky shores",
+   "topics": [
+    "coastal landforms",
+    "wave erosion"
+   ],
+   "fetch": {
+    "polyhaven_models": [
+     "coastal_cliff_01",
+     "coastal_cliff_02",
+     "coastal_cliff_04",
+     "coast_line_01",
+     "coast_rocks_05"
+    ],
+    "polyhaven_textures": [
+     "coast_sand_rocks_02",
+     "rock_wall_02"
+    ]
+   },
+   "photos": [
+    "sea stack",
+    "wave cut platform",
+    "Cape Coast rocky shore",
+    "headland and bay"
+   ]
+  },
+  {
+   "id": "mountains_cliffs",
+   "label": "Mountain sides, escarpments, rock faces",
+   "topics": [
+    "relief",
+    "fold and block mountains",
+    "map work"
+   ],
+   "fetch": {
+    "polyhaven_models": [
+     "mountainside",
+     "namaqualand_cliff_01",
+     "namaqualand_cliff_02",
+     "rock_face_01",
+     "rock_face_02"
+    ],
+    "polyhaven_textures": [
+     "rock_face",
+     "rock_face_03",
+     "aerial_rocks_02"
+    ]
+   },
+   "photos": [
+    "Obudu plateau",
+    "Mambilla plateau",
+    "Jos plateau",
+    "Gambaga escarpment",
+    "rift valley escarpment",
+    "Atlas mountains folds"
+   ]
+  },
+  {
+   "id": "volcano",
+   "label": "Volcanoes, lava, volcanic ash",
+   "topics": [
+    "vulcanicity"
+   ],
+   "fetch": {
+    "ambientcg": [
+     "Lava001",
+     "Lava002",
+     "Lava003",
+     "Lava004",
+     "Lava005"
+    ],
+    "polyhaven_textures": [
+     "burned_ground_01",
+     "dark_rock_02"
+    ]
+   },
+   "photos": [
+    "Mount Cameroon eruption",
+    "volcano cone crater",
+    "Nyiragongo lava lake",
+    "volcanic plug"
+   ]
+  },
+  {
+   "id": "trees_tropical",
+   "label": "Tropical trees, palms, understorey",
+   "topics": [
+    "vegetation",
+    "plantation agriculture",
+    "lumbering"
+   ],
+   "fetch": {
+    "polyhaven_models": [
+     "island_tree_01",
+     "island_tree_02",
+     "island_tree_03",
+     "jacaranda_tree",
+     "anthurium_botany_01",
+     "calathea_orbifolia_01",
+     "pachira_aquatica_01",
+     "fern_02",
+     "bananas"
+    ],
+    "polyhaven_textures": [
+     "palm_bark",
+     "palm_tree_bark"
+    ]
+   },
+   "photos": [
+    "oil palm plantation",
+    "cocoa tree pods Ghana",
+    "rubber plantation Liberia",
+    "baobab tree",
+    "acacia savanna",
+    "mangrove roots",
+    "iroko tree",
+    "obeche timber"
+   ],
+   "gaps": "No CC0 photoscanned oil palm, cocoa, baobab, acacia, mangrove, maize, cassava or rice. Build them procedurally with CC0 bark/leaf textures and check against the reference photos."
+  },
+  {
+   "id": "grass_crops",
+   "label": "Grass clumps, field crops",
+   "topics": [
+    "agriculture",
+    "vegetation"
+   ],
+   "fetch": {
+    "polyhaven_models": [
+     "grass_bermuda_01",
+     "grass_medium_02"
+    ]
+   },
+   "photos": [
+    "maize farm Nigeria",
+    "cassava farm",
+    "rice paddy Sierra Leone",
+    "groundnut pyramids Kano"
+   ]
+  },
+  {
+   "id": "dry_vegetation",
+   "label": "Desert and dry scrub plants",
+   "topics": [
+    "desert vegetation",
+    "desertification"
+   ],
+   "fetch": {
+    "polyhaven_models": [
+     "quiver_tree_01",
+     "othonna_cerarioides",
+     "dead_quiver_trunk",
+     "dead_tree_trunk",
+     "dry_branches_medium_01"
+    ]
+   }
+  },
+  {
+   "id": "bark_wood",
+   "label": "Bark and timber logs",
+   "topics": [
+    "lumbering"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "bark_brown_02",
+     "eucalyptus_bark",
+     "palm_bark"
+    ],
+    "ambientcg": [
+     "Bark007",
+     "Bark014"
+    ]
+   },
+   "photos": [
+    "timber logs sawmill Ghana",
+    "log transport truck"
+   ]
+  },
+  {
+   "id": "settlement_materials",
+   "label": "Huts, houses, roofs, walls",
+   "topics": [
+    "settlement",
+    "urbanisation"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "thatch_roof_angled",
+     "reed_roof_03",
+     "riet_01",
+     "corrugated_iron",
+     "box_profile_metal_sheet",
+     "rough_plaster_03",
+     "plaster_brick_01",
+     "rough_block_wall",
+     "red_brick",
+     "clay_roof_tiles"
+    ],
+    "ambientcg": [
+     "CorrugatedSteel005",
+     "CorrugatedSteel007A"
+    ]
+   },
+   "photos": [
+    "round hut thatched roof Nigeria",
+    "compound house Ghana",
+    "Lagos skyline",
+    "Accra market",
+    "Kano city wall",
+    "nucleated settlement aerial",
+    "linear settlement road"
+   ],
+   "gaps": "No CC0 mud-brick (adobe) texture; derive from red_laterite_soil_stones + rough_plaster_03."
+  },
+  {
+   "id": "industry_transport",
+   "label": "Ports, factories, dams, oil, railways",
+   "topics": [
+    "industry",
+    "transport",
+    "power"
+   ],
+   "fetch": {
+    "polyhaven_textures": [
+     "factory_wall",
+     "concrete_rock_path"
+    ],
+    "ambientcg": [
+     "Asphalt031"
+    ]
+   },
+   "photos": [
+    "Kainji Dam",
+    "Akosombo Dam",
+    "Bumbuna dam",
+    "Mount Coffee hydropower",
+    "Apapa port",
+    "Tema harbour",
+    "oil rig Niger Delta",
+    "Lagos Kano railway",
+    "Tarkwa gold mine",
+    "Jos tin mining ponds"
+   ]
+  },
+  {
+   "id": "instruments",
+   "label": "Weather instruments and Stevenson screen",
+   "topics": [
+    "weather study"
+   ],
+   "fetch": {
+    "ambientcg": [
+     "PaintedWood009C"
+    ],
+    "polyhaven_textures": [
+     "rough_plaster_03"
+    ]
+   },
+   "photos": [
+    "Stevenson screen",
+    "rain gauge",
+    "wind vane",
+    "cup anemometer",
+    "Campbell-Stokes sunshine recorder",
+    "wet and dry bulb thermometer",
+    "barometer aneroid",
+    "six's thermometer",
+    "weather station Nigeria Meteorological Agency"
+   ],
+   "gaps": "No CC0 photoreal instrument models. Model them from photos (simple geometry plus CC0 painted-wood and metal materials)."
+  },
+  {
+   "id": "people",
+   "label": "Characters: farmers, fishermen, traders, miners, students",
+   "topics": [
+    "population",
+    "occupations",
+    "fieldwork"
+   ],
+   "sources": [
+    "MakeHuman exports (CC0): build West African adults with work clothes on a desktop, export glTF",
+    "Quaternius Ultimate Modular Men/Women (CC0, stylised)"
+   ],
+   "photos": [
+    "fishing canoe Ghana",
+    "market women Nigeria",
+    "farmer hoe West Africa",
+    "artisanal miners"
+   ],
+   "rules": "Use 3D characters in scenes. Real photos of people only from properly licensed activity shots where people are not the focus, with credit; never public figures; no faces in close-up."
+  },
+  {
+   "id": "animals",
+   "label": "Characters: cattle, goats, camels, fish",
+   "topics": [
+    "pastoralism",
+    "fishing",
+    "trans-Saharan trade"
+   ],
+   "sources": [
+    "Lyndon Daniels realtime cow and horse (CC0)",
+    "Quaternius Ultimate Animated Animals (CC0, stylised)",
+    "Smithsonian Open Access 3D (CC0 items only)"
+   ],
+   "photos": [
+    "Fulani cattle",
+    "white Fulani cattle",
+    "Sahel camels",
+    "tilapia fish",
+    "West African dwarf goat"
+   ],
+   "gaps": "No CC0 photoscanned zebu, camel or goat. Use stylised CC0 models with realistic materials, or illustrated silhouettes."
+  }
+ ],
+ "photo_sources": {
+  "wikimedia_commons": "https://commons.wikimedia.org (API: action=query&generator=search&gsrnamespace=6&prop=imageinfo&iiprop=url|extmetadata) — keep LicenseShortName in CC0/PD/CC BY/CC BY-SA, record Artist + LicenseUrl",
+  "nasa_earth_observatory": "https://earthobservatory.nasa.gov — public domain unless noted (credit NASA)",
+  "usgs": "https://www.usgs.gov/media — public domain (credit USGS)",
+  "noaa_photo_library": "https://photolib.noaa.gov — public domain (credit NOAA)",
+  "unsplash_pexels": "Free licences (not CC0); allowed for in-app display with credit, but not for redistribution as a photo collection — use only when nothing licensed above exists"
+ }
+}

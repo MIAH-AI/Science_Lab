@@ -368,6 +368,11 @@ a svg {
   --tint: #e2efd2;
   --light: #f6fbef;
 }
+.lilac {
+  --tone: #8a72c0;
+  --tint: #e7e0f6;
+  --light: #f7f4fd;
+}
 .tiny-icon {
   color: var(--tone);
   background: var(--tint);
@@ -1338,6 +1343,11 @@ footer {
   --tint: #3f5530;
   --light: #66804c;
   --tone: #c2dca2;
+}
+.night .lilac {
+  --tint: #463a66;
+  --light: #6e5e9a;
+  --tone: #cfc2f0;
 }
 .night .subject-art,
 .night .open-subject {
