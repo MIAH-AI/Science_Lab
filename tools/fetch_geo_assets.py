@@ -36,6 +36,8 @@ def get(url, binary=False, tries=3):
 
 
 def save(path, data):
+    if data is None:
+        raise IOError("download failed: " + os.path.basename(path))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "wb") as f:
         f.write(data)
@@ -160,7 +162,13 @@ def commons_photos(element_id, query, n, manifest):
 
 
 def write_attribution(manifest):
-    lines = ["# Geography asset credits", "", "CC0 and public-domain items need no credit, but we credit them anyway.", ""]
+    lines = ["# Geography asset credits", "", "CC0 and public-domain items need no credit, but we credit them anyway.", "",
+             "## Credit lines to show in the lab (About / Credits panel)", "",
+             "- Earth textures: Solar System Scope (solarsystemscope.com/textures), CC BY 4.0.",
+             "- Earth imagery: NASA Visible Earth (Blue Marble) and SRTM. Public domain.",
+             "- Maps: Natural Earth (naturalearthdata.com) and Natural Earth II shaded relief. Public domain.",
+             "- Skies, textures and models: Poly Haven (polyhaven.com) and ambientCG (ambientcg.com), CC0.",
+             "- Photos: credited individually below (Wikimedia Commons authors and licences).", ""]
     by = {}
     for f, m in sorted(manifest.items()):
         by.setdefault(m.get("provider", "Other"), []).append((f, m))
@@ -196,15 +204,24 @@ def main():
             if kind in only:
                 for asset in fx.get(key, []):
                     print("  polyhaven", kind, asset)
-                    polyhaven(kind, asset, a.res, manifest)
+                    try:
+                        polyhaven(kind, asset, a.res, manifest)
+                    except Exception as e:  # noqa: BLE001  keep going: one bad asset must not stop the run
+                        print("  ! skipped", asset, e)
         if "ambientcg" in only:
             for asset in fx.get("ambientcg", []):
                 print("  ambientcg", asset)
-                ambientcg(asset, a.res, manifest)
+                try:
+                    ambientcg(asset, a.res, manifest)
+                except Exception as e:  # noqa: BLE001
+                    print("  ! skipped", asset, e)
         if "photos" in only:
             for q in el.get("photos", []):
                 print("  photos", q)
-                commons_photos(el["id"], q, a.photos, manifest)
+                try:
+                    commons_photos(el["id"], q, a.photos, manifest)
+                except Exception as e:  # noqa: BLE001
+                    print("  ! skipped", q, e)
         json.dump(manifest, open(mpath, "w"), indent=1)
     write_attribution(manifest)
     print("done:", len(manifest), "files in manifest")
