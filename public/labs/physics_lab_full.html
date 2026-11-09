@@ -121,8 +121,8 @@ main{padding:clamp(14px,2.6vw,32px);min-width:0;}
 .screen .fsbtn svg{width:18px;height:18px;}
 .screen .fsbtn .ic-out{display:none;}
 .screen.is-fs .fsbtn .ic-in{display:none;}.screen.is-fs .fsbtn .ic-out{display:block;}
-.screen.is-fs{position:fixed;inset:0;z-index:9999;border-radius:0;border:0;padding:0;margin:0;background:#000;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;max-width:none;}
-.screen:fullscreen{background:#000;}
+.screen.is-fs{position:fixed;inset:0;z-index:9999;border-radius:0!important;border:0!important;padding:0!important;margin:0;background:#000!important;box-shadow:none!important;backdrop-filter:none!important;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;max-width:none;}
+.screen:fullscreen{background:#000!important;}.screen::backdrop{background:#000;}
 .screen.is-fs .crtwrap{width:min(100vw,160vh);border-radius:0;}
 .screen.is-fs .fsbtn{width:44px;height:44px;top:14px;right:14px;}
 .screen.is-fs .fsbtn svg{width:22px;height:22px;}
@@ -249,6 +249,7 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 <script src="/labs/p3dx-waves-b.js"></script>
 <script src="/labs/p3dx-fields-a.js"></script>
 <script src="/labs/p3dx-fields-b.js"></script>
+<script src="/labs/p3dx-modern.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
