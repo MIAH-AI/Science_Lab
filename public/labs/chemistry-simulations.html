@@ -135,6 +135,15 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 .pt-link:hover{background:linear-gradient(135deg,#3a4aa0,#25306a)}
 @media (max-width:760px){.tdash-hero{grid-template-columns:1fr}.tdash-mini{max-width:100%;width:100%}.tnav button{max-width:none}}
 </style>
+<style id="fs2d-css">
+.sim-canvas-wrap.fs2d-host{position:relative}
+.fs2d-btn{position:absolute;top:24px;right:24px;z-index:6;width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(6,12,24,.62);color:#e8f1ff;cursor:pointer;padding:0}
+.fs2d-btn:hover{background:rgba(255,183,3,.88);color:#0a0f18}.fs2d-btn:focus-visible{outline:2px solid #ffb703;outline-offset:2px}
+.fs2d-btn svg{width:18px;height:18px}.fs2d-btn .ic-out{display:none}.is-fs2d .fs2d-btn .ic-in{display:none}.is-fs2d .fs2d-btn .ic-out{display:block}
+.sim-canvas-wrap.is-fs2d{position:fixed!important;inset:0!important;z-index:9999;background:#000!important;display:flex;align-items:center;justify-content:center;padding:0!important;border:0!important}
+.sim-canvas-wrap.is-fs2d canvas{max-width:100vw;max-height:100vh;border-radius:0}
+.sim-canvas-wrap.is-fs2d .fs2d-btn{top:14px;right:14px;width:44px;height:44px}
+</style>
 </head>
 <body class="lab-chemistry">
 <div id="glass-navigation"></div>
@@ -1637,6 +1646,22 @@ const TopicDash=(function(){
     },
   };
 })();
+
+/* full-screen button for the 2D fallback drawings (used when WebGL is unavailable) */
+function addFs2d(wrap){
+  wrap.classList.add('fs2d-host');
+  const b=$('button',{type:'button',class:'fs2d-btn',title:'Full screen','aria-label':'Full screen'}); b.innerHTML='<svg class="ic-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="ic-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+  const fit=()=>{ wrap.querySelectorAll('canvas').forEach(cv=>{ if(!wrap.classList.contains('is-fs2d')){ cv.style.removeProperty('width'); cv.style.removeProperty('height'); return; } const r=cv.width/cv.height, W=innerWidth, H=innerHeight, w=Math.min(W,H*r); cv.style.setProperty('width',w+'px','important'); cv.style.setProperty('height',(w/r)+'px','important'); }); };
+  wrap._fsFit=fit;
+  const set=(on)=>{ wrap.classList.toggle('is-fs2d',on); requestAnimationFrame(fit); document.body.style.overflow=on?'hidden':''; b.title=on?'Exit full screen (Esc)':'Full screen'; b.setAttribute('aria-label',on?'Exit full screen':'Full screen'); };
+  b.addEventListener('click',()=>{ const on=!wrap.classList.contains('is-fs2d'); const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(on){ const n=wrap.requestFullscreen||wrap.webkitRequestFullscreen; if(n){ try{ const r=n.call(wrap); if(r&&r.catch) r.catch(()=>{}); }catch(e){} } set(true); }
+    else { if(fsEl) (document.exitFullscreen||document.webkitExitFullscreen).call(document); set(false); } });
+  wrap.appendChild(b); wrap._fsSet=set;
+}
+addEventListener('resize',()=>{ const w=document.querySelector('.is-fs2d'); if(w&&w._fsFit) w._fsFit(); });
+document.addEventListener('fullscreenchange',()=>{ if(!document.fullscreenElement){ const w=document.querySelector('.is-fs2d'); if(w&&w._fsSet) w._fsSet(false); } });
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ const w=document.querySelector('.is-fs2d'); if(w&&w._fsSet&&!document.fullscreenElement) w._fsSet(false); } });
 function loadSim(){
   setExamActive(false);
   if(currentCleanup){ try{currentCleanup();}catch(e){} currentCleanup=null; }
@@ -1678,6 +1703,7 @@ function loadSim(){
     try{ cleanup3d=Chem3D.mount(canvasWrap, controls, sub.sim, {$, sliderControl, selectControl, buttonControl, readout, noteBox}); }catch(e){ console.error('3D scene failed, using 2D fallback',e); cleanup3d=null; canvasWrap.innerHTML=''; controls.innerHTML=''; }
   }
   currentCleanup = cleanup3d || mod.mount(canvasWrap, controls) || (()=>{});
+  if(!cleanup3d && canvasWrap.querySelector('canvas')) addFs2d(canvasWrap);
   if(dashTopic) inner.appendChild(TopicDash.nav(topic,color));
 }
 
