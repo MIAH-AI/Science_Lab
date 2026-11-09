@@ -328,6 +328,17 @@
 .mk-poster{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(ellipse at 30% 20%,#2a3d66,#0b1220 70%);color:#e8f1ff;text-align:center;padding:18px}
 .mk-poster b{font:700 15px 'Source Serif 4',serif}.mk-poster small{font:500 11.5px 'IBM Plex Sans',sans-serif;color:#a9b9d8;max-width:46ch}
 .mk-poster button{font:700 12px 'JetBrains Mono',monospace!important;color:#0b1220!important;background:linear-gradient(135deg,#ffd27a,#ffb347)!important;border:0!important;padding:10px 16px!important;border-radius:11px!important;cursor:pointer;box-shadow:0 6px 18px rgba(255,180,70,.35)!important}
+.mk-stage .mk-fs{position:absolute;bottom:10px;right:10px;z-index:6;width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.22)!important;background:rgba(6,12,24,.62)!important;color:#e8f1ff!important;cursor:pointer;padding:0!important;margin:0!important;box-shadow:none!important;transition:background .2s,transform .2s}
+.mk-stage .mk-fs:hover{background:rgba(255,183,3,.88)!important;color:#0a0f18!important;transform:scale(1.06)}
+.mk-stage .mk-fs:focus-visible{outline:2px solid #ffb703;outline-offset:2px}
+.mk-stage .mk-fs svg{width:18px;height:18px}.mk-stage .mk-fs .ic-out{display:none}
+.mk-stage.is-fs .mk-fs .ic-in{display:none}.mk-stage.is-fs .mk-fs .ic-out{display:block}
+.mk-stage.is-fs{position:fixed!important;inset:0!important;z-index:9999;width:100vw!important;height:100vh!important;max-width:none!important;aspect-ratio:auto!important;border-radius:0!important;margin:0!important;background:#000!important;box-shadow:none!important}
+.mk-stage.is-fs>canvas{position:absolute!important;inset:auto!important;left:50%!important;top:50%!important;width:min(100vw,160vh)!important;height:min(62.5vw,100vh)!important;transform:translate(-50%,-50%)}
+.mk-stage.is-fs.narrow>canvas{width:min(100vw,133.33vh)!important;height:min(75vw,100vh)!important}
+.mk-stage.is-fs .mk-poster{inset:0}
+.mk-stage.k3d .mk-fs{bottom:40px}.mk-stage.is-fs .mk-fs{width:44px;height:44px;bottom:16px;right:16px}.mk-stage.is-fs.k3d .mk-fs{bottom:50px}.mk-stage.is-fs .mk-fs svg{width:22px;height:22px}
+@media (prefers-reduced-motion:reduce){.mk-stage .mk-fs{transition:none}}
 .mk-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .mk-bar .lbl{font:700 9.5px 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--g-muted,#5b6478)}.mk-bar .sp{flex:1}
 .mk-btn{font:600 11.5px 'JetBrains Mono',monospace!important;padding:7px 11px!important;border-radius:10px!important;cursor:pointer;border:1px solid var(--g-edge,#ccd)!important;background:var(--g-well,#eef)!important;color:var(--g-ink,#1d2433)!important}
@@ -408,6 +419,36 @@
     hover(p, s, c, B) { return (pts(s, c, B) || []).some((q) => Math.hypot(q[0] - p.x, q[1] - p.y) < r); },
   });
 
+
+  /* ---------- full-screen display for every lab stage (2D boards and 3D scenes) ---------- */
+  let fsStage = null;
+  const FS_ICON = '<svg class="ic-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="ic-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+  function fsFit(H) { if (H.fit3d) H.fit3d(); window.dispatchEvent(new Event("resize")); }
+  function setFs(H, on) {
+    const st = H.stage; st.classList.toggle("is-fs", on); fsStage = on ? H : (fsStage === H ? null : fsStage);
+    if (H.fsBtn) { H.fsBtn.title = on ? "Exit full screen (Esc)" : "Full screen"; H.fsBtn.setAttribute("aria-label", on ? "Exit full screen" : "Full screen"); H.fsBtn.setAttribute("aria-pressed", on ? "true" : "false"); }
+    document.body.style.overflow = on ? "hidden" : ""; requestAnimationFrame(() => fsFit(H));
+  }
+  function ensureFs(H) {
+    if (!H.fsBtn) {
+      const b = el("button", { type: "button", class: "mk-fs", title: "Full screen", "aria-label": "Full screen", "aria-pressed": "false", html: FS_ICON });
+      b.addEventListener("pointerdown", (e) => e.stopPropagation()); b.addEventListener("dblclick", (e) => e.stopPropagation());
+      b.addEventListener("click", (e) => {
+        e.stopPropagation(); const st = H.stage, native = st.requestFullscreen || st.webkitRequestFullscreen, fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+        if (st.classList.contains("is-fs")) { if (fsEl) (document.exitFullscreen || document.webkitExitFullscreen).call(document); else setFs(H, false); return; }
+        if (fsStage && fsStage !== H) setFs(fsStage, false);
+        if (native) { try { const r = native.call(st); if (r && r.catch) r.catch(() => { }); } catch (err) { } }
+        setFs(H, true);
+      });
+      H.fsBtn = b;
+    }
+    if (H.fsBtn.parentNode !== H.stage) H.stage.appendChild(H.fsBtn);
+  }
+  MK.ensureFs = ensureFs;
+  const onFsChange = () => { const el2 = document.fullscreenElement || document.webkitFullscreenElement; if (!el2 && fsStage) setFs(fsStage, false); else if (fsStage) fsFit(fsStage); if (!el2 && !fsStage) document.body.style.overflow = ""; };
+  document.addEventListener("fullscreenchange", onFsChange); document.addEventListener("webkitfullscreenchange", onFsChange);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && fsStage && !document.fullscreenElement) setFs(fsStage, false); });
+  window.addEventListener("resize", () => { if (fsStage) { if (!document.body.contains(fsStage.stage)) { fsStage = null; document.body.style.overflow = ""; return; } fsStage.fit3d && fsStage.fit3d(); } });
   MK.mount = function (panel, key) {
     const sc = MK.scenes[key]; if (!sc) return false;
     panel.innerHTML = ""; panel.classList.add("mk-host");
@@ -448,6 +489,7 @@
       if (sc.hud) { const p = sc.hud(s, c) || [], k = JSON.stringify(p); if (k !== hdKey) { hdKey = k; hudTxt.innerHTML = p.map((pp) => `<h4>${pp.title}</h4>` + pp.lines.filter((l) => l !== "—").map((l) => `<div class="ln">${Array.isArray(l) ? l[0] : l}</div>`).join("")).join(""); } }
     };
     if (is3d) mount3d(H); else mount2d(H);
+    ensureFs(H);
     H.side(true);
     mounted.add(H); panel._mk = H;
     return true;
@@ -460,8 +502,8 @@
     if (sc.hint) stage.appendChild(el("span", { class: "mk-hint" }, sc.hint));
     const g = cv.getContext("2d"); let W = 640, Hh = 400, wide = true, scale = 1;
     function size() {
-      const w = stage.clientWidth || 640; wide = w >= 560; stage.classList.toggle("narrow", !wide); H.root.classList.toggle("narrow", !wide);
-      W = wide ? 640 : 440; Hh = wide ? 400 : 330; const dpr = Math.min(2.5, window.devicePixelRatio || 1); scale = (w / W) * dpr;
+      const fsOn = stage.classList.contains("is-fs"), sw = stage.clientWidth || 640, w = fsOn ? Math.min(sw, (stage.clientHeight || 400) * (sw >= 560 ? 1.6 : 4 / 3)) : sw; wide = (fsOn ? sw : w) >= 560; stage.classList.toggle("narrow", !wide); H.root.classList.toggle("narrow", !wide);
+      W = wide ? 640 : 440; Hh = wide ? 400 : 330; const dpr = Math.min(2.5, window.devicePixelRatio || 1); scale = Math.min(4, (w / W) * dpr);
       const nw = Math.round(W * scale), nh = Math.round(Hh * scale); if (cv.width !== nw || cv.height !== nh) { cv.width = nw; cv.height = nh; return true; } return false;
     }
     H.render2d = () => {
@@ -471,7 +513,7 @@
       if (sc.title) B.pill(sc.title, 12, 26, B.P.panelHead, 11);
       if (wide && sc.hud) { let y = 12; (sc.hud(s, c) || []).forEach((p) => { if (y < Hh - 40) y = B.card(W - 246, y, 236, p.title, p.lines) + 8; }); }
     };
-    size(); H.render2d();
+    size(); H.render2d(); ensureFs(H);
     const ro = new ResizeObserver(() => { if (size()) H.render2d(); }); ro.observe(stage);
     // pointer input (mouse, pen, touch)
     const toL = (e) => { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * Hh }; };
@@ -514,12 +556,13 @@
       stage.classList.remove("k3d"); stage.classList.add("k2d"); stage.innerHTML = "";
       if (sc.draw) { H.sc = Object.assign({}, sc); mount2d(H); H.render2d(); }
       else stage.appendChild(el("div", { class: "mk-poster" }, el("b", null, sc.title || "3D lab"), el("small", null, "This 3D lab needs WebGL, which this browser has switched off. The controls, readouts and worked solution below still work.")));
+      ensureFs(H);
     };
     if (!webglOK()) { showFallback(); return; }
     const poster = () => {
       stage.innerHTML = ""; const btn = el("button", { type: "button" }, "▶ Launch 3D lab");
       stage.appendChild(el("div", { class: "mk-poster" }, el("b", null, sc.title || "3D lab"), el("small", null, sc.blurb || "Photoreal three.js scene — drag to orbit, scroll to zoom, double-click to reset the camera."), btn));
-      btn.addEventListener("click", launch);
+      btn.addEventListener("click", launch); ensureFs(H);
     };
     H.poster = poster;
     async function launch() {
@@ -532,7 +575,8 @@
       try { ok2 = P3D.begin(variant, sc, hud); } catch (e) { console.error("maths3d begin", e); }
       if (!ok2) { try { P3D.end(); } catch (e) { } showFallback(); return; }
       const S = P3D.S, ctx = hud.getContext("2d");
-      H.S = S;
+      H.S = S; ensureFs(H);
+      H.fit3d = () => { if (!document.body.contains(hud)) return; const dpr = Math.min(2, window.devicePixelRatio || 1), k = stage.classList.contains("is-fs") ? Math.min(4, Math.max(dpr, (hud.clientWidth / 640) * dpr)) : 1; hud.width = Math.round(640 * k); hud.height = Math.round(400 * k); ctx.setTransform(k, 0, 0, k, 0, 0); if (S.renderer) { S.renderer.setPixelRatio(Math.min(Math.max(k, dpr), 3)); S.renderer.setSize(640, 400, false); } };
       H.setView = (v) => { const o = S.orbit, cam = typeof v.cam === "function" ? v.cam(s, c) : v.cam, tg = P3D.util.V3(...cam[1]), d = P3D.util.V3(...cam[0]).sub(tg), r = d.length(); o.touched = true; o.home.target.copy(tg); o.target.copy(tg); o.tr = r; o.home.r = r; o.ty = o.home.yaw = Math.atan2(d.x, d.z); o.tp = o.home.pitch = Math.asin(d.y / r); };
       H.reset3d = () => { sc.reset3d && sc.reset3d(S, s, c); };
       const handle = { raf: 0, poster };
