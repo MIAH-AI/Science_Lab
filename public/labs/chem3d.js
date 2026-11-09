@@ -108,6 +108,15 @@
 .c3-stage.grabbing{cursor:grabbing}
 .c3-hud{width:100%;height:100%;display:block}
 .c3-stage .orbit-hint{position:absolute;right:12px;bottom:10px;z-index:3;font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#dbe7ff;background:rgba(6,12,24,.55);padding:4px 8px;border-radius:7px;pointer-events:none;transition:opacity .6s;opacity:.85}
+.c3-stage .c3-fs{position:absolute;top:10px;right:10px;z-index:6;width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.22)!important;background:rgba(6,12,24,.62)!important;color:#e8f1ff!important;cursor:pointer;padding:0!important;margin:0!important;box-shadow:none!important;transition:background .2s,transform .2s}
+.c3-stage .c3-fs:hover{background:rgba(255,183,3,.88)!important;color:#0a0f18!important;transform:scale(1.06)}
+.c3-stage .c3-fs:focus-visible{outline:2px solid #ffb703;outline-offset:2px}
+.c3-stage .c3-fs svg{width:18px;height:18px}.c3-stage .c3-fs .ic-out{display:none}
+.c3-stage.is-fs .c3-fs .ic-in{display:none}.c3-stage.is-fs .c3-fs .ic-out{display:block}
+.c3-stage.is-fs{position:fixed!important;inset:0!important;z-index:9999;width:100vw!important;height:100vh!important;max-width:none!important;aspect-ratio:auto!important;border-radius:0!important;margin:0!important;background:#000!important;box-shadow:none!important}
+.c3-stage.is-fs>canvas{position:absolute!important;inset:auto!important;left:50%!important;top:50%!important;width:min(100vw,160vh)!important;height:min(62.5vw,100vh)!important;transform:translate(-50%,-50%)}
+.c3-stage.is-fs .c3-fs{width:44px;height:44px;top:14px;right:14px}.c3-stage.is-fs .c3-fs svg{width:22px;height:22px}
+.c3-stage.is-fs .orbit-hint{font-size:12px}
 .c3-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
 .c3-bar button,.c3-bar select{font:600 11px 'IBM Plex Mono',monospace!important;color:#e8f1ff!important;background:rgba(18,28,48,.92)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:8px!important;padding:6px 10px!important;cursor:pointer;width:auto!important;box-shadow:none!important;margin:0!important;height:auto!important}
 .c3-bar button:hover{background:rgba(40,60,100,.95)!important}.c3-bar .sp{flex:1}
@@ -126,7 +135,7 @@
   let active = null;
   C3.unmount = function () {
     if (!active) return; const a = active; active = null;
-    cancelAnimationFrame(a.raf); try { P3D.end(); } catch (e) { }
+    cancelAnimationFrame(a.raf); try { a.fsCleanup && a.fsCleanup(); } catch (e) { } try { P3D.end(); } catch (e) { }
     a.stage.remove(); a.bar.remove(); a.extra.forEach((n) => n.remove());
   };
 
@@ -140,6 +149,38 @@
     let ok = false; try { ok = P3D.begin(variant, sc, hud); } catch (e) { console.error("chem3d begin failed", e); ok = false; }
     if (!ok) { stage.remove(); try { P3D.end(); } catch (e) { } return null; }
     const S = P3D.S, s = variant.state, c = variant.values, ctx = hud.getContext("2d"), extra = [];
+    /* full-screen display: native Fullscreen API, fixed full-window overlay as fallback (iPhone); HUD + WebGL re-rendered at screen resolution */
+    const fsBtn = H.$("button", { type: "button", class: "c3-fs", title: "Full screen", "aria-label": "Full screen" });
+    fsBtn.innerHTML = '<svg class="ic-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="ic-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+    stage.appendChild(fsBtn);
+    const fsOn = () => stage.classList.contains("is-fs");
+    const fit = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1), k = fsOn() ? Math.min(4, Math.max(dpr, (hud.clientWidth / 640) * dpr)) : dpr;
+      hud.width = Math.round(640 * k); hud.height = Math.round(400 * k); ctx.setTransform(k, 0, 0, k, 0, 0);
+      if (P3D.S && P3D.S.renderer) { P3D.S.renderer.setPixelRatio(Math.min(k, 3)); P3D.S.renderer.setSize(640, 400, false); }
+    };
+    const setFs = (on) => {
+      stage.classList.toggle("is-fs", on); fsBtn.title = on ? "Exit full screen (Esc)" : "Full screen"; fsBtn.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
+      document.body.style.overflow = on ? "hidden" : ""; requestAnimationFrame(fit);
+    };
+    fsBtn.addEventListener("pointerdown", (e) => e.stopPropagation()); fsBtn.addEventListener("dblclick", (e) => e.stopPropagation());
+    fsBtn.addEventListener("click", (e) => {
+      e.stopPropagation(); const native = stage.requestFullscreen || stage.webkitRequestFullscreen, fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsOn()) { if (fsEl) (document.exitFullscreen || document.webkitExitFullscreen).call(document); else setFs(false); return; }
+      if (native) { try { const r = native.call(stage); if (r && r.catch) r.catch(() => { }); } catch (err) { } }
+      setFs(true);
+    });
+    const onFsChange = () => { const el = document.fullscreenElement || document.webkitFullscreenElement; if (!el && fsOn()) setFs(false); else fit(); };
+    const onKey = (e) => { if (e.key === "Escape" && fsOn() && !document.fullscreenElement) setFs(false); };
+    const onResize = () => { if (fsOn()) fit(); };
+    document.addEventListener("fullscreenchange", onFsChange); document.addEventListener("webkitfullscreenchange", onFsChange);
+    document.addEventListener("keydown", onKey); window.addEventListener("resize", onResize);
+    const fsCleanup = () => {
+      document.removeEventListener("fullscreenchange", onFsChange); document.removeEventListener("webkitfullscreenchange", onFsChange);
+      document.removeEventListener("keydown", onKey); window.removeEventListener("resize", onResize);
+      if (fsOn()) { document.body.style.overflow = ""; const fsEl = document.fullscreenElement || document.webkitFullscreenElement; if (fsEl === stage) try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) { } }
+    };
+    fit();
     const run = { playing: true, speed: 1 };
     /* transport bar */
     const bar = H.$("div", { class: "c3-bar" });
@@ -182,7 +223,7 @@
     extra.push(ro);
     /* single animation loop */
     let last = null, acc = 0, roKey = "";
-    const handle = { S, s, c, run, hud, stage, bar, extra, raf: 0, scene: sc };
+    const handle = { S, s, c, run, hud, stage, bar, extra, raf: 0, scene: sc, fsCleanup };
     active = handle;
     function loop(t) {
       if (active !== handle) return;

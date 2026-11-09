@@ -48,13 +48,13 @@
         { type: "select", key: "metal", label: "Metal", options: Object.keys(MET).map((k) => ({ value: k, label: MET[k].n + " (" + k + ")" })) },
         { type: "select", key: "reagent", label: "Reagent", options: [{ value: "water", label: "Cold water" }, { value: "steam", label: "Steam (heated)" }, { value: "acid", label: "Dilute hydrochloric acid" }] },
         { type: "select", key: "salt", label: "Salt solution", options: Object.keys(SALT).map((k) => ({ value: k, label: SALT[k].name.charAt(0).toUpperCase() + SALT[k].name.slice(1) + " (" + SALT[k].f + ")" })) },
-        { type: "button", label: "Add the metal / start", action: (S, s) => { s.t = 0; s.run = true; s.flash = 0; } },
-        { type: "button", label: "Fresh tube", cls: "secondary", action: (S, s) => { s.t = 0; s.run = false; s.flash = 0; } },
+        { type: "button", label: "Add the metal / start", action: (S, s) => { s.t = 0; s.run = true; } },
+        { type: "button", label: "Fresh tube", cls: "secondary", action: (S, s) => { s.t = 0; s.run = false; } },
       ];
     },
     views: [{ label: "Test tube", cam: [[1.2, 2.0, 5.6], [1.35, 1.2, 0]] }, { label: "Close up", cam: [[0.6, 1.2, 3.8], [0.9, 0.9, 0]] }],
     note: "The reactivity series ranks metals by how readily they lose electrons to form positive ions: K > Na > Ca > Mg > Al > Zn > Fe > Pb > (H) > Cu > Ag. A metal above hydrogen displaces it from water, steam or dilute acid (more vigorously the higher it is), and a more reactive metal displaces a less reactive one from a solution of its salt: Zn + CuSO₄ → ZnSO₄ + Cu. A metal below the other in the series cannot displace it. Sodium and potassium are shown in water only as a demonstration: never add them to acid.",
-    onChange(S, s, c, key) { s.t = 0; s.run = false; s.flash = 0; },
+    onChange(S, s, c, key) { s.t = 0; s.run = false; },
     reset(S, s, c) { Object.assign(c, { mode: "react", metal: "Mg", reagent: "acid", salt: "CuSO4" }); s.t = 0; s.run = false; },
     table(s, c) {
       if (c.mode === "disp") { const ms = ["Mg", "Al", "Zn", "Fe", "Pb", "Cu"], ss = Object.keys(SALT); return '<table class="c3-table"><tr><th style="text-align:left">strip ↓ / solution →</th>' + ss.map((k) => "<th>" + SALT[k].f + "</th>").join("") + "</tr>" + ms.map((m) => '<tr class="' + (m === c.metal ? "ok" : "") + '"><td style="text-align:left">' + MET[m].n + "</td>" + ss.map((k) => "<td>" + (m === SALT[k].m ? "-" : reacts(m, k) ? "✓" : "✗") + "</td>").join("") + "</tr>").join("") + "</table>"; }
