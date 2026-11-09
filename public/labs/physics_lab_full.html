@@ -152,7 +152,7 @@ select{width:100%;background:var(--blue-2);color:var(--chalk);border:1px solid v
 .subrow-head:hover{border-color:var(--line);background:var(--blue-2);}
 .subrow-head.open{border-color:var(--cyan);background:var(--blue-2);}
 .subrow-head::before{content:attr(data-mark);position:absolute;left:8px;top:10px;font-family:var(--mono);font-size:10px;color:var(--amber);}
-.subrow-head .stext{font-size:12.5px;color:var(--chalk);line-height:1.45;flex:1;}
+.subrow-head .stext{font-size:12.5px;color:var(--chalk);line-height:1.45;flex:1;}.subsim{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:#050c17;background:#7fe3da;border-radius:3px;padding:3px 8px;white-space:nowrap;align-self:center;cursor:pointer;}.subsim:hover,.subsim:focus{background:#ffb703;outline:none;}
 .subrow-head .sarrow{font-family:var(--mono);font-size:11px;color:var(--chalk-faint);flex-shrink:0;transition:transform .15s;}
 .subrow-head.open .sarrow{transform:rotate(90deg);color:var(--cyan);}
 .subrow-note{display:none;padding:12px 16px 14px 38px;margin:0 0 8px;border:1px dashed var(--line-soft);border-top:none;border-radius:0 0 4px 4px;background:var(--blue-0);}
@@ -220,6 +220,14 @@ footer{position:relative;z-index:1;text-align:center;color:var(--chalk-faint);fo
 <script src="/labs/p3d-basics.js"></script>
 <script src="/labs/exam-kit.js"></script>
 <script src="/labs/p-exam.js"></script>
+<script src="/labs/p2d-kit.js"></script>
+<script src="/labs/p2d-matter.js"></script>
+<script src="/labs/p2d-motion.js"></script>
+<script src="/labs/p2d-heat.js"></script>
+<script src="/labs/p2d-waves.js"></script>
+<script src="/labs/p2d-fields.js"></script>
+<script src="/labs/p2d-modern.js"></script>
+<script src="/labs/p2d-map.js"></script>
 <script>
 "use strict";
 const TAU=Math.PI*2;
@@ -2110,6 +2118,9 @@ SIMS["H10"]=[{modeName:"de Broglie Wavelength", tag:"λ = h/mv", eqn:"λ = h / (
     return [["Wavelength λ",`${fmt(lambda*1e12,2)} pm`],["Momentum p=mv",`${fmt(m*v,2)} kg·m/s`],["Regime",lambda*1e12>1?"noticeably wave-like":"negligible wave effects"]]; }
 }];
 
+/* extra simulations from p2d-*.js (queued before SIMS existed) */
+window.SIMS = SIMS; (window.PX || []).forEach(fn => { try { fn(); } catch (e) { console.error("p2d", e); } });
+
 /* ============================================================
    STATE + NAV + MAIN RENDER
    ============================================================ */
@@ -2218,9 +2229,12 @@ function renderSubtopics(topic, key){
   }
   return `<div class="subtopics"><span class="stlabel">Syllabus sub-topics</span>` + topic.subs.map((sItem,i)=>{
     const isOpen = openSub && openSub.key===key && openSub.index===i;
+    const simName = (window.PSUB && PSUB[topic.num] && PSUB[topic.num][sItem.l]) || null;
+    let simTopic = topic.num, simIdx = simName && SIMS[topic.num] ? SIMS[topic.num].findIndex(v => v.modeName === simName) : -1;
+    if (simName && simIdx < 0) { for (const [tn, vs] of Object.entries(SIMS)) { const j = vs.findIndex(v => v.modeName === simName); if (j >= 0) { simTopic = tn; simIdx = j; break; } } }
     return `<div class="subrow">
       <button class="subrow-head${isOpen?' open':''}" data-idx="${i}" data-mark="(${sItem.l})">
-        <span class="stext">${sItem.t}</span><span class="sarrow">▸</span>
+        <span class="stext">${sItem.t}</span>${simIdx >= 0 ? `<span class="subsim" role="button" tabindex="0" data-sim="${simIdx}" data-topic="${simTopic}" title="Open the simulation: ${simName}${simTopic !== topic.num ? " (topic " + simTopic + ")" : ""}">▶ ${simTopic === topic.num && simIdx === activeMode ? "showing" : simTopic !== topic.num ? "simulate (T" + simTopic + ")" : "simulate"}</span>` : ""}<span class="sarrow">▸</span>
       </button>
       <div class="subrow-note${isOpen?' open':''}"><p>${sItem.n}</p></div>
     </div>`;
@@ -2278,6 +2292,10 @@ function renderMain(part, topic){
     main.innerHTML = html;
   }
 
+  main.querySelectorAll(".subsim").forEach(chip=>{
+    const go=(e)=>{ e.stopPropagation(); activeMode=parseInt(chip.dataset.sim); openSub=null; const tn=chip.dataset.topic; if(tn && tn!==topic.num){ const ft=findTopic(tn); if(ft){ activeKey=ft.part.roman+"::"+tn; renderNav(); renderMain(ft.part,ft.topic); } } else renderMain(part,topic); const st=document.querySelector(".stage"); if(st) st.scrollIntoView({behavior:"smooth",block:"start"}); };
+    chip.addEventListener("click",go); chip.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(e); } });
+  });
   main.querySelectorAll(".subrow-head").forEach(btn=>{
     btn.addEventListener("click",()=>{
       const idx=parseInt(btn.dataset.idx);
