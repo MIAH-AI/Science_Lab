@@ -26,6 +26,8 @@
   const KIND = {
     cow: { barrel: [0.62, 0.33, 0.3], legR: 0.06, legH: 0.5, neck: 0.55, horn: [0.24, 0.1], udder: 1, dewlap: 1, tail: 0.5, beard: 0, head: 1.15, hump: 1 },
     goat: { barrel: [0.5, 0.25, 0.22], legR: 0.042, legH: 0.52, neck: 0.85, horn: [0.2, -0.12], udder: 0, dewlap: 0, tail: 0.14, beard: 1, head: 0.82 },
+    antelope: { barrel: [0.5, 0.22, 0.19], legR: 0.034, legH: 0.66, neck: 1.25, horn: [0.34, -0.06], udder: 0, dewlap: 0, tail: 0.16, beard: 0, head: 0.8 },
+    fox: { barrel: [0.5, 0.2, 0.18], legR: 0.036, legH: 0.42, neck: 0.55, horn: [0.07, 0.0], udder: 0, dewlap: 0, tail: 0.62, beard: 0, head: 0.86 },
   };
   function quadSDF(K) {
     const h = K.legH, by = h + K.barrel[1] * 0.75, hd = K.head;
@@ -46,7 +48,7 @@
         d = S(d, l, 0.05);
       }
       d = S(d, sd.cone(x, y, z, -0.64, by + 0.2, 0, -0.74, by + 0.2 - K.tail, 0, 0.03, 0.018), 0.03);              // tail
-      if (K.tail > 0.3) d = S(d, sd.ell(x, y, z, -0.745, by + 0.12 - K.tail, 0, 0.035, 0.09, 0.035), 0.02);
+      if (K.tail > 0.3) d = S(d, sd.ell(x, y, z, -0.745, by + 0.12 - K.tail, 0, 0.035 + (K.tail > 0.55 ? 0.03 : 0), 0.09 + (K.tail > 0.55 ? 0.08 : 0), 0.035 + (K.tail > 0.55 ? 0.03 : 0)), 0.02);
       if (K.udder) d = S(d, sd.ell(x, y, z, -0.24, h + 0.02, 0, 0.13, 0.085, 0.11), 0.05);
       if (K.hump) d = S(d, sd.ell(x, y, z, 0.3, by + K.barrel[1] * 0.95, 0, 0.15, 0.12, 0.1), 0.09);                    // zebu hump
       if (K.dewlap) d = S(d, sd.ell(x, y, z, 0.56, by - 0.16, 0, 0.13, 0.15, 0.045), 0.07);

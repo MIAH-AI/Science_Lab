@@ -279,7 +279,8 @@
      Part 2: touch-ups applied to existing scenes right after they build
      ===================================================================== */
   /* run fn once each time the scene (re)builds its main group */
-  const after = (key, fn) => { const sc = MK.scenes[key]; if (!sc) return; const up = sc.update; sc.update = function (S, s, c, dt) { up && up.call(sc, S, s, c, dt); if (s.g && s._pg !== s.g) { s._pg = s.g; try { fn(S, s, c); } catch (e) { console.error("upgrade " + key, e); } } }; sc.label = "Realistic 3D lab"; };
+  let afterN = 0;
+  const after = (key, fn) => { const sc = MK.scenes[key]; if (!sc) return; const up = sc.update, flag = "_pg" + afterN++; sc.update = function (S, s, c, dt) { up && up.call(sc, S, s, c, dt); if (s.g && s[flag] !== s.g) { s[flag] = s.g; try { fn(S, s, c); } catch (e) { console.error("upgrade " + key, e); } } }; sc.label = "Realistic 3D lab"; };
   const strip = (grp) => { while (grp.children.length) { const ch = grp.children[0]; grp.remove(ch); ch.traverse((o) => { if (o.geometry) o.geometry.dispose(); }); } };
 
   /* ---- R-f: fuller hibiscus petals with veins, and leaves on the stalk ---- */
@@ -333,4 +334,58 @@
 
   /* ---- B-c: yam as boiled slices ---- */
   after("B-c", (S, s, c) => { const y = s.items && s.items.yam; if (!y) return; const T3 = T(); let i = 0; y.traverse((p) => { if (!p.isMesh || p.geometry.type !== "BoxGeometry") return; p.geometry.dispose(); p.geometry = new T3.CylinderGeometry(0.27, 0.27, 0.16, 24); p.material = [std({ color: 0x8a6a48, roughness: 0.9 }), std({ color: 0xf6eed6, roughness: 0.8 }), std({ color: 0xf6eed6, roughness: 0.8 })]; p.rotation.set(0.25 * (i - 1), i, 0.2); p.position.y = 0.1 + i * 0.07; i++; }); });
+
+  /* =====================================================================
+     Part 3: fruits, wild animals, dividing cells, food, starch test, factory and pyramids
+     ===================================================================== */
+  /* ---- R-g: seed dispersal props ---- */
+  after("R-g", (S, s, c) => { const T3 = T(), g = s.g;
+    if (c.mode === "wind") { const pole = g.children.find((m) => m.isMesh && m.geometry.type === "CylinderGeometry" && m.material.map); if (pole) { const hgt = pole.geometry.parameters.height, x = pole.position.x; pole.material = new T3.MeshPhysicalMaterial({ color: 0x5f9a3c, roughness: 0.5 }); pole.scale.set(0.45, 1, 0.45);
+        const head = new T3.Mesh(new T3.SphereGeometry(0.2, 16, 12), std({ color: 0x8a7a4a, roughness: 0.9 })); head.scale.set(1, 0.6, 1); head.position.set(x, hgt, 0); g.add(head);
+        const fl = new T3.InstancedMesh(new T3.CylinderGeometry(0.004, 0.004, 0.36, 3), std({ color: 0xffffff, roughness: 0.6 }), 90), m4 = new T3.Matrix4(), q = new T3.Quaternion(), rr = BK.rng(3); for (let i = 0; i < 90; i++) { const d = V(rr() - 0.5, rr() * 0.9 + 0.05, rr() - 0.5).normalize(); q.setFromUnitVectors(V(0, 1, 0), d); m4.compose(V(x, hgt, 0).addScaledVector(d, 0.3), q, V(1, 1, 1)); fl.setMatrixAt(i, m4); } g.add(fl);
+        const lm = BK.mat.leaf("#3f8a3a", "#a8d47e"); for (let i = 0; i < 5; i++) { const piv = new T3.Group(); piv.position.set(x, 0.02, 0); piv.rotation.y = i * 1.26; const lf = BK.leaf(0.75, 0.3, lm, 0.35); lf.rotation.x = -1.25; piv.add(lf); g.add(piv); } } }
+    if (c.mode === "expl" && s.pod) { const pm = new T3.MeshStandardMaterial({ map: (() => { const cv = BK.cv(128, 64), q = cv.getContext("2d"); q.fillStyle = "#8a6a2c"; q.fillRect(0, 0, 128, 64); for (let i = 0; i < 300; i++) { q.strokeStyle = `rgba(${60 + Math.random() * 60},${40 + Math.random() * 40},10,.4)`; q.beginPath(); const y = Math.random() * 64; q.moveTo(0, y); q.lineTo(128, y + (Math.random() - 0.5) * 8); q.stroke(); } return BK.tex(cv); })(), roughness: 0.75, side: T3.DoubleSide });
+      s.pod.children.forEach((h) => { if (!h.isMesh) return; h.material = pm; h.scale.set(3.0, 0.62, 0.55); }); const stalk = BA.tube(BA.curve([[-1.25, 0, 0], [-1.7, 0.25, 0], [-2.3, 0.35, 0]]), 0.035, std({ color: 0x5a6a2a, roughness: 0.8 }), { seg: 10, rs: 6 }); s.pod.add(stalk); const lm = BK.mat.leaf("#4f8a3a", "#a8d47e"); for (const sdv of [-1, 1]) { const lf = BK.leaf(0.7, 0.3, lm, 0.2); lf.position.set(-2.1, 0.33, 0); lf.rotation.set(0.3, 0, sdv * 1.1 + 1.57); s.pod.add(lf); } }
+    if (c.mode === "water" && s.nut) { s.nut.material = new T3.MeshStandardMaterial({ map: (() => { const cv = BK.cv(256, 256), q = cv.getContext("2d"); q.fillStyle = "#7a5a30"; q.fillRect(0, 0, 256, 256); for (let i = 0; i < 1400; i++) { q.strokeStyle = `rgba(${90 + Math.random() * 90},${60 + Math.random() * 60},${20 + Math.random() * 30},.55)`; q.lineWidth = 1 + Math.random(); const x = Math.random() * 256; q.beginPath(); q.moveTo(x, 0); q.bezierCurveTo(x + 8, 90, x - 8, 170, x + 4, 256); q.stroke(); } return BK.tex(cv, [2, 1]); })(), roughness: 0.95 });
+      const isl = new T3.Mesh(new T3.SphereGeometry(3.2, 40, 16, 0, Math.PI * 2, 0, 0.5), std({ color: 0xe6d3a0, roughness: 1 })); isl.position.set(-5.6, -2.55, -4.5); isl.receiveShadow = true; g.add(isl); const pa = BA.farm.palm(3.6, 4); pa.position.set(-5.4, 0.35, -4.6); pa.rotation.z = -0.12; g.add(pa); const p2 = BA.farm.palm(2.8, 9); p2.position.set(-6.6, 0.3, -4.0); g.add(p2); } });
+
+  /* ---- population scenes: animals instead of capsules ---- */
+  const herdGeo = (kind, col, size) => BA.cached("herd" + kind + col, () => { const g = BA.quad(1, col, { kind }).children[0].geometry.clone(); g.scale(size, size, size); g.translate(0, -0.12, 0); g.rotateZ(-Math.PI / 2); return g; });
+  ["C-i", "GH4-b"].forEach((key) => after(key, (S, s, c) => { s.g.traverse((m) => { if (!m.isInstancedMesh || m.geometry.type !== "CapsuleGeometry") return; const pred = m.geometry.parameters.radius > 0.1; m.geometry = herdGeo(pred ? "fox" : "antelope", pred ? 0xc8602a : 0xb89a7a, pred ? 0.5 : 0.36); m.material = vstd({ roughness: 0.8 }); m.castShadow = true; }); }));
+
+  /* ---- A-k / GH2-d: a living cell around the chromosomes ---- */
+  ["A-k", "GH2-d"].forEach((key) => after(key, (S, s, c) => { if (!s.mem) return; const T3 = T(), rr = BK.rng(21), g = s.g;
+    s.mem.material = new T3.MeshPhysicalMaterial({ color: c.mode === "bud" ? 0xf3d9a0 : 0x9fd0ea, roughness: 0.12, transparent: true, opacity: 0.3, clearcoat: 1, sheen: 1, sheenColor: new T3.Color(0xffffff), side: T3.DoubleSide, depthWrite: false });
+    const mito = new T3.InstancedMesh(new T3.CapsuleGeometry(0.055, 0.16, 4, 8), new T3.MeshPhysicalMaterial({ color: 0xe8884a, roughness: 0.4, clearcoat: 0.5, transparent: true, opacity: 0.85 }), 16), m4 = new T3.Matrix4(), q = new T3.Quaternion(), e = new T3.Euler();
+    for (let i = 0; i < 16; i++) { const d = V(rr() - 0.5, rr() - 0.5, rr() - 0.5).normalize().multiplyScalar(1.05 + rr() * 0.45); m4.compose(d, q.setFromEuler(e.set(rr() * 3, rr() * 3, rr() * 3)), V(1, 1, 1)); mito.setMatrixAt(i, m4); } g.add(mito);
+    const er = new T3.MeshPhysicalMaterial({ color: 0x7fb8d8, roughness: 0.4, transparent: true, opacity: 0.4, depthWrite: false }); for (let i = 0; i < 5; i++) { const a = i * 1.26, pts = []; for (let j = 0; j <= 10; j++) { const u = j / 10; pts.push([Math.cos(a + u * 0.9) * (1.2 + Math.sin(u * 9 + i) * 0.12), -0.5 + u + Math.sin(u * 7 + i) * 0.1, Math.sin(a + u * 0.9) * (1.2 + Math.cos(u * 8) * 0.12)]); } g.add(BA.tube(BA.curve(pts), 0.03, er, { seg: 30, rs: 6 })); } }));
+
+  /* ---- food: beans, leafy vegetables and tomatoes with stalks ---- */
+  after("B-c", (S, s, c) => { const T3 = T(), it = s.items || {}, rr = BK.rng(6), swap = (holder, make) => { if (!holder) return; const inner = holder.children[0] || holder; const keep = inner.children && inner.children.length ? inner : holder; keep.children.slice().forEach((ch) => { ch.visible = false; }); if (keep.isMesh) { keep.material = keep.material.clone(); keep.material.visible = false; } keep.add(make()); };
+    swap(it.beans, () => { const im = new T3.InstancedMesh(new T3.SphereGeometry(0.07, 10, 8), new T3.MeshPhysicalMaterial({ color: 0x8a4a2a, roughness: 0.45, clearcoat: 0.4 }), 70), m4 = new T3.Matrix4(), q = new T3.Quaternion(), e = new T3.Euler(); for (let i = 0; i < 70; i++) { const r = Math.sqrt(rr()) * 0.42, a = rr() * 6.3; m4.compose(V(Math.cos(a) * r, 0.05 + (0.42 - r) * 0.35 * rr() + 0.02, Math.sin(a) * r), q.setFromEuler(e.set(rr() * 3, rr() * 3, 0)), V(1.5, 0.8, 0.9)); im.setMatrixAt(i, m4); } im.castShadow = true; return im; });
+    swap(it.veg, () => { const gr = new T3.Group(), lm = BK.mat.leaf("#2f7a2a", "#7fbf5a"); for (let i = 0; i < 12; i++) { const lf = BK.leaf(0.42 + rr() * 0.2, 0.26, lm, 0.5); lf.rotation.set(-1.3 + rr() * 0.5, rr() * 6.3, 0); lf.position.set((rr() - 0.5) * 0.4, 0.05 + rr() * 0.12, (rr() - 0.5) * 0.4); gr.add(lf); } return gr; }); });
+  after("C-j", (S, s, c) => { const T3 = T(); (s.toms || []).forEach((tm) => { const st = new T3.Mesh(new T3.CylinderGeometry(0.012, 0.016, 0.1, 5), std({ color: 0x3f6a2a })); st.position.y = 0.3; tm.add(st); for (let i = 0; i < 5; i++) { const sp = new T3.Mesh(new T3.ConeGeometry(0.03, 0.14, 4), std({ color: 0x3f7a2a, roughness: 0.7 })); sp.position.set(Math.cos(i * 1.257) * 0.06, 0.265, Math.sin(i * 1.257) * 0.06); sp.rotation.set(Math.sin(i * 1.257) * 1.35, 0, -Math.cos(i * 1.257) * 1.35); tm.add(sp); } }); });
+
+  /* ---- B-a: starch test on a white tile with an iodine dropper bottle ---- */
+  after("B-a", (S, s, c) => { if (c.mode !== "starch" || !s.leaf) return; const T3 = T(), g = s.g, lp = s.leaf.position;
+    const tile = new T3.Mesh(new T3.BoxGeometry(3.6, 0.07, 2.6), window.P3D.mat.ceramic(0xf7f7f2)); tile.position.set(lp.x, Math.max(0.035, lp.y - 0.08), lp.z); tile.receiveShadow = true; g.add(tile);
+    const pet = BA.tube(BA.curve([[0, 0, 0], [0, -0.3, 0.02], [0.05, -0.6, 0.0]]), 0.03, std({ color: 0x6f9a3c, roughness: 0.6 }), { seg: 8, rs: 6 }); s.leaf.add(pet);
+    const bt = new T3.Group(); const body = new T3.Mesh(new T3.CylinderGeometry(0.2, 0.22, 0.55, 20), new T3.MeshPhysicalMaterial({ color: 0x6a3a12, roughness: 0.15, transparent: true, opacity: 0.8, clearcoat: 1 })); body.position.y = 0.28; const neck = new T3.Mesh(new T3.CylinderGeometry(0.08, 0.1, 0.14, 14), body.material); neck.position.y = 0.62; const cap = new T3.Mesh(new T3.SphereGeometry(0.1, 14, 10), std({ color: 0x1c1c1c, roughness: 0.6 })); cap.scale.y = 1.5; cap.position.y = 0.78; bt.add(body, neck, cap); bt.position.set(lp.x + 2.3, 0, lp.z - 0.5); g.add(shadow(bt)); s.iodine = bt; });
+  (function () { const sc = MK.scenes["B-a"]; if (!sc) return; const ov = sc.overlay; sc.overlay = function (ctx, s, c, S, B) { ov && ov.call(sc, ctx, s, c, S, B); if (c.mode === "starch" && s.iodine && s.iodine.parent) BK.lab(S, B, s.iodine.position.x, 1.05, s.iodine.position.z, "Iodine solution", "#ffd27a", 0, -6, 10); }; })();
+
+  /* ---- C-g: a factory that looks like one ---- */
+  after("C-g", (S, s, c) => { const T3 = T(), g = s.g, fac = g.children.find((m) => m.isMesh && m.geometry.type === "BoxGeometry" && m.geometry.parameters.width === 1.8); if (!fac) return; const F = BA.farm, p = fac.position;
+    fac.material = F.mudMat(); fac.material.color.setHex(0xc9c2b8);
+    for (let i = 0; i < 3; i++) { const sh = new T3.Shape(); sh.moveTo(0, 0); sh.lineTo(0.6, 0); sh.lineTo(0, 0.34); sh.closePath(); const r = new T3.Mesh(new T3.ExtrudeGeometry(sh, { depth: 1.2, bevelEnabled: false }), F.roofMat()); r.position.set(p.x - 0.9 + i * 0.6, p.y + 0.6, p.z - 0.6); g.add(r); }
+    const wm = new T3.MeshStandardMaterial({ color: 0x9fd0ea, emissive: 0x2a4a6a, emissiveIntensity: 0.4, roughness: 0.2 }); for (let i = 0; i < 4; i++) { const w = new T3.Mesh(new T3.BoxGeometry(0.26, 0.22, 0.03), wm); w.position.set(p.x - 0.66 + i * 0.44, p.y + 0.22, p.z + 0.61); g.add(w); }
+    const door = new T3.Mesh(new T3.BoxGeometry(0.42, 0.6, 0.03), std({ color: 0x3a4250, metalness: 0.4, roughness: 0.5 })); door.position.set(p.x + 0.5, 0.3, p.z + 0.61); g.add(door);
+    if (s.chim) { s.chim.material = F.mudMat(); s.chim.material.color.setHex(0xb85a44); for (const y of [0.7, 1.0]) { const band = new T3.Mesh(new T3.TorusGeometry(0.17, 0.025, 6, 20), std({ color: 0xf2f2f2 })); band.rotation.x = Math.PI / 2; band.position.set(s.chim.position.x, s.chim.position.y + y, s.chim.position.z); g.add(band); } }
+    const tank = new T3.Mesh(new T3.CylinderGeometry(0.32, 0.32, 0.8, 20), std({ color: 0x8a949e, metalness: 0.6, roughness: 0.4 })); tank.position.set(p.x - 1.35, 0.4, p.z + 0.2); g.add(tank); g.add(BA.tube(BA.curve([[p.x - 1.35, 0.8, p.z + 0.2], [p.x - 1.35, 1.0, p.z + 0.1], [p.x - 0.95, 1.0, p.z]]), 0.04, std({ color: 0x8a949e, metalness: 0.6, roughness: 0.4 }), { seg: 12, rs: 8 })); shadow(g); });
+
+  /* ---- C-d: living things on each step of the pyramid ---- */
+  after("C-d", (S, s, c) => { const T3 = T(), g = s.g, bars = g.children.filter((m) => m.isMesh && m.geometry.type === "BoxGeometry").sort((a, b) => a.position.y - b.position.y); if (bars.length < 3) return; const rr = BK.rng(4), gm = BK.mat.leaf("#5f9a3a", "#9ccc7a");
+    bars.forEach((b, i) => { const P = b.geometry.parameters, w = P.width * b.scale.x, d = P.depth * b.scale.z, top = b.position.y + P.height * b.scale.y / 2, n = [7, 4, 2, 1][Math.min(3, i)];
+      for (let k = 0; k < n; k++) { const x = b.position.x + (n === 1 ? 0 : (k / (n - 1) - 0.5) * w * 0.8), z = b.position.z + d * 0.5 - 0.12 - rr() * Math.min(0.3, d * 0.3); let o;
+        if (i === 0) o = BK.grassTuft(gm, 7, 0.3, k + 2); else if (i === 1) o = BK.insect(0.3, 0x5a9a2a); else if (i === 2) o = BK.frog(0.42); else o = BK.bird(0.5, 0x5a3a1a);
+        o.position.set(x, top + (i === 1 ? 0.07 : i === 3 ? 0.16 : 0), z); o.rotation.y = i === 0 ? rr() * 6 : -0.6 + rr() * 0.5; b.parent.add(o); } }); });
 })();
