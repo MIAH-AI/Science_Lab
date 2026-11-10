@@ -6,6 +6,7 @@
     ['Chemistry', '/chemistry-simulations'],
     ['Biology', '/waec-biology-lab'],
     ['Geography', '/waec-geography-lab'],
+    ['Agric', '/waec-agric-lab'],
   ];
   const container = document.getElementById('glass-navigation');
   const brand = document.createElement('a');

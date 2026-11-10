@@ -103,6 +103,47 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 </style>
 <link rel="stylesheet" href="/labs/glass.css">
 <script src="/labs/glass.js" defer></script>
+<style id="pt-dash-css">
+/* Periodic Chemistry topic dashboard */
+.tdash{margin:0 0 18px}
+.tdash-hero{position:relative;overflow:hidden;border-radius:18px;padding:22px 24px;background:radial-gradient(ellipse at 85% 0%,#5b7cff55,transparent 55%),radial-gradient(ellipse at 0% 100%,#ff6bd640,transparent 50%),linear-gradient(135deg,#120f2e,#0b1730 60%,#0a0f1f);color:#eef2ff;box-shadow:0 14px 40px #0b0a2a40,inset 0 1px 0 #ffffff22;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.tdash-hero .eyebrow{font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:1.8px;text-transform:uppercase;color:#9fb8ff}
+.tdash-hero h2{margin:6px 0 6px;font:700 26px 'Spectral',serif;letter-spacing:-.3px;color:#fff}
+.tdash-hero p{margin:0;font-size:13px;line-height:1.6;color:#c9d4f5;max-width:520px}
+.tdash-stats{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.tdash-stat{background:#ffffff12;border:1px solid #ffffff22;border-radius:12px;padding:7px 12px;font:600 11px 'IBM Plex Mono',monospace;color:#dfe6ff}
+.tdash-stat b{display:block;font:700 18px 'IBM Plex Sans',sans-serif;color:#fff}
+.tdash-mini{width:300px;max-width:34vw;filter:drop-shadow(0 8px 18px #0008)}
+.tdash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:12px;margin-top:14px}
+.tcard{position:relative;text-align:left;border-radius:16px;padding:12px 12px 12px;background:var(--g-surface,#fff);border:1px solid var(--g-edge,#ddd);box-shadow:0 6px 18px var(--g-shadow,#0002),inset 0 1px 0 var(--g-highlight,#fff);backdrop-filter:blur(18px) saturate(1.3);color:var(--g-ink,#222);transition:transform .18s,box-shadow .18s,border-color .18s;display:flex;gap:11px;align-items:flex-start;min-height:92px}
+.tcard:hover{transform:translateY(-3px);box-shadow:0 12px 26px var(--g-shadow,#0003);border-color:var(--cat-color)}
+.tcard.active{border:1.5px solid var(--cat-color);box-shadow:0 0 0 3px color-mix(in srgb,var(--cat-color) 30%,transparent),0 12px 26px var(--g-shadow,#0003)}
+.tcard .ticon{flex:0 0 58px;height:58px;border-radius:13px;background:linear-gradient(145deg,#141a3a,#0b1022);display:grid;place-items:center;box-shadow:inset 0 1px 0 #ffffff1f,0 4px 10px #0004}
+.tcard .ticon svg{width:46px;height:46px}
+.tcard .tl{font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:1px;color:var(--cat-color);text-transform:uppercase}
+.tcard .tt{font:650 13px 'IBM Plex Sans',sans-serif;line-height:1.25;margin:2px 0 4px}
+.tcard .td{font-size:11px;line-height:1.4;color:var(--g-muted,#666);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tcard .now{position:absolute;top:8px;right:9px;font:700 9px 'IBM Plex Mono',monospace;color:#0b1022;background:var(--cat-color);border-radius:20px;padding:2px 7px}
+.tnav{display:flex;justify-content:space-between;gap:12px;margin:16px 0 4px}
+.tnav button{flex:1;max-width:48%;text-align:left;border-radius:14px;padding:10px 14px;background:var(--g-surface,#fff);border:1px solid var(--g-edge,#ddd);color:var(--g-ink,#222);box-shadow:0 4px 12px var(--g-shadow,#0002);font-size:12.5px}
+.tnav button:hover{border-color:var(--cat-color)} .tnav button.next{text-align:right;margin-left:auto}
+.tnav small{display:block;font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--g-muted,#777)}
+.pt-card{margin:10px 0;padding:12px 14px;border-radius:12px;background:rgba(20,30,50,.6);border:1px solid rgba(255,255,255,.12);font:12.5px/1.55 'IBM Plex Sans',sans-serif;color:#dbe6f7}
+.pt-card p{margin:6px 0}.pt-card-h{font-size:13.5px;color:#fff}
+.pt-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;align-items:center}.pt-links span{font:600 10px 'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:#8fb4ff;width:100%}
+.pt-link{border:1px solid #5b7cff88;background:linear-gradient(135deg,#25306a,#1a2148);color:#e8eeff;border-radius:20px;padding:6px 12px;font:600 11.5px 'IBM Plex Sans',sans-serif}
+.pt-link:hover{background:linear-gradient(135deg,#3a4aa0,#25306a)}
+@media (max-width:760px){.tdash-hero{grid-template-columns:1fr}.tdash-mini{max-width:100%;width:100%}.tnav button{max-width:none}}
+</style>
+<style id="fs2d-css">
+.sim-canvas-wrap.fs2d-host{position:relative}
+.fs2d-btn{position:absolute;top:24px;right:24px;z-index:6;width:34px;height:34px;display:grid;place-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(6,12,24,.62);color:#e8f1ff;cursor:pointer;padding:0}
+.fs2d-btn:hover{background:rgba(255,183,3,.88);color:#0a0f18}.fs2d-btn:focus-visible{outline:2px solid #ffb703;outline-offset:2px}
+.fs2d-btn svg{width:18px;height:18px}.fs2d-btn .ic-out{display:none}.is-fs2d .fs2d-btn .ic-in{display:none}.is-fs2d .fs2d-btn .ic-out{display:block}
+.sim-canvas-wrap.is-fs2d{position:fixed!important;inset:0!important;z-index:9999;background:#000!important;display:flex;align-items:center;justify-content:center;padding:0!important;border:0!important}
+.sim-canvas-wrap.is-fs2d canvas{max-width:100vw;max-height:100vh;border-radius:0}
+.sim-canvas-wrap.is-fs2d .fs2d-btn{top:14px;right:14px;width:44px;height:44px}
+</style>
 </head>
 <body class="lab-chemistry">
 <div id="glass-navigation"></div>
@@ -127,10 +168,15 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/physics3d.js"></script>
 <script src="/labs/chem3d.js"></script>
 <script src="/labs/chem3d-kit.js"></script>
+<script src="/labs/c3d-gx.js"></script>
+<script src="/labs/c3d-ptdata.js"></script>
+<script src="/labs/c3d-ptable.js"></script>
 <script>
-/* Each 3D scene file is fetched the first time its subtopic opens, instead of all ~1 MB on page load.
-   c3d-polymers.js needs C3.chainMol from c3d-organic.js, so that one lists both files in order. */
-const SCENE_FILES={acidBasePH:["c3d-acidbase.js"],acidDefinitions:["c3d-acidtheory.js"],airPollution:["c3d-atmosphere.js"],allotropesAlloys:["c3d-allotropes.js"],atomicStructure:["c3d-atoms.js"],benzene:["c3d-organic2.js"],biochemTests:["c3d-batchP.js"],bondPolarity:["c3d-polarity.js"],bonding:["c3d-bonding.js"],bufferCurves:["c3d-buffer.js"],collisionTheory:["c3d-collision.js"],complexShapes:["c3d-batchP.js"],corrosion:["c3d-corrosion.js"],diffusionVapour:["c3d-bench.js"],dilutionPrep:["c3d-dilution.js"],electrolysis:["c3d-electrolysis.js"],electronConfig:["c3d-atoms.js"],empiricalFormula:["c3d-empirical.js"],energyProfile:["c3d-solutions.js"],equilibriumConstant:["c3d-acidtheory.js"],flameTests:["c3d-flame.js"],functionalGroups:["c3d-organic2.js"],gasLaws:["c3d-matter.js"],gasLaws3D:["c3d-gaslaws.js"],gasPreparation:["c3d-gasprep.js"],halogens:["c3d-halogens.js"],hessLaw:["c3d-hess.js"],indicators:["c3d-indicators.js"],industrialProcesses:["c3d-industry.js"],intermolecular:["c3d-imf.js"],ionicCrystal:["c3d-ioniccrystal.js"],isomerism:["c3d-isomers.js"],kineticsEquilibrium:["c3d-kinetics.js"],limeCycle:["c3d-batchP.js"],massSpec:["c3d-massspec.js"],measurement:["c3d-measure.js"],metalReactivity:["c3d-reactivity.js"],moleCalculator:["c3d-solutions.js"],molecularShapes:["c3d-proof.js"],nitrogenSulphur:["c3d-nitrosulf.js"],nobleGases:["c3d-batchP.js"],organicExplorer:["c3d-organic.js"],organicReactions:["c3d-orgrx.js"],oxidationNumbers:["c3d-oxnum.js"],periodicOxides:["c3d-oxides.js"],periodicTrends:["c3d-atoms.js"],polymersBiomolecules:["c3d-organic.js","c3d-polymers.js"],qualAnalysis:["c3d-qualanalysis.js"],radicalMech:["c3d-radical.js"],radioactivity:["c3d-radio.js"],rateLaw:["c3d-ratelaw.js"],redoxCell:["c3d-redox.js"],redoxTitration:["c3d-redoxtit.js"],saltHydrolysis:["c3d-salthydrolysis.js"],saltPrep:["c3d-saltprep.js"],scientificMethod:["c3d-sciencemethod.js"],separationBench:["c3d-bench.js"],separationTechniques:["c3d-separation.js"],soapDetergent:["c3d-soap.js"],solubilityCurve:["c3d-acidbase.js"],solubilityProduct:["c3d-ksp.js"],statesOfMatter:["c3d-matter.js"],stoichiometry:["c3d-stoich.js"],titration:["c3d-proof.js"],transitionMetals:["c3d-transition.js"],unsaturated:["c3d-organic2.js"],waterHardness:["c3d-water.js"]};
+/* Each 3D scene file is fetched the first time its subtopic opens, instead of all ~1.5 MB on page load.
+   Shared helpers (c3d-gx.js) and the periodic-table data and dashboard load up front, above.
+   Files that need another scene file list it first: c3d-polymers.js needs C3.chainMol from c3d-organic.js,
+   and c3d-g11.js needs C3.gx.titr from c3d-g7.js. After a load, the periodic-table locators are re-applied. */
+const SCENE_FILES={acidBasePH:["c3d-acidbase.js"],acidDefinitions:["c3d-acidtheory.js"],acidReactions:["c3d-g4.js"],airPollution:["c3d-atmosphere.js"],alkanols:["c3d-g5.js"],allotropesAlloys:["c3d-allotropes.js"],aluminiumExtraction:["c3d-g7.js", "c3d-g11.js"],atomModels:["c3d-g1.js"],atomicStructure:["c3d-atoms.js"],benzene:["c3d-organic2.js"],biochemTests:["c3d-batchP.js"],biotechnology:["c3d-g6.js"],bondFission:["c3d-g8.js"],bondPolarity:["c3d-polarity.js"],bonding:["c3d-bonding.js"],bufferCurves:["c3d-buffer.js"],calorimetry:["c3d-g4.js"],cement:["c3d-g9.js"],chemicalCombination:["c3d-g3.js"],coalCoke:["c3d-g9.js"],collisionTheory:["c3d-collision.js"],complexShapes:["c3d-batchP.js"],copperCompounds:["c3d-g7.js", "c3d-g11.js"],corrosion:["c3d-corrosion.js"],crudeOilCracking:["c3d-g5.js"],diffusionVapour:["c3d-bench.js"],dilutionPrep:["c3d-dilution.js"],doubleIndicator:["c3d-g7.js"],electrolysis:["c3d-electrolysis.js"],electronConfig:["c3d-atoms.js"],empiricalFormula:["c3d-empirical.js"],energyProfile:["c3d-solutions.js"],equilibriumConstant:["c3d-acidtheory.js"],flameTests:["c3d-flame.js"],fountain:["c3d-g10.js"],functionalGroups:["c3d-organic2.js"],gasLaws:["c3d-matter.js"],gasLaws3D:["c3d-gaslaws.js"],gasPreparation:["c3d-gasprep.js"],halogens:["c3d-halogens.js"],hessLaw:["c3d-hess.js"],indicators:["c3d-indicators.js"],industrialProcesses:["c3d-industry.js"],intermolecular:["c3d-imf.js"],iodometric:["c3d-g7.js", "c3d-g11.js"],ionicCrystal:["c3d-ioniccrystal.js"],ionicNaming:["c3d-g2.js"],isomerism:["c3d-isomers.js"],kineticsEquilibrium:["c3d-kinetics.js"],lassaigne:["c3d-g8.js"],limeCycle:["c3d-batchP.js"],massSpec:["c3d-massspec.js"],measurement:["c3d-measure.js"],metalReactivity:["c3d-reactivity.js"],miningGhana:["c3d-g9.js"],moleCalculator:["c3d-solutions.js"],molecularShapes:["c3d-proof.js"],nitrogenSulphur:["c3d-nitrosulf.js"],nobleGases:["c3d-batchP.js"],organicExplorer:["c3d-organic.js"],organicReactions:["c3d-orgrx.js"],oxidationNumbers:["c3d-oxnum.js"],periodicOxides:["c3d-oxides.js"],periodicTrends:["c3d-atoms.js"],physicalChemicalChange:["c3d-g1.js"],plasticsTests:["c3d-g6.js"],polarisation:["c3d-g7.js"],polymersBiomolecules:["c3d-organic.js", "c3d-polymers.js"],purityCriteria:["c3d-g2.js"],qualAnalysis:["c3d-qualanalysis.js"],radicalMech:["c3d-radical.js"],radioactivity:["c3d-radio.js"],rateDeterminingStep:["c3d-g8.js"],rateLaw:["c3d-ratelaw.js"],redoxCell:["c3d-redox.js"],redoxTitration:["c3d-redoxtit.js"],saltHydrolysis:["c3d-salthydrolysis.js"],saltPrep:["c3d-saltprep.js"],scientificMethod:["c3d-sciencemethod.js"],separationBench:["c3d-bench.js"],separationTechniques:["c3d-separation.js"],silicaCO2:["c3d-g3.js"],soapDetergent:["c3d-soap.js"],solidTypes:["c3d-g3.js"],solubilityCurve:["c3d-acidbase.js"],solubilityProduct:["c3d-ksp.js"],statesOfMatter:["c3d-matter.js"],stoichiometry:["c3d-stoich.js"],sulphurAllotropes:["c3d-g10.js"],thermalStability:["c3d-g7.js"],titration:["c3d-proof.js"],transitionMetals:["c3d-transition.js"],unsaturated:["c3d-organic2.js"],waterHardness:["c3d-water.js"],waterTreatment:["c3d-g10.js"]};
 const sceneScripts={};
 function loadSceneScript(file){
   return sceneScripts[file] || (sceneScripts[file]=new Promise((ok,fail)=>{
@@ -139,7 +185,7 @@ function loadSceneScript(file){
     document.head.appendChild(s);
   }));
 }
-function loadScene(name){ return (SCENE_FILES[name]||[]).reduce((p,file)=>p.then(()=>loadSceneScript(file)),Promise.resolve()); }
+function loadScene(name){ return (SCENE_FILES[name]||[]).reduce((p,file)=>p.then(()=>loadSceneScript(file)),Promise.resolve()).then(()=>{ if(window.Chem3D&&Chem3D.addLocators) Chem3D.addLocators(); }); }
 </script>
 <script src="/labs/exam-kit.js"></script>
 <script src="/labs/c-exam.js"></script>
@@ -1259,6 +1305,36 @@ SIM_MODULES.complexShapes=only3D('Complex Ions & Silicon','Build seven complex i
 SIM_MODULES.nobleGases=only3D('Noble Gases','Light five discharge tubes, count electron shells to see why the noble gases are inert, and compare boiling points and atomic size down the group.','Full outer shells make Group 18 unreactive; weak London forces give very low boiling points that rise down the group.');
 SIM_MODULES.biochemTests=only3D('Food Tests & Amino Acids','Test seven food samples with Benedict, iodine, biuret, emulsion and ninhydrin reagents, and move the pH to see glycine as cation, zwitterion and anion.','Each food class has a characteristic reagent colour change; amino acids are amphoteric zwitterions.');
 SIM_MODULES.limeCycle=only3D('Limestone Cycle & Sodium Compounds','Heat limestone, slake lime, test with limewater, then follow sodium reacting with water, heat and acids.','CaCO3 to CaO to Ca(OH)2 and back; sodium compounds show reactive metal, alkali, carbonate and hydrogencarbonate behaviour.');
+SIM_MODULES.periodicDashboard=only3D('Interactive Periodic Table','All 118 elements as 3D tiles: raise them to show radius, ionisation energy, electronegativity, melting point or density; colour by category, block or state; click any element for its card, Bohr model and related simulations.','Periodic law: properties repeat with atomic number. Across a period radius falls and ionisation energy and electronegativity rise; down a group the reverse.');
+SIM_MODULES.periodicCategories=only3D('Categories of Elements','Metals, metalloids and non-metals on a 3D periodic table, with the staircase line, the s, p, d and f blocks and the families: alkali metals, alkaline-earth metals, transition metals, halogens and noble gases.','Metals are on the left of the staircase, non-metals on the right, metalloids along it. Groups share outer-electron numbers.');
+SIM_MODULES.atomModels=only3D('Models of the Atom','Follow the atom from Dalton to Bohr: cathode rays, gold-foil α-scattering and hydrogen line spectra.','Dalton: indivisible atoms. Thomson: electrons, e/m = 1.76×10¹¹ C/kg. Rutherford: tiny dense nucleus. Bohr: Eₙ = −13.6/n² eV, photon ΔE = hf.');
+SIM_MODULES.physicalChemicalChange=only3D('Physical & Chemical Change','Melt ice, evaporate salt water, burn magnesium and heat iron with sulphur, then decide which changes make new substances.','Physical: no new substance, easily reversed. Chemical: new substance, not easily reversed, large energy change.');
+SIM_MODULES.purityCriteria=only3D('Criteria for Purity','Measure melting points in a Thiele tube, boiling points of water and salt solution, and spots on a chromatogram.','Pure substances: sharp m.p. and b.p., one chromatography spot. Impurities lower and widen the m.p. and raise the b.p.');
+SIM_MODULES.ionicNaming=only3D('Naming Ionic Compounds','Pick a cation and an anion, balance the charges and build the formula, traditional and IUPAC names.','Charges must balance. Oxoanions: NO₃⁻ trioxonitrate(V), SO₄²⁻ tetraoxosulphate(VI), CO₃²⁻ trioxocarbonate(IV), PO₄³⁻ tetraoxophosphate(V).');
+SIM_MODULES.chemicalCombination=only3D('Laws of Chemical Combination','Weigh reactions in sealed and open flasks, analyse copper(II) oxide made three ways, and compare CO with CO₂.','Conservation of mass, constant composition and multiple proportions.');
+SIM_MODULES.solidTypes=only3D('Types of Crystalline Solid','Heat ionic, metallic, giant covalent and molecular lattices and test their conductivity.','Ionic, metallic and giant covalent solids have high m.p.; simple molecular solids melt easily. Only metals (and molten/aqueous ionic compounds) conduct.');
+SIM_MODULES.silicaCO2=only3D('SiO₂ vs CO₂','Compare the giant covalent network of silicon(IV) oxide with the separate molecules of carbon(IV) oxide.','SiO₂: network of SiO₄ tetrahedra, m.p. 1713 °C. CO₂: O=C=O molecules, sublimes at −78 °C.');
+SIM_MODULES.calorimetry=only3D('Calorimetry & Enthalpy','Measure heats of neutralisation, solution and combustion in open, closed and isolated systems.','q = mcΔT, ΔH = −q/n. Neutralisation ≈ −57 kJ/mol. Spirit-burner values are low because of heat loss.');
+SIM_MODULES.acidReactions=only3D('Reactions of Acids','React dilute acids with metals, trioxocarbonates(IV), metal oxides and litmus, and test the gases.','Acid + metal → salt + H₂ (pop); acid + carbonate → salt + water + CO₂ (lime water milky); acid + base → salt + water.');
+SIM_MODULES.crudeOilCracking=only3D('Cracking & Octane Number','Crack liquid paraffin over a hot catalyst, follow the molecules, and see why low-octane petrol knocks.','Cracking turns long alkanes into shorter alkanes and alkenes (decolourise bromine water). Octane number = % 2,2,4-trimethylpentane.');
+SIM_MODULES.alkanols=only3D('Alkanols and Their Tests','Classify alkanols as 1°, 2° or 3° and test with sodium, acidified dichromate and the iodoform reaction.','All give H₂ with Na. 1° and 2° turn dichromate green; 3° do not. Iodoform (yellow CHI₃): ethanol and CH₃CH(OH)– alkanols.');
+SIM_MODULES.biotechnology=only3D('Local Biotechnology','Watch yeast raise bread dough, distil palm wine into local gin, and process cassava into gari.','Fermentation: C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂. Gari fermentation lowers pH and removes cyanide.');
+SIM_MODULES.plasticsTests=only3D('Thermoplastics vs Thermosets','Heat, burn and soak plastic samples and see their chain structures.','Thermoplastics soften and can be remoulded (separate chains); thermosets char (cross-linked network). Plastics resist dilute acids and alkalis.');
+SIM_MODULES.thermalStability=only3D('Thermal Stability of Salts','Heat carbonates and nitrates of Li, Na, K, Mg, Ca and Cu and compare the gases and times.','Group 1 carbonates (Na, K) are stable; Li and group 2 decompose; stability increases down group 2. Na/K nitrates give O₂ only; others give NO₂ + O₂.');
+SIM_MODULES.polarisation=only3D('Polarisation (Fajans’ Rules)','Bring cations of different size and charge up to anions and watch the electron cloud distort.','Small, highly charged cations and large anions give more covalent character (AlCl₃, LiI, BeCl₂).');
+SIM_MODULES.doubleIndicator=only3D('Double-Indicator Titration','Titrate a Na₂CO₃/NaHCO₃ or NaOH/Na₂CO₃ mixture with HCl using phenolphthalein then methyl orange.','V₁ (phenolphthalein): CO₃²⁻ → HCO₃⁻. V₂ (methyl orange): HCO₃⁻ → CO₂. n(CO₃²⁻) = cV₁, n(HCO₃⁻) = c(V₂ − 2V₁).');
+SIM_MODULES.rateDeterminingStep=only3D('Rate-Determining Step','Run SN1 and SN2 hydrolysis over a 3D energy profile and measure how the rate depends on each concentration.','The slowest step controls the rate. SN1: rate = k[RX]; SN2: rate = k[RX][OH⁻].');
+SIM_MODULES.lassaigne=only3D('Lassaigne’s Test & C/H Test','Fuse organic compounds with sodium and test the extract for nitrogen, sulphur and halogens; detect C and H with CuO.','N: Prussian blue. S: purple with nitroprusside. X: AgCl white, AgBr cream, AgI yellow. C: lime water milky. H: CuSO₄ turns blue.');
+SIM_MODULES.bondFission=only3D('Bond Fission & Reactive Species','Break bonds homolytically and heterolytically, watch nucleophiles and electrophiles attack, and see the inductive effect.','Homolytic → radicals; heterolytic → ions. Nucleophiles donate an electron pair; electrophiles accept one. −I effect of Cl strengthens acids.');
+SIM_MODULES.miningGhana=only3D('Minerals of Ghana','Tour scale models of gold cyanidation, the Bayer process, manganese open pits and diamond washing.','Gold: 4Au + 8NaCN + O₂ + 2H₂O → 4Na[Au(CN)₂] + 4NaOH. Bauxite → alumina by the Bayer process.');
+SIM_MODULES.cement=only3D('Cement Manufacture','Run a rotary cement kiln, set the burning-zone temperature and the gypsum content.','CaCO₃ → CaO + CO₂ at 900 °C; clinker forms at 1450 °C; gypsum controls setting.');
+SIM_MODULES.coalCoke=only3D('Coal, Coke & Fuel Gases','Destructively distil coal, then make water gas and producer gas over hot coke.','Coal → coke + coal tar + ammoniacal liquor + coal gas. Water gas: C + H₂O → CO + H₂. Producer gas: 2C + O₂ + 4N₂ → 2CO + 4N₂.');
+SIM_MODULES.waterTreatment=only3D('Town Water Treatment','Adjust turbidity, alum and chlorine doses in a model treatment plant.','Screen → aerate → coagulate (alum) → settle → filter → chlorinate (Cl₂ + H₂O ⇌ HCl + HOCl).');
+SIM_MODULES.fountain=only3D('Fountain Experiment','Squeeze water into a flask of dry HCl or NH₃ and watch the coloured fountain.','HCl and NH₃ are extremely soluble; HCl gives an acid, NH₃ an alkali.');
+SIM_MODULES.sulphurAllotropes=only3D('Allotropes of Sulphur','Grow rhombic and monoclinic crystals, make plastic sulphur, and heat sulphur to its boiling point.','Rhombic below 96 °C, monoclinic 96–119 °C (both S₈ rings). Plastic sulphur: chains. Viscous near 190 °C.');
+SIM_MODULES.aluminiumExtraction=only3D('Extraction of Aluminium & Tin','Electrolyse alumina in molten cryolite in a cut-away Hall–Héroult cell, and smelt cassiterite.','Cathode: Al³⁺ + 3e⁻ → Al. Anode: 2O²⁻ → O₂ + 4e⁻, C + O₂ → CO₂. m = ItM/(3F). SnO₂ + 2C → Sn + 2CO.');
+SIM_MODULES.copperCompounds=only3D('Compounds of Copper','Dehydrate copper(II) sulphate, form and reduce copper(II) oxide, and test Cu²⁺ with NaOH and NH₃.','CuSO₄·5H₂O blue ⇌ CuSO₄ white. CuO + H₂ → Cu + H₂O. Cu²⁺ + NH₃ (excess) → deep blue [Cu(NH₃)₄]²⁺.');
+SIM_MODULES.iodometric=only3D('Iodine–Thiosulphate Titration','Liberate iodine from KI and titrate it with thiosulphate, adding starch near the end point.','I₂ + 2S₂O₃²⁻ → 2I⁻ + S₄O₆²⁻. Starch gives blue-black with I₂; end point when it just disappears.');
 
 /* fix text wrapping in the draw call above by patching fillText usage simply (no-op safeguard) */
 
@@ -1273,25 +1349,25 @@ const SECTIONS={
     {l:'a',t:'Measurement of physical quantities',sim:'measurement'},
     {l:'b',t:'Scientific methods',sim:'scientificMethod'}]},
   {num:'2.0',title:'Structure of the Atom',cat:'atomic',subs:[
-    {l:'a',t:'Gross features of the atom',sim:'atomicStructure'},
+    {l:'a',t:'Gross features of the atom (Dalton to Bohr)',sim:'atomModels'},
     {l:'b',t:'Atomic number, mass number, isotopes',sim:'atomicStructure'},
-    {l:'c',t:'Particulate nature of matter',sim:'statesOfMatter'},
+    {l:'c',t:'Particulate nature: physical & chemical change',sim:'physicalChemicalChange'},
     {l:'d',t:'Electron configuration & orbitals',sim:'electronConfig'}]},
   {num:'3.0',title:'Standard Separation Techniques',cat:'atomic',subs:[
     {l:'a',t:'Classification of mixtures',sim:'separationBench'},
     {l:'b',t:'Separation techniques',sim:'separationBench'},
-    {l:'c',t:'Criteria for purity',sim:'separationTechniques'}]},
+    {l:'c',t:'Criteria for purity',sim:'purityCriteria'}]},
   {num:'4.0',title:'Periodic Chemistry',cat:'bonding',subs:[
-    {l:'a',t:'Periodicity of the elements',sim:'periodicTrends'},
-    {l:'b',t:'Categories of elements',sim:'periodicTrends'},
-    {l:'c',t:'Periodic law & trends',sim:'periodicTrends'},
-    {l:'d',t:'Acid–metal / oxide reactions',sim:'metalReactivity'},
+    {l:'a',t:'Periodicity: interactive periodic table',sim:'periodicDashboard'},
+    {l:'b',t:'Categories of elements',sim:'periodicCategories'},
+    {l:'c',t:'Periodic law & trends (Zeff, radius)',sim:'periodicTrends'},
+    {l:'d',t:'Acid–metal / oxide reactions',sim:'acidReactions'},
     {l:'e',t:'Group 7 — the halogens',sim:'halogens'},
     {l:'f',t:'First transition series',sim:'transitionMetals'}]},
   {num:'5.0',title:'Chemical Bonds',cat:'bonding',subs:[
     {l:'a',t:'Interatomic bonding',sim:'bonding'},
     {l:'b',t:'Ionic bonds & compounds',sim:'ionicCrystal'},
-    {l:'c',t:'Naming ionic compounds',sim:'ionicCrystal'},
+    {l:'c',t:'Naming ionic compounds (IUPAC)',sim:'ionicNaming'},
     {l:'d',t:'Covalent bonds & compounds',sim:'bonding'},
     {l:'e',t:'Properties & coordinate bonding',sim:'bonding'},
     {l:'f',t:'Shapes of molecules',sim:'molecularShapes'},
@@ -1299,7 +1375,7 @@ const SECTIONS={
     {l:'h',t:'Intermolecular forces',sim:'intermolecular'},
     {l:'i',t:'Bond polarity & dipoles',sim:'bondPolarity'}]},
   {num:'6.0',title:'Stoichiometry & Chemical Reactions',cat:'physical',subs:[
-    {l:'a',t:'Symbols, formulae & equations',sim:'moleCalculator'},
+    {l:'a',t:'Formulae, equations & laws of combination',sim:'chemicalCombination'},
     {l:'b',t:'Amount of substance',sim:'moleCalculator'},
     {l:'c',t:'Mole ratios',sim:'stoichiometry'},
     {l:'d',t:'Solutions & concentration',sim:'dilutionPrep'},
@@ -1309,15 +1385,15 @@ const SECTIONS={
     {l:'a',t:'Kinetic theory & diffusion',sim:'diffusionVapour'},
     {l:'b',t:'Gases & the gas laws',sim:'gasLaws3D'},
     {l:'c',t:'Liquids & vapour',sim:'diffusionVapour'},
-    {l:'d',t:'Solids',sim:'statesOfMatter'},
+    {l:'d',t:'Solids: ionic, metallic, covalent, molecular',sim:'solidTypes'},
     {l:'e',t:'Diamond & graphite',sim:'allotropesAlloys'},
     {l:'f',t:'Melting point determination',sim:'diffusionVapour'}]},
   {num:'8.0',title:'Energy & Energy Changes',cat:'physical',subs:[
     {l:'a',t:'Energy and enthalpy',sim:'energyProfile'},
-    {l:'b',t:'Energy changes & their effects',sim:'energyProfile'}]},
+    {l:'b',t:'Energy changes & calorimetry',sim:'calorimetry'}]},
   {num:'9.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
     {l:'a',t:'Definitions',sim:'acidDefinitions'},
-    {l:'b',t:'Physical/chemical properties',sim:'acidBasePH'},
+    {l:'b',t:'Physical/chemical properties',sim:'acidReactions'},
     {l:'c',t:'Electrolytes',sim:'acidDefinitions'},
     {l:'d',t:'Classification strong/weak',sim:'acidDefinitions'},
     {l:'e',t:'Concept of pH',sim:'acidBasePH'},
@@ -1345,20 +1421,20 @@ const SECTIONS={
     {l:'a',t:'Classification',sim:'functionalGroups'},
     {l:'b',t:'Functional groups',sim:'functionalGroups'},
     {l:'c',t:'Separation & purification',sim:'separationTechniques'},
-    {l:'d',t:'Petroleum / crude oil',sim:'industrialProcesses'},
+    {l:'d',t:'Petroleum: cracking & octane number',sim:'crudeOilCracking'},
     {l:'e',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
     {l:'f',t:'Homologous series & isomerism',sim:'isomerism'},
     {l:'g',t:'Alkanes',sim:'radicalMech'},
     {l:'h',t:'Alkenes',sim:'organicReactions'},
     {l:'i',t:'Alkynes',sim:'unsaturated'},
     {l:'j',t:'Benzene',sim:'benzene'},
-    {l:'k',t:'Alkanols',sim:'organicReactions'},
+    {l:'k',t:'Alkanols (1°, 2°, 3°) & their tests',sim:'alkanols'},
     {l:'l',t:'Alkanoic acids',sim:'functionalGroups'},
     {l:'m',t:'Alkanoates (esters)',sim:'organicReactions'}]},
   {num:'14.0',title:'Chemistry, Industry & Environment',cat:'industry',subs:[
     {l:'a',t:'Chemical industry',sim:'industrialProcesses'},
     {l:'b',t:'Pollution',sim:'airPollution'},
-    {l:'c',t:'Biotechnology',sim:'polymersBiomolecules'}]},
+    {l:'c',t:'Biotechnology (bread, local gin, gari)',sim:'biotechnology'}]},
   {num:'15.0',title:'Basic Biochemistry & Synthetic Polymers',cat:'industry',subs:[
     {l:'a',t:'Proteins',sim:'polymersBiomolecules'},
     {l:'b',t:'Amino acids',sim:'biochemTests'},
@@ -1366,6 +1442,7 @@ const SECTIONS={
     {l:'c2',t:'Soaps & detergents',sim:'soapDetergent'},
     {l:'d',t:'Carbohydrates',sim:'polymersBiomolecules'},
     {l:'e',t:'Synthetic polymers',sim:'polymersBiomolecules'},
+    {l:'e2',t:'Thermoplastics vs thermosets (tests)',sim:'plasticsTests'},
     {l:'f',t:'Food tests',sim:'biochemTests'}]}
  ]},
  B:{label:'Ghana (B)', topics:[
@@ -1373,20 +1450,22 @@ const SECTIONS={
     {l:'a',t:'Mass spectrometer',sim:'massSpec'},
     {l:'b',t:'Nuclear chemistry & radioactivity',sim:'radioactivity'}]},
   {num:'2.0',title:'Periodic Chemistry',cat:'bonding',subs:[
-    {l:'a',t:'Acid/metal/oxide reactions',sim:'redoxCell'},
+    {l:'0',t:'Interactive periodic table',sim:'periodicDashboard'},
+    {l:'a',t:'Acid/metal/oxide reactions',sim:'acidReactions'},
     {l:'b',t:'Acidic oxides of non-metals',sim:'periodicOxides'},
     {l:'c',t:'Period 3 element properties',sim:'periodicOxides'},
-    {l:'d',t:'Silicon',sim:'complexShapes'},
+    {l:'c2',t:'Thermal stability of CO₃²⁻ & NO₃⁻',sim:'thermalStability'},
+    {l:'d',t:'Silicon: SiO₂ vs CO₂',sim:'silicaCO2'},
     {l:'e',t:'Group 7 gradation',sim:'halogens'},
     {l:'f',t:'Bonding in complex compounds',sim:'complexShapes'},
     {l:'g',t:'Shapes of complex compounds',sim:'complexShapes'},
     {l:'h',t:'First transition series',sim:'transitionMetals'}]},
   {num:'3.0',title:'Chemical Bonds',cat:'bonding',subs:[
-    {l:'a',t:'Ionic bond formation',sim:'ionicCrystal'},
+    {l:'a',t:'Ionic bond formation & polarisation',sim:'polarisation'},
     {l:'b',t:'Hybridisation & σ/π bonds',sim:'molecularShapes'}]},
   {num:'4.0',title:'Solutions',cat:'physical',subs:[{l:'a',t:'Preparation by dilution',sim:'dilutionPrep'}]},
   {num:'5.0',title:'Energy & Energy Changes',cat:'physical',subs:[
-    {l:'a',t:'Energy in physical systems',sim:'energyProfile'},
+    {l:'a',t:'Energy in physical systems (calorimetry)',sim:'calorimetry'},
     {l:'b',t:"Hess's Law & Born–Haber",sim:'hessLaw'},
     {l:'c',t:'Bond energy',sim:'hessLaw'}]},
   {num:'6.0',title:'Acids, Bases & Salts',cat:'acidbase',subs:[
@@ -1394,48 +1473,57 @@ const SECTIONS={
     {l:'b',t:'pH, pOH, pKw',sim:'acidBasePH'},
     {l:'c',t:'Weak acid/base ionisation',sim:'bufferCurves'},
     {l:'d',t:'Buffer solutions',sim:'bufferCurves'},
-    {l:'e',t:'Acid–base titrations',sim:'titration'}]},
+    {l:'e',t:'Acid–base titrations (double indicator)',sim:'doubleIndicator'}]},
   {num:'7.0',title:'Solubility of Substances',cat:'acidbase',subs:[
     {l:'a',t:'Solubility product (Ksp)',sim:'solubilityProduct'},
     {l:'c',t:'Crystallisation & recrystallisation',sim:'solubilityCurve'}]},
   {num:'8.0',title:'Chemical Kinetics & Equilibrium',cat:'physical',subs:[
     {l:'a',t:'Rate law & order of reaction',sim:'rateLaw'},
-    {l:'b',t:'Rate-determining step',sim:'rateLaw'},
+    {l:'b',t:'Rate-determining step',sim:'rateDeterminingStep'},
     {l:'d',t:'Law of Mass Action',sim:'equilibriumConstant'}]},
   {num:'9.0',title:'Chemistry of Carbon Compounds',cat:'organic',subs:[
     {l:'a',t:'Separation & purification',sim:'separationTechniques'},
-    {l:'b',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
-    {l:'c',t:'Reactivity of organic compounds',sim:'organicExplorer'},
+    {l:'b',t:'Elemental analysis (Lassaigne) & formulae',sim:'lassaigne'},
+    {l:'b2',t:'Empirical & molecular formulae',sim:'empiricalFormula'},
+    {l:'c',t:'Reactivity: bond fission, nucleophiles, electrophiles',sim:'bondFission'},
+    {l:'c2',t:'Homologous series & reactions',sim:'organicExplorer'},
     {l:'d',t:'Alkanes (free-radical mechanism)',sim:'radicalMech'},
     {l:'e',t:'Reactions of benzene',sim:'benzene'}]},
   {num:'10.0',title:'Chemical Industry & Environment',cat:'industry',subs:[
-    {l:'a',t:'Raw materials & mining',sim:'separationTechniques'},
-    {l:'b',t:'Cement',sim:'energyProfile'}]}
+    {l:'a',t:'Raw materials & mining in Ghana',sim:'miningGhana'},
+    {l:'b',t:'Cement',sim:'cement'}]}
  ]},
  C:{label:'W. Africa (C)', topics:[
   {num:'1.0',title:'Non-Metals & Their Compounds',cat:'industry',subs:[
     {l:'a',t:'Carbon & its allotropes',sim:'allotropesAlloys'},
+    {l:'a2',t:'Coal, coke, water gas & producer gas',sim:'coalCoke'},
     {l:'b',t:'Oxygen',sim:'gasPreparation'},
     {l:'c',t:'Hydrogen',sim:'gasPreparation'},
     {l:'d',t:'Water & solutions / hardness',sim:'waterHardness'},
+    {l:'d2',t:'Treatment of town water supply',sim:'waterTreatment'},
     {l:'e',t:'Chlorine',sim:'gasPreparation'},
     {l:'f',t:'Hydrogen chloride gas',sim:'gasPreparation'},
+    {l:'f2',t:'Fountain experiment (HCl / NH₃ solubility)',sim:'fountain'},
     {l:'g',t:'Nitrogen & compounds',sim:'nitrogenSulphur'},
     {l:'h',t:'Sulphur & its acids',sim:'nitrogenSulphur'},
+    {l:'h2',t:'Allotropes of sulphur',sim:'sulphurAllotropes'},
     {l:'i',t:'Noble gases',sim:'nobleGases'}]},
   {num:'2.0',title:'Metals & Their Compounds',cat:'industry',subs:[
-    {l:'a',t:'Extraction of metals',sim:'industrialProcesses'},
+    {l:'a',t:'Extraction of metals (iron)',sim:'industrialProcesses'},
+    {l:'a2',t:'Extraction of aluminium & tin',sim:'aluminiumExtraction'},
     {l:'b',t:'Alloys',sim:'allotropesAlloys'},
     {l:'c',t:'Sodium & compounds',sim:'limeCycle'},
     {l:'d',t:'Calcium & compounds',sim:'limeCycle'},
     {l:'e',t:'Iron & aluminium reactivity',sim:'metalReactivity'},
-    {l:'f',t:'Copper & compounds',sim:'electrolysis'}]}
+    {l:'f',t:'Copper & compounds',sim:'copperCompounds'}]}
  ]},
  P:{label:'Practicals', topics:[
   {num:'16.0',title:'Practical Skills & Analysis',cat:'physical',subs:[
     {l:'a',t:'General skills & principles',sim:'moleCalculator'},
+    {l:'a2',t:'Thermochemistry practical (calorimetry)',sim:'calorimetry'},
     {l:'b',t:'Quantitative — acid–base titrations',sim:'titration'},
     {l:'c',t:'Quantitative — redox titrations',sim:'redoxTitration'},
+    {l:'c2',t:'Quantitative — iodine/thiosulphate',sim:'iodometric'},
     {l:'d',t:'Qualitative analysis (cations & anions)',sim:'qualAnalysis'},
     {l:'e',t:'Flame tests & emission spectra',sim:'flameTests'}]}
  ]}
@@ -1469,6 +1557,62 @@ function currentTopic(){
   const num=activeTopicKey.split('-').slice(1).join('-');
   return SECTIONS[activeSection].topics.find(t=>t.num===num);
 }
+
+/* ---------- navigation helper (used by element cards) + Periodic Chemistry topic dashboard ---------- */
+window.ChemNav={go(sec,num,l){ if(!SECTIONS[sec]) return; const t=SECTIONS[sec].topics.find(x=>x.num===num); if(!t) return; const i=Math.max(0,t.subs.findIndex(x=>x.l===l)); activeSection=sec; renderSectionTabs(); activeTopicKey=sec+'-'+num; activeSubIdx=i; renderTopicList(); loadSim(); const m=document.querySelector('.main'); if(m) m.scrollTo({top:0,behavior:'smooth'}); window.scrollTo({top:0,behavior:'smooth'}); }};
+const TopicDash=(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const svg=(inner,vb)=>'<svg viewBox="'+(vb||'0 0 48 48')+'" xmlns="'+NS+'">'+inner+'</svg>';
+  const tube=(x,col,h)=>'<rect x="'+x+'" y="8" width="7" height="32" rx="3.5" fill="#ffffff14" stroke="#cfe2ff88" stroke-width="1"/><rect x="'+(x+1)+'" y="'+(40-h)+'" width="5" height="'+(h-1)+'" rx="2.5" fill="'+col+'"/>';
+  const ICON={
+    periodicDashboard:()=>{ let r=''; const L=[[1,1],[18,1],[1,2],[2,2],[13,2],[14,2],[15,2],[16,2],[17,2],[18,2],[1,3],[2,3],[13,3],[14,3],[15,3],[16,3],[17,3],[18,3]]; for(let y=4;y<=6;y++) for(let x=1;x<=18;x++) L.push([x,y]); const C=['#ef476f','#f78c6b','#ffd166','#8ecae6','#2ec4b6','#7bd88f','#b388ff']; L.forEach(([x,y])=>{ const c=x<=1?C[0]:x==2?C[1]:x<=12?C[2]:x==18?C[6]:x==17?'#00e0c6':(x+y>=18?C[5]:C[3]); r+='<rect x="'+(2+(x-1)*2.45)+'" y="'+(8+(y-1)*5.2)+'" width="2.1" height="4.6" rx=".6" fill="'+c+'"/>'; }); return svg(r); },
+    periodicCategories:()=>{ let r=''; for(let y=1;y<=6;y++) for(let x=1;x<=18;x++){ if(y==1&&x>1&&x<18) continue; if(y<4&&x>2&&x<13) continue; const nm=x-y>=11||x==18; const md=x-y==11; r+='<rect x="'+(2+(x-1)*2.45)+'" y="'+(8+(y-1)*5.2)+'" width="2.1" height="4.6" rx=".6" fill="'+(md?'#2ec4b6':nm?'#7bd88f':'#8ecae6')+'"/>'; } r+='<path d="M31.4 12.6 v5.2 h2.45 v5.2 h2.45 v5.2 h2.45 v5.2 h2.45" fill="none" stroke="#ff4d6d" stroke-width="1.3"/>'; return svg(r); },
+    periodicTrends:()=>svg('<rect x="6" y="30" width="6" height="10" rx="1.5" fill="#4cc9f0"/><rect x="15" y="24" width="6" height="16" rx="1.5" fill="#5ee08a"/><rect x="24" y="17" width="6" height="23" rx="1.5" fill="#f7e14b"/><rect x="33" y="9" width="6" height="31" rx="1.5" fill="#ff7b2e"/><path d="M6 26 L38 6" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 2"/><path d="M38 6 l-5 .5 l3 3.5z" fill="#fff"/>'),
+    acidReactions:()=>svg('<path d="M19 6h10v11l9 19a3 3 0 0 1-3 4H13a3 3 0 0 1-3-4l9-19z" fill="#ffffff12" stroke="#cfe2ff" stroke-width="1.3"/><path d="M14 28h20l4 8a3 3 0 0 1-3 4H13a3 3 0 0 1-3-4z" fill="#ff6b6b99"/><circle cx="20" cy="24" r="1.6" fill="#fff"/><circle cx="26" cy="20" r="1.2" fill="#fff"/><circle cx="23" cy="15" r="1" fill="#fff"/>'),
+    halogens:()=>svg(tube(6,'#d8e86a',20)+tube(16,'#7bd88f',24)+tube(26,'#c0461f',28)+tube(36,'#7b2fbf',16)),
+    transitionMetals:()=>svg(tube(6,'#ffd23f',26)+tube(16,'#3a7bff',26)+tube(26,'#30c06a',26)+tube(36,'#a66bff',26)),
+    periodicOxides:()=>{ let r=''; const c=['#7b2fbf','#3a7bff','#30c06a','#9be15d','#ffd23f','#ff9a3c','#ef3e36']; c.forEach((k,i)=>{ r+='<rect x="'+(4+i*5.8)+'" y="30" width="5.4" height="8" fill="'+k+'"/>'; }); return svg(r+'<path d="M15 8h18v18a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4z" fill="#ffffff12" stroke="#cfe2ff" stroke-width="1.2"/><rect x="16" y="16" width="16" height="13" rx="3" fill="#30c06a99"/>'); },
+    thermalStability:()=>svg('<rect x="10" y="10" width="28" height="7" rx="3.5" transform="rotate(-15 24 13)" fill="#ffffff14" stroke="#cfe2ff" stroke-width="1"/><path d="M14 40c-3-6 3-9 2-14 4 3 6 8 2 14z" fill="#4cc9f0"/><path d="M15 40c-1-3 1-5 1-8 2 2 3 5 1 8z" fill="#fff"/><circle cx="30" cy="30" r="2" fill="#ffffff55"/><circle cx="34" cy="25" r="1.4" fill="#ffffff55"/>'),
+    silicaCO2:()=>svg('<path d="M14 10 L6 30 L22 30z M14 10 L22 30 L18 22z" fill="#f0c8a033" stroke="#f0c8a0" stroke-width="1.2"/><circle cx="14" cy="10" r="3" fill="#e8281c"/><circle cx="6" cy="30" r="3" fill="#e8281c"/><circle cx="22" cy="30" r="3" fill="#e8281c"/><circle cx="14" cy="23" r="3.4" fill="#f0c8a0"/><circle cx="30" cy="36" r="3" fill="#e8281c"/><circle cx="37" cy="36" r="3" fill="#3b3f46" stroke="#888"/><circle cx="44" cy="36" r="3" fill="#e8281c"/>'),
+    complexShapes:()=>svg('<g stroke="#cfe2ff" stroke-width="1.4"><line x1="24" y1="6" x2="24" y2="42"/><line x1="6" y1="24" x2="42" y2="24"/><line x1="12" y1="34" x2="36" y2="14"/></g><circle cx="24" cy="24" r="5.5" fill="#c88033"/><g fill="#4a7dff"><circle cx="24" cy="6" r="3.2"/><circle cx="24" cy="42" r="3.2"/><circle cx="6" cy="24" r="3.2"/><circle cx="42" cy="24" r="3.2"/><circle cx="12" cy="34" r="3.2"/><circle cx="36" cy="14" r="3.2"/></g>'),
+  };
+  const DEF=()=>svg('<circle cx="24" cy="24" r="4" fill="#ff5a5a"/><ellipse cx="24" cy="24" rx="18" ry="7" fill="none" stroke="#8fb4ff" stroke-width="1.2"/><ellipse cx="24" cy="24" rx="18" ry="7" transform="rotate(60 24 24)" fill="none" stroke="#8fb4ff" stroke-width="1.2"/><ellipse cx="24" cy="24" rx="18" ry="7" transform="rotate(-60 24 24)" fill="none" stroke="#8fb4ff" stroke-width="1.2"/><circle cx="42" cy="24" r="2" fill="#ffd166"/>');
+  function mini(){ const D=window.PT_DATA||[], C={am:'#ef476f',ae:'#f78c6b',tm:'#ffd166',pt:'#8ecae6',md:'#2ec4b6',nm:'#7bd88f',ng:'#b388ff',la:'#ff99c8',ac:'#e0aaff',un:'#9aa5b8'}; let r=''; D.forEach(e=>{ const x=e[5], y=e[6]; const cat=[9,17,35,53].includes(e[0])?'#00e0c6':C[e[4]]||'#9aa5b8'; r+='<rect x="'+((x-1)*16.6)+'" y="'+((y-1)*16.6+(y>=9?6:0))+'" width="15" height="15" rx="2.5" fill="'+cat+'" opacity=".92"/>'; }); return '<svg class="tdash-mini" viewBox="0 0 300 172" xmlns="'+NS+'">'+r+'</svg>'; }
+  return {
+    wants:(t)=>/^Periodic Chemistry/.test(t.title),
+    render(topic,color){
+      const wrap=$('div',{class:'tdash'}), sec=SECTIONS[activeSection].label; const n3=topic.subs.filter(s=>window.Chem3D&&Chem3D.scenes&&Chem3D.scenes[s.sim]).length;
+      const hero=$('div',{class:'tdash-hero'}); const left=$('div',{}); left.innerHTML='<div class="eyebrow">'+sec+' · topic '+topic.num+'</div><h2>'+topic.title+'</h2><p>Explore how the elements are arranged and why their properties repeat. Start with the interactive 3D periodic table, then work through each experiment below — every card opens a live simulation.</p>';
+      const stats=$('div',{class:'tdash-stats'}); [[topic.subs.length,'subtopics'],[n3,'3D simulations'],[118,'elements'],[(activeSubIdx+1)+' / '+topic.subs.length,'you are on']].forEach(([a,b])=>{ const d=$('div',{class:'tdash-stat'}); d.innerHTML='<b>'+a+'</b>'+b; stats.appendChild(d); }); left.appendChild(stats); hero.appendChild(left);
+      const m=$('div',{}); m.innerHTML=mini(); hero.appendChild(m); wrap.appendChild(hero);
+      const grid=$('div',{class:'tdash-grid'});
+      topic.subs.forEach((s,i)=>{ const mod=SIM_MODULES[s.sim]||{}; const c=$('button',{class:'tcard'+(i===activeSubIdx?' active':''), style:'--cat-color:'+color, onclick:()=>{ activeSubIdx=i; loadSim(); }}); const ic=$('div',{class:'ticon'}); ic.innerHTML=(ICON[s.sim]||DEF)(); c.appendChild(ic); const tx=$('div',{}); tx.innerHTML='<div class="tl">('+s.l+') '+(window.Chem3D&&Chem3D.scenes&&Chem3D.scenes[s.sim]?'3D':'sim')+'</div><div class="tt">'+s.t+'</div><div class="td">'+(mod.blurb||'')+'</div>'; c.appendChild(tx); if(i===activeSubIdx) c.appendChild($('span',{class:'now'},'OPEN')); grid.appendChild(c); });
+      wrap.appendChild(grid); return wrap;
+    },
+    nav(topic,color){
+      const nav=$('div',{class:'tnav',style:'--cat-color:'+color}), i=activeSubIdx;
+      if(i>0){ const p=topic.subs[i-1]; nav.appendChild($('button',{onclick:()=>{ activeSubIdx=i-1; loadSim(); window.scrollTo({top:0,behavior:'smooth'}); }}, $('small',{},'◀ previous'), '('+p.l+') '+p.t)); }
+      if(i<topic.subs.length-1){ const q=topic.subs[i+1]; nav.appendChild($('button',{class:'next',onclick:()=>{ activeSubIdx=i+1; loadSim(); window.scrollTo({top:0,behavior:'smooth'}); }}, $('small',{},'next ▶'), '('+q.l+') '+q.t)); }
+      return nav;
+    },
+  };
+})();
+
+/* full-screen button for the 2D fallback drawings (used when WebGL is unavailable) */
+function addFs2d(wrap){
+  wrap.classList.add('fs2d-host');
+  const b=$('button',{type:'button',class:'fs2d-btn',title:'Full screen','aria-label':'Full screen'}); b.innerHTML='<svg class="ic-in" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="ic-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+  const fit=()=>{ wrap.querySelectorAll('canvas').forEach(cv=>{ if(!wrap.classList.contains('is-fs2d')){ cv.style.removeProperty('width'); cv.style.removeProperty('height'); return; } const r=cv.width/cv.height, W=innerWidth, H=innerHeight, w=Math.min(W,H*r); cv.style.setProperty('width',w+'px','important'); cv.style.setProperty('height',(w/r)+'px','important'); }); };
+  wrap._fsFit=fit;
+  const set=(on)=>{ wrap.classList.toggle('is-fs2d',on); requestAnimationFrame(fit); document.body.style.overflow=on?'hidden':''; b.title=on?'Exit full screen (Esc)':'Full screen'; b.setAttribute('aria-label',on?'Exit full screen':'Full screen'); };
+  b.addEventListener('click',()=>{ const on=!wrap.classList.contains('is-fs2d'); const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(on){ const n=wrap.requestFullscreen||wrap.webkitRequestFullscreen; if(n){ try{ const r=n.call(wrap); if(r&&r.catch) r.catch(()=>{}); }catch(e){} } set(true); }
+    else { if(fsEl) (document.exitFullscreen||document.webkitExitFullscreen).call(document); set(false); } });
+  wrap.appendChild(b); wrap._fsSet=set;
+}
+addEventListener('resize',()=>{ const w=document.querySelector('.is-fs2d'); if(w&&w._fsFit) w._fsFit(); });
+document.addEventListener('fullscreenchange',()=>{ if(!document.fullscreenElement){ const w=document.querySelector('.is-fs2d'); if(w&&w._fsSet) w._fsSet(false); } });
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ const w=document.querySelector('.is-fs2d'); if(w&&w._fsSet&&!document.fullscreenElement) w._fsSet(false); } });
 function loadSim(){
   setExamActive(false);
   if(currentCleanup){ try{currentCleanup();}catch(e){} currentCleanup=null; }
@@ -1480,11 +1624,15 @@ function loadSim(){
   const mod=SIM_MODULES[sub.sim];
 
   inner.innerHTML='';
+  const dashTopic=TopicDash.wants(topic);
+  if(dashTopic){ inner.appendChild(TopicDash.render(topic,color)); }
+  else {
   const pills=$('div',{class:'subpills'});
   topic.subs.forEach((s,i)=>{
     pills.appendChild($('button',{class:'subpill'+(i===activeSubIdx?' active':''), style:`--cat-color:${color}`, onclick:()=>{ activeSubIdx=i; loadSim(); }}, `(${s.l}) ${s.t}`));
   });
   inner.appendChild(pills);
+  }
 
   inner.appendChild($('div',{class:'sim-header'},
     $('div',{class:'sim-eyebrow', style:`color:${color}`}, topic.num+' · '+topic.title+' · ('+sub.l+')'),
@@ -1508,6 +1656,8 @@ function loadSim(){
       try{ cleanup3d=Chem3D.mount(canvasWrap, controls, sub.sim, {$, sliderControl, selectControl, buttonControl, readout, noteBox, label: topic.title+": "+mod.title}); }catch(e){ console.error('3D scene failed, using 2D fallback',e); cleanup3d=null; canvasWrap.innerHTML=''; controls.innerHTML=''; }
     }
     currentCleanup = cleanup3d || mod.mount(canvasWrap, controls) || (()=>{});
+    if(!cleanup3d && canvasWrap.querySelector('canvas')) addFs2d(canvasWrap);
+    if(dashTopic) inner.appendChild(TopicDash.nav(topic,color));
     if(!cleanup3d){ const c=canvasWrap.querySelector("canvas"); if(c && !c.hasAttribute("aria-label")){ c.setAttribute("role","img"); c.setAttribute("aria-label",topic.title+": "+mod.title+" simulation. Current values are listed beside it."); } }
   };
   if(window.Chem3D && Chem3D.ready && !Chem3D.scenes[sub.sim] && SCENE_FILES[sub.sim]){
@@ -1548,6 +1698,7 @@ document.getElementById('menuToggle').addEventListener('click', ()=>document.get
 
 renderSectionTabs();
 renderTopicList();
+(function(){ const b=document.getElementById('countBadge'); if(b){ const n=new Set(); Object.values(SECTIONS).forEach(S=>S.topics.forEach(t=>t.subs.forEach(x=>n.add(x.sim)))); b.textContent=n.size+' simulation modules'; } })();
 </script>
 </body>
 </html>

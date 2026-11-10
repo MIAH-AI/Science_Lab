@@ -73,6 +73,12 @@ const raw = {
       s: t.subtopics.map((s) => s.title),
     })),
   ),
+  agric: await read('waec-agric-lab', () =>
+    allTopics().map((t) => ({
+      t: t.title,
+      s: t.subtopics.map((s) => s.title),
+    })),
+  ),
 }
 /* eslint-enable no-undef */
 await browser.close()

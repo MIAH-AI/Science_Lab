@@ -19,7 +19,7 @@ const cards = () =>
     .map((a) => within(a).getByRole('heading').textContent)
 
 describe('home page', () => {
-  it('shows all five subjects with lab and practice links', () => {
+  it('shows all six subjects with lab and practice links', () => {
     render(<Home />)
     expect(cards()).toEqual([
       'Mathematics',
@@ -27,6 +27,7 @@ describe('home page', () => {
       'Chemistry',
       'Biology',
       'Geography',
+      'Agricultural Science',
     ])
     const bio = screen.getAllByRole('article')[3]
     expect(within(bio).getByRole('link', { name: 'Open lab' })).toHaveAttribute(
@@ -50,7 +51,7 @@ describe('home page', () => {
     })
     expect(screen.getByText('No topics found')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Show all subjects' }))
-    expect(cards()).toHaveLength(5)
+    expect(cards()).toHaveLength(6)
   })
 
   it('switches to Night and passes it to the labs', () => {

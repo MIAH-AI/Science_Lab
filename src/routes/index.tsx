@@ -14,6 +14,7 @@ import {
   RotateCcw,
   Search,
   Sigma,
+  Sprout,
   Sun,
   Moon,
   X,
@@ -47,14 +48,14 @@ const subjects: Subject[] = [
   {
     key: 'physics',
     name: 'Physics',
-    facts: ['41 topics', '83 3D sim modes'],
+    facts: ['41 topics', '163 3D sim modes'],
     path: '/physics_lab_full',
     Icon: Atom,
   },
   {
     key: 'chemistry',
     name: 'Chemistry',
-    facts: ['136 subtopics', '67 3D modules'],
+    facts: ['148 subtopics', '97 3D modules'],
     path: '/chemistry-simulations',
     Icon: FlaskConical,
   },
@@ -71,6 +72,13 @@ const subjects: Subject[] = [
     facts: ['144 subtopics', '3D maps'],
     path: '/waec-geography-lab',
     Icon: Globe,
+  },
+  {
+    key: 'agric',
+    name: 'Agricultural Science',
+    facts: ['274 subtopics', '196 3D farm labs'],
+    path: '/waec-agric-lab',
+    Icon: Sprout,
   },
 ]
 
@@ -221,7 +229,7 @@ function Home() {
           <section className="sd-hello">
             <h1>What are you studying today?</h1>
             <p>
-              Search any topic across five WAEC subjects, then learn it, see it
+              Search any topic across six WAEC subjects, then learn it, see it
               in 3D and test yourself.
             </p>
             <form
@@ -461,7 +469,7 @@ function Home() {
 
         <footer className="sd-foot">
           <span>Independent study companion. Not affiliated with WAEC.</span>
-          <span>Five subjects · full WAEC syllabus</span>
+          <span>Six subjects · full WAEC syllabus</span>
         </footer>
       </main>
 
