@@ -1,11 +1,15 @@
-# Agricultural Science asset credits
+# Geography asset credits
 
 CC0 and public-domain items need no credit, but we credit them anyway.
 
-## Credit lines shown in the lab
+## Credit lines to show in the lab (About / Credits panel)
 
-- Skies, textures and 3D models: Poly Haven (polyhaven.com) and ambientCG (ambientcg.com), CC0.
-- Specimen photos: iNaturalist observers, Openverse (Flickr / Wikimedia Commons creators) and NASA, credited under each photo.
+- Earth textures: Solar System Scope (solarsystemscope.com/textures), CC BY 4.0.
+- Earth imagery: NASA Visible Earth (Blue Marble) and SRTM. Public domain.
+- Maps: Natural Earth (naturalearthdata.com) and Natural Earth II shaded relief. Public domain.
+- Skies, textures and models: Poly Haven (polyhaven.com) and ambientCG (ambientcg.com), CC0.
+- Photos: credited individually below (Wikimedia Commons authors and licences).
+
 ## Poly Haven
 - [https://polyhaven.com/a/aloe_farm_shade_house](https://polyhaven.com/a/aloe_farm_shade_house) — Dimitrios Savva, Jarod Guest — CC0 1.0
 - [https://polyhaven.com/a/approaching_storm](https://polyhaven.com/a/approaching_storm) — Greg Zaal — CC0 1.0
@@ -35,6 +39,44 @@ CC0 and public-domain items need no credit, but we credit them anyway.
 - [https://polyhaven.com/a/symmetrical_garden](https://polyhaven.com/a/symmetrical_garden) — Greg Zaal — CC0 1.0
 - [https://polyhaven.com/a/waterkloof_farm](https://polyhaven.com/a/waterkloof_farm) — Jenelle van Heerden — CC0 1.0
 - [https://polyhaven.com/a/wildflower_field](https://polyhaven.com/a/wildflower_field) — Alexander Scholten — CC0 1.0
+- [https://polyhaven.com/a/Barrel_01](https://polyhaven.com/a/Barrel_01) — Jorge Camacho — CC0 1.0
+- [https://polyhaven.com/a/adjustable_wrench](https://polyhaven.com/a/adjustable_wrench) — Mateusz Sadek — CC0 1.0
+- [https://polyhaven.com/a/bench_vice_01](https://polyhaven.com/a/bench_vice_01) — Yann Kervran, Antanas Kep — CC0 1.0
+- [https://polyhaven.com/a/combination_wrench](https://polyhaven.com/a/combination_wrench) — BKS — CC0 1.0
+- [https://polyhaven.com/a/cross_pein_hammer](https://polyhaven.com/a/cross_pein_hammer) — Tics — CC0 1.0
+- [https://polyhaven.com/a/drill_press_01](https://polyhaven.com/a/drill_press_01) — Viktor — CC0 1.0
+- [https://polyhaven.com/a/flathead_screwdriver](https://polyhaven.com/a/flathead_screwdriver) — Dylan Detwiller — CC0 1.0
+- [https://polyhaven.com/a/garden_sprinkler_01](https://polyhaven.com/a/garden_sprinkler_01) — Amal Kumar — CC0 1.0
+- [https://polyhaven.com/a/hand_truck](https://polyhaven.com/a/hand_truck) — Mutanzom3D — CC0 1.0
+- [https://polyhaven.com/a/handsaw_wood](https://polyhaven.com/a/handsaw_wood) — Konrad Szałankiewicz — CC0 1.0
+- [https://polyhaven.com/a/hatchet](https://polyhaven.com/a/hatchet) — James Ray Cock, Ulan Cabanilla — CC0 1.0
+- [https://polyhaven.com/a/lubricant_spray](https://polyhaven.com/a/lubricant_spray) — James Ray Cock — CC0 1.0
+- [https://polyhaven.com/a/machete](https://polyhaven.com/a/machete) — Ulan Cabanilla — CC0 1.0
+- [https://polyhaven.com/a/measuring_tape_01](https://polyhaven.com/a/measuring_tape_01) — Kuutti Siitonen — CC0 1.0
+- [https://polyhaven.com/a/metal_jerrycan](https://polyhaven.com/a/metal_jerrycan) — Sean Buckley — CC0 1.0
+- [https://polyhaven.com/a/metal_toolbox](https://polyhaven.com/a/metal_toolbox) — Mateusz Sadek — CC0 1.0
+- [https://polyhaven.com/a/oil_tin](https://polyhaven.com/a/oil_tin) — Niklas — CC0 1.0
+- [https://polyhaven.com/a/old_military_compressor](https://polyhaven.com/a/old_military_compressor) — Brian Speight — CC0 1.0
+- [https://polyhaven.com/a/old_tyre](https://polyhaven.com/a/old_tyre) — MP — CC0 1.0
+- [https://polyhaven.com/a/picke_dirty_01](https://polyhaven.com/a/picke_dirty_01) — Dennis Halbeck — CC0 1.0
+- [https://polyhaven.com/a/pipe_wrench](https://polyhaven.com/a/pipe_wrench) — Will Evarts — CC0 1.0
+- [https://polyhaven.com/a/plastic_jerrycan](https://polyhaven.com/a/plastic_jerrycan) — Ulan Cabanilla — CC0 1.0
+- [https://polyhaven.com/a/pliers](https://polyhaven.com/a/pliers) — PierreB3D — CC0 1.0
+- [https://polyhaven.com/a/portable_generator](https://polyhaven.com/a/portable_generator) — James Ray Cock — CC0 1.0
+- [https://polyhaven.com/a/portable_welding_cart](https://polyhaven.com/a/portable_welding_cart) — Georgii Gorbunov — CC0 1.0
+- [https://polyhaven.com/a/ratchet_wrench](https://polyhaven.com/a/ratchet_wrench) — John Hutcheson — CC0 1.0
+- [https://polyhaven.com/a/rusted_hacksaw](https://polyhaven.com/a/rusted_hacksaw) — Dabou Master — CC0 1.0
+- [https://polyhaven.com/a/rusted_spade_01](https://polyhaven.com/a/rusted_spade_01) — Blemonade — CC0 1.0
+- [https://polyhaven.com/a/rusted_wheel_rim_01](https://polyhaven.com/a/rusted_wheel_rim_01) — John Hutcheson — CC0 1.0
+- [https://polyhaven.com/a/sledgehammer_01](https://polyhaven.com/a/sledgehammer_01) — Dylan Guzman — CC0 1.0
+- [https://polyhaven.com/a/small_oil_can_01](https://polyhaven.com/a/small_oil_can_01) — Raven van de Werken — CC0 1.0
+- [https://polyhaven.com/a/tire_pump](https://polyhaven.com/a/tire_pump) — Garrison Gager — CC0 1.0
+- [https://polyhaven.com/a/tool_cart](https://polyhaven.com/a/tool_cart) — Savva Zakharov — CC0 1.0
+- [https://polyhaven.com/a/trowel_01](https://polyhaven.com/a/trowel_01) — Satyaki Mandal — CC0 1.0
+- [https://polyhaven.com/a/watering_can_metal_01](https://polyhaven.com/a/watering_can_metal_01) — Charles Nderitu — CC0 1.0
+- [https://polyhaven.com/a/wicker_basket_01](https://polyhaven.com/a/wicker_basket_01) — Kuutti Siitonen — CC0 1.0
+- [https://polyhaven.com/a/wooden_axe](https://polyhaven.com/a/wooden_axe) — Ulan Cabanilla — CC0 1.0
+- [https://polyhaven.com/a/wooden_bucket_01](https://polyhaven.com/a/wooden_bucket_01) — James Ray Cock — CC0 1.0
 - [https://polyhaven.com/a/brown_mud](https://polyhaven.com/a/brown_mud) — Rob Tuytel — CC0 1.0
 - [https://polyhaven.com/a/brown_mud_02](https://polyhaven.com/a/brown_mud_02) — Rob Tuytel — CC0 1.0
 - [https://polyhaven.com/a/brown_mud_dry](https://polyhaven.com/a/brown_mud_dry) — Rob Tuytel — CC0 1.0

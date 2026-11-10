@@ -136,6 +136,7 @@
     const truck = AK.tractor(0x2a5aa8); truck.add((() => { const t = AK.implement("trailer"); t.position.x = -1.3; return t; })()); put(g, truck, 4.2, 7.7, Math.PI, K);
     /* 2 machinery shed, workshop, fuel */
     put(g, hall(4.2, 1.7, 1.25, { open: 1, col: 0x4a7a4a, roofCol: 0xd8dde2 }), -5.6, 0.75);
+    if (AK.model) [["old_military_compressor", 1.15, -4.3, 1.25, 0.3], ["portable_generator", 0.62, -4.75, 1.3, -0.2], ["old_tyre", 0.75, -6.9, 1.35, 0], ["Barrel_01", 0.9, -7.3, 1.3, 0], ["tool_cart", 0.95, -5.2, 1.3, 0.2]].forEach(([id, sz, x, z, ry]) => g.add(AK.model(id, { fit: sz * K, at: [x, 0.012, z], ry })));
     const t2 = AK.tractor(0x2a8a3a); t2.add((() => { const o = AK.implement("ridger"); o.position.x = -1.3; return o; })()); put(g, t2, -5.9, 0.75, -Math.PI / 2, K);
     ["planter", "harrow", "mouldboard"].forEach((k, i) => put(g, AK.implement(k), -4.9 + i * 0.55, 0.7, -Math.PI / 2, K));
     put(g, hall(1.8, 1.3, 1.0, { col: 0x8a9aa8, roofCol: 0xd8dde2, door: 0.8 }), -3.0, 2.5);

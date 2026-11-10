@@ -4574,5 +4574,233 @@
   "author": "michael clarke stuff",
   "provider": "Openverse / Wikimedia",
   "query": "smoked fish market"
+ },
+ "models/machete.glb": {
+  "source": "https://polyhaven.com/a/machete",
+  "licence": "CC0 1.0",
+  "author": "Ulan Cabanilla",
+  "provider": "Poly Haven"
+ },
+ "models/wooden_axe.glb": {
+  "source": "https://polyhaven.com/a/wooden_axe",
+  "licence": "CC0 1.0",
+  "author": "Ulan Cabanilla",
+  "provider": "Poly Haven"
+ },
+ "models/picke_dirty_01.glb": {
+  "source": "https://polyhaven.com/a/picke_dirty_01",
+  "licence": "CC0 1.0",
+  "author": "Dennis Halbeck",
+  "provider": "Poly Haven"
+ },
+ "models/rusted_spade_01.glb": {
+  "source": "https://polyhaven.com/a/rusted_spade_01",
+  "licence": "CC0 1.0",
+  "author": "Blemonade",
+  "provider": "Poly Haven"
+ },
+ "models/trowel_01.glb": {
+  "source": "https://polyhaven.com/a/trowel_01",
+  "licence": "CC0 1.0",
+  "author": "Satyaki Mandal",
+  "provider": "Poly Haven"
+ },
+ "models/watering_can_metal_01.glb": {
+  "source": "https://polyhaven.com/a/watering_can_metal_01",
+  "licence": "CC0 1.0",
+  "author": "Charles Nderitu",
+  "provider": "Poly Haven"
+ },
+ "models/hatchet.glb": {
+  "source": "https://polyhaven.com/a/hatchet",
+  "licence": "CC0 1.0",
+  "author": "James Ray Cock, Ulan Cabanilla",
+  "provider": "Poly Haven"
+ },
+ "models/sledgehammer_01.glb": {
+  "source": "https://polyhaven.com/a/sledgehammer_01",
+  "licence": "CC0 1.0",
+  "author": "Dylan Guzman",
+  "provider": "Poly Haven"
+ },
+ "models/handsaw_wood.glb": {
+  "source": "https://polyhaven.com/a/handsaw_wood",
+  "licence": "CC0 1.0",
+  "author": "Konrad Sza\u0142ankiewicz",
+  "provider": "Poly Haven"
+ },
+ "models/garden_sprinkler_01.glb": {
+  "source": "https://polyhaven.com/a/garden_sprinkler_01",
+  "licence": "CC0 1.0",
+  "author": "Amal Kumar",
+  "provider": "Poly Haven"
+ },
+ "models/measuring_tape_01.glb": {
+  "source": "https://polyhaven.com/a/measuring_tape_01",
+  "licence": "CC0 1.0",
+  "author": "Kuutti Siitonen",
+  "provider": "Poly Haven"
+ },
+ "models/adjustable_wrench.glb": {
+  "source": "https://polyhaven.com/a/adjustable_wrench",
+  "licence": "CC0 1.0",
+  "author": "Mateusz Sadek",
+  "provider": "Poly Haven"
+ },
+ "models/combination_wrench.glb": {
+  "source": "https://polyhaven.com/a/combination_wrench",
+  "licence": "CC0 1.0",
+  "author": "BKS",
+  "provider": "Poly Haven"
+ },
+ "models/pipe_wrench.glb": {
+  "source": "https://polyhaven.com/a/pipe_wrench",
+  "licence": "CC0 1.0",
+  "author": "Will Evarts",
+  "provider": "Poly Haven"
+ },
+ "models/ratchet_wrench.glb": {
+  "source": "https://polyhaven.com/a/ratchet_wrench",
+  "licence": "CC0 1.0",
+  "author": "John Hutcheson",
+  "provider": "Poly Haven"
+ },
+ "models/pliers.glb": {
+  "source": "https://polyhaven.com/a/pliers",
+  "licence": "CC0 1.0",
+  "author": "PierreB3D",
+  "provider": "Poly Haven"
+ },
+ "models/cross_pein_hammer.glb": {
+  "source": "https://polyhaven.com/a/cross_pein_hammer",
+  "licence": "CC0 1.0",
+  "author": "Tics",
+  "provider": "Poly Haven"
+ },
+ "models/flathead_screwdriver.glb": {
+  "source": "https://polyhaven.com/a/flathead_screwdriver",
+  "licence": "CC0 1.0",
+  "author": "Dylan Detwiller",
+  "provider": "Poly Haven"
+ },
+ "models/rusted_hacksaw.glb": {
+  "source": "https://polyhaven.com/a/rusted_hacksaw",
+  "licence": "CC0 1.0",
+  "author": "Dabou Master",
+  "provider": "Poly Haven"
+ },
+ "models/tire_pump.glb": {
+  "source": "https://polyhaven.com/a/tire_pump",
+  "licence": "CC0 1.0",
+  "author": "Garrison Gager",
+  "provider": "Poly Haven"
+ },
+ "models/old_tyre.glb": {
+  "source": "https://polyhaven.com/a/old_tyre",
+  "licence": "CC0 1.0",
+  "author": "MP",
+  "provider": "Poly Haven"
+ },
+ "models/rusted_wheel_rim_01.glb": {
+  "source": "https://polyhaven.com/a/rusted_wheel_rim_01",
+  "licence": "CC0 1.0",
+  "author": "John Hutcheson",
+  "provider": "Poly Haven"
+ },
+ "models/metal_jerrycan.glb": {
+  "source": "https://polyhaven.com/a/metal_jerrycan",
+  "licence": "CC0 1.0",
+  "author": "Sean Buckley",
+  "provider": "Poly Haven"
+ },
+ "models/plastic_jerrycan.glb": {
+  "source": "https://polyhaven.com/a/plastic_jerrycan",
+  "licence": "CC0 1.0",
+  "author": "Ulan Cabanilla",
+  "provider": "Poly Haven"
+ },
+ "models/oil_tin.glb": {
+  "source": "https://polyhaven.com/a/oil_tin",
+  "licence": "CC0 1.0",
+  "author": "Niklas",
+  "provider": "Poly Haven"
+ },
+ "models/small_oil_can_01.glb": {
+  "source": "https://polyhaven.com/a/small_oil_can_01",
+  "licence": "CC0 1.0",
+  "author": "Raven van de Werken",
+  "provider": "Poly Haven"
+ },
+ "models/lubricant_spray.glb": {
+  "source": "https://polyhaven.com/a/lubricant_spray",
+  "licence": "CC0 1.0",
+  "author": "James Ray Cock",
+  "provider": "Poly Haven"
+ },
+ "models/metal_toolbox.glb": {
+  "source": "https://polyhaven.com/a/metal_toolbox",
+  "licence": "CC0 1.0",
+  "author": "Mateusz Sadek",
+  "provider": "Poly Haven"
+ },
+ "models/Barrel_01.glb": {
+  "source": "https://polyhaven.com/a/Barrel_01",
+  "licence": "CC0 1.0",
+  "author": "Jorge Camacho",
+  "provider": "Poly Haven"
+ },
+ "models/wicker_basket_01.glb": {
+  "source": "https://polyhaven.com/a/wicker_basket_01",
+  "licence": "CC0 1.0",
+  "author": "Kuutti Siitonen",
+  "provider": "Poly Haven"
+ },
+ "models/wooden_bucket_01.glb": {
+  "source": "https://polyhaven.com/a/wooden_bucket_01",
+  "licence": "CC0 1.0",
+  "author": "James Ray Cock",
+  "provider": "Poly Haven"
+ },
+ "models/portable_generator.glb": {
+  "source": "https://polyhaven.com/a/portable_generator",
+  "licence": "CC0 1.0",
+  "author": "James Ray Cock",
+  "provider": "Poly Haven"
+ },
+ "models/old_military_compressor.glb": {
+  "source": "https://polyhaven.com/a/old_military_compressor",
+  "licence": "CC0 1.0",
+  "author": "Brian Speight",
+  "provider": "Poly Haven"
+ },
+ "models/drill_press_01.glb": {
+  "source": "https://polyhaven.com/a/drill_press_01",
+  "licence": "CC0 1.0",
+  "author": "Viktor",
+  "provider": "Poly Haven"
+ },
+ "models/portable_welding_cart.glb": {
+  "source": "https://polyhaven.com/a/portable_welding_cart",
+  "licence": "CC0 1.0",
+  "author": "Georgii Gorbunov",
+  "provider": "Poly Haven"
+ },
+ "models/bench_vice_01.glb": {
+  "source": "https://polyhaven.com/a/bench_vice_01",
+  "licence": "CC0 1.0",
+  "author": "Yann Kervran, Antanas Kep",
+  "provider": "Poly Haven"
+ },
+ "models/tool_cart.glb": {
+  "source": "https://polyhaven.com/a/tool_cart",
+  "licence": "CC0 1.0",
+  "author": "Savva Zakharov",
+  "provider": "Poly Haven"
+ },
+ "models/hand_truck.glb": {
+  "source": "https://polyhaven.com/a/hand_truck",
+  "licence": "CC0 1.0",
+  "author": "Mutanzom3D",
+  "provider": "Poly Haven"
  }
 }
