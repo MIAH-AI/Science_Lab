@@ -549,7 +549,7 @@
     init(S, s, o) {
       o = o || {};
       const T3 = T(), ray = new T3.Raycaster(), ndc = new T3.Vector2();
-      const F = (s.focus = { sel: null, hov: null, msg: "", flash: 0, good: 0, score: 0, tries: 0, target: null, quiz: false, done: [], opt: o, mx: 0, my: 0 });
+      const F = (s.aF = { sel: null, hov: null, msg: "", flash: 0, good: 0, score: 0, tries: 0, target: null, quiz: false, done: [], opt: o, mx: 0, my: 0 });
       const hit = (e) => {
         const r = S.c3.getBoundingClientRect(); ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
         F.mx = ((e.clientX - r.left) / r.width) * 640; F.my = ((e.clientY - r.top) / r.height) * 400;
@@ -578,19 +578,19 @@
       S.cleanup = () => { prev && prev(); S.wrap.removeEventListener("pointerdown", onDown); S.wrap.removeEventListener("pointerup", onUp); S.wrap.removeEventListener("pointermove", onMove); S.wrap.removeEventListener("pointerleave", onLeave); window.removeEventListener("keydown", onKey); S.wrap.style.cursor = ""; };
       return F;
     },
-    select(s, id) { if (s.focus) s.focus.sel = id; },
+    select(s, id) { if (s.aF) s.aF.sel = id; },
     /* quiz */
-    setQuiz(s, on) { const F = s.focus; if (!F || F.quiz === !!on) return; F.quiz = !!on; F.sel = null; F.score = 0; F.tries = 0; F.done = []; F.msg = ""; if (on) BA.focus.next(s); else F.target = null; },
-    next(s) { const F = s.focus, ids = Object.keys(s.aparts || {}).filter((k) => !s.aparts[k].hidden && !s.aparts[k].noQuiz); let pool = ids.filter((k) => !F.done.includes(k) && k !== F.target); if (!pool.length) { F.done = []; pool = ids.filter((k) => k !== F.target); } F.target = pool[Math.floor(Math.random() * pool.length)] || null; },
+    setQuiz(s, on) { const F = s.aF; if (!F || F.quiz === !!on) return; F.quiz = !!on; F.sel = null; F.score = 0; F.tries = 0; F.done = []; F.msg = ""; if (on) BA.focus.next(s); else F.target = null; },
+    next(s) { const F = s.aF, ids = Object.keys(s.aparts || {}).filter((k) => !s.aparts[k].hidden && !s.aparts[k].noQuiz); let pool = ids.filter((k) => !F.done.includes(k) && k !== F.target); if (!pool.length) { F.done = []; pool = ids.filter((k) => k !== F.target); } F.target = pool[Math.floor(Math.random() * pool.length)] || null; },
     answer(s, id) {
-      const F = s.focus, P = s.aparts; if (F.flash > 0 && F.good) return; F.tries++;
+      const F = s.aF, P = s.aparts; if (F.flash > 0 && F.good) return; F.tries++;
       if (id === F.target) { F.score++; F.done.push(id); F.good = 1; F.flash = 1.4; F.msg = "Correct — " + P[id].name; F.reveal = id; }
       else { F.good = 0; F.flash = 1.4; F.msg = "That is the " + P[id].name.toLowerCase() + ". Try again."; F.reveal = null; }
     },
     /* call every frame: eases each part's opacity and tint */
     update(S, s, dt) {
       if (S.clinicLights) S.clinicLights();
-      const F = s.focus, P = s.aparts; if (!F || !P) return;
+      const F = s.aF, P = s.aparts; if (!F || !P) return;
       if (F.flash > 0) { F.flash -= dt; if (F.flash <= 0 && F.quiz && F.good) { F.reveal = null; BA.focus.next(s); } }
       const k = 1 - Math.pow(0.002, dt || 0.016), sel = F.quiz ? F.reveal : F.sel, fadeTo = F.opt.fade == null ? 0.1 : F.opt.fade;
       Object.values(P).forEach((p) => {
@@ -608,7 +608,7 @@
     },
     /* HUD: hover tooltip, selected label with leader, quiz banner */
     overlay(S, s, B, o) {
-      const F = s.focus, P = s.aparts; if (!F || !P) return; o = o || {};
+      const F = s.aF, P = s.aparts; if (!F || !P) return; o = o || {};
       const proj = (p) => { const w = p.anchor.clone(); (o.world || s._ag || s.g).localToWorld(w); return MK.proj(S, w.x, w.y, w.z); };
       if (F.quiz) {
         const tgt = P[F.target];
@@ -643,7 +643,7 @@
     },
     /* HUD card lines for the selected part */
     card(s, fallback) {
-      const F = s.focus, P = s.aparts || {};
+      const F = s.aF, P = s.aparts || {};
       if (F && F.quiz) return [{ title: "Find the organ", lines: [["Score " + F.score + " out of " + F.tries + " taps", "#5bd68c", true], "Tap the part named at the top of the screen.", "Rotate the model: some parts hide behind others.", "Switch the game off to study the labels again."] }];
       if (F && F.sel && P[F.sel]) { const p = P[F.sel]; return [{ title: p.name, lines: [[p.info, "#e8f1ff"]].concat(p.extra || [], [["Tap it again, or press Esc, to show everything.", "#a9b6d3"]]) }]; }
       return fallback;

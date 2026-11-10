@@ -48,12 +48,12 @@
       { key: "hr", label: "Heart rate", min: 40, max: 190, unit: "beats/min" }, { key: "sv", label: "Stroke volume", min: 40, max: 120, unit: "cm³" },
       { type: "toggle", key: "ex", label: "Exercising muscles", show: W("mode", "circ") }, Object.assign(QUIZ(), { show: W("mode", "heart", "inside") })],
     syncAll: true,
-    onChange(s, c, k) { if (k === "quiz" && s.focus) BA.focus.setQuiz(s, c.quiz); if (k === "ex") { c.hr = c.ex ? 150 : 72; c.sv = c.ex ? 110 : 70; } },
+    onChange(s, c, k) { if (k === "quiz" && s.aF) BA.focus.setQuiz(s, c.quiz); if (k === "ex") { c.hr = c.ex ? 150 : 72; c.sv = c.ex ? 110 : 70; } },
     build(S, s, c) { s.key = ""; s.ph = 0; BA.focus.init(S, s); },
     update(S, s, c, dt) {
       const T3 = T();
       if (s.key !== c.mode) {
-        const first = s.key === ""; s.key = c.mode; const g = BK.group(S, s); s.aparts = null; s.focus.sel = null; s.heart = s.sec = s.net = null;
+        const first = s.key === ""; s.key = c.mode; const g = BK.group(S, s); s.aparts = null; s.aF.sel = null; s.heart = s.sec = s.net = null;
         if (c.mode === "heart") {
           const h = BA.heart(); h.scale.setScalar(1.12); h.position.set(0, 1.5, 0); g.add(h); s.heart = h; s.aparts = {};
           Object.keys(HP).forEach((id) => { const ms = [].concat(h.parts[id]); ms.forEach((m) => { m.userData.part = id; }); const a = HANCH[id]; s.aparts[id] = part(id, HP[id][0], HP[id][1], ms, [a[0] * 1.12, 1.5 + a[1] * 1.12, a[2] * 1.12]); });
@@ -157,10 +157,10 @@
       update(S, s, c, dt) {
         const sp = [0.5, 0.9, 0.35, 0.55, 0.45][s.reg] || 0.5; s.u = (s.u + dt * 0.04 * c.jsp * sp) % 1;
         s.reg = s.th.findIndex((t) => s.u < t); if (s.reg < 0) s.reg = 4;
-        s.bolus.position.copy(s.curve.getPointAt(s.u)); s.bolus.material.color.setHex(ST[s.reg][3]); s.bolus.scale.setScalar(1 + 0.18 * Math.sin(S.t * 9)); s.bolus.visible = !s.focus.quiz;
-        s.focus.auto = s.focus.sel ? null : ST[s.reg][0];
+        s.bolus.position.copy(s.curve.getPointAt(s.u)); s.bolus.material.color.setHex(ST[s.reg][3]); s.bolus.scale.setScalar(1 + 0.18 * Math.sin(S.t * 9)); s.bolus.visible = !s.aF.quiz;
+        s.aF.auto = s.aF.sel ? null : ST[s.reg][0];
       },
-      overlay(ctx, s, c, S, B) { BA.focus.overlay(S, s, B, { labels: ["mouth", "saliva", "gullet", "liver", "gall", "stomach", "pancreas", "largeInt", "smallInt"] }); if (!s.focus.quiz && !s.focus.sel && s.bolus) { const p = s.bolus.position, q = MK.proj(S, p.x, p.y, p.z); B.dot(q.x, q.y, "#ffd27a", 4); } },
+      overlay(ctx, s, c, S, B) { BA.focus.overlay(S, s, B, { labels: ["mouth", "saliva", "gullet", "liver", "gall", "stomach", "pancreas", "largeInt", "smallInt"] }); if (!s.aF.quiz && !s.aF.sel && s.bolus) { const p = s.bolus.position, q = MK.proj(S, p.x, p.y, p.z); B.dot(q.x, q.y, "#ffd27a", 4); } },
       hud: (s, c) => BA.focus.card(s, [{ title: "Journey of food", lines: [["Now in the " + ST[s.reg || 0][1].toLowerCase() + " (" + ST[s.reg || 0][4] + ")", "#ffd27a", true], ST[s.reg || 0][2], "—", "Ingestion → digestion → absorption → assimilation → egestion.", ["Peristalsis: waves of muscle contraction push food along.", "#7cb3ff"]] }]),
       readouts: (s, c) => [["Region", ST[s.reg || 0][1]], ["Time spent there", ST[s.reg || 0][4]]],
     });
@@ -190,15 +190,15 @@
         s.horm = dots(60, 0.012, true); g.add(s.horm); s.hu = Array.from({ length: 60 }, (_, i) => i / 60); s.hp = null; s.hsel = "";
       },
       update(S, s, c, dt) {
-        const P = s.aparts, F = s.focus, sel = F.sel && GL[F.sel] ? F.sel : null; F.also = sel ? GL[sel][4] : null;
+        const P = s.aparts, F = s.aF, sel = F.sel && GL[F.sel] ? F.sel : null; F.also = sel ? GL[sel][4] : null;
         if (s.hsel !== (sel || "")) { s.hsel = sel || ""; s.hp = sel ? GL[sel][4].map((t) => { const a = P[sel].anchor, b = P[t] ? P[t].anchor : V(...TG[t]); const m = a.clone().lerp(b, 0.5); m.x += 0.1; m.z -= 0.05; return BA.curve([a, m, b]); }) : null; }
         for (let i = 0; i < 60; i++) { if (!s.hp) { putDot(s.horm, i, V(0, -5, 0), 0xffd24a, 0.001); continue; } s.hu[i] = (s.hu[i] + dt * 0.28) % 1; const cv = s.hp[i % s.hp.length], u = s.hu[i]; putDot(s.horm, i, cv.getPointAt(u), 0xffc21a, Math.sin(u * Math.PI) * 1.2 + 0.2); } flush(s.horm);
         /* context organs stay visible (faint) when a gland is isolated, if they are its targets */
         Object.values(P).forEach((p) => { if (p.context) p.hidden = false; });
       },
       overlay(ctx, s, c, S, B) { BA.focus.overlay(S, s, B, { labels: ["pituitary", "thyroid", "adrenal", "islets", "ovary"], hint: "Tap a gland to release its hormone" }); },
-      hud: (s, c) => { const F = s.focus, id = F && F.sel && GL[F.sel] ? F.sel : null; if (F && F.quiz) return BA.focus.card(s); return id ? [{ title: s.aparts[id].name, lines: [["Hormone: " + GL[id][1], "#ffd27a"], s.aparts[id].info, "—", ["Too much: " + GL[id][2], "#ff7b72"], ["Too little: " + GL[id][3], "#7cb3ff"], ["Yellow dots: the hormone carried in the blood to its target organs.", "#a9b6d3"]] }] : BA.focus.card(s, [{ title: "Endocrine system", lines: ["Ductless glands release hormones straight into the blood.", "Each hormone affects only its target organs.", ["Hormones act more slowly than nerves, but their effects last longer and spread wider.", "#7cb3ff"], ["The pancreas is both a digestive gland and an endocrine gland.", "#a9b6d3"]] }]); },
-      readouts: (s, c) => { const F = s.focus, P = s.aparts || {}; return [["Gland", F && F.sel && P[F.sel] ? P[F.sel].name : "tap one"]]; },
+      hud: (s, c) => { const F = s.aF, id = F && F.sel && GL[F.sel] ? F.sel : null; if (F && F.quiz) return BA.focus.card(s); return id ? [{ title: s.aparts[id].name, lines: [["Hormone: " + GL[id][1], "#ffd27a"], s.aparts[id].info, "—", ["Too much: " + GL[id][2], "#ff7b72"], ["Too little: " + GL[id][3], "#7cb3ff"], ["Yellow dots: the hormone carried in the blood to its target organs.", "#a9b6d3"]] }] : BA.focus.card(s, [{ title: "Endocrine system", lines: ["Ductless glands release hormones straight into the blood.", "Each hormone affects only its target organs.", ["Hormones act more slowly than nerves, but their effects last longer and spread wider.", "#7cb3ff"], ["The pancreas is both a digestive gland and an endocrine gland.", "#a9b6d3"]] }]); },
+      readouts: (s, c) => { const F = s.aF, P = s.aparts || {}; return [["Gland", F && F.sel && P[F.sel] ? P[F.sel].name : "tap one"]]; },
     });
     const oldSel = sc.controls.find((q) => q.key === "gl"); if (oldSel) oldSel.label = "Go to gland";
   })();
@@ -220,7 +220,7 @@
       },
       overlay(ctx, s, c, S, B) { BA.focus.overlay(S, s, B, { labels: ["frontal", "parietal", "occipital", "temporal", "cerebellum", "hypo", "medulla", "cord"], hint: "Tap a region to isolate it" }); },
       hud: (s, c) => BA.focus.card(s, [{ title: "The brain", lines: ["Cerebrum (four lobes): thought, memory, senses and voluntary movement.", "Cerebellum: balance and coordination.", "Medulla oblongata: heartbeat and breathing.", ["Hypothalamus: temperature, water balance; controls the pituitary.", "#e8f1ff"], ["CNS = brain + spinal cord. Colours here are a teaching code, not real tissue colours.", "#a9b6d3"]] }]),
-      readouts: (s, c) => { const F = s.focus, P = s.aparts || {}; return F && F.quiz ? [["Score", F.score + " / " + F.tries]] : [["Region", F && F.sel && P[F.sel] ? P[F.sel].name : "tap one"]]; },
+      readouts: (s, c) => { const F = s.aF, P = s.aparts || {}; return F && F.quiz ? [["Score", F.score + " / " + F.tries]] : [["Region", F && F.sel && P[F.sel] ? P[F.sel].name : "tap one"]]; },
     });
   })();
 
@@ -282,7 +282,7 @@
       update(S, s, c, dt) { if (c.spin) s.rot += dt * 0.35; s.fig.rotation.y = s.rot; },
       overlay(ctx, s, c, S, B) { const back = Math.cos(S.orbit.yaw - (s.rot || 0)) < 0; BA.focus.overlay(S, s, B, { labels: Object.keys(s.aparts).filter((k) => (s.aparts[k].facing < 0) === back), hint: "Tap a muscle to isolate it · turn the model to see the back", world: s.fig }); },
       hud: (s, c) => BA.focus.card(s, [{ title: "Skeletal muscles", lines: ["Muscles are joined to bones by tendons and work in antagonistic pairs.", ["Flexors bend a joint: biceps, hamstrings.", "#ff9f95"], ["Extensors straighten it: triceps, quadriceps.", "#7cb3ff"], "When one muscle of a pair contracts, the other relaxes.", ["Turn the model to see the muscles of the back.", "#a9b6d3"]] }]),
-      readouts: (s, c) => { const F = s.focus, P = s.aparts || {}; return F && F.quiz ? [["Score", F.score + " / " + F.tries]] : [["Muscle", F && F.sel && P[F.sel] ? P[F.sel].name : "tap one"]]; },
+      readouts: (s, c) => { const F = s.aF, P = s.aparts || {}; return F && F.quiz ? [["Score", F.score + " / " + F.tries]] : [["Muscle", F && F.sel && P[F.sel] ? P[F.sel].name : "tap one"]]; },
     });
   })();
 
@@ -322,7 +322,7 @@
       update(S, s, c, dt) { const rate = 0.12 + 0.1 * c.water; for (let i = 0; i < 18; i++) { s.du[i] = (s.du[i] + dt * rate * 0.5) % 1; putDot(s.drops, i, s.dp[i % 2].getPointAt(s.du[i]), 0xf2d24a); } flush(s.drops); const b = s.aparts.bladder.meshes[0]; b.scale.setScalar(0.85 + 0.25 * (0.5 + 0.5 * Math.sin(S.t * 0.4))); },
       overlay(ctx, s, c, S, B) { BA.focus.overlay(S, s, B, { labels: ["cava", "aorta", "kidneyR", "ureter", "bladder", "cortex", "medulla", "pelvis", "rart", "rvein", "ureterK"], side: (id) => !!KP[id], maxX: 392, reach: 26 }); },
       hud: (s, c) => BA.focus.card(s, [{ title: "Urinary system", lines: ["Renal arteries bring blood to the kidneys; renal veins take it away.", "Each kidney has about a million nephrons that filter the blood.", ["Urine: kidney → ureter → bladder → urethra.", "#ffd27a"], ["Drinking " + f(c.water, 2) + " dm³ of water a day: " + (c.water > 2.6 ? "large volume of dilute urine." : c.water < 1.2 ? "small volume of concentrated urine." : "normal urine, about 1.5 dm³ a day."), "#5bd68c"], ["The cut kidney on the left is enlarged.", "#a9b6d3"]] }]),
-      readouts: (s, c) => { const F = s.focus, P = s.aparts || {}; return [["Selected", F && F.sel && P[F.sel] ? P[F.sel].name : "none"]]; },
+      readouts: (s, c) => { const F = s.aF, P = s.aparts || {}; return [["Selected", F && F.sel && P[F.sel] ? P[F.sel].name : "none"]]; },
     });
   })();
 
@@ -379,7 +379,7 @@
       update(S, s, c, dt) { const n = sex === "female" ? 1 : 14; for (let i = 0; i < n; i++) { s.ru[i] = (s.ru[i] + dt * (sex === "female" ? 0.07 : 0.1)) % 1; putDot(s.cell, i, s.rp.getPointAt(s.ru[i]), sex === "female" ? 0xffd24a : 0xffffff); } flush(s.cell); },
       overlay(ctx, s, c, S, B) { BA.focus.overlay(S, s, B, { labels, maxX: 392 }); },
       hud: (s, c) => BA.focus.card(s, [{ title: sex === "female" ? "Female reproductive system" : "Male reproductive system", lines: sex === "female" ? ["Ovary → oviduct → uterus → cervix → vagina.", ["Yellow dot: an ovum released at ovulation (about day 14) moves down the oviduct.", "#ffd27a"], "If it meets a sperm in the oviduct it is fertilised and the zygote implants in the uterus.", ["If not, the lining of the uterus is shed: menstruation.", "#7cb3ff"]] : ["Testis → epididymis → sperm duct → urethra.", ["White dots: sperm on their way out of the body.", "#e8f1ff"], "Seminal vesicles and the prostate gland add fluids to make semen.", ["The testes hang outside the body because sperm form best below body temperature.", "#7cb3ff"]] }]),
-      readouts: (s, c) => { const F = s.focus, P = s.aparts || {}; return [["Selected", F && F.sel && P[F.sel] ? P[F.sel].name : "none"]]; },
+      readouts: (s, c) => { const F = s.aF, P = s.aparts || {}; return [["Selected", F && F.sel && P[F.sel] ? P[F.sel].name : "none"]]; },
     });
     mode("female", "Female system", ["oviduct", "ovaryF", "uterus", "cervix", "vagina", "bladderF"]);
     mode("male", "Male system", ["spermduct", "vesicle", "bladderM", "prostate", "urethra", "epididymis", "testis", "scrotum", "penis"]);

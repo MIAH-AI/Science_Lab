@@ -49,17 +49,17 @@
     sc.build = function (S, s, c) { o.build && o.build.call(sc, S, s, c); s._am = null; if (S._focusFor !== s) { S._focusFor = s; BA.focus.init(S, s); } };
     sc.update = function (S, s, c, dt) {
       if (c.mode === mode) {
-        if (s._am !== mode) { s._am = mode; let g; if (keep) { g = BK.group(S, s, "ag"); } else { s.key = "__" + mode; g = BK.group(S, s); if (s.dyn) { BK.dispose(S, s.dyn); s.dyn = null; s.dk = ""; } } s._ag = g; BA.stage(S, s, false); BA.stage(S, s, true, { dark: def.dark, group: g }); s.aparts = null; s.focus.sel = null; s.focus.hov = null; def.make(S, s, c, g); if (def.cam) { BA.view(S, def.cam[0], def.cam[1]); if (!S.t) { const ob = S.orbit; ob.yaw = ob.ty; ob.pitch = ob.tp; ob.r = ob.tr; } } BA.focus.setQuiz(s, 0); if (c.quiz) BA.focus.setQuiz(s, 1); }
+        if (s._am !== mode) { s._am = mode; let g; if (keep) { g = BK.group(S, s, "ag"); } else { s.key = "__" + mode; g = BK.group(S, s); if (s.dyn) { BK.dispose(S, s.dyn); s.dyn = null; s.dk = ""; } } s._ag = g; BA.stage(S, s, false); BA.stage(S, s, true, { dark: def.dark, group: g }); s.aparts = null; s.aF.sel = null; s.aF.hov = null; def.make(S, s, c, g); if (def.cam) { BA.view(S, def.cam[0], def.cam[1]); if (!S.t) { const ob = S.orbit; ob.yaw = ob.ty; ob.pitch = ob.tp; ob.r = ob.tr; } } BA.focus.setQuiz(s, 0); if (c.quiz) BA.focus.setQuiz(s, 1); }
         def.update && def.update(S, s, c, dt); BA.focus.update(S, s, dt);
       } else {
-        if (s._am === mode) { s._am = null; s._ag = null; s.aparts = null; s.focus.sel = null; s.focus.hov = null; BA.focus.setQuiz(s, 0); BA.stage(S, s, false); if (keep && s.ag) { BK.dispose(S, s.ag); s.ag = null; } if (sc.cam) BA.view(S, sc.cam[0], sc.cam[1]); }
+        if (s._am === mode) { s._am = null; s._ag = null; s.aparts = null; s.aF.sel = null; s.aF.hov = null; BA.focus.setQuiz(s, 0); BA.stage(S, s, false); if (keep && s.ag) { BK.dispose(S, s.ag); s.ag = null; } if (sc.cam) BA.view(S, sc.cam[0], sc.cam[1]); }
         o.update && o.update.call(sc, S, s, c, dt);
       }
     };
     sc.overlay = function (ctx, s, c, S, B) { if (c.mode === mode) { if (s._am === mode) def.overlay && def.overlay(ctx, s, c, S, B); } else o.overlay && o.overlay.call(sc, ctx, s, c, S, B); };
-    sc.hud = function (s, c) { return c.mode === mode ? (s._am === mode && def.hud ? def.hud(s, c) : []) : o.hud ? o.hud.call(sc, s, c) : []; };
-    sc.readouts = function (s, c) { return c.mode === mode ? (def.readouts ? def.readouts(s, c) : []) : o.readouts ? o.readouts.call(sc, s, c) : []; };
-    sc.onChange = function (s, c, k, H) { o.onChange && o.onChange.call(sc, s, c, k, H); if (c.mode === mode && s.focus) { if (k === "quiz") BA.focus.setQuiz(s, c.quiz); def.onChange && def.onChange(s, c, k, H); } };
+    sc.hud = function (s, c) { return c.mode === mode ? (s._am === mode ? (def.hud ? def.hud(s, c) : o.hud ? o.hud.call(sc, s, c) : []) : []) : o.hud ? o.hud.call(sc, s, c) : []; };
+    sc.readouts = function (s, c) { return c.mode === mode ? (def.readouts ? def.readouts(s, c) : o.readouts ? o.readouts.call(sc, s, c) : []) : o.readouts ? o.readouts.call(sc, s, c) : []; };
+    sc.onChange = function (s, c, k, H) { o.onChange && o.onChange.call(sc, s, c, k, H); if (c.mode === mode && s.aF) { if (k === "quiz") BA.focus.setQuiz(s, c.quiz); def.onChange && def.onChange(s, c, k, H); } };
     sc.syncAll = true;
   };
 
