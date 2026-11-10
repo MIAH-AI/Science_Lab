@@ -1,8 +1,8 @@
-// Smoke test for the five labs: opens every topic, mode and subtopic the way a student would,
+// Smoke test for the six labs: opens every topic, mode and subtopic the way a student would,
 // presses the first control in each simulation, opens Exam mode, and fails if any page error appears.
 //
 //   1. serve the labs:   python3 -m http.server 4802 --directory public
-//   2. in another shell: npx -y -p playwright@1 node tools/smoke-labs.mjs [maths,physics,chemistry,biology,geography]
+//   2. in another shell: npx -y -p playwright@1 node tools/smoke-labs.mjs [maths,physics,chemistry,biology,geography,agric]
 //
 // 3D scenes run in software rendering (SwiftShader), so this checks that scenes start, not how fast they are.
 /* global process, console, document, window */
@@ -10,7 +10,7 @@ import { chromium } from 'playwright'
 
 const BASE = process.env.LAB_ORIGIN || 'http://localhost:4802'
 const only = (
-  process.argv[2] || 'maths,physics,chemistry,biology,geography'
+  process.argv[2] || 'maths,physics,chemistry,biology,geography,agric'
 ).split(',')
 const browser = await chromium.launch({
   args: [
@@ -131,11 +131,12 @@ if (only.includes('chemistry')) {
   await p.close()
 }
 
-// Maths, Biology and Geography share one layout: a topic rail, accordion subtopics and a panel per subtopic.
+// Maths, Biology, Geography and Agriculture share one layout: a topic rail, accordion subtopics and a panel per subtopic.
 for (const [subject, lab] of [
   ['maths', 'waec-maths-dashboard'],
   ['biology', 'waec-biology-lab'],
   ['geography', 'waec-geography-lab'],
+  ['agric', 'waec-agric-lab'],
 ]) {
   if (!only.includes(subject)) continue
   const p = await open(lab)

@@ -4,8 +4,9 @@ import { findTopics, index, type SubjectKey } from './topics'
 const subjects = Object.keys(index) as SubjectKey[]
 
 describe('topic index', () => {
-  it('covers all five subjects with real titles', () => {
+  it('covers all six subjects with real titles', () => {
     expect(subjects.sort()).toEqual([
+      'agric',
       'biology',
       'chemistry',
       'geography',
@@ -24,9 +25,10 @@ describe('topic index', () => {
 
   it('matches the subtopic counts shown on the home page', () => {
     const subs = (k: SubjectKey) => index[k].reduce((n, t) => n + t.s.length, 0)
-    expect(subs('chemistry')).toBe(136)
+    expect(subs('chemistry')).toBe(148)
     expect(subs('biology')).toBe(99)
     expect(subs('geography')).toBe(144)
+    expect(subs('agric')).toBe(274)
     expect(index.physics.length).toBe(41)
   })
 })
@@ -35,6 +37,8 @@ describe('findTopics', () => {
   it('finds a subtopic in the right subject only', () => {
     expect(findTopics('chemistry', 'titration')[0]).toMatch(/titration/i)
     expect(findTopics('biology', 'titration')).toEqual([])
+    expect(findTopics('agric', 'poultry')[0]).toMatch(/poultry/i)
+    expect(findTopics('maths', 'poultry')).toEqual([])
   })
 
   it('is case-insensitive and needs every word', () => {

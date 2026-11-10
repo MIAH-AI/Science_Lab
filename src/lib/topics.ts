@@ -1,7 +1,7 @@
 import topicIndex from '../data/topic-index.json'
 
 export type SubjectKey =
-  'maths' | 'physics' | 'chemistry' | 'biology' | 'geography'
+  'maths' | 'physics' | 'chemistry' | 'biology' | 'geography' | 'agric'
 export type Topic = { t: string; s: string[] }
 
 // Every lab's topics and subtopics, built from the labs by tools/build-topic-index.mjs.

@@ -23,6 +23,8 @@
   --biology-t: #e8f3de;
   --geography: #1e5a9e;
   --geography-t: #e2ecf9;
+  --agric: #7f5418;
+  --agric-t: #f6ecdc;
   min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
@@ -54,6 +56,8 @@
   --biology-t: #1f2e19;
   --geography: #86b8ff;
   --geography-t: #172840;
+  --agric: #e8c890;
+  --agric-t: #33281a;
 }
 .sd h1,
 .sd h2,
