@@ -44,17 +44,22 @@ CC0 and public-domain items need no credit, but we credit them anyway.
 - [https://polyhaven.com/a/bench_vice_01](https://polyhaven.com/a/bench_vice_01) — Yann Kervran, Antanas Kep — CC0 1.0
 - [https://polyhaven.com/a/combination_wrench](https://polyhaven.com/a/combination_wrench) — BKS — CC0 1.0
 - [https://polyhaven.com/a/cross_pein_hammer](https://polyhaven.com/a/cross_pein_hammer) — Tics — CC0 1.0
+- [https://polyhaven.com/a/dead_tree_trunk](https://polyhaven.com/a/dead_tree_trunk) — Rob Tuytel — CC0 1.0
 - [https://polyhaven.com/a/drill_press_01](https://polyhaven.com/a/drill_press_01) — Viktor — CC0 1.0
+- [https://polyhaven.com/a/fern_02](https://polyhaven.com/a/fern_02) — Rob Tuytel, Rico Cilliers — CC0 1.0
 - [https://polyhaven.com/a/flathead_screwdriver](https://polyhaven.com/a/flathead_screwdriver) — Dylan Detwiller — CC0 1.0
 - [https://polyhaven.com/a/garden_sprinkler_01](https://polyhaven.com/a/garden_sprinkler_01) — Amal Kumar — CC0 1.0
 - [https://polyhaven.com/a/hand_truck](https://polyhaven.com/a/hand_truck) — Mutanzom3D — CC0 1.0
 - [https://polyhaven.com/a/handsaw_wood](https://polyhaven.com/a/handsaw_wood) — Konrad Szałankiewicz — CC0 1.0
 - [https://polyhaven.com/a/hatchet](https://polyhaven.com/a/hatchet) — James Ray Cock, Ulan Cabanilla — CC0 1.0
+- [https://polyhaven.com/a/island_tree_02](https://polyhaven.com/a/island_tree_02) — Rob Tuytel, Rico Cilliers — CC0 1.0
+- [https://polyhaven.com/a/jacaranda_tree](https://polyhaven.com/a/jacaranda_tree) — Rob Tuytel, Rico Cilliers — CC0 1.0
 - [https://polyhaven.com/a/lubricant_spray](https://polyhaven.com/a/lubricant_spray) — James Ray Cock — CC0 1.0
 - [https://polyhaven.com/a/machete](https://polyhaven.com/a/machete) — Ulan Cabanilla — CC0 1.0
 - [https://polyhaven.com/a/measuring_tape_01](https://polyhaven.com/a/measuring_tape_01) — Kuutti Siitonen — CC0 1.0
 - [https://polyhaven.com/a/metal_jerrycan](https://polyhaven.com/a/metal_jerrycan) — Sean Buckley — CC0 1.0
 - [https://polyhaven.com/a/metal_toolbox](https://polyhaven.com/a/metal_toolbox) — Mateusz Sadek — CC0 1.0
+- [https://polyhaven.com/a/nettle_plant](https://polyhaven.com/a/nettle_plant) — Rob Tuytel, Rico Cilliers — CC0 1.0
 - [https://polyhaven.com/a/oil_tin](https://polyhaven.com/a/oil_tin) — Niklas — CC0 1.0
 - [https://polyhaven.com/a/old_military_compressor](https://polyhaven.com/a/old_military_compressor) — Brian Speight — CC0 1.0
 - [https://polyhaven.com/a/old_tyre](https://polyhaven.com/a/old_tyre) — MP — CC0 1.0
@@ -68,13 +73,19 @@ CC0 and public-domain items need no credit, but we credit them anyway.
 - [https://polyhaven.com/a/rusted_hacksaw](https://polyhaven.com/a/rusted_hacksaw) — Dabou Master — CC0 1.0
 - [https://polyhaven.com/a/rusted_spade_01](https://polyhaven.com/a/rusted_spade_01) — Blemonade — CC0 1.0
 - [https://polyhaven.com/a/rusted_wheel_rim_01](https://polyhaven.com/a/rusted_wheel_rim_01) — John Hutcheson — CC0 1.0
+- [https://polyhaven.com/a/shrub_02](https://polyhaven.com/a/shrub_02) — Rico Cilliers — CC0 1.0
+- [https://polyhaven.com/a/shrub_03](https://polyhaven.com/a/shrub_03) — Rico Cilliers — CC0 1.0
+- [https://polyhaven.com/a/shrub_04](https://polyhaven.com/a/shrub_04) — Rico Cilliers — CC0 1.0
 - [https://polyhaven.com/a/sledgehammer_01](https://polyhaven.com/a/sledgehammer_01) — Dylan Guzman — CC0 1.0
 - [https://polyhaven.com/a/small_oil_can_01](https://polyhaven.com/a/small_oil_can_01) — Raven van de Werken — CC0 1.0
 - [https://polyhaven.com/a/tire_pump](https://polyhaven.com/a/tire_pump) — Garrison Gager — CC0 1.0
 - [https://polyhaven.com/a/tool_cart](https://polyhaven.com/a/tool_cart) — Savva Zakharov — CC0 1.0
+- [https://polyhaven.com/a/tree_stump_01](https://polyhaven.com/a/tree_stump_01) — Rob Tuytel — CC0 1.0
 - [https://polyhaven.com/a/trowel_01](https://polyhaven.com/a/trowel_01) — Satyaki Mandal — CC0 1.0
 - [https://polyhaven.com/a/watering_can_metal_01](https://polyhaven.com/a/watering_can_metal_01) — Charles Nderitu — CC0 1.0
+- [https://polyhaven.com/a/weed_plant_02](https://polyhaven.com/a/weed_plant_02) — Rob Tuytel, Rico Cilliers — CC0 1.0
 - [https://polyhaven.com/a/wicker_basket_01](https://polyhaven.com/a/wicker_basket_01) — Kuutti Siitonen — CC0 1.0
+- [https://polyhaven.com/a/wild_rooibos_bush](https://polyhaven.com/a/wild_rooibos_bush) — James Ray Cock, Jenelle van Heerden — CC0 1.0
 - [https://polyhaven.com/a/wooden_axe](https://polyhaven.com/a/wooden_axe) — Ulan Cabanilla — CC0 1.0
 - [https://polyhaven.com/a/wooden_bucket_01](https://polyhaven.com/a/wooden_bucket_01) — James Ray Cock — CC0 1.0
 - [https://polyhaven.com/a/brown_mud](https://polyhaven.com/a/brown_mud) — Rob Tuytel — CC0 1.0

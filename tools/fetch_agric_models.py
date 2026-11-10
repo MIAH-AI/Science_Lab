@@ -36,6 +36,12 @@ POLYHAVEN = {
     "portable_generator": ("Petrol generator", 1024), "old_military_compressor": ("Air compressor", 1024),
     "drill_press_01": ("Pillar drill", 1024), "portable_welding_cart": ("Welding set", 1024), "bench_vice_01": ("Bench vice", 512),
     "tool_cart": ("Tool trolley", 1024), "hand_truck": ("Hand truck", 512),
+    # vegetation and ground cover for the farm settlement: (name, texture size, simplify ratio)
+    "jacaranda_tree": ("Jacaranda tree", 1024, 0.01), "island_tree_02": ("Broadleaf tree", 1024, 0.015),
+    "shrub_02": ("Shrub", 512, 0.25), "shrub_03": ("Low shrub", 512, 0.5), "shrub_04": ("Leafy shrub", 512, 0.25),
+    "wild_rooibos_bush": ("Dry-season bush", 512, 0.15), "fern_02": ("Fern", 512), "weed_plant_02": ("Broadleaf weed", 512, 0.5),
+    "nettle_plant": ("Herb", 512, 0.2), "tree_stump_01": ("Tree stump", 512, 0.2), "dead_tree_trunk": ("Fallen log", 512, 0.1),
+   
 }
 
 # slot: (Sketchfab uid, title, author, licence, target triangles). Licence and download flag were checked on each model's record in November 2026.
@@ -57,13 +63,14 @@ SKETCHFAB = {
 
 def optimise(src, dst, tex, ratio=None):
     cmd = ["npx", "-y", "@gltf-transform/cli@4", "optimize", src, dst, "--texture-compress", "webp", "--texture-size", str(tex), "--compress", "false"]
-    cmd += ["--simplify", "true", "--simplify-ratio", str(ratio)] if ratio else ["--simplify", "false"]
+    cmd += ["--simplify", "true", "--simplify-ratio", str(ratio), "--simplify-error", "0.02"] if ratio else ["--simplify", "false"]
     subprocess.run(cmd, check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     return os.path.exists(dst)
 
 
 def polyhaven(index, manifest):
-    for asset, (name, tex) in POLYHAVEN.items():
+    for asset, spec in POLYHAVEN.items():
+        name, tex, ratio = (spec + (None,))[:3]
         dst = os.path.join(MODELS, asset + ".glb")
         if os.path.exists(dst):
             continue
@@ -77,7 +84,7 @@ def polyhaven(index, manifest):
             for sub, inc in (g.get("include") or {}).items():
                 G.save(os.path.join(d, sub), G.get(inc["url"], True))
             os.makedirs(MODELS, exist_ok=True)
-            if not optimise(p, dst, tex):
+            if not optimise(p, dst, tex, ratio):
                 print("optimise failed:", asset); continue
         authors = ", ".join((info.get("authors") or {}).keys()) or "Poly Haven"
         rec = {"source": f"https://polyhaven.com/a/{asset}", "licence": "CC0 1.0", "author": authors, "provider": "Poly Haven"}
