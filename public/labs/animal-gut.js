@@ -145,12 +145,13 @@
     rectum: ["Rectum and anus", "Stores faeces before egestion."],
   };
 
-  function goatOrgans() {
+  function goatOrgans(o) {
+    o = o || {};
     const T3 = T(), group = new T3.Group(), parts = {}, add = (id, meshes, anchor, short) => { meshes = [].concat(meshes); meshes.forEach((m) => { group.add(m); m.userData.part = id; }); parts[id] = { id, name: GOAT[id][0], short, info: GOAT[id][1], meshes, anchor: V(anchor[0], anchor[1], anchor[2]) }; };
     const MOUTH = [[0.93, 0.925, 0, 0.02], [0.84, 0.975, 0, 0.03], [0.76, 1.02, 0, 0.028]];
     const GUL = [[0.76, 1.02, 0], [0.68, 0.965, -0.01], [0.56, 0.87, -0.015], [0.43, 0.775, -0.02], [0.3, 0.745, -0.025], [0.2, 0.71, -0.035], [0.14, 0.68, -0.04]];
-    add("mouth", sdfMesh("ag_g_mouth", sd.chain(MOUTH, 0.02), [0.7, 0.88, -0.06, 0.98, 1.08, 0.06], 0.007, null, tis(TIS.mouth, { roughness: 0.35 })), [0.86, 0.965, -0.03]);
-    add("gullet", tubeM(GUL, 0.016, tis(TIS.gullet)), [0.52, 0.845, -0.03]);
+    if (!o.trunk) add("mouth", sdfMesh("ag_g_mouth", sd.chain(MOUTH, 0.02), [0.7, 0.88, -0.06, 0.98, 1.08, 0.06], 0.007, null, tis(TIS.mouth, { roughness: 0.35 })), [0.86, 0.965, -0.03]);
+    add("gullet", tubeM(o.trunk ? GUL.slice(3) : GUL, 0.016, tis(TIS.gullet)), o.trunk ? [0.3, 0.745, -0.04] : [0.52, 0.845, -0.03]);
     /* rumen: dorsal and ventral sacs with a groove between, plus the small front sac */
     const rumenFn = (x, y, z) => { let d = sd.smin(sd.ell(x, y, z, -0.15, 0.76, -0.075, 0.25, 0.108, 0.125), sd.ell(x, y, z, -0.12, 0.61, -0.07, 0.245, 0.115, 0.135), 0.03); d = sd.smin(d, sd.ell(x, y, z, 0.07, 0.715, -0.06, 0.085, 0.075, 0.09), 0.05); return d + (BK.fbm(x * 22, y * 22, z * 22) - 0.5) * 0.008; };
     const rumenCol = (x, y, z) => { const n = BK.fbm(x * 9, y * 9, z * 9), base = lin(0xc79276), groove = lin(0x7e4a40); let c = mix3(base, lin(0xdcb090), sstep(0.4, 0.7, n) * 0.6); c = mix3(c, groove, (1 - sstep(0.0, 0.03, Math.abs(y - 0.688 - (x + 0.1) * 0.06))) * 0.75); return mix3(c, groove, (1 - sstep(0.0, 0.012, Math.abs(BK.fbm(x * 14 + 3, y * 14, z * 14 + 5) - 0.5))) * 0.3); };
@@ -161,7 +162,7 @@
     add("omasum", sdfMesh("ag_g_oma", (x, y, z) => sd.ell(x, y, z, 0.1, 0.665, 0.1, 0.068, 0.078, 0.062), [0.02, 0.57, 0.02, 0.18, 0.76, 0.18], 0.007, omaCol, vt({ roughness: 0.45, clearcoat: 0.35 })), [0.1, 0.67, 0.165], "Omasum");
     const ABO = [[0.1, 0.585, 0.105, 0.03], [0.065, 0.52, 0.115, 0.056], [-0.05, 0.495, 0.125, 0.055], [-0.16, 0.505, 0.13, 0.038], [-0.225, 0.53, 0.125, 0.02]];
     add("abomasum", sdfMesh("ag_g_abo", sd.chain(ABO, 0.03), [-0.27, 0.42, 0.04, 0.16, 0.63, 0.2], 0.0075, (x, y, z) => mix3(lin(TIS.stomach), lin(0xd98c84), sstep(0.45, 0.7, BK.fbm(x * 18, y * 18, z * 18)) * 0.6), vt({ roughness: 0.36, clearcoat: 0.5 })), [-0.02, 0.49, 0.185], "Abomasum");
-    add("liver", ellM([0.215, 0.735, 0.075], [0.04, 0.105, 0.09], tis(TIS.liver, { roughness: 0.2, clearcoat: 0.8 }), -0.25), [0.225, 0.76, 0.14]);
+    add("liver", ellM([0.215, 0.735, 0.075], [0.04, 0.105, 0.09], tis(0x8a3a36, { roughness: 0.25, clearcoat: 0.7 }), -0.25), [0.225, 0.76, 0.14]);
     const SI = coils(-0.36, -0.2, 0.555, 0.665, 0.1, 0.165, 5, [-0.225, 0.53, 0.125], [-0.29, 0.725, 0.12]);
     add("smallInt", tubeM(SI, 0.0135, tis(TIS.smallInt, { roughness: 0.33, clearcoat: 0.55 }), { seg: 420 }), [-0.28, 0.6, 0.18]);
     const CAE = [[-0.29, 0.725, 0.12], [-0.35, 0.755, 0.115], [-0.42, 0.745, 0.1]];
@@ -311,5 +312,5 @@
   };
   if (AK && AK.def3d) AK.def3d("H2-c#gut", Object.assign({}, def));
   else BK.def3d("B-g#gut", Object.assign({}, def));
-  window.AGUT = { BODY, goatOrgans, dogOrgans };
+  window.AGUT = { BODY, goatOrgans, dogOrgans, GOAT, DOG, coatMat, coils, sample };
 })();
