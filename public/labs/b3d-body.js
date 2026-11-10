@@ -461,4 +461,11 @@
       note: (old.note ? old.note + " " : "") + "The yield figure assumes 2.0 t/ha of maize at index 100, a typical smallholder value; it is a teaching model, not a forecast.",
     }));
   })();
+
+  /* Regional topics that reuse these scenes were copied before the redesign: point them at the new versions,
+     keeping their own titles, notes and starting values. */
+  [["GH5-b", "S-c", { mode: "heart" }], ["GH5-d", "S-a", { mode: "arm" }], ["WA1-c", "S-f", { mode: "nephron" }]].forEach(([key, from, vals]) => {
+    const al = MK.scenes[key], base = MK.scenes[from]; if (!al || !base) return;
+    MK.def(key, Object.assign({}, base, { title: al.title, note: al.note || base.note, values: Object.assign({}, base.values, al.values, vals) }));
+  });
 })();
