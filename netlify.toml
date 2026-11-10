@@ -33,3 +33,7 @@
   from = "/waec-geography-lab"
   to = "/labs/waec-geography-lab.html"
   status = 200
+[[redirects]]
+  from = "/waec-agric-lab"
+  to = "/labs/waec-agric-lab.html"
+  status = 200
