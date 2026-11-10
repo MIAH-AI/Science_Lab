@@ -25,6 +25,8 @@ const counts = {}
 
 async function open(lab) {
   const page = await browser.newPage({ viewport: { width: 1366, height: 900 } })
+  // Software rendering is slow, and the agriculture 3D labs can hold the page for several seconds while they start.
+  page.setDefaultTimeout(120000)
   page.errs = []
   page.on('pageerror', (e) => page.errs.push(e.message.slice(0, 200)))
   page.on('console', (m) => {
