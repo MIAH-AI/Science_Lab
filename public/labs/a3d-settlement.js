@@ -126,7 +126,7 @@
   if (MK.scenes["C9-d#settlement"]) { MK.scenes["C9-d#settlement"].label = sdef.label; MK.scenes["C9-a#settlement"] = MK.scenes["C9-d#settlement"]; }
 
   /* ============================== 2. three farm machines ============================== */
-  const part = (g, obj, name, ex) => { obj.name = name; obj.userData.home = obj.position.clone(); obj.userData.ex = new (T().Vector3)(ex[0], ex[1], ex[2]); g.add(obj); (g.parts = g.parts || []).push(obj); return obj; };
+  const part = (g, obj, name, ex) => { if ((g.parts || []).some((q) => q.name === name)) return obj; /* the shared tractor already carries this part */ obj.name = name; obj.userData.home = obj.position.clone(); obj.userData.ex = new (T().Vector3)(ex[0], ex[1], ex[2]); g.add(obj); (g.parts = g.parts || []).push(obj); return obj; };
   const grp = (...kids) => { const o = new (T().Group)(); kids.forEach((k) => o.add(k)); return o; };
   const lay = (m, rx, ry, rz) => { m.rotation.set(rx || 0, ry || 0, rz || 0); return m; };
   function tractorHD() {

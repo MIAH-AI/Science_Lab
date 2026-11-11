@@ -216,6 +216,8 @@
       let c = base;
       if (patch) c = mix3(c, patch, sstep(0.585, 0.61, n));
       if (front) c = mix3(c, front, sstep(-0.03, 0.03, x / D.L - (0.5 - co.split) + (n - 0.5) * 0.25));
+      if (breed === "holstein") { const nb = BK.fbm(x * f * 1.0 + 5.3, y * f * 1.0 + 2.1, z * f * 1.0 + 1.9); c = mix3(base, lin(0x0b0b0b), sstep(0.475, 0.5, nb)); if (part === "leg") c = mix3(c, base, sstep(D.leg * 0.8, D.leg * 0.55, y)); }   // bold black-and-white blocks, white stockings
+      if (breed === "wad") { const nb = BK.fbm(x * f * 0.62 + 7.7, y * f * 0.62 + 0.4, z * f * 0.62 + 1.3); c = mix3(lin(0x2b211a), lin(0xefe6da), sstep(0.535, 0.565, nb)); c = mix3(c, lin(0x6a4428), sstep(0.3, 0.42, nb) * (1 - sstep(0.42, 0.5, nb)) * 0.55); if (part === "trunk") c = mix3(c, lin(0x120e0c), (1 - sstep(D.c * 0.1, D.c * 0.32, Math.abs(z))) * sstep(0.55, 0.85, ny) * 0.9); }   // pied dwarf goat with a dark line along the back
       if (!co.wool) c = mix3(c, mix3(c, WHITE, 0.5), sstep(-0.35, -0.9, ny) * (part === "trunk" ? 0.5 : 0.15));          // paler underside
       c = mix3(c, mix3(c, BLACK, 0.25), sstep(0.47, 0.6, BK.fbm(x * f * 6, y * f * 6, z * f * 6)) * 0.25);                  // soft hair shading
       if (breed === "ndama") c = mix3(c, dark, sstep(D.leg * 0.6, D.leg * 0.2, y) * 0.45);
