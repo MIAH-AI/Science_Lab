@@ -292,6 +292,8 @@
 <script src="/labs/g2d-scenes.js"></script>
 <script src="/labs/exam-kit.js"></script>
 <script src="/labs/g-exam.js"></script>
+<script src="/labs/learn-kit.js"></script>
+<script src="/labs/g-learn.js"></script>
 <script>
 /* ======================================================================
    WAEC Geography lab — page state and rendering (same layout engine as the Maths lab).
@@ -334,6 +336,11 @@ function matches(str){ return String(str||'').toLowerCase().includes(query.trim(
 function subtopicMatches(st){ if(!query.trim()) return true; return matches(st.title) || matches(st.notes) || st.content.some(matches); }
 function codeLabel(t){ return t.num || t.code; }
 
+/* learning layer: topic checks, progress, practice, games and teacher tools (saved on this device only) */
+const LKON = !!(window.LK && window.GeoLearn && GeoLearn.start({
+  go(code){ const k=SECT.order.find(k=>(SECT[k]||[]).some(t=>t.code===code)); if(!k) return; if(k!==course) setCourse(k); query=''; document.getElementById('search').value=''; activeTopic=code; openItems=new Set(); render(); window.scrollTo(0,0); },
+  rerender(){ const bar=document.querySelector('.lk-topicbar'), t=activeTopic && !LK.owns(activeTopic) && syl().find(x=>x.code===activeTopic); if(bar && t){ bar.outerHTML=LK.topicBar(t); renderRail(); } else render(); },
+}));
 function renderRail(){
   const axis=document.getElementById('axis');
   axis.innerHTML = syl().map(t=>`
@@ -352,7 +359,7 @@ function renderRail(){
         <span class="tick-glyph">✎</span>
         <span class="tick-text"><span class="tick-code">PRACTICE</span><span class="tick-name">Exam mode</span><span class="tick-count">Paper 1 &amp; Paper 2 style</span></span>
       </button>
-    </div>`;
+    </div>` + (LKON ? LK.rail(activeTopic) : '');
   axis.querySelectorAll('.tick-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{ activeTopic=btn.dataset.topic; openItems=new Set(); closeRailMobile(); render(); });
   });
@@ -366,6 +373,7 @@ function renderOverview(){
       <h1>WAEC Geography — ${SECT.labels[course]}</h1>
       <p>Select a topic on the left, or search across every subtopic. Each subtopic opens its syllabus notes and a simulation: most are 3D labs lit by real sky photographs, with labelled parts (switch Labels to Numbers to test yourself) and a ▶ Watch explainer that plays like a short narrated video. Switch section at the top of the rail, or open Exam mode.</p>
     </div>
+    ${LKON ? LK.strip() : ''}
     <div class="stats">
       <div class="stat"><div class="n">${S.length}</div><div class="l">Topics</div></div>
       <div class="stat"><div class="n">${countSubs()}</div><div class="l">Subtopics</div></div>
@@ -376,7 +384,7 @@ function renderOverview(){
     <div class="overview-grid">
       ${S.map(t=>`
         <div class="overview-card" role="button" tabindex="0" data-topic="${t.code}">
-          <div class="oc-code">TOPIC ${codeLabel(t)} · ${t.glyph}</div>
+          ${LKON ? `<span class="oc-ring">${LK.ring(t.code, 38)}</span>` : ''}<div class="oc-code">TOPIC ${codeLabel(t)} · ${t.glyph}</div>
           <h3>${t.title}</h3>
           <div class="oc-count">${t.subtopics.length} subtopic${t.subtopics.length>1?'s':''}</div>
         </div>`).join('')}
@@ -433,6 +441,7 @@ function renderTopic(t){
       <span class="code-badge">Topic ${codeLabel(t)}</span>
       <h1>${t.title}</h1>
       <p>${t.desc}</p>
+      ${LKON ? LK.topicBar(t) : ''}
     </div>
     ${list.length===0 ? `<div class="empty"><div class="big">∅</div><p>No subtopics match “${escapeHtml(query)}” in this topic.</p></div>` : `
       <div class="accordion">${list.map(st=>accordionItemHtml(t,st)).join('')}</div>`}`;
@@ -467,6 +476,8 @@ function render(){
   } else if(activeTopic==='EXAM'){
     content.innerHTML='';
     if(window.ExamKit && window.GeographyExam) ExamKit.render(content, GeographyExam.cfg(course)); else content.innerHTML='<div class="empty"><p>Exam mode could not load.</p></div>';
+  } else if(LKON && LK.owns(activeTopic)){
+    LK.render(content, activeTopic);
   } else if(activeTopic){
     const t=syl().find(x=>x.code===activeTopic) || syl()[0];
     content.innerHTML = renderTopic(t);
