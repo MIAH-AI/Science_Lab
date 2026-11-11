@@ -277,7 +277,7 @@
       <div>Paper 1 — 50 objective, 50 min</div>
       <div>Paper 2 — 5 essays from 6, 2 h 10 min</div>
       <div>Paper 3 — practical, 4 questions, 1½ h</div>
-      <div style="margin-top:10px;font-size:10.5px;opacity:.8">Skies, soil and surface textures: Poly Haven and ambientCG (CC0). Specimen photographs: iNaturalist observers, Openverse (Flickr and Wikimedia Commons creators) and NASA, credited under each photo. Crops, animals and machines are procedural 3D models. Rates, spacings and prices are typical teaching values.</div>
+      <div style="margin-top:10px;font-size:10.5px;opacity:.8">Skies, soil and surface textures: Poly Haven and ambientCG (CC0). Specimen photographs: iNaturalist observers, Openverse (Flickr and Wikimedia Commons creators) and NASA, credited under each photo. Farm tools, workshop machines, shrubs, ferns and two tree species: Poly Haven 3D models (CC0), listed in assets/agric/models/index.json. Crops, animals and field machines are procedural 3D models. Rates, spacings and prices are typical teaching values.</div>
     </div>
   </nav>
   <div class="scrim" id="scrim"></div>
@@ -303,6 +303,15 @@
 <script src="/labs/agric-kit.js"></script>
 <script src="/labs/agric-kit2.js"></script>
 <script src="/labs/agric-kit3.js"></script>
+<script src="/labs/bio-atlas.js"></script>
+<script src="/labs/bio-atlas2.js"></script>
+<script src="/labs/bio-atlas3.js"></script>
+<script src="/labs/animal-gut.js"></script>
+<script src="/labs/agric-atlas.js"></script>
+<script src="/labs/agric-refine.js"></script>
+<script src="/labs/agric-kit4.js"></script>
+<script src="/labs/agric-round2.js"></script>
+<script src="/labs/agric-round3.js"></script>
 <script src="/labs/a3d-basics.js"></script>
 <script src="/labs/a3d-ecology.js"></script>
 <script src="/labs/a3d-soil.js"></script>
@@ -313,13 +322,19 @@
 <script src="/labs/a3d-animals2.js"></script>
 <script src="/labs/a2d-economics.js"></script>
 <script src="/labs/a-practical.js"></script>
+<script src="/labs/a3d-mechfarm.js"></script>
+<script src="/labs/a3d-workshop.js"></script>
+<script src="/labs/a3d-settlement.js"></script>
+<script src="/labs/agric-views.js"></script>
 <script src="/labs/exam-kit.js"></script>
 <script src="/labs/a-exam.js"></script>
+<script src="/labs/learn-kit.js"></script>
+<script src="/labs/a-learn.js"></script>
 <script>
 /* ======================================================================
    WAEC Agricultural Science lab — page state and rendering (same layout engine as the Geography lab).
    Syllabus data: a-syllabus.js. Simulations: MK scenes keyed "<topic>-<sub>" in a3d-*.js / a2d-*.js / a-practical.js.
-   Nothing about the learner is stored.
+   Learner progress (learn-kit.js) is saved on this device only; nothing is sent anywhere.
    ====================================================================== */
 const UNITS = [
   ['Area','1 hectare (ha) = 10 000 m² ≈ 2.47 acres; plant population = area ÷ (row spacing × in-row spacing) × plants per stand'],
@@ -331,6 +346,11 @@ const UNITS = [
 ];
 const SECT = window.AGRIC;
 let activeTopic = null, openItems = new Set(), query = '', course = 'A';
+/* learning layer: topic checks, progress, practice, games and teacher tools */
+const LKON = !!(window.AgricLearn && window.LK && AgricLearn.start({
+  go(code){ const k = SECT.order.find(k => SECT[k].some(t => t.code === code)); if(!k) return; query=''; document.getElementById('search').value=''; setCourse(k); activeTopic=code; openItems=new Set(); render(); window.scrollTo(0,0); },
+  rerender(){ const bar=document.querySelector('.lk-topicbar'), t=activeTopic && !LK.owns(activeTopic) && syl().find(x=>x.code===activeTopic); if(bar && t){ bar.outerHTML=LK.topicBar(t); renderRail(); } else render(); },
+}));
 function syl(){ return SECT[course] || SECT.A; }
 function allTopics(){ return [].concat(...SECT.order.map(k=>SECT[k])); }
 function countSubs(list){ return (list||syl()).reduce((n,t)=>n+t.subtopics.length,0); }
@@ -376,7 +396,7 @@ function renderRail(){
         <span class="tick-glyph">✎</span>
         <span class="tick-text"><span class="tick-code">PRACTICE</span><span class="tick-name">Exam mode</span><span class="tick-count">Papers 1, 2 &amp; 3 style</span></span>
       </button>
-    </div>`;
+    </div>` + (LKON ? LK.rail(activeTopic) : '');
   axis.querySelectorAll('.tick-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{ activeTopic=btn.dataset.topic; openItems=new Set(); closeRailMobile(); render(); });
   });
@@ -388,8 +408,9 @@ function renderOverview(){
     <div class="topic-head">
       <span class="code-badge">Dashboard</span>
       <h1>WAEC Agricultural Science — ${SECT.labels[course]}</h1>
-      <p>Select a topic on the left, or search across every subtopic. Each subtopic opens its syllabus notes, a simulation lab lit by real farm skies, an experiment card (record your readings and download them for your practical notebook) and real specimen photos. ▶ Watch explainer plays a narrated walkthrough with voice; each topic also has a narrated topic explainer. Switch section at the top of the rail, or open Exam mode.</p>
+      <p>Select a topic on the left, or search across every subtopic. Each topic has a Check yourself quiz that tracks your mastery. Each subtopic opens its syllabus notes, a simulation lab lit by real farm skies, an experiment card (record your readings and download them for your practical notebook) and real specimen photos. ▶ Watch explainer plays a narrated walkthrough with voice; each topic also has a narrated topic explainer. Switch section at the top of the rail, or open Exam mode.</p>
     </div>
+    ${LKON ? LK.strip() : ''}
     <div class="stats">
       <div class="stat"><div class="n">${S.length}</div><div class="l">Topics</div></div>
       <div class="stat"><div class="n">${countSubs()}</div><div class="l">Subtopics</div></div>
@@ -400,7 +421,7 @@ function renderOverview(){
     <div class="overview-grid">
       ${S.map(t=>`
         <div class="overview-card" role="button" tabindex="0" data-topic="${t.code}">
-          <div class="oc-code">TOPIC ${codeLabel(t)} · ${t.glyph}</div>
+          ${LKON ? `<span class="oc-ring">${LK.ring(t.code, 38)}</span>` : ''}<div class="oc-code">TOPIC ${codeLabel(t)} · ${t.glyph}</div>
           <h3>${t.title}</h3>
           <div class="oc-count">${t.subtopics.length} subtopic${t.subtopics.length>1?'s':''}</div>
         </div>`).join('')}
@@ -492,6 +513,7 @@ function renderTopic(t){
       <h1>${t.title}</h1>
       <p>${t.desc}</p>
       ${topicExplainerHtml(t)}
+      ${LKON ? LK.topicBar(t) : ''}
     </div>
     ${list.length===0 ? `<div class="empty"><div class="big">∅</div><p>No subtopics match “${escapeHtml(query)}” in this topic.</p></div>` : `
       <div class="accordion">${list.map(st=>accordionItemHtml(t,st)).join('')}</div>`}`;
@@ -526,6 +548,8 @@ function render(){
   } else if(activeTopic==='EXAM'){
     content.innerHTML='';
     if(window.ExamKit && window.AgricExam) ExamKit.render(content, AgricExam.cfg(course)); else content.innerHTML='<div class="empty"><p>Exam mode could not load.</p></div>';
+  } else if(LKON && LK.owns(activeTopic)){
+    LK.render(content, activeTopic);
   } else if(activeTopic){
     const t=syl().find(x=>x.code===activeTopic) || syl()[0];
     content.innerHTML = renderTopic(t);

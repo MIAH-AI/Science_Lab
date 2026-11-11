@@ -1,0 +1,443 @@
+{
+ "Barrel_01": {
+  "author": "Jorge Camacho",
+  "file": "Barrel_01.glb",
+  "kb": 181,
+  "licence": "CC0 1.0",
+  "name": "Fuel drum",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/Barrel_01"
+ },
+ "adjustable_wrench": {
+  "author": "Mateusz Sadek",
+  "file": "adjustable_wrench.glb",
+  "kb": 306,
+  "licence": "CC0 1.0",
+  "name": "Adjustable spanner",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/adjustable_wrench"
+ },
+ "bench_vice_01": {
+  "author": "Yann Kervran, Antanas Kep",
+  "file": "bench_vice_01.glb",
+  "kb": 230,
+  "licence": "CC0 1.0",
+  "name": "Bench vice",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/bench_vice_01"
+ },
+ "combination_wrench": {
+  "author": "BKS",
+  "file": "combination_wrench.glb",
+  "kb": 111,
+  "licence": "CC0 1.0",
+  "name": "Combination spanner",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/combination_wrench"
+ },
+ "cross_pein_hammer": {
+  "author": "Tics",
+  "file": "cross_pein_hammer.glb",
+  "kb": 120,
+  "licence": "CC0 1.0",
+  "name": "Hammer",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/cross_pein_hammer"
+ },
+ "dead_tree_trunk": {
+  "author": "Rob Tuytel",
+  "file": "dead_tree_trunk.glb",
+  "kb": 373,
+  "licence": "CC0 1.0",
+  "name": "Fallen log",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/dead_tree_trunk"
+ },
+ "drill_press_01": {
+  "author": "Viktor",
+  "file": "drill_press_01.glb",
+  "kb": 2143,
+  "licence": "CC0 1.0",
+  "name": "Pillar drill",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/drill_press_01"
+ },
+ "fern_02": {
+  "author": "Rob Tuytel, Rico Cilliers",
+  "file": "fern_02.glb",
+  "kb": 218,
+  "licence": "CC0 1.0",
+  "name": "Fern",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/fern_02"
+ },
+ "flathead_screwdriver": {
+  "author": "Dylan Detwiller",
+  "file": "flathead_screwdriver.glb",
+  "kb": 135,
+  "licence": "CC0 1.0",
+  "name": "Screwdriver",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/flathead_screwdriver"
+ },
+ "garden_sprinkler_01": {
+  "author": "Amal Kumar",
+  "file": "garden_sprinkler_01.glb",
+  "kb": 449,
+  "licence": "CC0 1.0",
+  "name": "Garden sprinkler",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/garden_sprinkler_01"
+ },
+ "hand_truck": {
+  "author": "Mutanzom3D",
+  "file": "hand_truck.glb",
+  "kb": 645,
+  "licence": "CC0 1.0",
+  "name": "Hand truck",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/hand_truck"
+ },
+ "handsaw_wood": {
+  "author": "Konrad Sza\u0142ankiewicz",
+  "file": "handsaw_wood.glb",
+  "kb": 221,
+  "licence": "CC0 1.0",
+  "name": "Hand saw",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/handsaw_wood"
+ },
+ "hatchet": {
+  "author": "James Ray Cock, Ulan Cabanilla",
+  "file": "hatchet.glb",
+  "kb": 234,
+  "licence": "CC0 1.0",
+  "name": "Hatchet",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/hatchet"
+ },
+ "island_tree_02": {
+  "author": "Rob Tuytel, Rico Cilliers",
+  "file": "island_tree_02.glb",
+  "kb": 2127,
+  "licence": "CC0 1.0",
+  "name": "Broadleaf tree",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/island_tree_02"
+ },
+ "jacaranda_tree": {
+  "author": "Rob Tuytel, Rico Cilliers",
+  "file": "jacaranda_tree.glb",
+  "kb": 4698,
+  "licence": "CC0 1.0",
+  "name": "Jacaranda tree",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/jacaranda_tree"
+ },
+ "lubricant_spray": {
+  "author": "James Ray Cock",
+  "file": "lubricant_spray.glb",
+  "kb": 220,
+  "licence": "CC0 1.0",
+  "name": "Lubricant spray",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/lubricant_spray"
+ },
+ "machete": {
+  "author": "Ulan Cabanilla",
+  "file": "machete.glb",
+  "kb": 180,
+  "licence": "CC0 1.0",
+  "name": "Cutlass (machete)",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/machete"
+ },
+ "measuring_tape_01": {
+  "author": "Kuutti Siitonen",
+  "file": "measuring_tape_01.glb",
+  "kb": 149,
+  "licence": "CC0 1.0",
+  "name": "Measuring tape",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/measuring_tape_01"
+ },
+ "metal_jerrycan": {
+  "author": "Sean Buckley",
+  "file": "metal_jerrycan.glb",
+  "kb": 587,
+  "licence": "CC0 1.0",
+  "name": "Fuel jerrycan",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/metal_jerrycan"
+ },
+ "metal_toolbox": {
+  "author": "Mateusz Sadek",
+  "file": "metal_toolbox.glb",
+  "kb": 549,
+  "licence": "CC0 1.0",
+  "name": "Toolbox",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/metal_toolbox"
+ },
+ "nettle_plant": {
+  "author": "Rob Tuytel, Rico Cilliers",
+  "file": "nettle_plant.glb",
+  "kb": 317,
+  "licence": "CC0 1.0",
+  "name": "Herb",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/nettle_plant"
+ },
+ "oil_tin": {
+  "author": "Niklas",
+  "file": "oil_tin.glb",
+  "kb": 153,
+  "licence": "CC0 1.0",
+  "name": "Engine oil tin",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/oil_tin"
+ },
+ "old_military_compressor": {
+  "author": "Brian Speight",
+  "file": "old_military_compressor.glb",
+  "kb": 2614,
+  "licence": "CC0 1.0",
+  "name": "Air compressor",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/old_military_compressor"
+ },
+ "old_tyre": {
+  "author": "MP",
+  "file": "old_tyre.glb",
+  "kb": 175,
+  "licence": "CC0 1.0",
+  "name": "Tyre",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/old_tyre"
+ },
+ "picke_dirty_01": {
+  "author": "Dennis Halbeck",
+  "file": "picke_dirty_01.glb",
+  "kb": 242,
+  "licence": "CC0 1.0",
+  "name": "Pickaxe",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/picke_dirty_01"
+ },
+ "pipe_wrench": {
+  "author": "Will Evarts",
+  "file": "pipe_wrench.glb",
+  "kb": 432,
+  "licence": "CC0 1.0",
+  "name": "Pipe wrench",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/pipe_wrench"
+ },
+ "plastic_jerrycan": {
+  "author": "Ulan Cabanilla",
+  "file": "plastic_jerrycan.glb",
+  "kb": 315,
+  "licence": "CC0 1.0",
+  "name": "Plastic jerrycan",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/plastic_jerrycan"
+ },
+ "pliers": {
+  "author": "PierreB3D",
+  "file": "pliers.glb",
+  "kb": 227,
+  "licence": "CC0 1.0",
+  "name": "Pliers",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/pliers"
+ },
+ "portable_generator": {
+  "author": "James Ray Cock",
+  "file": "portable_generator.glb",
+  "kb": 1311,
+  "licence": "CC0 1.0",
+  "name": "Petrol generator",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/portable_generator"
+ },
+ "portable_welding_cart": {
+  "author": "Georgii Gorbunov",
+  "file": "portable_welding_cart.glb",
+  "kb": 1075,
+  "licence": "CC0 1.0",
+  "name": "Welding set",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/portable_welding_cart"
+ },
+ "ratchet_wrench": {
+  "author": "John Hutcheson",
+  "file": "ratchet_wrench.glb",
+  "kb": 277,
+  "licence": "CC0 1.0",
+  "name": "Ratchet spanner",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/ratchet_wrench"
+ },
+ "rusted_hacksaw": {
+  "author": "Dabou Master",
+  "file": "rusted_hacksaw.glb",
+  "kb": 299,
+  "licence": "CC0 1.0",
+  "name": "Hacksaw",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rusted_hacksaw"
+ },
+ "rusted_spade_01": {
+  "author": "Blemonade",
+  "file": "rusted_spade_01.glb",
+  "kb": 362,
+  "licence": "CC0 1.0",
+  "name": "Spade",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rusted_spade_01"
+ },
+ "rusted_wheel_rim_01": {
+  "author": "John Hutcheson",
+  "file": "rusted_wheel_rim_01.glb",
+  "kb": 630,
+  "licence": "CC0 1.0",
+  "name": "Wheel rim",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/rusted_wheel_rim_01"
+ },
+ "shrub_02": {
+  "author": "Rico Cilliers",
+  "file": "shrub_02.glb",
+  "kb": 290,
+  "licence": "CC0 1.0",
+  "name": "Shrub",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/shrub_02"
+ },
+ "shrub_03": {
+  "author": "Rico Cilliers",
+  "file": "shrub_03.glb",
+  "kb": 207,
+  "licence": "CC0 1.0",
+  "name": "Low shrub",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/shrub_03"
+ },
+ "shrub_04": {
+  "author": "Rico Cilliers",
+  "file": "shrub_04.glb",
+  "kb": 291,
+  "licence": "CC0 1.0",
+  "name": "Leafy shrub",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/shrub_04"
+ },
+ "sledgehammer_01": {
+  "author": "Dylan Guzman",
+  "file": "sledgehammer_01.glb",
+  "kb": 132,
+  "licence": "CC0 1.0",
+  "name": "Sledgehammer",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/sledgehammer_01"
+ },
+ "small_oil_can_01": {
+  "author": "Raven van de Werken",
+  "file": "small_oil_can_01.glb",
+  "kb": 528,
+  "licence": "CC0 1.0",
+  "name": "Oil can",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/small_oil_can_01"
+ },
+ "tire_pump": {
+  "author": "Garrison Gager",
+  "file": "tire_pump.glb",
+  "kb": 251,
+  "licence": "CC0 1.0",
+  "name": "Tyre pump",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/tire_pump"
+ },
+ "tool_cart": {
+  "author": "Savva Zakharov",
+  "file": "tool_cart.glb",
+  "kb": 1197,
+  "licence": "CC0 1.0",
+  "name": "Tool trolley",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/tool_cart"
+ },
+ "tree_stump_01": {
+  "author": "Rob Tuytel",
+  "file": "tree_stump_01.glb",
+  "kb": 409,
+  "licence": "CC0 1.0",
+  "name": "Tree stump",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/tree_stump_01"
+ },
+ "trowel_01": {
+  "author": "Satyaki Mandal",
+  "file": "trowel_01.glb",
+  "kb": 200,
+  "licence": "CC0 1.0",
+  "name": "Hand trowel",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/trowel_01"
+ },
+ "watering_can_metal_01": {
+  "author": "Charles Nderitu",
+  "file": "watering_can_metal_01.glb",
+  "kb": 433,
+  "licence": "CC0 1.0",
+  "name": "Watering can",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/watering_can_metal_01"
+ },
+ "weed_plant_02": {
+  "author": "Rob Tuytel, Rico Cilliers",
+  "file": "weed_plant_02.glb",
+  "kb": 253,
+  "licence": "CC0 1.0",
+  "name": "Broadleaf weed",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/weed_plant_02"
+ },
+ "wicker_basket_01": {
+  "author": "Kuutti Siitonen",
+  "file": "wicker_basket_01.glb",
+  "kb": 714,
+  "licence": "CC0 1.0",
+  "name": "Basket",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/wicker_basket_01"
+ },
+ "wild_rooibos_bush": {
+  "author": "James Ray Cock, Jenelle van Heerden",
+  "file": "wild_rooibos_bush.glb",
+  "kb": 388,
+  "licence": "CC0 1.0",
+  "name": "Dry-season bush",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/wild_rooibos_bush"
+ },
+ "wooden_axe": {
+  "author": "Ulan Cabanilla",
+  "file": "wooden_axe.glb",
+  "kb": 176,
+  "licence": "CC0 1.0",
+  "name": "Axe",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/wooden_axe"
+ },
+ "wooden_bucket_01": {
+  "author": "James Ray Cock",
+  "file": "wooden_bucket_01.glb",
+  "kb": 242,
+  "licence": "CC0 1.0",
+  "name": "Bucket",
+  "provider": "Poly Haven",
+  "source": "https://polyhaven.com/a/wooden_bucket_01"
+ }
+}
