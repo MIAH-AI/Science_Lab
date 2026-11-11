@@ -276,6 +276,8 @@
 <script src="/labs/m-further.js"></script>
 <script src="/labs/m-further2.js"></script>
 <script src="/labs/m-exam.js"></script>
+<script src="/labs/learn-kit.js"></script>
+<script src="/labs/m-learn.js"></script>
 <script>
 /* ======================================================================
    DATA — WAEC General Mathematics / Mathematics (Core) syllabus
@@ -1596,6 +1598,12 @@ function subtopicMatches(st){
   return st.content.some(c=>matches(c));
 }
 
+/* learning layer: topic checks, progress, practice, games and teacher tools (saved on this device only) */
+const LKON = !!(window.LK && window.MathsLearn && MathsLearn.start({
+  core: SYLLABUS,
+  go(code){ const k=/^FM/.test(code)?'further':'core'; if(k!==course) setCourse(k); query=''; document.getElementById('search').value=''; activeTopic=code; openItems=new Set(); render(); window.scrollTo(0,0); },
+  rerender(){ const bar=document.querySelector('.lk-topicbar'), t=activeTopic && !LK.owns(activeTopic) && syl().find(x=>x.code===activeTopic); if(bar && t){ bar.outerHTML=LK.topicBar(t); renderRail(); } else render(); },
+}));
 function renderRail(){
   const axis=document.getElementById('axis');
   axis.innerHTML = syl().map(t=>`
@@ -1614,7 +1622,7 @@ function renderRail(){
         <span class="tick-glyph">✎</span>
         <span class="tick-text"><span class="tick-code">PRACTICE</span><span class="tick-name">Exam mode</span><span class="tick-count">Paper 1 &amp; Paper 2 style</span></span>
       </button>
-    </div>` : '');
+    </div>` : '') + (LKON ? LK.rail(activeTopic) : '');
   axis.querySelectorAll('.tick-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{ activeTopic=btn.dataset.topic; openItems=new Set(); closeRailMobile(); render(); });
   });
@@ -1628,6 +1636,7 @@ function renderOverview(){
       <h1>WAEC ${fm?'Further Mathematics (Elective)':'Core Mathematics'} — Overview</h1>
       <p>Select a topic on the axis to the left, or search across every subtopic. Expand any subtopic for notes, a live simulation with formulas, units and worked solutions${sims.n3?', and photoreal 3D labs':''}. Switch between Core and Further at the top of the axis, or open Exam mode.</p>
     </div>
+    ${LKON ? LK.strip() : ''}
     <div class="stats">
       <div class="stat"><div class="n">${S.length}</div><div class="l">Topics</div></div>
       <div class="stat"><div class="n">${countSubs()}</div><div class="l">Subtopics</div></div>
@@ -1638,7 +1647,7 @@ function renderOverview(){
     <div class="overview-grid">
       ${S.map(t=>`
         <div class="overview-card" role="button" tabindex="0" data-topic="${t.code}">
-          <div class="oc-code">TOPIC ${String(t.code).replace(/^FM/,'')} · ${t.glyph}</div>
+          ${LKON ? `<span class="oc-ring">${LK.ring(t.code, 38)}</span>` : ''}<div class="oc-code">TOPIC ${String(t.code).replace(/^FM/,'')} · ${t.glyph}</div>
           <h3>${t.title}</h3>
           <div class="oc-count">${t.subtopics.length} subtopic${t.subtopics.length>1?'s':''}</div>
         </div>`).join('')}
@@ -1687,6 +1696,8 @@ function renderTopic(t){
       <span class="code-badge">Topic ${String(t.code).replace(/^FM/,'')}</span>
       <h1>${t.title}</h1>
       <p>${t.desc}</p>
+
+      ${LKON ? LK.topicBar(t) : ''}
     </div>
     ${list.length===0 ? `<div class="empty"><div class="big">∅</div><p>No subtopics match “${escapeHtml(query)}” in this topic.</p></div>` : `
       <div class="accordion">${list.map(st=>accordionItemHtml(t,st)).join('')}</div>`}`;
@@ -1712,6 +1723,8 @@ function render(){
     content.innerHTML = renderSearchResults();
   } else if(activeTopic==='EXAM' && window.MK && MK.exam){
     content.innerHTML=''; MK.exam.render(content, course);
+  } else if(LKON && LK.owns(activeTopic)){
+    LK.render(content, activeTopic);
   } else if(activeTopic){
     const t=syl().find(x=>x.code===activeTopic) || syl()[0];
     content.innerHTML = renderTopic(t);

@@ -1725,6 +1725,22 @@ renderSectionTabs();
 renderTopicList();
 (function(){ const b=document.getElementById('countBadge'); if(b){ const n=new Set(); Object.values(SECTIONS).forEach(S=>S.topics.forEach(t=>t.subs.forEach(x=>n.add(x.sim)))); b.textContent=n.size+' simulation modules'; } })();
 </script>
+<script src="/labs/learn-kit.js"></script>
+<script src="/labs/c-learn.js"></script>
+<script>
+/* learning layer: topic checks, progress, practice, games and teacher tools (saved on this device only) */
+(function(){
+  if(!window.LK || !window.ChemLearn) return;
+  const bar=()=>{ const inner=document.getElementById("mainInner"); if(!inner || !activeTopicKey || !currentTopic()) return; const t=ChemLearn.topic(activeTopicKey); if(!t) return; const html=LK.topicBar(t), old=inner.querySelector(".lk-topicbar"); if(old){ old.outerHTML=html; return; } const h=inner.querySelector(".sim-header"); if(h) h.insertAdjacentHTML("afterend",html); };
+  ChemLearn.start({ sections0:SECTIONS,
+    go(code){ const sec=code.split("-")[0], num=code.split("-").slice(1).join("-"); if(window.ChemNav) ChemNav.go(sec,num); },
+    rerender:bar,
+    simsOf(t){ const sec=t.code.split("-")[0], num=t.code.split("-").slice(1).join("-"), T=SECTIONS[sec].topics.find(x=>x.num===num); return T ? T.subs.map(s=>({title:(SIM_MODULES[s.sim]||{}).title||s.t,tasks:[]})) : []; },
+  });
+  const ls=loadSim; loadSim=function(){ ls(); bar(); };
+  bar();
+})();
+</script>
 </body>
 </html>
 

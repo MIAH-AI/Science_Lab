@@ -2360,6 +2360,28 @@ document.getElementById("search").addEventListener("input",(e)=>{ searchTerm=e.t
 
 renderNav();
 </script>
+<script src="/labs/learn-kit.js"></script>
+<script src="/labs/p-learn.js"></script>
+<script>
+/* learning layer: topic checks, progress, practice, games and teacher tools (saved on this device only) */
+(function(){
+  if(!window.LK || !window.PhysLearn) return;
+  const cur=()=>{ if(!activeKey || activeKey==="EXAM") return null; return findTopic(activeKey.split("::")[1]); };
+  const variant=()=>{ const f=cur(); if(!f) return null; const vs=SIMS[f.topic.num]; return vs ? (vs[activeMode]||vs[0]) : null; };
+  const bar=()=>{ const f=cur(), main=document.getElementById("main"); if(!f||!main) return; const t=PhysLearn.topic(f.topic.num); if(!t) return; const html=LK.topicBar(t), old=main.querySelector(".lk-topicbar"); if(old){ old.outerHTML=html; return; } const head=main.querySelector(".stage-head"); if(head) head.insertAdjacentHTML("afterend",html); };
+  const open=(num,mode)=>{ const f=findTopic(num); if(!f) return; openParts.add(f.part.roman); activeKey=f.part.roman+"::"+num; activeMode=mode||0; openSub=null; renderNav(); renderMain(f.part,f.topic); };
+  PhysLearn.start({ syllabus:SYLLABUS,
+    go(code){ open(code,0); window.scrollTo(0,0); },
+    rerender:bar,
+    simsOf(t){ return (SIMS[t.code]||[]).map(v=>({title:v.modeName,tasks:[]})); },
+    live(){ const v=variant(); if(!v||!v.values) return null; const R={}; document.querySelectorAll("#readouts .readout").forEach(r=>{ const k=r.querySelector(".k"), x=r.querySelector(".v"); if(k&&x) R[k.textContent.trim()]=x.textContent.trim(); }); return {R, c:v.values}; },
+    openChallenge(ch){ const vs=SIMS[ch.topic]||[], i=Math.max(0,vs.findIndex(v=>v.modeName.indexOf(ch.sim)===0)), v=vs[i]; if(!v) throw new Error("no sim"); if(!v.values) v.values=mv(v.controls); Object.assign(v.values, ch.start||{}); resetVariant(v); v.state._init=true; open(ch.topic,i); const st=document.querySelector(".stage"); if(st) st.scrollIntoView({block:"center"}); },
+  });
+  const rm=renderMain; renderMain=function(part,topic){ rm(part,topic); bar(); };
+  window.__lkSet=(vals)=>{ const v=variant(), f=cur(); if(!v||!f) return; Object.assign(v.values, vals); renderMain(f.part,f.topic); };
+  bar();
+})();
+</script>
 </body>
 </html>
 

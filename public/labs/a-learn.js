@@ -384,7 +384,7 @@
 
   /* Find the part: one 3D stage, several models. Each point has a name and a function that returns its world position. */
   const AK = window.AK, BK = window.BK, GK = window.GK, T = () => window.THREE;
-  const MODELS = [["tractor", "Tractor"], ["combine", "Combine harvester"], ["bulldozer", "Bulldozer"], ["cow", "Cow — body organs"], ["hen", "Hen — body organs"]];
+  const MODELS = [["tractor", "Tractor"], ["combine", "Combine harvester"], ["bulldozer", "Bulldozer"], ["cow", "Cow — body organs"], ["hen", "Hen — body organs"]].map(([id, label]) => ({ key: "GAME-parts", label, set: { m: id } }));
   const worldPos = (o) => { const T3 = T(); if (o.isMesh && o.geometry) { if (!o.geometry.boundingSphere) o.geometry.computeBoundingSphere(); return o.geometry.boundingSphere.center.clone().applyMatrix4(o.matrixWorld); } return o.getWorldPosition(new T3.Vector3()); };
   function makeModel(id) {
     let m, pts = [];
@@ -406,7 +406,7 @@
   const sections = () => SECT.order.map((k) => ({ key: k, label: SECT.labels[k], topics: SECT[k] }));
   window.AgricLearn = {
     start(hooks) {
-      return LK.init(Object.assign({ id: "agric", subject: "Agricultural Science", brand: "learnwithnehy.", ranks: ["Seedling", "Sprout", "Grower", "Farmer", "Agronomist", "Master farmer", "Professor of the soil"], sections, bank: BANK, themeOf, gens: (window.AgricExam || {}).gens, sorts: SORTS, challenges: CHALLENGES, parts: { key: "GAME-parts", models: MODELS }, manifest: ONSITE ? "/labs/agric.webmanifest" : null, sw: ONSITE ? "/sw.js" : null }, hooks));
+      return LK.init(Object.assign({ id: "agric", subject: "Agricultural Science", brand: "learnwithnehy.", ranks: ["Seedling", "Sprout", "Grower", "Farmer", "Agronomist", "Master farmer", "Professor of the soil"], sections, bank: BANK, themeOf, gens: (window.AgricExam || {}).gens, sorts: SORTS, challenges: CHALLENGES, parts: { models: MODELS, pts: (s, c) => (s.key === c.m ? s.pts : null) }, manifest: ONSITE ? "/labs/agric.webmanifest" : null, sw: ONSITE ? "/sw.js" : null }, hooks));
     },
     BANK, SORTS, CHALLENGES,
   };
