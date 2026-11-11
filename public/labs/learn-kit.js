@@ -253,7 +253,7 @@
     const body = openSheet("Lab challenge", `<p class="lk-note">Each challenge opens a real simulation. Change the controls until you hit the target. Fewer moves and less time earn more stars.</p><div class="lk-grid">${L.map((c, i) => `<button type="button" class="lk-tile" data-ch="${i}"><span class="lk-stars" aria-label="${(ST.chal[c.id] || 0)} of 3 stars">${"★".repeat(ST.chal[c.id] || 0)}${"☆".repeat(3 - (ST.chal[c.id] || 0))}</span><b>${esc(c.title)}</b><span>${esc(c.goal)}</span></button>`).join("")}</div>`, { tag: "Lab game", wide: true });
     body.addEventListener("click", (e) => { const b = e.target.closest("[data-ch]"); if (b) { const ch = L[+b.dataset.ch]; if (ch.page) runPageChallenge(ch); else runChallenge(ch); } });
   }
-  const chalList = () => (CFG.challenges || []).filter((c) => (c.page ? !!CFG.live : window.MK && MK.has && MK.has(c.key)));
+  const chalList = () => (CFG.challenges || []).filter((c) => (c.page ? !!CFG.live && (!CFG.hasChallenge || CFG.hasChallenge(c)) : window.MK && MK.has && MK.has(c.key)));
   /* a challenge played on the lab's own simulation, with a floating target banner */
   let liveIv = 0;
   function stopLive(remove) { clearInterval(liveIv); liveIv = 0; if (remove) { const b = $("#lk-chal"); if (b) b.remove(); } }

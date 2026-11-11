@@ -2375,7 +2375,8 @@ renderNav();
     rerender:bar,
     simsOf(t){ return (SIMS[t.code]||[]).map(v=>({title:v.modeName,tasks:[]})); },
     live(){ const v=variant(); if(!v||!v.values) return null; const R={}; document.querySelectorAll("#readouts .readout").forEach(r=>{ const k=r.querySelector(".k"), x=r.querySelector(".v"); if(k&&x) R[k.textContent.trim()]=x.textContent.trim(); }); return {R, c:v.values}; },
-    openChallenge(ch){ const vs=SIMS[ch.topic]||[], i=Math.max(0,vs.findIndex(v=>v.modeName.indexOf(ch.sim)===0)), v=vs[i]; if(!v) throw new Error("no sim"); if(!v.values) v.values=mv(v.controls); Object.assign(v.values, ch.start||{}); resetVariant(v); v.state._init=true; open(ch.topic,i); const st=document.querySelector(".stage"); if(st) st.scrollIntoView({block:"center"}); },
+    hasChallenge(ch){ return (SIMS[ch.topic]||[]).some(v=>v.modeName.indexOf(ch.sim)===0); },
+    openChallenge(ch){ const vs=SIMS[ch.topic]||[], i=vs.findIndex(v=>v.modeName.indexOf(ch.sim)===0), v=vs[i]; if(!v) throw new Error("no sim"); if(!v.values) v.values=mv(v.controls); Object.assign(v.values, ch.start||{}); resetVariant(v); v.state._init=true; open(ch.topic,i); const st=document.querySelector(".stage"); if(st) st.scrollIntoView({block:"center"}); },
   });
   const rm=renderMain; renderMain=function(part,topic){ rm(part,topic); bar(); };
   window.__lkSet=(vals)=>{ const v=variant(), f=cur(); if(!v||!f) return; Object.assign(v.values, vals); renderMain(f.part,f.topic); };
