@@ -164,10 +164,33 @@
 
   /* ================= flashcards (five boxes, spaced out) ================= */
   let CARDS = null;
+  /* Every card asks a full, self-contained question. Cards come from three places:
+     the topic question bank (the stem becomes the question, the correct option the answer),
+     definitions in the syllabus notes, and each subject's own formula and fact cards. */
+  const lc1 = (t) => (/^[A-Z][a-z]/.test(t) && !/^[A-Z][\w.]*['’]s?\s/.test(t) && !/^[A-Z][a-z]+ [A-Z]/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t);
+  const the = (t) => (/^(the|a|an|one|d\/dx|∫|sin|cos|tan|log|p\(|ⁿ|\(|[A-Z][\w.]*['’]s?\s)/i.test(t) ? t : "the " + t);
+  const askOwn = (front0, back) => {
+    if (/\?$/.test(front0)) return front0;
+    const front = front0.replace(/\.$/, (m) => (/\b[A-Za-z]\.[A-Za-z]\.$/.test(front0) ? m : ""));
+    if (/^[A-Z]{2,}( [A-Z]{2,})+$/.test(front)) return "What does “" + front + "” stand for?";
+    if (/ process$/i.test(front)) return "Describe the " + front + ".";
+    if (/^[a-z ]+ and [a-z ]+$/i.test(front) && !/formula|equation/i.test(front) && /=/.test(back)) return "How are " + lc1(front) + " related?";
+    if (/^test for /i.test(front)) return "What is the " + lc1(front) + "?";
+    if (/\b(law|principle|rule|theorem|equation|equations|constant|formula|relation)\b/i.test(front)) return "State " + the(lc1(front)) + ".";
+    if (/^(\S*[(ⁿ]|log\b|d\/dx|∫|sin|cos|tan)/.test(front)) return "What is " + front + (/,/.test(front) ? "," : "") + " equal to?";
+    if (!/[→;]/.test(back) && ((/[=∝√π×÷₀-₉⁰-⁹⅓½⅔+−\/Σ!^]|\d/.test(back) && back.length < 80) || /^\S{1,8}$/.test(back))) return "What is the formula for " + (/ of /.test(front) ? the(lc1(front)) : lc1(front)) + "?";
+    return "What is meant by “" + lc1(front) + "”?";
+  };
+  const stem = (q) => (/[?.]$/.test(q) ? q : /____/.test(q) ? q + "." : q + " ____.");
+  const needsOptions = (q) => /^which (of|one|statement|gas diffuses|radiation|metal|fish)\b|which of (these|the following)|of the following|\bthese\b.*\?$/i.test(q);
+  const cap = (t) => (/^[a-z]{4,}\b/.test(t) ? t.charAt(0).toUpperCase() + t.slice(1) : t);
   function cards() {
     if (CARDS) return CARDS; CARDS = [];
-    allTopics().forEach((t) => t.subtopics.forEach((st) => (st.content || []).forEach((line, i) => { const k = line.indexOf(": "); if (k < 3 || k > 64 || line.length - k < 14) return; CARDS.push({ id: t.code + "-" + st.code + "-" + i, t: t.code, ctx: st.title, front: line.slice(0, k), back: line.slice(k + 2) }); })));
-    Object.keys(CFG.cards || {}).forEach((code) => CFG.cards[code].forEach((row, i) => { const k = row.split("|"); if (topic(code)) CARDS.push({ id: code + "-x" + i, t: code, ctx: topic(code).title, front: k[0].trim(), back: (k[1] || "").trim() }); }));
+    allTopics().forEach((t) => {
+      t.subtopics.forEach((st) => (st.content || []).forEach((line, i) => { const k = line.indexOf(": "); if (k < 3 || k > 40) return; const front = line.slice(0, k), back = line.slice(k + 2).trim(); if (!/^(the|a|an|any)\s[a-z]/i.test(back) || back.length < 25 || /[;]/.test(back) || /[(,]/.test(front)) return; CARDS.push({ id: t.code + "-" + st.code + "-" + i, t: t.code, front, back: back.charAt(0).toUpperCase() + back.slice(1), q: "What is meant by “" + lc1(front) + "”?" }); }));
+      (CFG.bank[t.code] || []).forEach((row, i) => { const p = row.split("|").map((x) => x.trim()); if (needsOptions(p[0])) return; CARDS.push({ id: "q:" + t.code + ":" + i, t: t.code, front: p[0], back: cap(p[1]), note: p[5] || "", q: stem(p[0]) }); });
+      ((CFG.cards || {})[t.code] || []).forEach((row, i) => { const k = row.split("|"), front = k[0].trim(), back = (k[1] || "").trim(); CARDS.push({ id: t.code + "-x" + i, t: t.code, front, back: cap(back), q: askOwn(front, back) }); });
+    });
     return CARDS;
   }
   const GAP = [0, 1, 2, 4, 8, 16];
@@ -178,11 +201,11 @@
     if (!pool.length) { toast("No flashcards for this topic yet."); return; }
     if (!deck.length) { openSheet(title, `<div class="lk-result"><h3>Nothing due today</h3><p class="lk-note">You have reviewed every card in this set. They come back at wider gaps (1, 2, 4, 8 and 16 days) so you remember them for the exam.</p><div class="lk-row"><button type="button" class="lk-btn" data-lk="close">Done</button></div></div>`, { tag: "Practice" }); return; }
     const body = openSheet(title, "", { tag: "Practice" }); let i = 0, good = 0, flipped = false;
-    const show = () => { const c = deck[i]; flipped = false; body.innerHTML = `<div class="lk-qz"><div class="lk-prog" aria-hidden="true"><span style="width:${(i / deck.length) * 100}%"></span></div><div class="lk-qmeta"><span>Card ${i + 1} of ${deck.length}</span><span>${esc(c.ctx)}</span><span class="lk-sp"></span><span>Box ${(ST.cards[c.id] || { b: 1 }).b} of 5</span></div>
-      <button type="button" class="lk-card" data-flip data-auto aria-live="polite"><span class="lk-card-k">Say what you know about</span><span class="lk-card-f">${esc(c.front)}</span><span class="lk-card-hint">Tap to turn the card</span></button><div class="lk-row" data-rate hidden><button type="button" class="lk-btn" data-rate-v="0">↺ Again</button><button type="button" class="lk-btn primary" data-rate-v="1">✓ I knew it</button></div></div>`; $("[data-flip]", body).focus(); };
+    const show = () => { const c = deck[i]; flipped = false; body.innerHTML = `<div class="lk-qz"><div class="lk-prog" aria-hidden="true"><span style="width:${(i / deck.length) * 100}%"></span></div><div class="lk-qmeta"><span>Card ${i + 1} of ${deck.length}</span><span>${esc((topic(c.t) || {}).title || "")}</span><span class="lk-sp"></span><span>Box ${(ST.cards[c.id] || { b: 1 }).b} of 5</span></div>
+      <button type="button" class="lk-card" data-flip data-auto aria-live="polite"><span class="lk-card-k">Question</span><span class="lk-card-f">${esc(c.q)}</span><span class="lk-card-hint">Think of your answer, then tap the card to check it</span></button><div class="lk-row" data-rate hidden><button type="button" class="lk-btn" data-rate-v="0">↺ Again</button><button type="button" class="lk-btn primary" data-rate-v="1">✓ I knew it</button></div></div>`; $("[data-flip]", body).focus(); };
     body.addEventListener("click", (e) => {
       const c = deck[i];
-      if (e.target.closest("[data-flip]") && !flipped) { flipped = true; const b = $("[data-flip]", body); b.classList.add("back"); b.innerHTML = `<span class="lk-card-k">${esc(c.front)}</span><span class="lk-card-b">${esc(c.back)}</span>`; $("[data-rate]", body).hidden = false; $("[data-rate-v='1']", body).focus(); return; }
+      if (e.target.closest("[data-flip]") && !flipped) { flipped = true; const b = $("[data-flip]", body); b.classList.add("back"); b.innerHTML = `<span class="lk-card-q">${esc(c.q)}</span><span class="lk-card-k">Answer</span><span class="lk-card-b">${esc(c.back)}</span>${c.note ? `<span class="lk-card-q">${esc(c.note)}</span>` : ""}`; $("[data-rate]", body).hidden = false; $("[data-rate-v='1']", body).focus(); return; }
       const r = e.target.closest("[data-rate-v]"); if (!r) return; const ok = r.dataset.rateV === "1", s = ST.cards[c.id] || { b: 1, due: day() };
       s.b = ok ? Math.min(5, s.b + 1) : 1; s.due = addDays(day(), ok ? GAP[s.b] : 0); ST.cards[c.id] = s; ST.stats.cards++; if (ok) good++; i++; save();
       if (i < deck.length) return show();
@@ -371,7 +394,7 @@
     const week = []; for (let i = 6; i >= 0; i--) { const k = addDays(day(), -i); week.push([k, d.days.includes(k)]); }
     return `<div class="lk">${head("Practice", "Daily five and revision", "A few minutes a day beats one long session. Daily five picks questions from topics you have opened or found hard.")}
       <div class="lk-two"><div class="lk-card0"><h3>Daily five ${done ? "✓" : ""}</h3><div class="lk-week" aria-label="Last seven days">${week.map(([k, on]) => `<span class="${on ? "on" : ""}" title="${nice(k)}">${"SMTWTFS"[new Date(k.split("-")[0], k.split("-")[1] - 1, k.split("-")[2]).getDay()]}</span>`).join("")}</div><p>🔥 Streak <b>${streakNow()}</b> day${streakNow() === 1 ? "" : "s"} · best ${d.best} · ${d.total} completed</p><div class="lk-row"><button type="button" class="lk-btn primary" data-lk="daily">${done ? "Practise again (streak already counted)" : "Start today's five"}</button></div></div>
-      <div class="lk-card0"><h3>Flashcards</h3><p>${dueN} due for review · ${newN} new · ${cards().length} in total, made from the syllabus definitions.</p><div class="lk-row"><button type="button" class="lk-btn primary" data-lk="cards">Review cards</button></div><p class="lk-dim">Cards you know come back after 1, 2, 4, 8 and 16 days.</p></div></div>
+      <div class="lk-card0"><h3>Flashcards</h3><p>${dueN} due for review · ${newN} new · ${cards().length} in total, each one a full question on a topic.</p><div class="lk-row"><button type="button" class="lk-btn primary" data-lk="cards">Review cards</button></div><p class="lk-dim">Cards you know come back after 1, 2, 4, 8 and 16 days.</p></div></div>
       <div class="lk-card0"><h3>Mistake notebook <span class="lk-dim">${ST.mistakes.length} open · ${ST.stats.fixed} cleared</span></h3>${ST.mistakes.length ? `<div class="lk-row"><button type="button" class="lk-btn primary" data-lk="retry">Retry my mistakes</button></div>${ST.mistakes.slice(0, 30).map((m) => `<details class="lk-miss"><summary>${esc(m.q)}</summary><div><b>Answer:</b> ${esc(m.a)}</div><div class="lk-dim">You chose: ${esc(m.y)} · ${esc((topic(m.t) || {}).title || "")} · ${nice(m.d)}</div>${(m.s || []).map((s) => `<div class="lk-dim">${esc(s)}</div>`).join("")}</details>`).join("")}${ST.mistakes.length > 30 ? `<p class="lk-dim">Showing 30 of ${ST.mistakes.length}.</p>` : ""}` : `<p class="lk-dim">Every question you miss is kept here with its answer. Get it right later and it clears itself.</p>`}</div></div>`;
   }
   function pageGames() {
@@ -412,12 +435,12 @@
       <h2>Assessment</h2><p>Topic check in the lab (8 questions) or the printed worksheet. Mastery is 80 % or more.</p><h2>Homework</h2><p>Daily five in the lab, and review the flashcards for this topic.</p>`);
   }
   function worksheet(code) {
-    const t = topic(code); if (!t) return; const qs = shuffle(bankQs(code)).slice(0, 8), terms = cards().filter((c) => c.t === code).slice(0, 5), S = sims(t)[0];
+    const t = topic(code); if (!t) return; const qs = shuffle(bankQs(code)).slice(0, 8), terms = cards().filter((c) => c.t === code && c.id.indexOf("q:") !== 0).slice(0, 5), S = sims(t)[0];
     printable("Worksheet — " + t.title, `<h1>Worksheet: ${esc(t.title)}</h1><p class="lk-pr-meta">Name: ____________________________ &nbsp; Class: __________ &nbsp; Date: __________</p>
-      ${terms.length ? `<h2>A. Explain these terms</h2><ol>${terms.map((c) => `<li>${esc(c.front)} <span class="lk-pr-line"></span></li>`).join("")}</ol>` : ""}
+      ${terms.length ? `<h2>A. Answer in a sentence or a short list</h2><ol>${terms.map((c) => `<li>${esc(c.q)} <span class="lk-pr-line"></span></li>`).join("")}</ol>` : ""}
       <h2>${terms.length ? "B" : "A"}. Choose the correct option</h2><ol class="lk-pr-q">${qs.map((q) => `<li><p>${esc(q.q)}</p><div class="lk-pr-o">${q.opts.map((o, k) => `<span><b>${"ABCD"[k]}.</b> ${esc(o)}</span>`).join("")}</div></li>`).join("")}</ol>
       ${S && S.tasks.length ? `<h2>${terms.length ? "C" : "B"}. In the lab: ${esc(S.title)}</h2><ol>${S.tasks.map((x) => `<li>${esc(x)} <span class="lk-pr-line"></span></li>`).join("")}</ol>` : ""}
-      <div class="lk-pr-break"></div><h1>Answer key — ${esc(t.title)}</h1>${terms.length ? `<h2>A</h2><ol>${terms.map((c) => `<li><b>${esc(c.front)}:</b> ${esc(c.back)}</li>`).join("")}</ol>` : ""}<h2>${terms.length ? "B" : "A"}</h2><ol>${qs.map((q) => `<li><b>${"ABCD"[q.opts.indexOf(q.ans)]}</b> — ${esc(q.ans)}</li>`).join("")}</ol>`);
+      <div class="lk-pr-break"></div><h1>Answer key — ${esc(t.title)}</h1>${terms.length ? `<h2>A</h2><ol>${terms.map((c) => `<li>${esc(c.back)}</li>`).join("")}</ol>` : ""}<h2>${terms.length ? "B" : "A"}</h2><ol>${qs.map((q) => `<li><b>${"ABCD"[q.opts.indexOf(q.ans)]}</b> — ${esc(q.ans)}</li>`).join("")}</ol>`);
   }
   function report() {
     const T = allTopics(), r = rank();
@@ -532,7 +555,7 @@
 .lk-opts{display:grid;gap:9px}.lk-opts.two{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.lk-opt{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px;border-radius:14px;border:1px solid var(--g-edge,rgba(0,0,0,.18));background:var(--g-surface,rgba(255,255,255,.7));color:inherit;cursor:pointer;font:500 15px/1.4 'IBM Plex Sans',sans-serif;min-height:48px}.lk-opt b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 12px 'JetBrains Mono',monospace;background:var(--g-well,rgba(0,0,0,.08))}.lk-opt:hover:not(:disabled){filter:brightness(1.06)}.lk-opt:disabled{cursor:default;opacity:.75}.lk-opt.ok{border-color:var(--lk-good);background:rgba(47,158,110,.2);opacity:1}.lk-opt.bad{border-color:var(--lk-bad);background:rgba(208,70,63,.18);opacity:1}
 .lk-fb{display:flex;flex-direction:column;gap:8px;align-items:flex-start}.lk-verdict{font-weight:700;font-size:15px}.lk-verdict.ok{color:var(--lk-good)}.lk-verdict.bad{color:var(--lk-bad)}.lk-steps{margin:0;padding-left:18px;font:13px/1.6 'JetBrains Mono',monospace;border-left:3px solid #ffb347}
 .lk-result{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:10px 0}.lk-result .lk-row{justify-content:center}.lk-xp{font:700 13px 'JetBrains Mono',monospace!important;color:var(--g-accent,#7962b1)}.lk-note{color:var(--g-muted,#5b6478);font-size:13.5px!important;max-width:64ch}.lk-rev{width:100%;text-align:left}.lk-rev summary{cursor:pointer;font-weight:600;font-size:14px;margin:8px 0}.lk-score{font:700 64px/1 'JetBrains Mono',monospace;color:var(--g-accent,#7962b1)}
-.lk-card{display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;min-height:220px;padding:22px;border-radius:20px;border:1px solid var(--g-edge,rgba(0,0,0,.18));background:var(--g-surface,rgba(255,255,255,.7));color:inherit;cursor:pointer;text-align:center;width:100%}.lk-card-k{font:600 11.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted,#5b6478)}.lk-card-f{font:600 26px/1.25 'Source Serif 4',Georgia,serif}.lk-card-b{font:500 17px/1.55 'IBM Plex Sans',sans-serif}.lk-card-hint{font-size:12px;color:var(--g-muted,#5b6478)}.lk-card.back{background:var(--g-active,rgba(255,210,122,.3));cursor:default}
+.lk-card{display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;min-height:220px;padding:22px;border-radius:20px;border:1px solid var(--g-edge,rgba(0,0,0,.18));background:var(--g-surface,rgba(255,255,255,.7));color:inherit;cursor:pointer;text-align:center;width:100%}.lk-card-k{font:600 11.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted,#5b6478)}.lk-card-f{font:600 clamp(19px,2.6vw,24px)/1.35 'Source Serif 4',Georgia,serif;max-width:34ch}.lk-card-q{font:500 14px/1.45 'IBM Plex Sans',sans-serif;color:var(--g-muted,#5b6478);max-width:52ch}.lk-card-b{font:500 17px/1.55 'IBM Plex Sans',sans-serif}.lk-card-hint{font-size:12px;color:var(--g-muted,#5b6478)}.lk-card.back{background:var(--g-active,rgba(255,210,122,.3));cursor:default}
 .lk-clock{display:flex;flex-wrap:wrap;gap:8px 18px;font:600 14px 'JetBrains Mono',monospace;align-items:center}.lk-time{font-size:22px;font-weight:700}.lk-time.low{color:var(--lk-bad)}
 .lk-bins{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:10px}.lk-bin{min-height:150px;padding:12px;border-radius:16px;border:2px dashed var(--g-edge,rgba(0,0,0,.3));background:var(--g-well,rgba(0,0,0,.04));color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:8px;text-align:left;font:inherit}.lk-bin b{font:600 14px 'Source Serif 4',Georgia,serif}.lk-bin span{display:flex;flex-wrap:wrap;gap:5px}.lk-bin i{font:normal 600 12px 'IBM Plex Sans',sans-serif;padding:4px 8px;border-radius:99px;background:rgba(47,158,110,.22)}.lk-bin.no,.lk-mark.no{animation:lk-shake .4s}
 .lk-goal{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--g-active,rgba(255,210,122,.3));font-size:14.5px}.lk-goal.won{background:rgba(47,158,110,.25)}.lk-live{font:600 12px 'JetBrains Mono',monospace}.lk-hint{font-size:13.5px}.lk-hint summary{cursor:pointer;font-weight:600}
