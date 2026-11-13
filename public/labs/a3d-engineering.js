@@ -47,18 +47,49 @@
   }));
 
   /* ===================== C2 Machinery and implements ===================== */
-  const MACH = { tractor: ["Tractor", () => AK.tractor(), "The main source of farm power: pulls and powers implements through the hitch and PTO."], bulldozer: ["Bulldozer", () => AK.bulldozer(), "Crawler tractor with a blade for land clearing, levelling and removing stumps."], combine: ["Combine harvester", () => AK.combine(), "Cuts, threshes, separates and cleans grain in one pass."], sheller: ["Maize sheller", () => AK.machine("sheller"), "Removes grains from maize cobs."], dryer: ["Crop dryer", () => AK.machine("dryer"), "Dries grain, cocoa and cassava chips with heated air to safe moisture for storage."], incubator: ["Incubator", () => AK.machine("incubator"), "Hatches eggs artificially at 37.5 °C and 60–70 % humidity, turning eggs regularly (21 days for chicken)."], milker: ["Milking machine", () => AK.machine("milker"), "Milks cows by pulsating vacuum through teat cups into a bucket or pipeline."] };
+  const MACH = { tractor: ["Tractor", () => AK.tractor(), "The main source of farm power: pulls and powers implements through the hitch and PTO."], bulldozer: ["Bulldozer", () => AK.bulldozer(), "Crawler tractor with a blade for land clearing, levelling and removing stumps."], combine: ["Combine harvester", () => AK.combine(), "Cuts, threshes, separates and cleans grain in one pass."], sheller: ["Maize sheller", () => AK.machine("sheller"), "Removes (shells) the grains from dry maize cobs quickly, with little damage to the grain."], dryer: ["Crop dryer", () => AK.machine("dryer"), "Dries harvested grain with heated air to a safe moisture (about 13 %) so it can be stored without moulds or pests."], incubator: ["Incubator", () => AK.machine("incubator"), "Hatches fertile eggs artificially: keeps them warm (37.5–37.8 °C) and humid and turns them, 21 days for chicken eggs."], milker: ["Milking machine", () => AK.machine("milker"), "Milks cows with pulsating vacuum through teat cups into a closed bucket: faster and cleaner than hand milking."] };
+  const M4 = ["sheller", "dryer", "incubator", "milker"], is4 = (c) => M4.includes(c.m), on = (k) => MK.when("m", k);
+  const CAM = { sheller: [[2.05, 1.45, 2.3], [0.32, 0.66, 0.0]], dryer: [[6.6, 3.3, 7.4], [0.9, 2.1, 0]], incubator: [[1.95, 1.45, 2.5], [0.52, 0.75, 0]], milker: [[2.1, 1.25, 2.2], [0.42, 0.52, -0.3]] };
+  const COW = [0.25, -0.95], TEAT = [COW[0] - 0.4375, 0.502, COW[1]];
   AK.def3d("C2-a", Object.assign({}, BENCH, {
     title: "Farm machinery — parts and uses",
-    blurb: "Choose a machine, then explode it to see its main parts. Engineering details are not required — know the parts and their uses.",
-    cam: [[3.4, 2.4, 4.6], [0, 0.9, 0]], sky: "farm_field", envX: {}, values: { m: "tractor" }, vars: [{ key: "ex", label: "Explode parts", min: 0, max: 1, step: 0.05, value: 0 }],
-    controls: [{ type: "select", key: "m", label: "Machine", options: Object.entries(MACH).map(([k, v]) => [k, v[0]]) }],
+    blurb: "Choose a machine, explode it to see its parts, and run the sheller, dryer, incubator and milking machine to see how they work. Engineering details are not required — know the parts and their uses.",
+    cam: [[3.4, 2.4, 4.6], [0, 0.9, 0]], sky: "farm_field", envX: {}, values: { m: "tractor", run: 1, cut: 0, use: "food", turn: 1, candle: 0 },
+    vars: [{ key: "ex", label: "Explode parts", min: 0, max: 1, step: 0.05, value: 0 },
+      { key: "rpm", label: "Drum speed (rev/min)", min: 300, max: 900, step: 10, value: 600, show: on("sheller") },
+      { key: "mi", label: "Starting grain moisture (%)", min: 18, max: 30, step: 1, value: 24, show: on("dryer") },
+      { key: "tmp", label: "Drying air temperature (°C)", min: 35, max: 90, step: 1, value: 55, show: on("dryer") },
+      { key: "day", label: "Day of incubation", min: 0, max: 21, step: 0.5, value: 6, show: on("incubator") },
+      { key: "ts", label: "Set temperature (°C)", min: 35, max: 40, step: 0.1, value: 37.7, show: on("incubator") },
+      { key: "rh", label: "Set humidity (%)", min: 35, max: 85, step: 1, value: 55, show: on("incubator") },
+      { key: "door", label: "Open the doors", min: 0, max: 1, step: 0.05, value: 0.6, show: on("incubator") },
+      { key: "vac", label: "Vacuum level (kPa)", min: 30, max: 60, step: 1, value: 48, show: on("milker") },
+      { key: "pr", label: "Pulsation rate (per minute)", min: 30, max: 90, step: 1, value: 60, show: on("milker") }],
+    controls: [{ type: "select", key: "m", label: "Machine", options: Object.entries(MACH).map(([k, v]) => [k, v[0]]) },
+      { type: "toggle", key: "run", label: "Run the machine", show: is4 }, { type: "toggle", key: "cut", label: "Cutaway view", show: is4 },
+      { type: "select", key: "use", label: "Grain is for", options: [["food", "Food"], ["seed", "Seed"], ["feed", "Animal feed"]], show: on("dryer") },
+      { type: "toggle", key: "turn", label: "Turn the eggs", show: on("incubator") }, { type: "toggle", key: "candle", label: "Candle an egg", show: on("incubator") }],
     build(S, s) { s.key = null; },
-    update(S, s, c) { if (s.key !== c.m) { s.key = c.m; const g = BK.group(S, s); AK.ground(g, { w: 10, d: 8, amp: 0.01, tex: "concrete_floor_worn_001", apronTex: "sparse_grass" }); s.m = MACH[c.m][1](); const sc = { tractor: 1, bulldozer: 0.9, combine: 0.75, sheller: 1.6, dryer: 1.2, incubator: 1.6, milker: 1.8 }[c.m]; s.m.scale.setScalar(sc); s.sc = sc; g.add(s.m); if (c.m === "milker") AK.put(g, AK.animal("holstein"), -1.4, -0.8, null, 0, 0.9); } AK.explode(s.m, c.ex); },
-    labels: (s, c) => ((s.m && s.m.parts) || []).map((p) => { const v = p.getWorldPosition(new (T().Vector3)()); return { id: p.name, p: [v.x, v.y + 0.12 * s.sc, v.z], t: p.name }; }),
-    hud: (s, c) => [{ title: MACH[c.m][0], lines: [[MACH[c.m][2], "#ffd27a", true], "Parts: " + ((s.m && s.m.parts) || []).map((p) => p.name).join(", ")] }],
-    readouts: (s, c) => [["Machine", MACH[c.m][0]], ["Parts shown", ((s.m && s.m.parts) || []).length]],
-    tasks: ["Explode each machine and list its parts.", "State the use of each machine.", "Switch Labels to Numbers and test yourself on the tractor parts."], draw: GK.fallback("Farm machinery", Object.values(MACH).map((m) => m[0] + ": " + m[2])),
+    update(S, s, c, dt) {
+      if (s.key !== c.m) {
+        s.key = c.m; const g = BK.group(S, s), real = M4.includes(c.m);
+        AK.ground(g, { w: real ? 14 : 10, d: real ? 10 : 8, amp: 0.01, tex: "concrete_floor_worn_001", apronTex: "sparse_grass" });
+        s.m = real ? AK.machineReal(c.m, c.m === "milker" ? { teat: TEAT } : undefined) : null; if (!s.m) s.m = MACH[c.m][1]();
+        const sc = real ? 1 : { tractor: 1, bulldozer: 0.9, combine: 0.75 }[c.m] || 1; s.m.scale.setScalar(sc); s.sc = sc; g.add(s.m);
+        if (c.m === "milker") AK.put(g, AK.animal("holstein"), COW[0], COW[1], null, 0, 1);
+        if (c.m === "sheller" && AK.person) AK.put(g, AK.person({ shirt: 0x2f7a3a }), 0.75, -1.15, null, -Math.PI / 2 - 0.5, 1);
+        if (c.m === "dryer" && AK.person) AK.put(g, AK.person({ shirt: 0xd8a020 }), 2.1, 1.25, null, -2.2, 1);
+        S.setCam(...(CAM[c.m] || [[3.4, 2.4, 4.6], [0, 0.9, 0]]));
+      }
+      if (s.m.tick) s.m.tick(Math.min(dt || 0, 0.1), c);
+      AK.explode(s.m, c.ex);
+    },
+    labels: (s, c) => ((s.m && s.m.parts) || []).filter((p) => p.visible !== false).map((p) => { const T3 = T(); if (!p.userData.lc) { p.updateWorldMatrix(true, true); const bb = new T3.Box3().setFromObject(p); if (bb.isEmpty()) p.userData.lc = new T3.Vector3(); else { const cc = bb.getCenter(new T3.Vector3()); cc.y = Math.min(bb.max.y, cc.y + (bb.max.y - bb.min.y) * 0.25); p.userData.lc = p.worldToLocal(cc); } } const v = p.localToWorld(p.userData.lc.clone()); return { id: p.name, p: [v.x, v.y + (M4.includes(c.m) ? 0.02 : 0.12 * s.sc), v.z], t: p.name }; }),
+    hud: (s, c) => { const I = s.m && s.m.info ? s.m.info(c) : null, good = I && /^(Good|Conditions are right|Air temperature is safe|Dry:)/.test(I.warn);
+      return [{ title: MACH[c.m][0], lines: I ? [[MACH[c.m][2], "#ffd27a", true], "How it works: " + I.how, [I.warn, good ? "#8be0a0" : "#ff9a7a", true]] : [[MACH[c.m][2], "#ffd27a", true], "Parts: " + ((s.m && s.m.parts) || []).map((p) => p.name).join(", ")] }]; },
+    readouts: (s, c) => (s.m && s.m.info ? s.m.info(c).ro : [["Machine", MACH[c.m][0]], ["Parts shown", ((s.m && s.m.parts) || []).length]]),
+    tasks: ["Explode each machine and list its parts and their uses.", "Maize sheller: find the drum speed that shells cleanly without cracking grain. Why does cracked grain store badly?", "Crop dryer: dry 3 000 kg of maize from 24 % to 13 %. Use W(Mᵢ − M)/(100 − M) to check the water removed. Why must seed grain be dried below 43 °C?", "Incubator: give the temperature, humidity and turning needed, and say what happens on day 18. Candle the egg on days 2, 7 and 17.", "Milking machine: describe the milking and rest phases of the liner. State two results of setting the vacuum too high."],
+    draw: GK.fallback("Farm machinery", Object.values(MACH).map((m) => m[0] + ": " + m[2])),
   }));
   const IMPL = { disc: ["Disc plough", "First (primary) tillage: concave discs cut and invert the soil; good on stumpy, hard or sticky soil.", "raked_dirt"], mouldboard: ["Mouldboard plough", "Primary tillage: share cuts, mouldboard turns the furrow slice over and buries trash.", "raked_dirt"], harrow: ["Disc harrow", "Secondary tillage: breaks clods and levels the ploughed soil to make a fine tilth.", "farm_soil"], ridger: ["Ridger", "Throws soil into ridges for yam, cassava, potatoes and furrow irrigation.", "farm_furrows"], planter: ["Planter", "Drops seeds at the set spacing and depth, and covers them.", "farm_furrows"], sprayer: ["Boom sprayer", "Sprays herbicides, insecticides and liquid fertilizer evenly over the crop.", "farm_furrows"], cultivator: ["Cultivator", "Tines loosen soil between rows and remove weeds.", "farm_furrows"] };
   AK.def3d("C2-b", {
@@ -126,7 +157,7 @@
     build(S, s) { s.key = null; },
     update(S, s, c, dt) { if (s.key !== c.op) { s.key = c.op; const g = BK.group(S, s), O = OPS.find((o) => o[0] === c.op), i = OPS.indexOf(O); const tex = ["sparse_grass", "raked_dirt", "farm_soil", "farm_furrows", "farm_furrows", "farm_furrows", "concrete_floor_worn_001"][i]; AK.ground(g, { w: 12, d: 7, amp: 0.01, tex, fieldFn: () => (i > 0 && i < 6 ? 1 : 0), h: i >= 2 && i <= 5 ? AK.ridges(() => 0, -6, 6, -3.5, 3.5, 0.6, 0.1, "x") : null });
       if (i >= 4 && i <= 5) AK.field(g, "maize", { x0: -5, x1: 5, z0: -2.7, z1: 2.7, dx: 0.5, dz: 0.6, s: 0.55, stage: i === 5 ? 1 : 0.5, h: () => 0.1 });
-      if (O[2]) { s.m = AK.tractor(); s.m.scale.setScalar(0.65); const imp = AK.implement(O[2]); imp.position.x = -1.3; s.m.add(imp); } else if (c.op === "harvest") { s.m = AK.combine(); s.m.scale.setScalar(0.6); } else { s.m = new (T().Group)(); const cow = AK.animal("holstein"); s.m.add(cow); const mk = AK.machine("milker"); mk.position.set(-0.2, 0, 0.7); s.m.add(mk); }
+      if (O[2]) { s.m = AK.tractor(); s.m.scale.setScalar(0.65); const imp = AK.implement(O[2]); imp.position.x = -1.3; s.m.add(imp); } else if (c.op === "harvest") { s.m = AK.combine(); s.m.scale.setScalar(0.6); } else { s.m = new (T().Group)(); const cow = AK.animal("holstein"); s.m.add(cow); const mk = (AK.machineReal && AK.machineReal("milker", { teat: [-0.2375, 0.502, -0.7] })) || AK.machine("milker"); mk.position.set(-0.2, 0, 0.7); s.m.add(mk); }
       g.add(s.m); s.x = -4.5; }
       if (c.op !== "milk") { s.x += dt * 1.0; if (s.x > 5) s.x = -5; s.m.position.x = s.x; } },
     hud: (s, c) => { const O = OPS.find((o) => o[0] === c.op); return [{ title: O[1], lines: [[{ plough: "Primary tillage with a disc or mouldboard plough.", harrow: "Secondary tillage with a disc harrow: fine tilth.", ridge: "Ridger forms ridges for root crops and furrow irrigation.", plant: "Planter sows at correct spacing and depth.", spray: "Boom sprayer applies herbicide and pesticide.", harvest: "Combine cuts, threshes and cleans grain.", milk: "Milking machine milks cows hygienically and quickly." }[c.op], "#ffd27a", true], "Other mechanised operations: land clearing (bulldozer), shelling, drying, processing, irrigation pumping, transport."] }]; },
