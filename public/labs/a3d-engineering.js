@@ -49,12 +49,12 @@
   /* ===================== C2 Machinery and implements ===================== */
   const MACH = { tractor: ["Tractor", () => AK.tractor(), "The main source of farm power: pulls and powers implements through the hitch and PTO."], bulldozer: ["Bulldozer", () => AK.bulldozer(), "Crawler tractor with a blade for land clearing, levelling and removing stumps."], combine: ["Combine harvester", () => AK.combine(), "Cuts, threshes, separates and cleans grain in one pass."], sheller: ["Maize sheller", () => AK.machine("sheller"), "Removes (shells) the grains from dry maize cobs quickly, with little damage to the grain."], dryer: ["Crop dryer", () => AK.machine("dryer"), "Dries harvested grain with heated air to a safe moisture (about 13 %) so it can be stored without moulds or pests."], incubator: ["Incubator", () => AK.machine("incubator"), "Hatches fertile eggs artificially: keeps them warm (37.5–37.8 °C) and humid and turns them, 21 days for chicken eggs."], milker: ["Milking machine", () => AK.machine("milker"), "Milks cows with pulsating vacuum through teat cups into a closed bucket: faster and cleaner than hand milking."] };
   const M4 = ["sheller", "dryer", "incubator", "milker"], is4 = (c) => M4.includes(c.m), on = (k) => MK.when("m", k);
-  const CAM = { sheller: [[2.05, 1.45, 2.3], [0.32, 0.66, 0.0]], dryer: [[6.6, 3.3, 7.4], [0.9, 2.1, 0]], incubator: [[1.95, 1.45, 2.5], [0.52, 0.75, 0]], milker: [[2.1, 1.25, 2.2], [0.42, 0.52, -0.3]] };
+  const CAM = { sheller: [[2.05, 1.45, 2.3], [0.32, 0.66, 0.0]], dryer: [[6.6, 3.3, 7.4], [0.9, 2.1, 0]], incubator: [[2.35, 1.75, 2.95], [0.55, 0.85, 0]], milkcut: [[1.25, 1.05, 2.35], [-0.12, 0.62, 0.15]], tabletop: [[0.95, 1.25, 1.15], [0.2, 0.9, 0]], milker: [[2.1, 1.25, 2.2], [0.42, 0.52, -0.3]] };
   const COW = [0.25, -0.95], TEAT = [COW[0] - 0.4375, 0.502, COW[1]];
   AK.def3d("C2-a", Object.assign({}, BENCH, {
     title: "Farm machinery — parts and uses",
     blurb: "Choose a machine, explode it to see its parts, and run the sheller, dryer, incubator and milking machine to see how they work. Engineering details are not required — know the parts and their uses.",
-    cam: [[3.4, 2.4, 4.6], [0, 0.9, 0]], sky: "farm_field", envX: {}, values: { m: "tractor", run: 1, cut: 0, use: "food", turn: 1, candle: 0 },
+    cam: [[3.4, 2.4, 4.6], [0, 0.9, 0]], sky: "farm_field", envX: {}, values: { m: "tractor", run: 1, cut: 0, use: "food", turn: 1, candle: 0, itype: "cabinet", bucket: "steel" },
     vars: [{ key: "ex", label: "Explode parts", min: 0, max: 1, step: 0.05, value: 0 },
       { key: "rpm", label: "Drum speed (rev/min)", min: 300, max: 900, step: 10, value: 600, show: on("sheller") },
       { key: "mi", label: "Starting grain moisture (%)", min: 18, max: 30, step: 1, value: 24, show: on("dryer") },
@@ -68,23 +68,27 @@
     controls: [{ type: "select", key: "m", label: "Machine", options: Object.entries(MACH).map(([k, v]) => [k, v[0]]) },
       { type: "toggle", key: "run", label: "Run the machine", show: is4 }, { type: "toggle", key: "cut", label: "Cutaway view", show: is4 },
       { type: "select", key: "use", label: "Grain is for", options: [["food", "Food"], ["seed", "Seed"], ["feed", "Animal feed"]], show: on("dryer") },
+      { type: "select", key: "itype", label: "Incubator type", options: [["cabinet", "Cabinet (farm)"], ["tabletop", "Tabletop (small, see-through)"]], show: on("incubator") },
+      { type: "select", key: "bucket", label: "Bucket", options: [["steel", "Stainless steel"], ["clear", "Clear plastic"]], show: on("milker") },
       { type: "toggle", key: "turn", label: "Turn the eggs", show: on("incubator") }, { type: "toggle", key: "candle", label: "Candle an egg", show: on("incubator") }],
     build(S, s) { s.key = null; },
     update(S, s, c, dt) {
-      if (s.key !== c.m) {
-        s.key = c.m; const g = BK.group(S, s), real = M4.includes(c.m);
+      const key = c.m + (c.m === "incubator" ? ":" + c.itype : c.m === "milker" ? ":" + c.bucket : "");
+      if (s.key !== key) {
+        const same = s.key && s.key.split(":")[0] === c.m; s.key = key; const g = BK.group(S, s), real = M4.includes(c.m);
         AK.ground(g, { w: real ? 14 : 10, d: real ? 10 : 8, amp: 0.01, tex: "concrete_floor_worn_001", apronTex: "sparse_grass" });
-        s.m = real ? AK.machineReal(c.m, c.m === "milker" ? { teat: TEAT } : undefined) : null; if (!s.m) s.m = MACH[c.m][1]();
+        s.m = real ? AK.machineReal(c.m, c.m === "milker" ? { teat: TEAT, bucket: c.bucket } : c.m === "incubator" ? { type: c.itype } : undefined) : null; if (!s.m) s.m = MACH[c.m][1]();
         const sc = real ? 1 : { tractor: 1, bulldozer: 0.9, combine: 0.75 }[c.m] || 1; s.m.scale.setScalar(sc); s.sc = sc; g.add(s.m);
         if (c.m === "milker") AK.put(g, AK.animal("holstein"), COW[0], COW[1], null, 0, 1);
         if (c.m === "sheller" && AK.person) AK.put(g, AK.person({ shirt: 0x2f7a3a }), 0.75, -1.15, null, -Math.PI / 2 - 0.5, 1);
         if (c.m === "dryer" && AK.person) AK.put(g, AK.person({ shirt: 0xd8a020 }), 2.1, 1.25, null, -2.2, 1);
-        S.setCam(...(CAM[c.m] || [[3.4, 2.4, 4.6], [0, 0.9, 0]]));
+        if (!same || c.m === "incubator") S.setCam(...((c.m === "incubator" && c.itype === "tabletop" ? CAM.tabletop : CAM[c.m]) || [[3.4, 2.4, 4.6], [0, 0.9, 0]]));
       }
+      if (c.m === "milker" && s.cutK !== !!c.cut) { if (s.cutK != null) S.setCam(...(c.cut ? CAM.milkcut : CAM.milker)); s.cutK = !!c.cut; } else if (c.m !== "milker") s.cutK = null;
       if (s.m.tick) s.m.tick(Math.min(dt || 0, 0.1), c);
       AK.explode(s.m, c.ex);
     },
-    labels: (s, c) => ((s.m && s.m.parts) || []).filter((p) => p.visible !== false).map((p) => { const T3 = T(); if (!p.userData.lc) { p.updateWorldMatrix(true, true); const bb = new T3.Box3().setFromObject(p); if (bb.isEmpty()) p.userData.lc = new T3.Vector3(); else { const cc = bb.getCenter(new T3.Vector3()); cc.y = Math.min(bb.max.y, cc.y + (bb.max.y - bb.min.y) * 0.25); p.userData.lc = p.worldToLocal(cc); } } const v = p.localToWorld(p.userData.lc.clone()); return { id: p.name, p: [v.x, v.y + (M4.includes(c.m) ? 0.02 : 0.12 * s.sc), v.z], t: p.name }; }),
+    labels: (s, c) => ((s.m && s.m.parts) || []).filter((p) => { for (let o = p; o && o !== s.m; o = o.parent) if (o.visible === false) return false; return true; }).map((p) => { const T3 = T(); if (!p.userData.lc) { p.updateWorldMatrix(true, true); const bb = new T3.Box3().setFromObject(p); if (bb.isEmpty()) p.userData.lc = new T3.Vector3(); else { const cc = bb.getCenter(new T3.Vector3()); cc.y = Math.min(bb.max.y, cc.y + (bb.max.y - bb.min.y) * 0.25); p.userData.lc = p.worldToLocal(cc); } } const v = p.localToWorld(p.userData.lc.clone()); return { id: p.name, p: [v.x, v.y + (M4.includes(c.m) ? 0.02 : 0.12 * s.sc), v.z], t: p.name }; }),
     hud: (s, c) => { const I = s.m && s.m.info ? s.m.info(c) : null, good = I && /^(Good|Conditions are right|Air temperature is safe|Dry:)/.test(I.warn);
       return [{ title: MACH[c.m][0], lines: I ? [[MACH[c.m][2], "#ffd27a", true], "How it works: " + I.how, [I.warn, good ? "#8be0a0" : "#ff9a7a", true]] : [[MACH[c.m][2], "#ffd27a", true], "Parts: " + ((s.m && s.m.parts) || []).map((p) => p.name).join(", ")] }]; },
     readouts: (s, c) => (s.m && s.m.info ? s.m.info(c).ro : [["Machine", MACH[c.m][0]], ["Parts shown", ((s.m && s.m.parts) || []).length]]),
