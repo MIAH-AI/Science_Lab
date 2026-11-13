@@ -106,6 +106,8 @@ main{padding:clamp(14px,2.6vw,32px);min-width:0;}
 /* sim stage */
 .stage{display:grid;grid-template-columns:1fr 290px;gap:14px;}
 @media (max-width:900px){.stage{grid-template-columns:1fr;}}
+/* desktop: when the controls run longer than the screen, keep the simulation in view beside them */
+@media (min-width:901px){.stage{align-items:start;}.stage>.screen{position:sticky;top:78px;z-index:1;}}
 .screen{background:var(--blue-1);border:1px solid var(--line);border-radius:9px;padding:9px;position:relative;box-shadow:inset 0 0 50px rgba(0,0,0,.45);}
 .screen .crtwrap{position:relative;border-radius:6px;overflow:hidden;background:#050c17;}
 .screen canvas{display:block;width:100%;height:auto;}

@@ -344,6 +344,15 @@
 .mk-btn{font:600 11.5px 'JetBrains Mono',monospace!important;padding:7px 11px!important;border-radius:10px!important;cursor:pointer;border:1px solid var(--g-edge,#ccd)!important;background:var(--g-well,#eef)!important;color:var(--g-ink,#1d2433)!important}
 .mk-btn:hover{filter:brightness(1.06)}.mk-btn.on,.mk-btn.primary{background:var(--g-active,#dde)!important;box-shadow:inset 0 2px 2px var(--g-highlight,#fff),2px 3px 7px var(--g-shadow,#0002)!important}
 .mk-ctl{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end}
+.mk-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+@media (min-width:1180px){.content:has(.mk-wide){max-width:1400px!important}}
+.mk.mk-wide{display:grid;grid-template-columns:minmax(0,1fr) clamp(270px,31%,350px);gap:12px 14px;align-items:start}
+.mk.mk-wide>*{grid-column:1/-1}.mk.mk-wide>.mk-stage{grid-column:1;grid-row:1}
+.mk.mk-wide>.mk-side{grid-column:2;grid-row:1;box-sizing:border-box;height:var(--mk-sh,440px);overflow-y:auto;padding:12px;border-radius:14px;background:var(--g-well,#eef1f7);border:1px solid var(--g-edge,#dde);scrollbar-width:thin}
+.mk.mk-wide>.mk-side .mk-ctl{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:12px}
+.mk.mk-wide>.mk-side .mk-f{flex:0 0 auto;min-width:0}.mk.mk-wide>.mk-side .mk-f:has(>select){order:-1}
+.mk.mk-wide>.mk-side .mk-bar{padding-bottom:10px;border-bottom:1px solid var(--g-edge,#dde)}
+.mk.mk-wide>.mk-side .mk-bar .sp{flex-basis:100%;height:0}
 .mk-f{display:flex;flex-direction:column;gap:5px;min-width:140px;flex:1 1 150px}
 .mk-f.wide{flex-basis:100%}
 .mk-f label{font:600 10.5px 'JetBrains Mono',monospace;color:var(--g-muted,#5b6478)}.mk-f label b{color:var(--red,#b5322f)}
@@ -473,7 +482,12 @@
     bar.appendChild(bReset);
     (sc.actions || []).forEach((a) => { const b = el("button", { type: "button", class: "mk-btn" }, a.label); b.addEventListener("click", () => { a.run(s, c, H); onCh("_act"); H.kick && H.kick(); }); bar.appendChild(b); });
     if (is3d && sc.views) { bar.appendChild(el("span", { class: "sp" })); bar.appendChild(el("span", { class: "lbl" }, "view")); sc.views.forEach((v) => { const b = el("button", { type: "button", class: "mk-btn" }, v.label); b.addEventListener("click", () => H.setView && H.setView(v)); bar.appendChild(b); }); }
-    root.append(bar, ctl, hudTxt, ro);
+    /* desktop: buttons and controls sit beside the stage in a column as tall as the stage; readouts, worked
+       solutions, tables and notes stay below. Narrow screens keep the single stacked column. */
+    const side = el("div", { class: "mk-side" }); side.append(bar, ctl);
+    root.append(side, hudTxt, ro);
+    const lay = () => { const wide = window.innerWidth >= 1180 && root.clientWidth >= 680 && ctl.children.length > 0 && !panel.closest(".lk-partwrap"); root.classList.toggle("mk-wide", wide); if (wide) root.style.setProperty("--mk-sh", Math.max(260, stage.offsetHeight) + "px"); };
+    H.layout = lay; lay(); if (window.ResizeObserver) { const rz = new ResizeObserver(() => lay()); rz.observe(root); rz.observe(stage); } else window.addEventListener("resize", lay);
     if (sc.steps) root.appendChild(work);
     if (sc.table) root.appendChild(tbl);
     if (sc.note) root.appendChild(el("div", { class: "mk-box mk-note", html: "<h4>Examiner's focus</h4>" + sc.note }));

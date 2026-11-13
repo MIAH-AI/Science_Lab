@@ -74,6 +74,8 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 .sim-canvas-wrap{padding:16px;border-right:1px solid var(--line-paper);}
 .sim-canvas{width:100%;display:block;background:#FCFAF3;border-radius:10px;border:1px solid var(--line-paper);}
 .sim-controls{padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--paper-2);}
+/* desktop: keep the simulation in view while scrolling through long controls */
+@media (min-width:1000px){.sim-panel{overflow:clip;}.sim-body{align-items:start;}.sim-canvas-wrap{position:sticky;top:0;z-index:1;background:#fff;}.sim-controls{min-height:100%;}}
 .ctl label{display:block;font-size:11px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
 .ctl-row{display:flex;align-items:center;gap:8px;}
 .ctl input[type=range]{flex:1;accent-color:var(--flame);}
