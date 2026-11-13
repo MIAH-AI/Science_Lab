@@ -225,7 +225,11 @@
     acidReactions: [(e) => ["Mg", "Zn", "Fe", "Cu", "Ca", "Na"].includes(e.s), "metals above/below H"],
     periodicTrends: [(e) => e.Z <= 36, "periods 1–4"],
   };
+  /* chemistry-simulations.html loads scene files on demand, so this runs again after each one arrives */
+  C3.addLocators = function () {
   Object.keys(MAP).forEach((k) => { const sc = C3.scenes[k]; if (!sc || sc._loc) return; const [hl, label, cur] = MAP[k], orig = sc.overlay; sc._loc = true;
     sc.overlay = function (ctx, s, c, w, h, S) { if (orig) orig.call(this, ctx, s, c, w, h, S); locator(ctx, w, h, hl, label, cur ? cur(c) : null); }; });
-  if (C3.scenes.halogens) { const hz = C3.scenes.halogens; hz.cam = [[2.0, 2.1, 6.8], [2.3, 1.2, 0]]; hz.views = [{ label: "Bench", cam: [[2.0, 2.1, 6.8], [2.3, 1.2, 0]] }].concat((hz.views || []).slice(1)); }
+  if (C3.scenes.halogens && !C3.scenes.halogens._cam) { const hz = C3.scenes.halogens; hz._cam = true; hz.cam = [[2.0, 2.1, 6.8], [2.3, 1.2, 0]]; hz.views = [{ label: "Bench", cam: [[2.0, 2.1, 6.8], [2.3, 1.2, 0]] }].concat((hz.views || []).slice(1)); }
+  };
+  C3.addLocators();
 })();

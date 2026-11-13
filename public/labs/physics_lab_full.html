@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WAEC Physics — Interactive Simulation Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="/fonts/fonts.css" rel="stylesheet">
 <style>
 :root{
   --blue-0:#081321; --blue-1:#0d1e33; --blue-2:#132a45;
@@ -2184,7 +2183,7 @@ function renderNav(){
     });
     group.appendChild(body); navEl.appendChild(group);
   });
-  if(searchTerm && navEl.children.length===0) navEl.innerHTML=`<div class="no-results">No topics match "${searchTerm}".</div>`;
+  if(searchTerm && navEl.children.length===0){ const none=document.createElement("div"); none.className="no-results"; none.textContent=`No topics match "${searchTerm}".`; navEl.replaceChildren(none); }
   { const eb=document.getElementById("examBtn"); if(eb){ eb.classList.toggle("active",activeKey==="EXAM"); eb.setAttribute("aria-pressed",String(activeKey==="EXAM")); } }
   const {simN,cardN}=countSimsCards();
   document.getElementById("simCountTag").textContent=simN; document.getElementById("cardCountTag").textContent=Object.values(SIMS).reduce((a,v)=>a+v.length,0);
@@ -2233,10 +2232,12 @@ document.addEventListener("fullscreenchange",onFsChange); document.addEventListe
 document.addEventListener("keydown",(e)=>{ if(e.key==="Escape"&&fsActive()&&!document.fullscreenElement) setFs(false); });
 window.addEventListener("resize",()=>{ if(fsActive()) fitResolution(); });
 function startEngine(variant){
-  stopEngine(); running=true;
+  stopEngine(); running=!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches); // reduced motion: start paused
+  { const pb=document.getElementById("playBtn"); if(pb) pb.textContent=running?"Pause":"Play"; }
   /* photoreal three.js scene registered for this simulation? else the original 2D drawing is used */
   const sc=(window.P3D&&P3D.ready)?P3D.scenes[variant.modeName]:null;
   const real=!!(sc&&P3D.begin(variant,sc,canvasEl));
+  if(!real&&canvasEl){ canvasEl.setAttribute("role","img"); canvasEl.setAttribute("aria-label",(variant.label?variant.label+". ":"")+"Simulation. The current values are listed under Readout."); }
   const LW=640, LH=400;
   function loop(ts){
     if(lastTime===null) lastTime=ts; let dt=(ts-lastTime)/1000; lastTime=ts; dt=Math.min(dt,0.05);
@@ -2310,6 +2311,7 @@ function renderMain(part, topic){
       html += `<div class="modebar">` + variants.map((v,i)=>`<button class="modebtn${i===activeMode?' active':''}" data-mode="${i}">${v.modeName}</button>`).join("") + `</div>`;
     }
     const variant = variants[activeMode] || variants[0];
+    variant.label = topic.title + (variants.length>1 ? " — " + variant.modeName : "");
     if(!variant.values) variant.values = mv(variant.controls);
     if(!variant.state._init){ resetVariant(variant); variant.state._init=true; }
     html += `<div class="eqn">${variant.eqn}</div>
@@ -2389,5 +2391,3 @@ renderNav();
 </html>
 
 
-<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ae21603c2b8e615e6e569ad" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-agent-runner-id="6ae215409238dbf9fd9cfb0a"></script>
-<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-app-host="app.netlify.com" data-account-tier="personal"></script>

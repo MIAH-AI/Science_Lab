@@ -110,12 +110,22 @@
   /* ---------------- lifecycle ---------------- */
   let S = null, envCache = null;
 
+  /* Accessibility shared by every lab that uses this engine (physics, chemistry, maths, biology, geography).
+     Students who ask their device for reduced motion get scenes that start paused and a camera that moves
+     without gliding; every scene gets a text label and keyboard controls. */
+  const rmQuery = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+  P3D.reducedMotion = () => !!(rmQuery && rmQuery.matches);
+  P3D.describe = (name) => (name ? name + ". " : "") + "Interactive 3D model: drag or use the arrow keys to turn it, + and − to zoom, 0 to reset the view. The current values are listed with the controls.";
+  { const st = document.createElement("style"); st.textContent = ".real:focus-visible{outline:3px solid #ffd27a;outline-offset:3px}"; document.head.appendChild(st); }
+
   P3D.begin = function (variant, sc, cv2d) {
     P3D.end();
     const wrap = cv2d.parentElement, dpr = Math.min(2, window.devicePixelRatio || 1);
     const c3 = document.createElement("canvas"); c3.id = "cv3d";
     c3.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block;";
+    c3.setAttribute("aria-hidden", "true");
     wrap.insertBefore(c3, cv2d); wrap.classList.add("real");
+    cv2d.setAttribute("role", "img"); cv2d.setAttribute("aria-label", P3D.describe(variant.label || sc.title || ""));
     cv2d.style.cssText = "position:relative;z-index:2;pointer-events:none;";
     let renderer;
     try { renderer = new T.WebGLRenderer({ canvas: c3, antialias: true, powerPreference: "high-performance" }); }
@@ -158,6 +168,7 @@
     S.pm.dispose(); S.renderer.dispose(); try { S.renderer.forceContextLoss(); } catch (e) { }
     S.wrap.removeEventListener("pointerdown", S._pd); S.wrap.removeEventListener("wheel", S._wh); S.wrap.removeEventListener("dblclick", S._dc);
     window.removeEventListener("pointermove", S._pm); window.removeEventListener("pointerup", S._pu);
+    S.wrap.removeEventListener("keydown", S._kd); if (S._addedTab) S.wrap.removeAttribute("tabindex");
     S.c3.remove(); S.wrap.classList.remove("real"); S.cv2d.style.cssText = ""; S.wrap.classList.remove("grabbing");
     const hint = S.wrap.querySelector(".orbit-hint"); if (hint) hint.remove();
     S = P3D.S = null;
@@ -165,7 +176,7 @@
 
   P3D.frame = function (dt, run, ts) {
     if (!S) return; const sdt = run === false ? 0 : dt; S.t += sdt;
-    const o = S.orbit, k = 1 - Math.pow(0.0008, dt);
+    const o = S.orbit, k = P3D.reducedMotion() ? 1 : 1 - Math.pow(0.0008, dt);
     o.yaw += (o.ty - o.yaw) * k; o.pitch += (o.tp - o.pitch) * k; o.r += (o.tr - o.r) * k;
     const cp = Math.cos(o.pitch);
     S.camera.position.set(o.target.x + o.r * Math.sin(o.yaw) * cp, o.target.y + o.r * Math.sin(o.pitch), o.target.z + o.r * Math.cos(o.yaw) * cp);
@@ -196,6 +207,22 @@
     S._dc = () => { o.touched = false; o.ty = o.home.yaw; o.tp = o.home.pitch; o.tr = o.home.r; };
     wrap.addEventListener("pointerdown", S._pd); window.addEventListener("pointermove", S._pm); window.addEventListener("pointerup", S._pu);
     wrap.addEventListener("wheel", S._wh, { passive: false }); wrap.addEventListener("dblclick", S._dc);
+    /* keyboard: arrows turn, + / − zoom, 0 or Home resets (the same moves as drag, scroll and double-click) */
+    if (!wrap.hasAttribute("tabindex")) { wrap.tabIndex = 0; S._addedTab = true; }
+    S._kd = (e) => {
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      const k = e.key; let used = true;
+      if (k === "ArrowLeft") o.ty += 0.15;
+      else if (k === "ArrowRight") o.ty -= 0.15;
+      else if (k === "ArrowUp") o.tp = Math.min(1.45, o.tp + 0.1);
+      else if (k === "ArrowDown") o.tp = Math.max(o.free ? -1.4 : 0.03, o.tp - 0.1);
+      else if (k === "+" || k === "=") o.tr = Math.max(o.home.r * 0.35, o.tr * 0.9);
+      else if (k === "-" || k === "_") o.tr = Math.min(o.home.r * 2.2, o.tr * 1.1);
+      else if (k === "0" || k === "Home") S._dc();
+      else used = false;
+      if (used) { e.preventDefault(); o.touched = true; hint.style.opacity = 0; }
+    };
+    wrap.addEventListener("keydown", S._kd);
   }
 
   /* ---------------- environments ---------------- */

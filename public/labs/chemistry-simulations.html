@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta property="og:image" content="https://learnwith-nehyy.netlify.app/.netlify/og-image/789205840a43ccc81bbe53649e714bb0.jpg">
+<meta property="og:image" content="https://learnwith-nehyy.netlify.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WAEC Chemistry — Simulation Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="/fonts/fonts.css" rel="stylesheet">
 <style>
 :root{
   --bg-deep:#0F1B17; --bg-panel:#132420; --bg-panel-2:#172C26;
@@ -72,6 +71,7 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 .sim-panel{margin-top:20px;border:1px solid var(--line-paper);border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 1px 3px rgba(28,38,32,0.06);}
 .sim-body{display:grid;grid-template-columns:1fr 260px;}
 .sim-canvas-wrap{padding:16px;border-right:1px solid var(--line-paper);}
+.c3-loading{aspect-ratio:16/10;display:grid;place-items:center;border-radius:14px;background:#0b1220;color:#dbe7ff;font:600 13px 'IBM Plex Mono',monospace;letter-spacing:.04em}
 .sim-canvas{width:100%;display:block;background:#FCFAF3;border-radius:10px;border:1px solid var(--line-paper);}
 .sim-controls{padding:16px;display:flex;flex-direction:column;gap:14px;background:var(--paper-2);}
 /* desktop: keep the simulation in view while scrolling through long controls */
@@ -170,74 +170,25 @@ a.btn-ghost{display:inline-flex;align-items:center;text-decoration:none;}
 <script src="/labs/physics3d.js"></script>
 <script src="/labs/chem3d.js"></script>
 <script src="/labs/chem3d-kit.js"></script>
-<script src="/labs/c3d-proof.js"></script>
-<script src="/labs/c3d-atoms.js"></script>
-<script src="/labs/c3d-bonding.js"></script>
-<script src="/labs/c3d-matter.js"></script>
-<script src="/labs/c3d-solutions.js"></script>
-<script src="/labs/c3d-acidbase.js"></script>
-<script src="/labs/c3d-kinetics.js"></script>
-<script src="/labs/c3d-redox.js"></script>
-<script src="/labs/c3d-electrolysis.js"></script>
-<script src="/labs/c3d-radio.js"></script>
-<script src="/labs/c3d-separation.js"></script>
-<script src="/labs/c3d-organic.js"></script>
-<script src="/labs/c3d-polymers.js"></script>
-<script src="/labs/c3d-sciencemethod.js"></script>
-<script src="/labs/c3d-flame.js"></script>
-<script src="/labs/c3d-qualanalysis.js"></script>
-<script src="/labs/c3d-industry.js"></script>
-<script src="/labs/c3d-corrosion.js"></script>
-<script src="/labs/c3d-water.js"></script>
-<script src="/labs/c3d-atmosphere.js"></script>
-<script src="/labs/c3d-gasprep.js"></script>
-<script src="/labs/c3d-saltprep.js"></script>
-<script src="/labs/c3d-reactivity.js"></script>
-<script src="/labs/c3d-hess.js"></script>
-<script src="/labs/c3d-soap.js"></script>
-<script src="/labs/c3d-buffer.js"></script>
-<script src="/labs/c3d-orgrx.js"></script>
-<script src="/labs/c3d-transition.js"></script>
-<script src="/labs/c3d-nitrosulf.js"></script>
-<script src="/labs/c3d-halogens.js"></script>
-<script src="/labs/c3d-massspec.js"></script>
-<script src="/labs/c3d-ratelaw.js"></script>
-<script src="/labs/c3d-allotropes.js"></script>
-<script src="/labs/c3d-redoxtit.js"></script>
-<script src="/labs/c3d-dilution.js"></script>
-<script src="/labs/c3d-empirical.js"></script>
-<script src="/labs/c3d-ioniccrystal.js"></script>
-<script src="/labs/c3d-isomers.js"></script>
-<script src="/labs/c3d-stoich.js"></script>
-<script src="/labs/c3d-salthydrolysis.js"></script>
-<script src="/labs/c3d-collision.js"></script>
-<script src="/labs/c3d-gaslaws.js"></script>
-<script src="/labs/c3d-indicators.js"></script>
-<script src="/labs/c3d-imf.js"></script>
-<script src="/labs/c3d-oxnum.js"></script>
-<script src="/labs/c3d-ksp.js"></script>
-<script src="/labs/c3d-oxides.js"></script>
-<script src="/labs/c3d-polarity.js"></script>
-<script src="/labs/c3d-radical.js"></script>
-<script src="/labs/c3d-organic2.js"></script>
-<script src="/labs/c3d-bench.js"></script>
-<script src="/labs/c3d-acidtheory.js"></script>
-<script src="/labs/c3d-batchP.js"></script>
-<script src="/labs/c3d-measure.js"></script>
 <script src="/labs/c3d-gx.js"></script>
-<script src="/labs/c3d-g1.js"></script>
-<script src="/labs/c3d-g2.js"></script>
-<script src="/labs/c3d-g3.js"></script>
-<script src="/labs/c3d-g4.js"></script>
-<script src="/labs/c3d-g5.js"></script>
-<script src="/labs/c3d-g6.js"></script>
-<script src="/labs/c3d-g7.js"></script>
-<script src="/labs/c3d-g8.js"></script>
-<script src="/labs/c3d-g9.js"></script>
-<script src="/labs/c3d-g10.js"></script>
-<script src="/labs/c3d-g11.js"></script>
 <script src="/labs/c3d-ptdata.js"></script>
 <script src="/labs/c3d-ptable.js"></script>
+<script>
+/* Each 3D scene file is fetched the first time its subtopic opens, instead of all ~1.5 MB on page load.
+   Shared helpers (c3d-gx.js) and the periodic-table data and dashboard load up front, above.
+   Files that need another scene file list it first: c3d-polymers.js needs C3.chainMol from c3d-organic.js,
+   and c3d-g11.js needs C3.gx.titr from c3d-g7.js. After a load, the periodic-table locators are re-applied. */
+const SCENE_FILES={acidBasePH:["c3d-acidbase.js"],acidDefinitions:["c3d-acidtheory.js"],acidReactions:["c3d-g4.js"],airPollution:["c3d-atmosphere.js"],alkanols:["c3d-g5.js"],allotropesAlloys:["c3d-allotropes.js"],aluminiumExtraction:["c3d-g7.js", "c3d-g11.js"],atomModels:["c3d-g1.js"],atomicStructure:["c3d-atoms.js"],benzene:["c3d-organic2.js"],biochemTests:["c3d-batchP.js"],biotechnology:["c3d-g6.js"],bondFission:["c3d-g8.js"],bondPolarity:["c3d-polarity.js"],bonding:["c3d-bonding.js"],bufferCurves:["c3d-buffer.js"],calorimetry:["c3d-g4.js"],cement:["c3d-g9.js"],chemicalCombination:["c3d-g3.js"],coalCoke:["c3d-g9.js"],collisionTheory:["c3d-collision.js"],complexShapes:["c3d-batchP.js"],copperCompounds:["c3d-g7.js", "c3d-g11.js"],corrosion:["c3d-corrosion.js"],crudeOilCracking:["c3d-g5.js"],diffusionVapour:["c3d-bench.js"],dilutionPrep:["c3d-dilution.js"],doubleIndicator:["c3d-g7.js"],electrolysis:["c3d-electrolysis.js"],electronConfig:["c3d-atoms.js"],empiricalFormula:["c3d-empirical.js"],energyProfile:["c3d-solutions.js"],equilibriumConstant:["c3d-acidtheory.js"],flameTests:["c3d-flame.js"],fountain:["c3d-g10.js"],functionalGroups:["c3d-organic2.js"],gasLaws:["c3d-matter.js"],gasLaws3D:["c3d-gaslaws.js"],gasPreparation:["c3d-gasprep.js"],halogens:["c3d-halogens.js"],hessLaw:["c3d-hess.js"],indicators:["c3d-indicators.js"],industrialProcesses:["c3d-industry.js"],intermolecular:["c3d-imf.js"],iodometric:["c3d-g7.js", "c3d-g11.js"],ionicCrystal:["c3d-ioniccrystal.js"],ionicNaming:["c3d-g2.js"],isomerism:["c3d-isomers.js"],kineticsEquilibrium:["c3d-kinetics.js"],lassaigne:["c3d-g8.js"],limeCycle:["c3d-batchP.js"],massSpec:["c3d-massspec.js"],measurement:["c3d-measure.js"],metalReactivity:["c3d-reactivity.js"],miningGhana:["c3d-g9.js"],moleCalculator:["c3d-solutions.js"],molecularShapes:["c3d-proof.js"],nitrogenSulphur:["c3d-nitrosulf.js"],nobleGases:["c3d-batchP.js"],organicExplorer:["c3d-organic.js"],organicReactions:["c3d-orgrx.js"],oxidationNumbers:["c3d-oxnum.js"],periodicOxides:["c3d-oxides.js"],periodicTrends:["c3d-atoms.js"],physicalChemicalChange:["c3d-g1.js"],plasticsTests:["c3d-g6.js"],polarisation:["c3d-g7.js"],polymersBiomolecules:["c3d-organic.js", "c3d-polymers.js"],purityCriteria:["c3d-g2.js"],qualAnalysis:["c3d-qualanalysis.js"],radicalMech:["c3d-radical.js"],radioactivity:["c3d-radio.js"],rateDeterminingStep:["c3d-g8.js"],rateLaw:["c3d-ratelaw.js"],redoxCell:["c3d-redox.js"],redoxTitration:["c3d-redoxtit.js"],saltHydrolysis:["c3d-salthydrolysis.js"],saltPrep:["c3d-saltprep.js"],scientificMethod:["c3d-sciencemethod.js"],separationBench:["c3d-bench.js"],separationTechniques:["c3d-separation.js"],silicaCO2:["c3d-g3.js"],soapDetergent:["c3d-soap.js"],solidTypes:["c3d-g3.js"],solubilityCurve:["c3d-acidbase.js"],solubilityProduct:["c3d-ksp.js"],statesOfMatter:["c3d-matter.js"],stoichiometry:["c3d-stoich.js"],sulphurAllotropes:["c3d-g10.js"],thermalStability:["c3d-g7.js"],titration:["c3d-proof.js"],transitionMetals:["c3d-transition.js"],unsaturated:["c3d-organic2.js"],waterHardness:["c3d-water.js"],waterTreatment:["c3d-g10.js"]};
+const sceneScripts={};
+function loadSceneScript(file){
+  return sceneScripts[file] || (sceneScripts[file]=new Promise((ok,fail)=>{
+    const s=document.createElement("script"); s.src="/labs/"+file; s.onload=ok;
+    s.onerror=()=>{ delete sceneScripts[file]; s.remove(); fail(new Error("Could not load "+file)); };
+    document.head.appendChild(s);
+  }));
+}
+function loadScene(name){ return (SCENE_FILES[name]||[]).reduce((p,file)=>p.then(()=>loadSceneScript(file)),Promise.resolve()).then(()=>{ if(window.Chem3D&&Chem3D.addLocators) Chem3D.addLocators(); }); }
+</script>
 <script src="/labs/exam-kit.js"></script>
 <script src="/labs/c-exam.js"></script>
 <script>
@@ -1303,7 +1254,7 @@ SIM_MODULES.polymersBiomolecules={
 
 /* ---- 3D-only modules: the 2D fallback shows an explanation card (these need the WebGL scene) ---- */
 function only3D(title,blurb,what){
-  return {title,blurb,mount(canvasWrap,controls){
+  return {title,blurb,only3D:true,mount(canvasWrap,controls){
     canvasWrap.innerHTML='<div class="empty-state" style="padding:36px 18px"><div class="big">'+title+'</div><div>This simulation needs WebGL (3D). Please open it in a current browser with hardware acceleration on.</div><div style="margin-top:8px;opacity:.8">'+what+'</div></div>';
     controls.appendChild(noteBox(what)); return ()=>{};
   }};
@@ -1699,15 +1650,39 @@ function loadSim(){
   panel.appendChild(body);
   inner.appendChild(panel);
 
-  /* photoreal three.js scene registered for this module? else the original 2D drawing is used (also the WebGL fallback) */
-  let cleanup3d=null;
-  if(window.Chem3D && Chem3D.ready && Chem3D.scenes[sub.sim]){
-    try{ cleanup3d=Chem3D.mount(canvasWrap, controls, sub.sim, {$, sliderControl, selectControl, buttonControl, readout, noteBox}); }catch(e){ console.error('3D scene failed, using 2D fallback',e); cleanup3d=null; canvasWrap.innerHTML=''; controls.innerHTML=''; }
+  /* photoreal three.js scene for this module? Its file is fetched on first use. Otherwise (or if WebGL or the
+     download fails) the original 2D drawing is used. */
+  const finish=()=>{
+    let cleanup3d=null;
+    if(window.Chem3D && Chem3D.ready && Chem3D.scenes[sub.sim]){
+      try{ cleanup3d=Chem3D.mount(canvasWrap, controls, sub.sim, {$, sliderControl, selectControl, buttonControl, readout, noteBox, label: topic.title+": "+mod.title}); }catch(e){ console.error('3D scene failed, using 2D fallback',e); cleanup3d=null; canvasWrap.innerHTML=''; controls.innerHTML=''; }
+    }
+    currentCleanup = cleanup3d || mod.mount(canvasWrap, controls) || (()=>{});
+    if(!cleanup3d && canvasWrap.querySelector('canvas')) addFs2d(canvasWrap);
+    if(dashTopic) inner.appendChild(TopicDash.nav(topic,color));
+    if(!cleanup3d){ const c=canvasWrap.querySelector("canvas"); if(c && !c.hasAttribute("aria-label")){ c.setAttribute("role","img"); c.setAttribute("aria-label",topic.title+": "+mod.title+" simulation. Current values are listed beside it."); } }
+  };
+  if(window.Chem3D && Chem3D.ready && !Chem3D.scenes[sub.sim] && SCENE_FILES[sub.sim]){
+    const token=++sceneToken;
+    canvasWrap.appendChild($('div',{class:'c3-loading',role:'status'},'Loading 3D lab…'));
+    currentCleanup=()=>{ sceneToken++; };
+    const done=()=>{ if(token!==sceneToken) return; canvasWrap.innerHTML=''; finish(); };
+    loadScene(sub.sim).then(done,(e)=>{
+      if(token!==sceneToken) return;
+      console.warn(e.message);
+      if(!mod.only3D){ done(); return; } // the original 2D drawing stands in
+      /* no 2D version of this one: say what happened and offer a retry, rather than the "needs WebGL" message */
+      canvasWrap.innerHTML='';
+      canvasWrap.appendChild($('div',{class:'empty-state',role:'alert',style:'padding:36px 18px'},
+        $('div',{class:'big'}, mod.title),
+        $('div',{}, 'This 3D lab didn’t download. Check your internet connection, then try again.'),
+        $('button',{class:'sim-btn',style:'margin-top:12px',onclick:()=>loadSim()}, 'Try again')));
+    });
+    return;
   }
-  currentCleanup = cleanup3d || mod.mount(canvasWrap, controls) || (()=>{});
-  if(!cleanup3d && canvasWrap.querySelector('canvas')) addFs2d(canvasWrap);
-  if(dashTopic) inner.appendChild(TopicDash.nav(topic,color));
+  finish();
 }
+let sceneToken=0;
 
 /* Exam mode (timed WAEC practice; nothing stored) */
 function openExam(){
@@ -1747,5 +1722,3 @@ renderTopicList();
 </html>
 
 
-<script async src="/.netlify/scripts/ar" data-netlify-deploy-id="6ae21603c2b8e615e6e569ad" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-agent-runner-id="6ae215409238dbf9fd9cfb0a"></script>
-<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="658e537e-673d-4ece-a1d1-2bcc7eefa429" data-app-host="app.netlify.com" data-account-tier="personal"></script>

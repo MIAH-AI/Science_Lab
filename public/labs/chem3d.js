@@ -145,7 +145,7 @@
     C3.unmount();
     const stage = H.$("div", { class: "c3-stage" }), hud = H.$("canvas", { class: "c3-hud", width: 640, height: 400 });
     stage.appendChild(hud); wrapEl.appendChild(stage);
-    const variant = { state: sc.state ? sc.state() : {}, values: Object.assign({}, sc.values), modeName: "chem:" + name };
+    const variant = { state: sc.state ? sc.state() : {}, values: Object.assign({}, sc.values), modeName: "chem:" + name, label: H.label || sc.title };
     let ok = false; try { ok = P3D.begin(variant, sc, hud); } catch (e) { console.error("chem3d begin failed", e); ok = false; }
     if (!ok) { stage.remove(); try { P3D.end(); } catch (e) { } return null; }
     const S = P3D.S, s = variant.state, c = variant.values, ctx = hud.getContext("2d"), extra = [];
@@ -181,10 +181,10 @@
       if (fsOn()) { document.body.style.overflow = ""; const fsEl = document.fullscreenElement || document.webkitFullscreenElement; if (fsEl === stage) try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) { } }
     };
     fit();
-    const run = { playing: true, speed: 1 };
+    const run = { playing: !P3D.reducedMotion(), speed: 1 }; // reduced motion: start paused, Play is one click away
     /* transport bar */
     const bar = H.$("div", { class: "c3-bar" });
-    const bPlay = H.$("button", { title: "Pause / play" }, "❚❚ Pause");
+    const bPlay = H.$("button", { title: "Pause / play" }, run.playing ? "❚❚ Pause" : "▶ Play");
     bPlay.addEventListener("click", () => { run.playing = !run.playing; bPlay.textContent = run.playing ? "❚❚ Pause" : "▶ Play"; });
     const sel = H.$("select", { title: "Playback speed" });
     [["0.25×", 0.25], ["0.5×", 0.5], ["1×", 1], ["2×", 2]].forEach(([l, v]) => { const o = H.$("option", { value: v }, l); if (v === 1) o.setAttribute("selected", "selected"); sel.appendChild(o); });

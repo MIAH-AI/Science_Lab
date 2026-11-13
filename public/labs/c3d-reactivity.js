@@ -41,7 +41,7 @@
   C3.scenes.metalReactivity = {
     env: "studio", envOpts: { top: "#17243a", bottom: "#05080f" }, envI: 0.8, fov: 36, free: true, cam: [[1.2, 2.0, 5.6], [1.35, 1.2, 0]],
     values: { mode: "react", metal: "Mg", reagent: "acid", salt: "CuSO4" },
-    state: () => ({ t: 0, run: false, flash: 0 }),
+    state: () => ({ t: 0, run: false }),
     get controls() {
       return [
         { type: "select", key: "mode", label: "Experiment", options: [{ value: "react", label: "Metal + water / steam / dilute acid" }, { value: "disp", label: "Displacement: metal in a salt solution" }] },
