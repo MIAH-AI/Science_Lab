@@ -1,97 +1,193 @@
-/* Shared sculpted glass skin; original lesson and simulation styles remain isolated. */
+/* Shared lab skin: the Study Desk look from the home page (src/desk.css), applied over each lab's own styles.
+   Day is the default; :root.night swaps the same variables. Each lab takes its subject colour from its body class.
+   Lesson and simulation logic stays in the lab files; this sheet only restyles them. */
 :root {
   color-scheme:light;
-  --g-bg:#e9e8f3; --g-ink:#34324d; --g-muted:#716b88;
-  --g-surface:linear-gradient(135deg,#ffffffb8,#f4f1ff70);
-  --g-edge:#ffffffc4; --g-highlight:#ffffffdf; --g-shadow:#79709929;
-  --g-accent:#7962b1; --g-well:#d9d4e84d; --g-active:linear-gradient(135deg,#e4dbf5,#cfc1e9);
-  --paper:#f3f1fa; --paper-2:#e8e4f2; --paper-line:#cec8df;
-  --ink:var(--g-ink); --ink-soft:var(--g-muted); --card:#f8f6fc;
-  --rail:#e5e0f0; --rail-ink:var(--g-ink); --rail-ink-dim:var(--g-muted);
-  --red:#8e5982; --teal:#447d75; --amber:#94713a; --cyan:#447d75;
-  --blue-0:#e9e8f3; --blue-1:#f3f0fa; --blue-2:#e2dcec;
-  --chalk:var(--g-ink); --chalk-dim:var(--g-muted); --chalk-faint:#78718b;
-  --line:#b6aac940; --line-soft:#b6aac928;
-  --bg-deep:#e9e8f3; --bg-panel:#f5f2fc99; --bg-panel-2:#ddd7ed66;
-  --muted:var(--g-muted); --line-paper:#b6aac940; --flame:#9d627e;
+  --sd-bg:#fbf7f0; --sd-card:#ffffff; --sd-sunk:#f4eee3; --sd-ink:#221c35; --sd-sec:#4f4966; --sd-mute:#6e6886;
+  --sd-line:#e7dfd1; --sd-line2:#cfc6b5; --sd-brand:#5e44a8; --sd-brand-t:#eee9fa;
+  --sd-shadow:0 1px 2px rgba(34,28,53,.06); --sd-lift:0 6px 18px rgba(34,28,53,.08);
+  /* subject colour; overridden per lab below */
+  --sub:#5e44a8; --sub-t:#eee9fa; --on-sub:#ffffff;
+
+  /* Names the labs and the learning layer already read */
+  --g-bg:var(--sd-bg); --g-ink:var(--sd-ink); --g-muted:var(--sd-mute);
+  --g-surface:var(--sd-card); --g-edge:var(--sd-line); --g-highlight:transparent; --g-shadow:rgba(34,28,53,.06);
+  --g-accent:var(--sub); --g-well:var(--sd-sunk); --g-active:var(--sub-t);
+  --paper:var(--sd-bg); --paper-2:var(--sd-sunk); --paper-line:var(--sd-line);
+  --ink:var(--sd-ink); --ink-soft:var(--sd-sec); --card:var(--sd-card);
+  --rail:var(--sd-card); --rail-ink:var(--sd-ink); --rail-ink-dim:var(--sd-mute);
+  --red:#a8324a; --teal:#0f6e5e; --amber:#8a5a12; --cyan:#0f6e5e;
+  --blue-0:var(--sd-bg); --blue-1:var(--sd-card); --blue-2:var(--sd-sunk);
+  --chalk:var(--sd-ink); --chalk-dim:var(--sd-sec); --chalk-faint:var(--sd-mute);
+  --line:var(--sd-line); --line-soft:#efe8dc;
+  --bg-deep:var(--sd-bg); --bg-panel:var(--sd-card); --bg-panel-2:var(--sd-sunk);
+  --muted:var(--sd-mute); --line-paper:var(--sd-line); --flame:var(--sub);
   --radius:14px;
 }
 :root.night {
   color-scheme:dark;
-  --g-bg:#211e36; --g-ink:#ede8fc; --g-muted:#b5accb;
-  --g-surface:linear-gradient(135deg,#574b7780,#302941a6);
-  --g-edge:#c1ade038; --g-highlight:#dac7ff30; --g-shadow:#0c091e66;
-  --g-accent:#c3a9ed; --g-well:#19152866; --g-active:linear-gradient(135deg,#655184,#44365f);
-  --paper:#2b263d; --paper-2:#352d48; --paper-line:#69597e66;
-  --card:#332d46; --rail:#322b46; --red:#e2a4c6; --teal:#a2d3c4;
-  --amber:#e1c28a; --cyan:#a2d3c4;
-  --blue-0:#211e36; --blue-1:#302940; --blue-2:#3d3452;
-  --chalk-faint:#a195b7; --line:#c1ade033; --line-soft:#c1ade01c;
-  --bg-deep:#211e36; --bg-panel:#332c4788; --bg-panel-2:#4c405e77;
-  --line-paper:#c1ade033; --flame:#e2a4c6;
+  --sd-bg:#14121b; --sd-card:#1d1a27; --sd-sunk:#24202f; --sd-ink:#f2eff8; --sd-sec:#bdb6d0; --sd-mute:#9c95b2;
+  --sd-line:#332e43; --sd-line2:#4a4460; --sd-brand:#b9a5ff; --sd-brand-t:#2c2546;
+  --sd-shadow:none; --sd-lift:0 8px 24px rgba(0,0,0,.35);
+  --sub:#b9a5ff; --sub-t:#2c2546; --on-sub:#16112a;
+  --g-shadow:rgba(0,0,0,.3); --line-soft:#2a2638;
+  --red:#ff9db0; --teal:#5fd8be; --amber:#e8c890; --cyan:#5fd8be;
 }
-body { padding-top:76px; background:radial-gradient(ellipse at 4% 10%,#a897cd30,transparent 48%),radial-gradient(ellipse at 95% 80%,#a0b6bc20,transparent 45%),var(--g-bg)!important; color:var(--g-ink); background-attachment:fixed!important; }
+/* Subject colours, as on the home page cards. Biology, Geography and Agric share the maths page template,
+   so their classes come later and win. */
+.lab-physics   {--sub:#a84a17;--sub-t:#fcede2}
+.lab-chemistry {--sub:#0f6e5e;--sub-t:#dff2ec}
+.lab-biology   {--sub:#3a7019;--sub-t:#e8f3de}
+.lab-geography {--sub:#1e5a9e;--sub-t:#e2ecf9}
+.lab-agric     {--sub:#7f5418;--sub-t:#f6ecdc}
+:root.night .lab-physics   {--sub:#ffad7a;--sub-t:#3a2418}
+:root.night .lab-chemistry {--sub:#5fd8be;--sub-t:#143029}
+:root.night .lab-biology   {--sub:#a6de7a;--sub-t:#1f2e19}
+:root.night .lab-geography {--sub:#86b8ff;--sub-t:#172840}
+:root.night .lab-agric     {--sub:#e8c890;--sub-t:#33281a}
+
+/* Values that use the subject colour are set on body, where each lab's --sub lives. */
+body {--g-accent:var(--sub);--g-active:var(--sub-t);--flame:var(--sub)}
+
+/* Type: DM Sans for reading, Manrope for headings, code font kept only for numbers and formulas. */
+:root:root {--sans:'DM Sans',system-ui,sans-serif;--serif:Manrope,system-ui,sans-serif}
+body {padding-top:72px;background:var(--sd-bg)!important;color:var(--sd-ink);font-family:'DM Sans',system-ui,sans-serif!important;-webkit-font-smoothing:antialiased}
 body::before {display:none}
-#glass-navigation {position:fixed;inset:0 0 auto;z-index:100;height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px;background:var(--g-surface);border-bottom:1px solid var(--g-edge);backdrop-filter:blur(28px);box-shadow:0 5px 24px var(--g-shadow);font:500 13px 'IBM Plex Sans',sans-serif;color:var(--g-ink)}
-.glass-brand {text-decoration:none;font-weight:700;letter-spacing:-.4px;white-space:nowrap;display:flex;gap:9px;align-items:center}
-.glass-brand svg {width:30px;height:30px;padding:5px;border-radius:10px;background:var(--g-active);box-shadow:inset 1px 2px 2px var(--g-highlight),2px 3px 6px var(--g-shadow)}
-.glass-labs,.glass-appearance {display:flex;gap:5px;align-items:center}
-.glass-labs a,.glass-appearance button {text-decoration:none;border:1px solid transparent;color:var(--g-muted);font:inherit;background:transparent;padding:9px 13px;border-radius:13px;cursor:pointer;white-space:nowrap}
-.glass-labs a[aria-current],.glass-appearance button[aria-pressed=true] {background:var(--g-active);color:var(--g-ink);border-color:var(--g-edge);box-shadow:inset 1px 2px 2px var(--g-highlight),3px 4px 8px var(--g-shadow)}
-.glass-appearance {border-radius:16px;padding:3px;background:var(--g-well);box-shadow:inset 2px 2px 5px var(--g-shadow)}
-.glass-appearance button {padding:7px 11px;font-size:12px}
-.rail,.sidebar,.layout>aside {background:var(--g-surface)!important;border:1px solid var(--g-edge)!important;border-radius:28px;box-shadow:inset 1px 2px 3px var(--g-highlight),9px 14px 25px var(--g-shadow);backdrop-filter:blur(24px);margin:12px;scrollbar-width:thin;scrollbar-color:var(--g-accent) transparent}
-.rail {top:88px;height:calc(100dvh - 100px)}
-.layout>aside {top:78px;max-height:calc(100dvh - 92px)}
-.lab-maths .app {min-height:calc(100dvh - 76px)}
-.lab-maths .topbar {top:66px}
-.lab-chemistry .app {height:calc(100dvh - 76px)}
-.lab-chemistry {--paper:var(--g-ink)}
+.rail-title,.topic-head h1,.overview-card h3,.units-panel h2,.item-title,.brand,.empty-state .big,.sim-header h1,
+.tb-title,.welcome h2,.stage-head h2,.empty .big {font-family:Manrope,system-ui,sans-serif!important;letter-spacing:-.02em;font-weight:700;color:var(--sd-ink)}
+.tb-title em,.tb-title i,.tb-title span {color:var(--sub)!important;font-style:normal}
+.item-title {font-weight:650}
+.note-box {font-family:'DM Sans',system-ui,sans-serif!important;font-style:normal!important}
+/* Small labels: spaced-out code-font capitals become plain semibold capitals in the subject colour */
+.rail-eyebrow,.topic-head .code-badge,.body-label,.brand small,.section-label,.sim-eyebrow,.tb-eyebrow,.tb-back,
+.stage-eyebrow,.panel h3,.subtopics .stlabel {font-family:'DM Sans',system-ui,sans-serif!important;font-weight:600;letter-spacing:.06em!important;font-size:12px}
+.rail-eyebrow,.topic-head .code-badge,.sim-eyebrow,.tb-eyebrow,.stage-eyebrow,.body-label {color:var(--sub)!important}
+.tick-code,.tick-count,.topbar-meta,.overview-card .oc-code,.overview-card .oc-count,.item-code,.back-home,.back-link,
+.rail-toggle,.tnum,.legend,.part-head .roman,.paper-tag,.modebtn,.search-wrap input,.tb-right,.no-results,footer,.subsim,
+.btn,.sim-label,.sim-btn,.sim-select,.sim-input,.sim-input-text,.brand .tile,.ctl-val {font-family:'DM Sans',system-ui,sans-serif!important;letter-spacing:normal!important}
+.stat .n {font-family:Manrope,system-ui,sans-serif!important;color:var(--sd-ink)!important;letter-spacing:-.02em}
+.sim-result-value,.sim-steps,.ro-val,.readout,.eqn,.ctl-val {font-variant-numeric:tabular-nums}
+
+/* Top bar */
+#glass-navigation {position:fixed;inset:0 0 auto;z-index:100;height:64px;display:grid;grid-template-columns:minmax(max-content,1fr) auto minmax(max-content,1fr);align-items:center;gap:14px;padding:0 24px;background:var(--sd-bg);border-bottom:1px solid var(--sd-line);font:500 14px 'DM Sans',system-ui,sans-serif;color:var(--sd-ink)}
+.glass-brand {text-decoration:none;color:var(--sd-ink);font:800 18px Manrope,system-ui,sans-serif;letter-spacing:-.02em;white-space:nowrap;display:flex;gap:10px;align-items:center}
+.glass-word span {color:var(--sd-brand)}
+.glass-brand svg {width:32px;height:32px;padding:6px;border-radius:9px;background:var(--sd-brand);color:#fff}
+:root.night .glass-brand svg {color:#16112a}
+.glass-labs {display:flex;gap:2px;align-items:center;justify-content:center}
+.glass-end {justify-self:end;display:flex;gap:10px;align-items:center}
+.glass-appearance {display:flex;gap:2px;align-items:center}
+.glass-labs a,.glass-appearance button {text-decoration:none;border:1px solid transparent;color:var(--sd-sec);font:inherit;font-weight:500;background:transparent;padding:8px 13px;border-radius:10px;cursor:pointer;white-space:nowrap}
+.glass-labs a:hover,.glass-appearance button:hover {color:var(--sd-ink);background:var(--sd-sunk)}
+.glass-labs a[aria-current] {background:var(--sd-card);color:var(--sd-ink);border-color:var(--sd-line2);font-weight:600}
+.glass-appearance {border-radius:12px;padding:3px;border:1px solid var(--sd-line);background:var(--sd-card)}
+.glass-appearance button {display:flex;align-items:center;gap:6px;padding:6px 11px;font-size:13px;border-radius:9px}
+.glass-appearance button svg {width:15px;height:15px}
+.glass-appearance button[aria-pressed=true] {background:var(--sd-ink);color:var(--sd-bg);font-weight:600}
+.glass-appearance button[aria-pressed=true]:hover {background:var(--sd-ink);color:var(--sd-bg)}
+
+/* Sidebars and top strips: flat white cards with a hairline border */
+.rail,.sidebar,.layout>aside {background:var(--sd-card)!important;border:1px solid var(--sd-line)!important;border-radius:16px;box-shadow:var(--sd-shadow);margin:12px;scrollbar-width:thin;scrollbar-color:var(--sd-line2) transparent}
+.rail {top:84px;height:calc(100dvh - 96px)}
+.layout>aside {top:76px;max-height:calc(100dvh - 88px)}
+.lab-maths .app {min-height:calc(100dvh - 72px)}
+.lab-maths .topbar {top:64px}
+.lab-chemistry .app {height:calc(100dvh - 72px)}
+.lab-chemistry {--paper:var(--sd-ink)}
 .lab-chemistry .main {background:transparent!important}
-.topbar,.titleblock {background:var(--g-surface)!important;border-color:var(--g-edge);box-shadow:inset 0 1px 1px var(--g-highlight);backdrop-filter:blur(20px)}
-.lab-chemistry .topbar {border-radius:20px;margin:0 12px}
-.tick-btn,button.topicbtn,.topic-item {border-radius:14px!important;margin-block:4px;color:var(--g-ink)}
-.tick.active .tick-btn,button.topicbtn.active,.topic-item.active {background:var(--g-active)!important;box-shadow:inset 1px 2px 2px var(--g-highlight),3px 5px 9px var(--g-shadow)!important;border-color:var(--g-edge)!important}
-.tick-glyph,.brand .tile {border-radius:11px;background:var(--g-active);color:var(--g-accent);border:1px solid var(--g-edge);box-shadow:inset 1px 2px 2px var(--g-highlight),2px 4px 6px var(--g-shadow)}
-.tick.active .tick-glyph {color:var(--g-ink);background:var(--g-active)}
-.axis {border-color:var(--line)}
-.rail-header,.rail-foot {border-color:var(--line)}
-.overview-card,.stat,.subtopic,.panel,.screen,.sim-panel,.readout-item,.readout,.note-box,.card-note,.card-diagram,.subrow-head,.topic-item,.tb-right {background:var(--g-surface)!important;border-radius:18px;border-color:var(--g-edge)!important;box-shadow:inset 1px 2px 2px var(--g-highlight),4px 8px 16px var(--g-shadow)!important;color:var(--g-ink)}
+.topbar,.titleblock {background:var(--sd-bg)!important;border-color:var(--sd-line)!important;box-shadow:none!important}
+.lab-chemistry .topbar {border-radius:16px;margin:0 12px;background:var(--sd-card)!important;border:1px solid var(--sd-line)}
+
+/* One content width in every lab: a 1160px column centred in the space beside the topic list
+   (the labs had 1000px left-aligned, full width, and 980px centred). */
+.lab-maths .content {max-width:1160px!important;margin-inline:auto!important}
+.lab-maths .topbar {padding-inline:max(34px,calc((100% - 1160px) / 2 + 34px))!important}
+/* main's side-by-side simulation layout widens the column to 1400px; keep the title bar lined up with it */
+@media(min-width:1180px){body.lab-maths:has(.mk-wide) .topbar {padding-inline:max(34px,calc((100% - 1400px) / 2 + 34px))!important}}
+.lab-physics #main {padding-inline:max(32px,calc((100% - 1096px) / 2))!important}
+.lab-chemistry .main-inner {max-width:1160px!important}
+
+/* Topic lists */
+.tick-btn,button.topicbtn,.topic-item {border-radius:10px!important;margin-block:2px;color:var(--sd-ink)}
+.topic-item {background:transparent!important;border:1px solid transparent!important;box-shadow:none!important}
+.tick.active .tick-btn,button.topicbtn.active,.topic-item.active {background:var(--sub-t)!important;box-shadow:none!important;border-color:transparent!important;color:var(--sd-ink)!important}
+.tick.active .tick-btn *,button.topicbtn.active *,.topic-item.active * {color:inherit}
+.topic-item:hover,button.topicbtn:hover,.tick-btn:hover {background:var(--sd-sunk)!important}
+.tick-glyph,.brand .tile {border-radius:9px;background:var(--sub-t);color:var(--sub);border:0;box-shadow:none}
+.tick.active .tick-glyph {color:var(--on-sub);background:var(--sub)}
+.axis {border-color:var(--sd-line)}
+.rail-header,.rail-foot {border-color:var(--sd-line)}
+
+/* Cards */
+.overview-card,.stat,.subtopic,.panel,.screen,.sim-panel,.readout-item,.readout,.note-box,.card-note,.card-diagram,.subrow-head,.tb-right {background:var(--sd-card)!important;border:1px solid var(--sd-line)!important;border-radius:14px;box-shadow:var(--sd-shadow)!important;color:var(--sd-ink)}
+.overview-card:hover {border-color:var(--sd-line2)!important;box-shadow:var(--sd-lift)!important}
+.note-box {background:var(--sd-sunk)!important;border-color:transparent!important;box-shadow:none!important}
 .stats {background:transparent;border:0;gap:12px}
-input:not([type=range]),select,.subpill,.btn-ghost,.back-home,.modebtn,.btn,.section-tabs {background:var(--g-well)!important;color:var(--g-ink)!important;border-color:var(--g-edge)!important;border-radius:12px!important;box-shadow:inset 1px 2px 4px var(--g-shadow)!important}
-.modebtn.active,.section-tab.active,.subpill.active,.btn.primary,.sim-btn {background:var(--g-active)!important;color:var(--g-ink)!important;border:1px solid var(--g-edge);border-radius:12px;box-shadow:inset 0 2px 2px var(--g-highlight),3px 4px 7px var(--g-shadow)!important}
-.topic-item:hover,button.topicbtn:hover,.tick-btn:hover {background:var(--g-well)!important}
+
+/* Controls */
+input:not([type=range]):not([type=checkbox]):not([type=radio]),select,.subpill,.btn-ghost,.back-home,.modebtn,.btn,.section-tabs {background:var(--sd-card)!important;color:var(--sd-ink)!important;border:1px solid var(--sd-line2)!important;border-radius:10px!important;box-shadow:none!important}
+.section-tabs {background:var(--sd-sunk)!important;border-color:var(--sd-line)!important}
+.subpill:hover,.btn-ghost:hover,.back-home:hover,.modebtn:hover,.btn:hover {border-color:var(--sub)!important}
+.modebtn.active,.section-tab.active,.subpill.active,.btn.primary {background:var(--sub)!important;color:var(--on-sub)!important;border:1px solid var(--sub)!important;border-radius:10px;box-shadow:none!important}
+.sim-btn {background:var(--sub-t)!important;color:var(--sub)!important;border:1px solid transparent!important;border-radius:10px;box-shadow:none!important;font-weight:600}
+.sim-btn:hover {border-color:var(--sub)!important}
+input[type=range] {accent-color:var(--sub)}
 .part-head .roman,.legend .dot.sim,.tb-eyebrow .sq,.stage-eyebrow .dash {text-shadow:none;box-shadow:none}
-.sim-canvas-wrap {background:#151b2b!important;border-radius:16px}
-/* Maths canvases are fixed-width, so a themed well that centres them replaces the full-width navy slab. */
-.lab-maths .sim-canvas-wrap {background:var(--g-well)!important;box-shadow:inset 2px 2px 6px var(--g-shadow);padding:12px;text-align:center}
+
+/* Simulation stages. 3D scenes keep their dark stage; maths canvases are fixed-width, so they sit centred in a well. */
+.sim-canvas-wrap {background:#191624!important;border-radius:14px}
+.lab-maths .sim-canvas-wrap {background:var(--sd-sunk)!important;box-shadow:none;padding:12px;text-align:center}
 .lab-maths .sim-canvas {margin-inline:auto}
 /* Canvas instruments keep their original high-contrast drawing palette and logic; in night mode the light
    canvases are darkened with a CSS filter (invert + hue-rotate keeps each colour's hue) instead of editing the JS. */
 canvas {border-radius:12px}
 :root.night .sim-canvas {filter:invert(.9) hue-rotate(180deg) brightness(1.2)}
-/* Maths result rows were hard-coded white, which left light text on white in night mode. */
-.sim-result-row {background:var(--g-well)!important;border-color:var(--g-edge)!important;color:var(--g-ink)}
-.sim-result-label {color:var(--g-muted)}
-.sim-result-value {color:var(--g-ink)}
+.sim-result-row {background:var(--sd-sunk)!important;border-color:var(--sd-line)!important;color:var(--sd-ink)}
+.sim-result-label {color:var(--sd-mute)}
+.sim-result-value {color:var(--sd-ink)}
+
+/* Learning layer (learn-kit.js): its buttons and bars, in the same look */
+body .lk-btn {font-family:'DM Sans',system-ui,sans-serif;background:var(--sd-card);border-color:var(--sd-line2);border-radius:10px}
+body .lk-btn:hover {filter:none;border-color:var(--sub)}
+body .lk-btn.primary {background:var(--sub);color:var(--on-sub);border-color:var(--sub)}
+body .lk-btn.ghost {background:transparent}
+body .lk-topicbar {background:var(--sd-card);border-color:var(--sd-line);border-radius:14px;box-shadow:var(--sd-shadow)}
+body .lk-sheet-in {background:var(--sd-bg);border-color:var(--sd-line);border-radius:18px}
+/* The learning tools sit in the top bar on wide screens, so they no longer float over simulation controls. */
+#glass-navigation #lk-dock {position:static;transform:none;display:flex;gap:2px;padding:0;background:transparent;box-shadow:none;backdrop-filter:none;border-radius:0}
+#glass-navigation #lk-dock button {color:var(--sd-sec);font:500 14px 'DM Sans',system-ui,sans-serif;padding:8px 11px;min-height:38px;border-radius:10px;gap:6px}
+#glass-navigation #lk-dock button:hover,#glass-navigation #lk-dock button:focus-visible {background:var(--sd-sunk);color:var(--sd-ink)}
+#glass-navigation #lk-dock button span {font-size:14px;color:var(--sub)}
+body.lk-docked.glass-dock-in-nav {padding-bottom:0}
+@media(max-width:1599px) {#glass-navigation #lk-dock b {display:none}#glass-navigation #lk-dock button {padding:8px 9px}}
+/* Narrow screens: the tools stay as a bar along the bottom, now light */
+body > #lk-dock {background:var(--sd-card);border:1px solid var(--sd-line);box-shadow:var(--sd-lift);backdrop-filter:none}
+body > #lk-dock button {color:var(--sd-ink);font-family:'DM Sans',system-ui,sans-serif}
+body > #lk-dock button:hover,body > #lk-dock button:focus-visible {background:var(--sd-sunk)}
+body > #lk-dock button span {color:var(--sub)}
+
 button,a,input,select {touch-action:manipulation}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible {outline:3px solid var(--g-accent)!important;outline-offset:3px!important}
-.glass-labs a:hover,.glass-appearance button:hover {color:var(--g-ink)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible {outline:3px solid var(--sub)!important;outline-offset:3px!important}
+/* Learning-layer chips and counters: plain type; scores and timers keep even-width digits */
+body .lk-badge,body .lk-pill,body .lk-k,body .lk-qmeta,body .lk-xp,body .lk-card-k,body .lk-live,body .lk-lvl span {font-family:'DM Sans',system-ui,sans-serif!important;letter-spacing:normal}
+body .lk-score,body .lk-clock {font-family:Manrope,system-ui,sans-serif!important;font-variant-numeric:tabular-nums}
+body .lk-pill {background:var(--sd-sunk)}
+/* Phone sidebar in the maths-template labs slides in from the edge, so it loses the card margin */
+@media(max-width:880px) {.lab-maths .rail {margin:0;border-radius:0 16px 16px 0}}
 @media(max-width:980px) {.layout>aside {position:static;max-height:38dvh}.layout>aside nav.index {min-height:120px}.layout {min-height:0}}
 @media(max-width:680px) {
-  body {padding-top:116px}
-  #glass-navigation {height:106px;padding:10px 14px;flex-wrap:wrap;gap:7px}
-  .glass-brand {font-size:13px}.glass-brand svg {width:26px;height:26px}
-  .glass-labs {order:3;width:100%;justify-content:center}.glass-labs a {padding:6px 13px;font-size:12px}
-  .glass-appearance button {font-size:11px;padding:6px 9px}
-  .lab-maths .topbar {top:106px}.lab-maths .rail {top:116px;height:calc(100dvh - 128px)}
-  .lab-chemistry .app {height:calc(100dvh - 116px)}
-  .rail,.sidebar,.layout>aside {border-radius:20px}
+  body {padding-top:112px}
+  #glass-navigation {display:flex;height:104px;padding:8px 14px;flex-wrap:wrap;gap:6px 8px;align-content:center}
+  .glass-brand {font-size:15px;flex:1}.glass-brand svg {width:28px;height:28px;padding:5px}
+  .glass-labs {order:3;flex:0 0 100%;justify-content:flex-start;overflow-x:auto;scrollbar-width:none}.glass-labs a {padding:6px 11px;font-size:13px}
+  .glass-appearance button {font-size:12px;padding:5px 8px}
+  .lab-maths .topbar {top:104px}.lab-maths .rail {top:112px;height:calc(100dvh - 124px)}
+  .lab-chemistry .app {height:calc(100dvh - 112px)}
   .lab-chemistry .topbar {padding:0 10px;gap:8px}.brand {font-size:15px}.btn-ghost {padding:7px 9px;font-size:11px}
 }
 @media(prefers-reduced-motion:reduce) {*,*::before,*::after {scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 /* Focus timer carried over from the home page (glass.js). */
-.glass-focus {margin-left:auto;border:1px solid var(--g-edge);background:var(--g-well);color:var(--g-ink);font-family:inherit;font-size:13px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;padding:9px 12px;border-radius:13px;cursor:pointer;white-space:nowrap;box-shadow:inset 1px 2px 4px var(--g-shadow)}
+.glass-focus {border:1px solid var(--sd-line2);background:var(--sd-card);color:var(--sd-ink);font-family:inherit;font-size:13px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;padding:9px 12px;border-radius:10px;cursor:pointer;white-space:nowrap}
 .glass-focus[data-state=done] {cursor:default;color:var(--teal)}
 .glass-sr {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media(max-width:680px) {.glass-focus {font-size:11px;padding:6px 9px}}

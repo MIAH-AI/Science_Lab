@@ -12,7 +12,7 @@
   const brand = document.createElement('a');
   brand.className = 'glass-brand';
   brand.href = '/';
-  brand.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5L2 9Z M6 11v6q6 5 12 0v-6 M22 9v8"/></svg>learnwithnehy.';
+  brand.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5L2 9Z M6 11v6q6 5 12 0v-6 M22 9v8"/></svg><span class="glass-word">learnwith<span>nehy</span>.</span>';
   container.append(brand);
   const nav = document.createElement('nav');
   nav.className = 'glass-labs';
@@ -25,6 +25,10 @@
     nav.append(link);
   }
   container.append(nav);
+  // Everything after the subject tabs sits in one right-hand group, so the tabs stay centred on every lab.
+  const end = document.createElement('div');
+  end.className = 'glass-end';
+  container.append(end);
   /* Focus timer started on the home page. It arrives as ?focus= (same format as src/lib/focus.ts:
      "<end ms>-<minutes>" while running, "p<seconds left>-<minutes>" while paused) and goes back out on every link. */
   const focus = readFocus(new URLSearchParams(location.search).get('focus'));
@@ -42,7 +46,7 @@
       else focus.endAt = Date.now() + focus.left * 1000;
       paintFocus(); refreshLinks();
     });
-    container.append(focusBtn, focusSay);
+    end.append(focusBtn, focusSay);
     paintFocus();
     setInterval(() => { if (focus.endAt) paintFocus(); }, 1000);
   }
@@ -81,15 +85,33 @@
   appearance.className = 'glass-appearance';
   appearance.setAttribute('role', 'group');
   appearance.setAttribute('aria-label', 'Appearance');
-  const buttons = ['Default', 'Night'].map((label) => {
+  // "Day" is stored as appearance=default, so links from older pages keep working.
+  const icons = {
+    Day: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+    Night: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>',
+  };
+  const buttons = ['Day', 'Night'].map((label) => {
     const button = document.createElement('button');
     button.type = 'button';
-    button.textContent = label;
+    button.innerHTML = icons[label] + label;
     button.addEventListener('click', () => setAppearance(label === 'Night'));
     appearance.append(button);
     return button;
   });
-  container.append(appearance);
+  end.append(appearance);
+  // The learning layer (learn-kit.js) adds a floating tools bar; on wide screens it moves into this top bar
+  // so it never covers simulation controls. Narrow screens keep it along the bottom.
+  const wide = window.matchMedia('(min-width: 1100px)');
+  function placeDock() {
+    const dock = document.getElementById('lk-dock');
+    if (!dock) return;
+    if (wide.matches && dock.parentNode !== end) end.insertBefore(dock, focusBtn || appearance);
+    else if (!wide.matches && dock.parentNode === end) document.body.append(dock);
+    document.body.classList.toggle('glass-dock-in-nav', dock.parentNode === end);
+  }
+  placeDock();
+  new MutationObserver(placeDock).observe(document.body, { childList: true });
+  wide.addEventListener('change', placeDock);
   let isNight = false;
   function setAppearance(night) {
     isNight = night;
