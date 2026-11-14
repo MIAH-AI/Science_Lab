@@ -62,9 +62,11 @@ export function getDb() {
       throw new Error(
         'DATABASE_URL is not set, so the console has nowhere to keep its data.',
       )
-    const { mkdirSync } = await import('node:fs')
+    const { chmodSync, mkdirSync } = await import('node:fs')
     const dir = config.dataDir() + '/pg'
-    mkdirSync(dir, { recursive: true })
+    // The database holds password hashes: only the user the server runs as may read it.
+    mkdirSync(dir, { recursive: true, mode: 0o700 })
+    chmodSync(dir, 0o700)
     // A school server keeps its own tables (accounts, classes), never the control service's.
     if (process.env.APP_MODE === 'campus') {
       const { SCHOOL_MIGRATIONS } = await import('../school/schema')
