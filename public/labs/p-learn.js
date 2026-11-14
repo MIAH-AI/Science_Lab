@@ -292,7 +292,7 @@
     start(hooks) {
       SYL = hooks.syllabus;
       const sections = () => SYL.map((p) => ({ key: p.roman, label: p.roman + (p.name ? " · " + p.name : ""), topics: p.topics.map(adapt) }));
-      return LK.init(Object.assign({ id: "physics", subject: "Physics", brand: "learnwithnehy.", ranks: ["Observer", "Experimenter", "Technician", "Engineer", "Physicist", "Senior physicist", "Professor of physics"], sections, bank: BANK, themeOf, gens: (window.PhysicsExam || {}).gens, cards: CARDS, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, trackSeen: false, dock: true, manifest: null, sw: ONSITE ? "/sw.js" : null,
+      return LK.init(Object.assign({ id: "physics", subject: "Physics", brand: "tough2simple", ranks: ["Observer", "Experimenter", "Technician", "Engineer", "Physicist", "Senior physicist", "Professor of physics"], sections, bank: BANK, themeOf, gens: (window.PhysicsExam || {}).gens, cards: CARDS, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, trackSeen: false, dock: true, manifest: null, sw: ONSITE ? "/sw.js" : null,
         presentCss: "body.lk-present aside,body.lk-present footer,body.lk-present .titleblock,body.lk-present .lk-topicbar,body.lk-present #glass-navigation{display:none!important}body.lk-present .layout{grid-template-columns:1fr!important}body.lk-present main{padding:16px 3vw!important;font-size:112%}" }, hooks));
     },
     BANK, SORTS, PAIRS, CHALLENGES,

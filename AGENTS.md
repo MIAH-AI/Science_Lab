@@ -1,13 +1,15 @@
-# Learn with Nehy
+# tough2simple
 
 ## Architecture
 
-This is a React 19 / TypeScript application using TanStack Start, TanStack Router, Vite, and the Netlify Vite plugin. The landing page is a WAEC learning workspace with locally hosted copies of the original study labs. No learner records or accounts are stored.
+This is a React 19 / TypeScript application using TanStack Start, TanStack Router, Vite, and the Netlify Vite plugin. The public front page (`/`) leads into a study workspace (`/app`) with locally hosted copies of the original study labs, and a demo (`/demo`) that shows the school roles on a made-up school. Topics follow the WAEC syllabus today, but the product is not positioned as WAEC-only. No learner records or accounts are stored.
 
 ## Key directories
 
-- `src/routes/index.tsx`: the Study Desk home page: subject cards, topic search, quick exam practice, focus timer, Day/Night.
-- `src/routes/__root.tsx`: HTML shell, page title, description, social preview tags, favicon and the not-found page.
+- `src/routes/index.tsx` and `src/marketing/`: the public front page in three designs (`Marketing.tsx`, words and pictures in `content.ts`, styles in `src/marketing.css`). The server reads `MARKETING_DESIGN` (a, b or c; default c) to choose one; `?design=` previews. Pictures in `public/marketing` are real screenshots of the app.
+- `src/routes/app.index.tsx`: the Study Desk (`/app`): subject cards, topic search, quick exam practice, focus timer, Day/Night. Do not add `src/routes/app.tsx`; it would become a layout route.
+- `src/routes/demo.tsx`, `src/routes/app.*.tsx` and `src/demo/`: the role chooser and the Teacher, School admin, Principal and Director demo screens (`src/demo.css`). Rules are in `doc/roadmap/demo-mode.md`.
+- `src/routes/__root.tsx`: HTML shell, page title, description, social preview tags, favicon, and the friendly not-found, crash and offline pages.
 - `src/desk.css`: Study Desk colours (Day and `[data-theme='night']` share variable names), layout and responsive rules.
 - `src/styles.css`: Tailwind setup and base element styles.
 - `src/lib/topics.ts` and `src/data/topic-index.json`: the topic index and search. Rebuild the JSON with `tools/build-topic-index.mjs`.
@@ -15,13 +17,13 @@ This is a React 19 / TypeScript application using TanStack Start, TanStack Route
 - `public/fonts`: self-hosted fonts for the app and labs. Do not add Google Fonts or other third-party requests.
 - `tools/`: the topic index builder and the lab smoke test.
 - `public/labs/`: standalone subject labs, shared glass styling, and accessible theme/navigation controls. A link ending in `#exam` opens a lab in Exam mode (handled in `glass.js`).
-- `public/favicon.svg`: custom graduation-cap brand mark.
+- `public/favicon.svg`, `public/brand/`: the t2s tile logo (light and dark) and wordmark files.
 - `netlify.toml` and `vite.config.ts`: hosting and framework configuration.
 
 ## Conventions and decisions
 
-Use typed React components, semantic HTML, accessible icon-button names, visible keyboard focus, and reduced-motion overrides. Keep colors themeable through CSS variables. The home page's `data-theme` attribute controls its palette; the labs use the `.night` class. CSS/SVG artwork replaces raster imagery intentionally to match the sculpted reference aesthetic without showing screenshot chrome.
+Use typed React components, semantic HTML, accessible icon-button names, visible keyboard focus, and reduced-motion overrides. Keep colors themeable through CSS variables. The brand is dark green `#0e3b2e` with lime `#b8e62e`, and the typeface is Lexend (DM Sans and Manrope remain as fallbacks for Greek). The home page's `data-theme` attribute controls its palette; the labs use the `.night` class. CSS/SVG artwork replaces raster imagery intentionally to match the sculpted reference aesthetic without showing screenshot chrome.
 
-Subject URLs and syllabus counts come from the original Learn with Nehy landing page. The labs are migrated into public/labs with their original lessons and simulation logic. Netlify rewrites preserve the original lab paths. Shared glass.css and glass.js provide default/night styling and navigation; keep the source simulation logic intact. Do not invent learner progress or completion statistics. The focus timer and selected appearance are temporary browser UI state; persistent application data must use Netlify platform storage.
+Subject URLs and syllabus counts come from the original Learn with Nehy landing page. The labs are migrated into public/labs with their original lessons and simulation logic. Netlify rewrites preserve the original lab paths. Shared glass.css and glass.js provide default/night styling and navigation; keep the source simulation logic intact. Do not invent learner progress or completion statistics; sample figures are allowed only on the demo screens, under their "Demo · sample data" bar. The focus timer and selected appearance are temporary browser UI state; persistent application data must use Netlify platform storage.
 
 Use `pnpm install` and `netlify dev --port 8889` for local development. Route types are generated by the TanStack plugin; do not edit generated route-tree files. The managed build pipeline handles production validation. Do not run build, test, type-check, or dev-server commands during managed agent runs when the platform forbids them.

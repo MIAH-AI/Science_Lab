@@ -190,7 +190,7 @@
   const ONSITE = /\/labs\/$/.test(window.MK ? MK.base : "");
   const sections = () => ["core", "ghana", "west"].filter((k) => Array.isArray(BIO[k])).map((k) => ({ key: k, label: BIO.labels[k], topics: BIO[k] }));
   window.BioLearn = {
-    start(hooks) { return LK.init(Object.assign({ id: "biology", subject: "Biology", brand: "learnwithnehy.", ranks: ["Cell", "Tissue", "Organ", "System", "Organism", "Naturalist", "Professor of life"], sections, bank: BANK, themeOf, gens: (window.BiologyExam || {}).gens, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, parts: { models: MODELS, pts }, manifest: null, sw: ONSITE ? "/sw.js" : null }, hooks)); },
+    start(hooks) { return LK.init(Object.assign({ id: "biology", subject: "Biology", brand: "tough2simple", ranks: ["Cell", "Tissue", "Organ", "System", "Organism", "Naturalist", "Professor of life"], sections, bank: BANK, themeOf, gens: (window.BiologyExam || {}).gens, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, parts: { models: MODELS, pts }, manifest: null, sw: ONSITE ? "/sw.js" : null }, hooks)); },
     BANK, SORTS, PAIRS, CHALLENGES,
   };
 })();

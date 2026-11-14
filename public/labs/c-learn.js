@@ -223,7 +223,7 @@
     start(hooks) {
       SEC = hooks.sections0;
       const sections = () => Object.keys(SEC).map((k) => ({ key: k, label: SEC[k].label, topics: SEC[k].topics.map((t) => adapt(k, t)) }));
-      return LK.init(Object.assign({ id: "chemistry", subject: "Chemistry", brand: "learnwithnehy.", ranks: ["Atom", "Molecule", "Reagent", "Analyst", "Chemist", "Senior chemist", "Professor of chemistry"], sections, bank: BANK, themeOf, gens: (window.ChemistryExam || {}).gens, cards: CARDS, sorts: SORTS, pairs: PAIRS, trackSeen: false, dock: true, manifest: null, sw: ONSITE ? "/sw.js" : null,
+      return LK.init(Object.assign({ id: "chemistry", subject: "Chemistry", brand: "tough2simple", ranks: ["Atom", "Molecule", "Reagent", "Analyst", "Chemist", "Senior chemist", "Professor of chemistry"], sections, bank: BANK, themeOf, gens: (window.ChemistryExam || {}).gens, cards: CARDS, sorts: SORTS, pairs: PAIRS, trackSeen: false, dock: true, manifest: null, sw: ONSITE ? "/sw.js" : null,
         presentCss: "body.lk-present .topbar,body.lk-present .sidebar,body.lk-present .lk-topicbar,body.lk-present #glass-navigation{display:none!important}body.lk-present .app{grid-template-columns:1fr!important;grid-template-rows:1fr!important;grid-template-areas:'main'!important}body.lk-present .main-inner{max-width:none!important;font-size:112%}body.lk-docked .main-inner{padding-bottom:84px}" }, hooks));
     },
     BANK, SORTS, PAIRS,

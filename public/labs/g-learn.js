@@ -230,7 +230,7 @@
   const ONSITE = /\/labs\/$/.test(window.MK ? MK.base : "");
   const sections = () => GEO.order.filter((k) => Array.isArray(GEO[k])).map((k) => ({ key: k, label: GEO.labels[k], topics: GEO[k] }));
   window.GeoLearn = {
-    start(hooks) { return LK.init(Object.assign({ id: "geography", subject: "Geography", brand: "learnwithnehy.", ranks: ["Explorer", "Map reader", "Surveyor", "Field worker", "Cartographer", "Geographer", "Professor of the Earth"], sections, bank: BANK, themeOf, gens: (window.GeographyExam || {}).gens, cards: CARDS, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, manifest: null, sw: ONSITE ? "/sw.js" : null }, hooks)); },
+    start(hooks) { return LK.init(Object.assign({ id: "geography", subject: "Geography", brand: "tough2simple", ranks: ["Explorer", "Map reader", "Surveyor", "Field worker", "Cartographer", "Geographer", "Professor of the Earth"], sections, bank: BANK, themeOf, gens: (window.GeographyExam || {}).gens, cards: CARDS, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, manifest: null, sw: ONSITE ? "/sw.js" : null }, hooks)); },
     BANK, SORTS, PAIRS, CHALLENGES,
   };
 })();

@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { Route } from './index'
+import { Route } from './app.index'
 
 const Home = Route.options.component!
 
@@ -78,5 +78,39 @@ describe('home page', () => {
     expect(screen.getByRole('timer')).toHaveTextContent('14:57')
     fireEvent.click(screen.getByRole('button', { name: 'Reset timer' }))
     expect(screen.getByRole('timer')).toHaveTextContent('15:00')
+  })
+
+  it('opens the Subjects menu with a link to every lab, and closes on Escape', () => {
+    render(<Home />)
+    const nav = screen.getByRole('navigation', { name: 'Main' })
+    const button = within(nav).getByRole('button', { name: 'Subjects' })
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(button)
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    const links = within(nav)
+      .getAllByRole('link')
+      .map((a) => a.getAttribute('href'))
+    expect(links).toEqual(
+      expect.arrayContaining([
+        '/waec-maths-dashboard?appearance=default',
+        '/physics_lab_full?appearance=default',
+        '/chemistry-simulations?appearance=default',
+        '/waec-biology-lab?appearance=default',
+        '/waec-geography-lab?appearance=default',
+        '/waec-agric-lab?appearance=default',
+      ]),
+    )
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(button).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('shows the running focus time in the top bar', () => {
+    vi.useFakeTimers()
+    render(<Home />)
+    const chip = () => screen.getByRole('link', { name: /^Focus timer:/ })
+    expect(chip()).toHaveAccessibleName('Focus timer: 25:00')
+    fireEvent.click(screen.getByRole('button', { name: 'Start a session' }))
+    act(() => vi.advanceTimersByTime(2000))
+    expect(chip()).toHaveAccessibleName('Focus timer: 24:58, running')
   })
 })

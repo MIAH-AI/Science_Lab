@@ -417,7 +417,7 @@
   LK.render = (root, code) => { root.innerHTML = code === "PROGRESS" ? pageProgress() : code === "PRACTICE" ? pagePractice() : code === "GAMES" ? pageGames() : pageTeach(); };
 
   /* ================= printouts ================= */
-  const stamp = () => `<div class="lk-pr-foot">${esc(CFG.brand || "learnwithnehy.")} · ${esc(CFG.subject)} · ${nice(day())}</div>`;
+  const stamp = () => `<div class="lk-pr-foot">${esc(CFG.brand || "tough2simple")} · ${esc(CFG.subject)} · ${nice(day())}</div>`;
   function printable(title, html) { openSheet(title, `<div class="lk-paper">${html}${stamp()}</div>`, { tag: "Printout", wide: true, print: true }); }
   function buildTest(codes, n, title) {
     const qs = mixedQs(codes, n); if (!qs.length) return toast("Choose at least one topic.");
@@ -454,7 +454,7 @@
     const cv = $("canvas", body), x = cv.getContext("2d"), W = 1600, Hh = 1130;
     const g = x.createLinearGradient(0, 0, W, Hh); g.addColorStop(0, "#fbf8ef"); g.addColorStop(1, "#f1ead6"); x.fillStyle = g; x.fillRect(0, 0, W, Hh);
     x.strokeStyle = "#12203b"; x.lineWidth = 10; x.strokeRect(40, 40, W - 80, Hh - 80); x.strokeStyle = "#d9a441"; x.lineWidth = 3; x.strokeRect(62, 62, W - 124, Hh - 124);
-    x.fillStyle = "#12203b"; x.textAlign = "center"; x.font = "600 30px 'JetBrains Mono', monospace"; x.fillText((CFG.brand || "learnwithnehy.").toUpperCase() + "  ·  WAEC " + CFG.subject.toUpperCase(), W / 2, 170);
+    x.fillStyle = "#12203b"; x.textAlign = "center"; x.font = "600 30px 'JetBrains Mono', monospace"; x.fillText((CFG.brand || "tough2simple").toUpperCase() + "  ·  WAEC " + CFG.subject.toUpperCase(), W / 2, 170);
     x.font = "600 86px 'Source Serif 4', Georgia, serif"; x.fillText("Certificate of Achievement", W / 2, 300);
     x.font = "400 34px 'IBM Plex Sans', sans-serif"; x.fillStyle = "#5b6478"; x.fillText("This is awarded to", W / 2, 400);
     x.fillStyle = "#b5322f"; x.font = "600 76px 'Source Serif 4', Georgia, serif"; x.fillText(ST.name || "________________________", W / 2, 505);

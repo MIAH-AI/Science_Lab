@@ -406,7 +406,7 @@
   const sections = () => SECT.order.map((k) => ({ key: k, label: SECT.labels[k], topics: SECT[k] }));
   window.AgricLearn = {
     start(hooks) {
-      return LK.init(Object.assign({ id: "agric", subject: "Agricultural Science", brand: "learnwithnehy.", ranks: ["Seedling", "Sprout", "Grower", "Farmer", "Agronomist", "Master farmer", "Professor of the soil"], sections, bank: BANK, themeOf, gens: (window.AgricExam || {}).gens, sorts: SORTS, challenges: CHALLENGES, parts: { models: MODELS, pts: (s, c) => (s.key === c.m ? s.pts : null) }, manifest: ONSITE ? "/labs/agric.webmanifest" : null, sw: ONSITE ? "/sw.js" : null }, hooks));
+      return LK.init(Object.assign({ id: "agric", subject: "Agricultural Science", brand: "tough2simple", ranks: ["Seedling", "Sprout", "Grower", "Farmer", "Agronomist", "Master farmer", "Professor of the soil"], sections, bank: BANK, themeOf, gens: (window.AgricExam || {}).gens, sorts: SORTS, challenges: CHALLENGES, parts: { models: MODELS, pts: (s, c) => (s.key === c.m ? s.pts : null) }, manifest: ONSITE ? "/labs/agric.webmanifest" : null, sw: ONSITE ? "/sw.js" : null }, hooks));
     },
     BANK, SORTS, CHALLENGES,
   };

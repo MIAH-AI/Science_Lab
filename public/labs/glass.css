@@ -4,7 +4,7 @@
 :root {
   color-scheme:light;
   --sd-bg:#fbf7f0; --sd-card:#ffffff; --sd-sunk:#f4eee3; --sd-ink:#221c35; --sd-sec:#4f4966; --sd-mute:#6e6886;
-  --sd-line:#e7dfd1; --sd-line2:#cfc6b5; --sd-brand:#5e44a8; --sd-brand-t:#eee9fa;
+  --sd-line:#e7dfd1; --sd-line2:#cfc6b5; --sd-brand:#0e3b2e; --sd-brand-t:#e9f5cf; --sd-brand-2:#2f7d1f;
   --sd-shadow:0 1px 2px rgba(34,28,53,.06); --sd-lift:0 6px 18px rgba(34,28,53,.08);
   /* subject colour; overridden per lab below */
   --sub:#5e44a8; --sub-t:#eee9fa; --on-sub:#ffffff;
@@ -27,7 +27,7 @@
 :root.night {
   color-scheme:dark;
   --sd-bg:#14121b; --sd-card:#1d1a27; --sd-sunk:#24202f; --sd-ink:#f2eff8; --sd-sec:#bdb6d0; --sd-mute:#9c95b2;
-  --sd-line:#332e43; --sd-line2:#4a4460; --sd-brand:#b9a5ff; --sd-brand-t:#2c2546;
+  --sd-line:#332e43; --sd-line2:#4a4460; --sd-brand:#b8e62e; --sd-brand-t:#26331a; --sd-brand-2:#b8e62e;
   --sd-shadow:none; --sd-lift:0 8px 24px rgba(0,0,0,.35);
   --sub:#b9a5ff; --sub-t:#2c2546; --on-sub:#16112a;
   --g-shadow:rgba(0,0,0,.3); --line-soft:#2a2638;
@@ -49,37 +49,39 @@
 /* Values that use the subject colour are set on body, where each lab's --sub lives. */
 body {--g-accent:var(--sub);--g-active:var(--sub-t);--flame:var(--sub)}
 
-/* Type: DM Sans for reading, Manrope for headings, code font kept only for numbers and formulas. */
-:root:root {--sans:'DM Sans',system-ui,sans-serif;--serif:Manrope,system-ui,sans-serif}
-body {padding-top:72px;background:var(--sd-bg)!important;color:var(--sd-ink);font-family:'DM Sans',system-ui,sans-serif!important;-webkit-font-smoothing:antialiased}
+/* Type: Lexend (the tough2simple typeface) for reading and headings; DM Sans and Manrope stay as fallbacks for
+   characters Lexend lacks (Greek). Code font kept only for numbers and formulas. */
+:root:root {--sans:Lexend,'DM Sans',system-ui,sans-serif;--serif:Lexend,Manrope,system-ui,sans-serif}
+body {padding-top:72px;background:var(--sd-bg)!important;color:var(--sd-ink);font-family:Lexend,'DM Sans',system-ui,sans-serif!important;-webkit-font-smoothing:antialiased}
 body::before {display:none}
 .rail-title,.topic-head h1,.overview-card h3,.units-panel h2,.item-title,.brand,.empty-state .big,.sim-header h1,
-.tb-title,.welcome h2,.stage-head h2,.empty .big {font-family:Manrope,system-ui,sans-serif!important;letter-spacing:-.02em;font-weight:700;color:var(--sd-ink)}
+.tb-title,.welcome h2,.stage-head h2,.empty .big {font-family:Lexend,Manrope,system-ui,sans-serif!important;letter-spacing:-.02em;font-weight:700;color:var(--sd-ink)}
 .tb-title em,.tb-title i,.tb-title span {color:var(--sub)!important;font-style:normal}
 .item-title {font-weight:650}
-.note-box {font-family:'DM Sans',system-ui,sans-serif!important;font-style:normal!important}
+.note-box {font-family:Lexend,'DM Sans',system-ui,sans-serif!important;font-style:normal!important}
 /* Small labels: spaced-out code-font capitals become plain semibold capitals in the subject colour */
 .rail-eyebrow,.topic-head .code-badge,.body-label,.brand small,.section-label,.sim-eyebrow,.tb-eyebrow,.tb-back,
-.stage-eyebrow,.panel h3,.subtopics .stlabel {font-family:'DM Sans',system-ui,sans-serif!important;font-weight:600;letter-spacing:.06em!important;font-size:12px}
+.stage-eyebrow,.panel h3,.subtopics .stlabel {font-family:Lexend,'DM Sans',system-ui,sans-serif!important;font-weight:600;letter-spacing:.06em!important;font-size:12px}
 .rail-eyebrow,.topic-head .code-badge,.sim-eyebrow,.tb-eyebrow,.stage-eyebrow,.body-label {color:var(--sub)!important}
 .tick-code,.tick-count,.topbar-meta,.overview-card .oc-code,.overview-card .oc-count,.item-code,.back-home,.back-link,
 .rail-toggle,.tnum,.legend,.part-head .roman,.paper-tag,.modebtn,.search-wrap input,.tb-right,.no-results,footer,.subsim,
-.btn,.sim-label,.sim-btn,.sim-select,.sim-input,.sim-input-text,.brand .tile,.ctl-val {font-family:'DM Sans',system-ui,sans-serif!important;letter-spacing:normal!important}
-.stat .n {font-family:Manrope,system-ui,sans-serif!important;color:var(--sd-ink)!important;letter-spacing:-.02em}
+.btn,.sim-label,.sim-btn,.sim-select,.sim-input,.sim-input-text,.brand .tile,.ctl-val {font-family:Lexend,'DM Sans',system-ui,sans-serif!important;letter-spacing:normal!important}
+.stat .n {font-family:Lexend,Manrope,system-ui,sans-serif!important;color:var(--sd-ink)!important;letter-spacing:-.02em}
 .sim-result-value,.sim-steps,.ro-val,.readout,.eqn,.ctl-val {font-variant-numeric:tabular-nums}
 
 /* Top bar */
-#glass-navigation {position:fixed;inset:0 0 auto;z-index:100;height:64px;display:grid;grid-template-columns:minmax(max-content,1fr) auto minmax(max-content,1fr);align-items:center;gap:14px;padding:0 24px;background:var(--sd-bg);border-bottom:1px solid var(--sd-line);font:500 14px 'DM Sans',system-ui,sans-serif;color:var(--sd-ink)}
-.glass-brand {text-decoration:none;color:var(--sd-ink);font:800 18px Manrope,system-ui,sans-serif;letter-spacing:-.02em;white-space:nowrap;display:flex;gap:10px;align-items:center}
-.glass-word span {color:var(--sd-brand)}
-.glass-brand svg {width:32px;height:32px;padding:6px;border-radius:9px;background:var(--sd-brand);color:#fff}
+#glass-navigation {position:fixed;inset:0 0 auto;z-index:100;height:64px;display:grid;grid-template-columns:minmax(max-content,1fr) auto minmax(max-content,1fr);align-items:center;gap:14px;padding:0 24px;background:var(--sd-bg);border-bottom:1px solid var(--sd-line);font:500 14px Lexend,'DM Sans',system-ui,sans-serif;color:var(--sd-ink)}
+.glass-brand {text-decoration:none;color:var(--sd-ink);font:600 18px Lexend,Manrope,system-ui,sans-serif;letter-spacing:-.03em;white-space:nowrap;display:flex;gap:10px;align-items:center}
+.glass-word span {color:var(--sd-brand-2);font-weight:800}
+.glass-brand img {width:32px;height:32px;display:block}.glass-brand .gb-night,:root.night .glass-brand .gb-day {display:none}:root.night .glass-brand .gb-night {display:block}
 :root.night .glass-brand svg {color:#16112a}
 .glass-labs {display:flex;gap:2px;align-items:center;justify-content:center}
 .glass-end {justify-self:end;display:flex;gap:10px;align-items:center}
 .glass-appearance {display:flex;gap:2px;align-items:center}
 .glass-labs a,.glass-appearance button {text-decoration:none;border:1px solid transparent;color:var(--sd-sec);font:inherit;font-weight:500;background:transparent;padding:8px 13px;border-radius:10px;cursor:pointer;white-space:nowrap}
 .glass-labs a:hover,.glass-appearance button:hover {color:var(--sd-ink);background:var(--sd-sunk)}
-.glass-labs a[aria-current] {background:var(--sd-card);color:var(--sd-ink);border-color:var(--sd-line2);font-weight:600}
+/* The current tab keeps the weight of the others: a heavier one is wider, which shifted the row between labs. */
+.glass-labs a[aria-current] {background:var(--sd-card);color:var(--sd-ink);border-color:var(--sd-line2)}
 .glass-appearance {border-radius:12px;padding:3px;border:1px solid var(--sd-line);background:var(--sd-card)}
 .glass-appearance button {display:flex;align-items:center;gap:6px;padding:6px 11px;font-size:13px;border-radius:9px}
 .glass-appearance button svg {width:15px;height:15px}
@@ -147,7 +149,7 @@ canvas {border-radius:12px}
 .sim-result-value {color:var(--sd-ink)}
 
 /* Learning layer (learn-kit.js): its buttons and bars, in the same look */
-body .lk-btn {font-family:'DM Sans',system-ui,sans-serif;background:var(--sd-card);border-color:var(--sd-line2);border-radius:10px}
+body .lk-btn {font-family:Lexend,'DM Sans',system-ui,sans-serif;background:var(--sd-card);border-color:var(--sd-line2);border-radius:10px}
 body .lk-btn:hover {filter:none;border-color:var(--sub)}
 body .lk-btn.primary {background:var(--sub);color:var(--on-sub);border-color:var(--sub)}
 body .lk-btn.ghost {background:transparent}
@@ -155,22 +157,22 @@ body .lk-topicbar {background:var(--sd-card);border-color:var(--sd-line);border-
 body .lk-sheet-in {background:var(--sd-bg);border-color:var(--sd-line);border-radius:18px}
 /* The learning tools sit in the top bar on wide screens, so they no longer float over simulation controls. */
 #glass-navigation #lk-dock {position:static;transform:none;display:flex;gap:2px;padding:0;background:transparent;box-shadow:none;backdrop-filter:none;border-radius:0}
-#glass-navigation #lk-dock button {color:var(--sd-sec);font:500 14px 'DM Sans',system-ui,sans-serif;padding:8px 11px;min-height:38px;border-radius:10px;gap:6px}
+#glass-navigation #lk-dock button {color:var(--sd-sec);font:500 14px Lexend,'DM Sans',system-ui,sans-serif;padding:8px 11px;min-height:38px;border-radius:10px;gap:6px}
 #glass-navigation #lk-dock button:hover,#glass-navigation #lk-dock button:focus-visible {background:var(--sd-sunk);color:var(--sd-ink)}
 #glass-navigation #lk-dock button span {font-size:14px;color:var(--sub)}
 body.lk-docked.glass-dock-in-nav {padding-bottom:0}
 @media(max-width:1599px) {#glass-navigation #lk-dock b {display:none}#glass-navigation #lk-dock button {padding:8px 9px}}
 /* Narrow screens: the tools stay as a bar along the bottom, now light */
 body > #lk-dock {background:var(--sd-card);border:1px solid var(--sd-line);box-shadow:var(--sd-lift);backdrop-filter:none}
-body > #lk-dock button {color:var(--sd-ink);font-family:'DM Sans',system-ui,sans-serif}
+body > #lk-dock button {color:var(--sd-ink);font-family:Lexend,'DM Sans',system-ui,sans-serif}
 body > #lk-dock button:hover,body > #lk-dock button:focus-visible {background:var(--sd-sunk)}
 body > #lk-dock button span {color:var(--sub)}
 
 button,a,input,select {touch-action:manipulation}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible {outline:3px solid var(--sub)!important;outline-offset:3px!important}
 /* Learning-layer chips and counters: plain type; scores and timers keep even-width digits */
-body .lk-badge,body .lk-pill,body .lk-k,body .lk-qmeta,body .lk-xp,body .lk-card-k,body .lk-live,body .lk-lvl span {font-family:'DM Sans',system-ui,sans-serif!important;letter-spacing:normal}
-body .lk-score,body .lk-clock {font-family:Manrope,system-ui,sans-serif!important;font-variant-numeric:tabular-nums}
+body .lk-badge,body .lk-pill,body .lk-k,body .lk-qmeta,body .lk-xp,body .lk-card-k,body .lk-live,body .lk-lvl span {font-family:Lexend,'DM Sans',system-ui,sans-serif!important;letter-spacing:normal}
+body .lk-score,body .lk-clock {font-family:Lexend,Manrope,system-ui,sans-serif!important;font-variant-numeric:tabular-nums}
 body .lk-pill {background:var(--sd-sunk)}
 /* Phone sidebar in the maths-template labs slides in from the edge, so it loses the card margin */
 @media(max-width:880px) {.lab-maths .rail {margin:0;border-radius:0 16px 16px 0}}

@@ -11,8 +11,9 @@
   const container = document.getElementById('glass-navigation');
   const brand = document.createElement('a');
   brand.className = 'glass-brand';
-  brand.href = '/';
-  brand.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m2 9 10-5 10 5-10 5L2 9Z M6 11v6q6 5 12 0v-6 M22 9v8"/></svg><span class="glass-word">learnwith<span>nehy</span>.</span>';
+  brand.href = '/app';
+  brand.innerHTML = '<img class="gb-day" src="/favicon.svg" alt=""><img class="gb-night" src="/brand/icon-dark.svg" alt=""><span class="glass-word">tough<span>2</span>simple</span>';
+  brand.setAttribute('aria-label', 'tough2simple home');
   container.append(brand);
   const nav = document.createElement('nav');
   nav.className = 'glass-labs';
@@ -126,9 +127,13 @@
     url.searchParams.set('appearance', appearanceValue);
     if (focusValue) url.searchParams.set('focus', focusValue); else url.searchParams.delete('focus');
     history.replaceState(null, '', url);
-    const query = '?appearance=' + appearanceValue + (focusValue ? '&focus=' + focusValue : '');
+    // A visitor trying the demo as a student keeps that role (?role=student) through the labs and back.
+    const role = /^[a-z]{1,12}$/.test(url.searchParams.get('role') || '') ? url.searchParams.get('role') : '';
+    const query = '?appearance=' + appearanceValue + (focusValue ? '&focus=' + focusValue : '') + (role ? '&role=' + role : '');
     nav.querySelectorAll('a').forEach((link, i) => { link.href = subjects[i][1] + query; });
-    brand.href = '/' + query;
+    brand.href = '/app' + query;
+    // The labs' own "Home" and "Back to main page" links go to the same place as the brand.
+    document.querySelectorAll('a[href="/app"], a[href^="/app?"]').forEach((link) => { if (link !== brand) link.href = '/app' + query; });
   }
   setAppearance(new URLSearchParams(location.search).get('appearance') === 'night');
   document.querySelectorAll('input[type=text], input:not([type])').forEach(input => {

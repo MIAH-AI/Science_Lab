@@ -227,7 +227,7 @@
       const core = hooks.core, fm = () => MK.FM || [];
       const sections = () => [{ key: "core", label: "General Mathematics (Core)", topics: core }].concat(fm().length ? [{ key: "further", label: "Further Mathematics (Elective)", topics: fm() }] : []);
       const extraQs = (code, n) => { const E = MK.exam; if (!E || !E.make) return []; const g = /^FM/.test(code) ? E.gens.further : E.gens.core; if (!g || !g[code]) return []; return E.make(g, [code], n, (Date.now() & 0xffffff) + 5).map((q) => ({ q: q.q, ans: q.ans, opts: q.opts, steps: q.steps || [] })); };
-      return LK.init(Object.assign({ id: "maths", subject: "Mathematics", brand: "learnwithnehy.", ranks: ["Counter", "Solver", "Calculator", "Problem-cracker", "Analyst", "Mathematician", "Professor of numbers"], sections, bank: BANK, cards: CARDS, extraQs, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, manifest: null, sw: ONSITE ? "/sw.js" : null }, hooks));
+      return LK.init(Object.assign({ id: "maths", subject: "Mathematics", brand: "tough2simple", ranks: ["Counter", "Solver", "Calculator", "Problem-cracker", "Analyst", "Mathematician", "Professor of numbers"], sections, bank: BANK, cards: CARDS, extraQs, sorts: SORTS, pairs: PAIRS, challenges: CHALLENGES, manifest: null, sw: ONSITE ? "/sw.js" : null }, hooks));
     },
     BANK, SORTS, PAIRS, CHALLENGES,
   };
