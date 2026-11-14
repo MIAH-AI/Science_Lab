@@ -11,7 +11,7 @@ For the person installing over SSH. The school's students and teachers then open
 
 The package already contains everything else. Nothing is downloaded during the install.
 
-## Linux (tested)
+## Linux (tested in a clean Debian container with Node 24)
 
 ```sh
 # 1. Unpack

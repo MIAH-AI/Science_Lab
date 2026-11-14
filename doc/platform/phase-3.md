@@ -35,7 +35,8 @@ Branch `platform/3-school-server`, on top of phase 2. It turns the app into some
 
 - Unit tests with a real embedded database: fingerprint, licence clock, every standing, refusals on install, enrol and check-in through the real control service code, an unsigned answer ignored.
 - Browser journeys with a real school server process and a real console: closed when new; three kinds of bad licence refused; offline install; study desk and a lab open; restart keeps the licence; enrol from the command line; an extension, a suspension and its lifting arrive by check-in; read-only notice on the study desk and in a lab; locked; unlocked by an extension.
-- The package was unpacked into an empty folder and run with nothing but Node.
+- The package was unpacked into an empty folder on macOS and run with nothing but Node.
+- **Linux:** the package was installed in a clean Debian container with Node 24, following [INSTALL.md](INSTALL.md) step by step (apart from systemd, which a container does not have): unpack, service user, start, read the fingerprint from the system's machine id, install a licence made for it, open the study desk and a lab, stop with a normal stop request, start again and find the licence still there. The files in the data folder are readable only by the service user.
 - Found on the way and fixed: the server ignored a normal stop request (the app bundle catches the signal), which would have made every restart hang.
 
 ## Limits to know about
@@ -45,6 +46,6 @@ Branch `platform/3-school-server`, on top of phase 2. It turns the app into some
 - **Cloning a virtual machine** copies its machine id. Two clones would both accept the licence.
 - **Anyone with root on the server can replace the public key or the program.** This is licence enforcement for honest schools, not protection against a determined attacker. The roadmap's encrypted database and short-lived keys are not built.
 - **No automatic updates.** An update is a new package unpacked over the old one. The roadmap's signed releases, maintenance windows and rollback are not started.
-- **Windows is untested.** The code has a Windows fingerprint path and the server is plain Node, but it has not been run there.
+- **Not yet run on a real school machine.** Linux was tested in a container, without systemd. **Windows is untested**: the code has a Windows fingerprint path and the server is plain Node, but it has not been run there.
 - **The database is not encrypted at rest**, and nothing is stored in it yet.
 - Seats in use are not reported until phase 4, because there are no school accounts yet.
