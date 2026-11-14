@@ -6,3 +6,6 @@ dist-ssr
 .env
 .netlify
 .tanstack
+
+# Embedded database for local work and school servers
+.data
