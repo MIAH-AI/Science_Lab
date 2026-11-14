@@ -2,6 +2,8 @@
 // Add a new migration at the end; never edit one that has shipped. Dates of a licence are kept as
 // YYYY-MM-DD text so both database drivers return the same thing. A campus's current licence is simply the
 // one issued last (highest seq, a running number, because two can share a timestamp); earlier ones are kept as history.
+import { USAGE_TABLE } from './usage'
+
 export const MIGRATIONS: string[][] = [
   [
     `CREATE TABLE platform_admins (
@@ -82,5 +84,11 @@ export const MIGRATIONS: string[][] = [
       target text,
       detail text
     )`,
+  ],
+  [
+    // Anonymous daily counts of what was opened (see ./usage.ts), and how many people of each kind a school
+    // server last reported. Names never leave the school; only these numbers do.
+    USAGE_TABLE,
+    `ALTER TABLE campuses ADD COLUMN people text`,
   ],
 ]

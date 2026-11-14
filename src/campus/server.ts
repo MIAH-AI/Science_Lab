@@ -161,6 +161,8 @@ async function ask(body: Record<string, unknown>) {
   return (await res.json()) as {
     ok: boolean
     used?: number
+    people?: unknown
+    usage?: unknown
     code?: string
     error?: string
   }
@@ -417,12 +419,14 @@ for (const signal of ['SIGTERM', 'SIGINT'] as const)
 
 async function report() {
   if (!store.link()) return
-  const seats = await ask({ action: 'seats' }).catch(() => null)
+  const seats = await ask({ action: 'report' }).catch(() => null)
   const res = await beat(store, {
     publicKey,
     machine: id.machine,
     version: VERSION,
     seatsUsed: seats?.used,
+    people: seats?.people,
+    usage: seats?.usage,
     clock,
   })
   if (res.ok && (res.licenceChanged || res.suspended))

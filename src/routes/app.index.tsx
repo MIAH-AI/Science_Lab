@@ -209,6 +209,17 @@ function Home() {
         : window.matchMedia('(prefers-color-scheme: dark)').matches,
     )
     setDemo(params.get('role') === 'student')
+    // Adds one to today's anonymous count of Study Desk visits (src/server/usage.ts).
+    try {
+      navigator.sendBeacon?.(
+        '/api/usage',
+        new Blob([JSON.stringify({ subject: 'all', kind: 'desk' })], {
+          type: 'application/json',
+        }),
+      )
+    } catch {
+      // Counting never gets in the way of the page.
+    }
     const focus = parseFocus(params.get('focus'), Date.now())
     if (focus) {
       setMinutes(focus.minutes)

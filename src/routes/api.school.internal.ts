@@ -1,7 +1,8 @@
 import { timingSafeEqual } from 'node:crypto'
 import { createFileRoute } from '@tanstack/react-router'
 import { getDb } from '../server/db'
-import { invite, seatsUsed } from '../school/accounts'
+import { invite, peopleCounts, seatsUsed } from '../school/accounts'
+import { usageOf } from '../server/usage'
 
 const same = (given: string | null, want: string) => {
   const a = Buffer.from(given ?? '')
@@ -32,6 +33,14 @@ export const Route = createFileRoute('/api/school/internal')({
         const db = await getDb()
         if (body.action === 'seats')
           return Response.json({ ok: true, used: await seatsUsed(db) })
+        // What the check-in carries: seats in use, how many people of each kind, and the daily counts.
+        if (body.action === 'report')
+          return Response.json({
+            ok: true,
+            used: await seatsUsed(db),
+            people: await peopleCounts(db),
+            usage: await usageOf(db, 'local', new Date()),
+          })
         if (body.action === 'first-admin')
           return Response.json(
             await invite(

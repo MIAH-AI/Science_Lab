@@ -14,8 +14,40 @@ import {
   type Standing,
 } from './licence'
 import { newToken, tokenHash } from './secrets'
+import { keepCampusUsage } from './usage'
 
 export const ENROL_HOURS = 24
+
+// How many people of each kind a school server last reported. Counts only; names stay at the school.
+export type People = {
+  students: number
+  teachers: number
+  leaders: number
+  pending: number
+  invited: number
+  disabled: number
+}
+const PEOPLE_KEYS = [
+  'students',
+  'teachers',
+  'leaders',
+  'pending',
+  'invited',
+  'disabled',
+] as const
+function cleanPeople(value: unknown): People | null {
+  if (!value || typeof value !== 'object') return null
+  const v = value as Record<string, unknown>
+  if (!PEOPLE_KEYS.every((k) => whole(v[k], 0, 1_000_000))) return null
+  return Object.fromEntries(PEOPLE_KEYS.map((k) => [k, v[k]])) as People
+}
+function readPeople(text: string | null): People | null {
+  try {
+    return text ? cleanPeople(JSON.parse(text)) : null
+  } catch {
+    return null
+  }
+}
 const fail = (error: string): Fail => ({ ok: false, error })
 const isDate = (s: string) =>
   /^\d{4}-\d{2}-\d{2}$/.test(s) && !Number.isNaN(Date.parse(s + 'T00:00:00Z'))
@@ -40,6 +72,7 @@ type CampusRow = {
   last_heartbeat: unknown
   version: string | null
   seats_used: number | null
+  people: string | null
 }
 type LicenceRow = {
   id: string
@@ -301,6 +334,7 @@ export type CampusView = {
   lastHeartbeat: string | null
   version: string
   seatsUsed: number | null
+  people: People | null
   licence: LicenceView | null
   // null when there is no licence yet.
   standing: Standing | null
@@ -382,6 +416,7 @@ export async function listSchools(
           lastHeartbeat: iso(c.last_heartbeat),
           version: c.version ?? '',
           seatsUsed: c.seats_used,
+          people: readPeople(c.people),
           licence: current ? viewLicence(current) : null,
           standing: current
             ? standing(asLicence(current, c), now, {
@@ -562,6 +597,8 @@ export async function heartbeat(
     machine: string
     version?: string
     seatsUsed?: number
+    people?: unknown
+    usage?: unknown
     nonce?: string
   },
   now: Date,
@@ -582,8 +619,9 @@ export async function heartbeat(
     campus.machine !== input.machine
   )
     return fail('This server is not enrolled for that campus.')
+  const people = cleanPeople(input.people)
   await db.query(
-    'UPDATE campuses SET last_heartbeat = $2, version = $3, seats_used = $4 WHERE id = $1',
+    'UPDATE campuses SET last_heartbeat = $2, version = $3, seats_used = $4, people = $5 WHERE id = $1',
     [
       campus.id,
       now.toISOString(),
@@ -591,8 +629,10 @@ export async function heartbeat(
       whole(input.seatsUsed, 0, 1_000_000)
         ? input.seatsUsed
         : campus.seats_used,
+      people ? JSON.stringify(people) : campus.people,
     ],
   )
+  await keepCampusUsage(db, campus.id, input.usage, now)
   const current = await latestLicence(db, campus.id)
   return {
     ok: true,

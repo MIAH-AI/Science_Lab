@@ -33,6 +33,8 @@ export async function beat(
     machine: string
     version: string
     seatsUsed?: number
+    people?: unknown
+    usage?: unknown
     clock?: LicenceClock
     fetch?: typeof fetch
   },
@@ -59,6 +61,8 @@ export async function beat(
           machine: opts.machine,
           version: opts.version,
           seatsUsed: opts.seatsUsed,
+          people: opts.people,
+          usage: opts.usage,
           nonce,
         }),
         signal: AbortSignal.timeout(15_000),

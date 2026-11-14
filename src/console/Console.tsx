@@ -1,20 +1,32 @@
 // The platform admin console's screens. Data comes in as props from the route loaders; every action
 // calls a server function in ./api, which checks the caller on the server.
 import { useRouter } from '@tanstack/react-router'
-import { useId, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import {
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react'
 import qrcode from 'qrcode-generator'
 import {
   Ban,
+  BarChart3,
+  BookOpen,
   Building2,
   Check,
   Copy,
   Download,
   KeyRound,
+  LayoutDashboard,
   LogOut,
   Play,
   Plus,
+  ScrollText,
   Server,
   ShieldCheck,
+  Users,
 } from 'lucide-react'
 import {
   DEFAULT_GRACE_DAYS,
@@ -46,7 +58,7 @@ import {
 } from './api'
 
 type Result = { ok: true } | { ok: false; error: string }
-const plural = (n: number, one: string, many = one + 's') =>
+export const plural = (n: number, one: string, many = one + 's') =>
   `${n} ${n === 1 ? one : many}`
 
 // Runs an action, shows its plain-language error if it fails, and refreshes the page's data if it works.
@@ -118,13 +130,34 @@ export function ConsoleFrame({
   path: string
   children: ReactNode
 }) {
-  const tabs = [
-    ['/console', 'Schools'],
-    ['/console/admins', 'Admins'],
-    ['/console/audit', 'Audit trail'],
+  const groups: [string, [string, string, typeof Building2][]][] = [
+    [
+      'Schools',
+      [
+        ['/console', 'Overview', LayoutDashboard],
+        ['/console/schools', 'Schools', Building2],
+        ['/console/people', 'People', Users],
+      ],
+    ],
+    [
+      'Learning',
+      [
+        ['/console/content', 'Content', BookOpen],
+        ['/console/usage', 'Usage', BarChart3],
+      ],
+    ],
+    [
+      'Platform team',
+      [
+        ['/console/admins', 'Admins', ShieldCheck],
+        ['/console/audit', 'Audit trail', ScrollText],
+      ],
+    ],
   ]
+  const here = (href: string) =>
+    href === '/console' ? path === '/console' : path.startsWith(href)
   return (
-    <div className="sd cs" data-theme="day">
+    <div className={`sd cs${state.me ? ' cs-in' : ''}`} data-theme="day">
       <header className="sd-top">
         <a className="sd-brand" href={state.me ? '/console' : '/'}>
           <img src="/favicon.svg" alt="" />
@@ -135,26 +168,6 @@ export function ConsoleFrame({
         <span className="cs-badge">Console</span>
         {state.me && (
           <>
-            <nav className="sd-nav" aria-label="Console">
-              {tabs.map(([href, label]) => (
-                <a
-                  key={href}
-                  href={href}
-                  aria-current={
-                    (
-                      href === '/console'
-                        ? path === '/console' ||
-                          path.startsWith('/console/schools')
-                        : path.startsWith(href)
-                    )
-                      ? 'page'
-                      : undefined
-                  }
-                >
-                  {label}
-                </a>
-              ))}
-            </nav>
             <span className="cs-me">{state.me.name}</span>
             <button
               type="button"
@@ -170,7 +183,28 @@ export function ConsoleFrame({
           </>
         )}
       </header>
-      <main className="cs-main">{children}</main>
+      <div className="cs-body">
+        {state.me && (
+          <nav className="cs-side" aria-label="Console">
+            {groups.map(([title, links]) => (
+              <div key={title} role="group" aria-label={title}>
+                <span className="cs-side-title">{title}</span>
+                {links.map(([href, label, Icon]) => (
+                  <a
+                    key={href}
+                    href={href}
+                    aria-current={here(href) ? 'page' : undefined}
+                  >
+                    <Icon size={18} aria-hidden="true" />
+                    {label}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </nav>
+        )}
+        <main className="cs-main">{children}</main>
+      </div>
     </div>
   )
 }
@@ -217,12 +251,15 @@ function Authenticator({
   )
 }
 
+// Typing or pasting the sixth digit signs in straight away; the button stays for anyone who prefers it.
 function CodeField({
   value,
   onChange,
+  onComplete,
 }: {
   value: string
   onChange: (v: string) => void
+  onComplete: (v: string) => void
 }) {
   return (
     <label className="cs-field">
@@ -233,7 +270,11 @@ function CodeField({
         pattern="[0-9 ]*"
         maxLength={7}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          const v = e.target.value
+          onChange(v)
+          if (v.replace(/\D/g, '').length === 6) onComplete(v)
+        }}
         required
         autoFocus
       />
@@ -259,30 +300,46 @@ export function SignIn({
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
-  async function submit(e: FormEvent) {
-    e.preventDefault()
+  // One request at a time, so a sixth digit and a press of the button cannot both send the code.
+  const sending = useRef(false)
+  async function send(withCode: string) {
+    if (sending.current) return
+    sending.current = true
     setBusy(true)
     setError('')
     try {
       const res = await consoleSignIn({
-        data: { email, password, code: step === 'password' ? undefined : code },
+        data: {
+          email,
+          password,
+          code: step === 'password' ? undefined : withCode,
+        },
       })
       if (res.ok) window.location.href = '/console'
       else if ('need' in res) {
         if (res.need === 'setup') setSetup({ secret: res.secret, uri: res.uri })
         setStep(res.need)
         setCode('')
-      } else setError(res.error)
+      } else {
+        setError(res.error)
+        // A wrong code is cleared, so typing the next one signs in without deleting first.
+        if (step !== 'password') setCode('')
+      }
     } catch {
       setError('That did not work. Check your connection and try again.')
     } finally {
+      sending.current = false
       setBusy(false)
     }
+  }
+  function submit(e: FormEvent) {
+    e.preventDefault()
+    void send(code)
   }
 
   const codeForm = (
     <>
-      <CodeField value={code} onChange={setCode} />
+      <CodeField value={code} onChange={setCode} onComplete={send} />
       <Problem text={error} />
       <button className="sd-btn primary" disabled={busy}>
         <ShieldCheck size={18} aria-hidden="true" /> Sign in
@@ -497,7 +554,7 @@ const STATE: Record<Standing['state'] | 'none', [string, string]> = {
   none: ['idle', 'No licence'],
 }
 
-function Pill({ campus }: { campus: CampusView }) {
+export function Pill({ campus }: { campus: CampusView }) {
   const s = campus.standing
   const [tone, word] = campus.suspended
     ? ['bad', 'Suspended']
@@ -1078,7 +1135,7 @@ export function School({ school }: { school: SchoolView }) {
   return (
     <>
       <div className="cs-head">
-        <a className="cs-back" href="/console">
+        <a className="cs-back" href="/console/schools">
           ← All schools
         </a>
         <h1>{school.name}</h1>
@@ -1259,7 +1316,7 @@ export function Admins({
   )
 }
 
-const ACTIONS: Record<string, string> = {
+export const ACTIONS: Record<string, string> = {
   'admin.first': 'Created the first admin',
   'admin.invite': 'Invited an admin',
   'admin.accept': 'Accepted an invite',
