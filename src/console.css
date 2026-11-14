@@ -1,0 +1,430 @@
+/* The platform admin console. It sits on the Study Desk tokens (desk.css) and adds only what a working
+   tool needs: forms, facts, status pills and a table. */
+.cs .sd-top {
+  gap: 14px;
+}
+.cs-badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.cs .sd-nav {
+  margin-left: 8px;
+}
+.cs-me {
+  margin-left: auto;
+  color: var(--sec);
+  font-size: 14.5px;
+}
+.cs-main {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 28px 80px;
+  display: grid;
+  gap: 18px;
+}
+.cs-head h1 {
+  font-size: 30px;
+  font-weight: 700;
+}
+.cs-head p {
+  color: var(--sec);
+  margin-top: 4px;
+}
+.cs-back {
+  color: var(--sec);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.cs-sub {
+  color: var(--sec);
+  font-size: 15px;
+}
+.cs h2 {
+  font-size: 19px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cs h3 {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.cs-narrow {
+  max-width: 460px;
+  width: 100%;
+  margin: 24px auto;
+  padding: 28px;
+  display: grid;
+  gap: 14px;
+}
+.cs-narrow h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+.cs-form {
+  display: grid;
+  gap: 12px;
+}
+.sd-card.cs-form,
+.cs-campus {
+  padding: 22px;
+}
+.cs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+.cs-field {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sec);
+  min-width: 0;
+}
+.cs-field.grow {
+  flex: 1 1 220px;
+}
+.cs-field input,
+.cs-field select {
+  height: 44px;
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  padding: 0 12px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15.5px;
+  font-weight: 400;
+  min-width: 0;
+  width: 100%;
+}
+.cs-field input[type='number'] {
+  width: 96px;
+}
+.cs-field input:focus-visible,
+.cs-field select:focus-visible {
+  outline: 3px solid var(--brand-2);
+  outline-offset: 1px;
+}
+.cs-field small {
+  font-weight: 400;
+  color: var(--mute);
+}
+.cs-field > label {
+  display: grid;
+  gap: 5px;
+}
+.cs-unit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  font-size: 15px;
+}
+.cs .sd-btn {
+  height: 44px;
+  cursor: pointer;
+}
+.cs .sd-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.cs .sd-btn.cs-danger {
+  background: #a3261d;
+  color: #fff;
+}
+.cs-error {
+  color: #a3261d;
+  background: #fdecea;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 500;
+}
+.cs-note {
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  background: var(--sunk);
+}
+.cs-note.bad {
+  background: #fdecea;
+  color: #8a1f17;
+}
+.cs-pill {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.cs-pill.ok {
+  background: #e3f3d3;
+  color: #24560f;
+}
+.cs-pill.warn {
+  background: #fdf0c8;
+  color: #6b4a00;
+}
+.cs-pill.bad {
+  background: #fdecea;
+  color: #8a1f17;
+}
+.cs-pill.idle {
+  background: var(--sunk);
+  color: var(--sec);
+}
+.cs-schools,
+.cs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.cs-schools li {
+  padding: 18px 20px;
+  display: grid;
+  gap: 8px;
+}
+.cs-schools a {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: center;
+}
+.cs-schools a span {
+  grid-column: 2;
+  color: var(--sec);
+  font-size: 14.5px;
+}
+.cs-schools a:hover h2 {
+  text-decoration: underline;
+}
+.cs-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+  padding: 8px 0 0 30px;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+}
+.cs-line span:last-child {
+  color: var(--sec);
+}
+.cs-list li {
+  padding: 14px 18px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.cs-list li div {
+  flex: 1;
+  display: grid;
+  min-width: 0;
+}
+.cs-list li div span {
+  color: var(--sec);
+  font-size: 14.5px;
+  overflow-wrap: anywhere;
+}
+.cs-campus {
+  display: grid;
+  gap: 18px;
+}
+.cs-campus-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.cs-campus-head h2 {
+  font-size: 22px;
+}
+.cs-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px 20px;
+  margin: 0;
+}
+.cs-facts dt {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.cs-facts dd {
+  margin: 2px 0 0;
+  font-size: 15.5px;
+}
+.cs-acts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cs-campus > .cs-form,
+.cs-split {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+.cs-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+.cs-split .sd-btn,
+.cs-campus > .cs-form > .sd-btn,
+.cs-narrow .sd-btn {
+  justify-self: start;
+}
+.cs-preview {
+  background: var(--brand-t);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+.cs-code {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  align-items: center;
+  background: var(--sunk);
+  border-radius: 12px;
+  padding: 12px;
+}
+.cs-code code,
+.cs-qr code {
+  font:
+    500 15px ui-monospace,
+    Menlo,
+    monospace;
+  overflow-wrap: anywhere;
+}
+.cs-code small {
+  flex-basis: 100%;
+  color: var(--sec);
+}
+.cs-history summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--sec);
+}
+.cs-history ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: var(--sec);
+  font-size: 14.5px;
+  display: grid;
+  gap: 4px;
+}
+.cs-auth {
+  display: grid;
+  gap: 14px;
+}
+.cs-auth h2 {
+  font-size: 22px;
+}
+.cs-auth p {
+  color: var(--sec);
+  font-size: 15px;
+}
+.cs-qr {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.cs-qr > div:first-child {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 6px;
+}
+.cs-qr > div:last-child {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.cs-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.cs-table {
+  overflow-x: auto;
+}
+.cs-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+.cs-table th,
+.cs-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.cs-table th {
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mute);
+  white-space: nowrap;
+}
+.cs-table td:first-child {
+  white-space: nowrap;
+  color: var(--sec);
+}
+@media (max-width: 900px) {
+  .cs-main {
+    padding: 20px 16px 60px;
+  }
+  .cs-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cs .sd-nav {
+    display: flex;
+    order: 5;
+    flex-basis: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+  }
+  .cs .sd-top {
+    flex-wrap: wrap;
+  }
+  .cs-me {
+    display: none;
+  }
+  .cs .sd-top > .sd-btn {
+    margin-left: auto;
+  }
+  .cs-qr {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cs-qr > div:first-child {
+    max-width: 180px;
+  }
+  .cs-field input[type='number'] {
+    width: 100%;
+  }
+}
