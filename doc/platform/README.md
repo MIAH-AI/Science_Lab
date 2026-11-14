@@ -2,11 +2,11 @@
 
 Hand-over notes for the platform track (accounts, console, licences, school servers). The requirements are in [doc/roadmap](../roadmap/README.md); these notes say what has been built against them, the choices made on the way, and what is still open. Each phase is one pull request.
 
-| Phase                                                    | Pull request branch           | State                                 |
-| -------------------------------------------------------- | ----------------------------- | ------------------------------------- |
-| 2. Platform admin console and licences                   | `platform/2-console-licences` | Built, tested. Off unless switched on |
-| 3. School server: licence check, enrolment, heartbeat    | `platform/3-school-server`    | See [phase-3.md](phase-3.md)          |
-| 4. School accounts: invite codes, approval, seats, roles | `platform/4-school-accounts`  | See [phase-4.md](phase-4.md)          |
+| Phase                                                          | Pull request branch           | State                                                                       |
+| -------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------- |
+| 2. Platform admin console and licences                         | `platform/2-console-licences` | Built, tested. Off unless switched on                                       |
+| 3. School server: package, licence check, enrolment, check-ins | `platform/3-school-server`    | Built and tested. See [phase-3.md](phase-3.md) and [INSTALL.md](INSTALL.md) |
+| 4. School accounts: invite codes, approval, seats, roles       | `platform/4-school-accounts`  | See [phase-4.md](phase-4.md)                                                |
 
 Someone else on the team is also working on this track. Nothing here is merged to `main`; treat it as a working proposal to merge with, or lift from.
 

@@ -1,0 +1,146 @@
+/* The licence page of a school server. Sits on the Study Desk tokens (desk.css). */
+.lc {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 24px 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.lc h1 {
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+.lc h2 {
+  font-size: 19px;
+  font-weight: 700;
+}
+.lc-state {
+  margin-top: 40px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #fdecea;
+  color: #8a1f17;
+}
+.lc-state.valid {
+  background: #e3f3d3;
+  color: #24560f;
+}
+.lc-state.grace {
+  background: #fdf0c8;
+  color: #6b4a00;
+}
+.lc-msg {
+  font-size: 18px;
+  color: var(--sec);
+  max-width: 56ch;
+}
+.lc-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px 20px;
+  width: 100%;
+  margin: 10px 0 0;
+  padding: 18px 0;
+  border-block: 1px solid var(--line);
+}
+.lc-facts dt,
+.lc-print span,
+.lc-admin label {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.lc-facts dd {
+  margin: 2px 0 0;
+  font-size: 16px;
+}
+.lc-admin {
+  width: 100%;
+  padding: 22px;
+  margin-top: 14px;
+  display: grid;
+  gap: 12px;
+}
+.lc-admin p {
+  color: var(--sec);
+  font-size: 15.5px;
+}
+.lc-print {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  background: var(--sunk);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.lc-print code {
+  font:
+    500 14.5px ui-monospace,
+    Menlo,
+    monospace;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+.lc-admin form {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.lc-admin textarea,
+.lc-admin input[type='file'] {
+  width: 100%;
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--card);
+  color: var(--ink);
+  font:
+    13.5px ui-monospace,
+    Menlo,
+    monospace;
+}
+.lc-admin input[type='file'] {
+  font: inherit;
+  font-size: 15px;
+}
+.lc .sd-btn {
+  cursor: pointer;
+}
+.lc .sd-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.lc-error {
+  color: #8a1f17 !important;
+  background: #fdecea;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 500;
+  width: 100%;
+}
+.lc-small {
+  font-size: 14px !important;
+  color: var(--mute) !important;
+}
+@media (max-width: 600px) {
+  .lc {
+    padding: 24px 16px 56px;
+  }
+  .lc h1 {
+    font-size: 26px;
+  }
+  .lc-state {
+    margin-top: 24px;
+  }
+}

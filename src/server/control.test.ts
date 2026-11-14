@@ -26,6 +26,7 @@ import {
   listSchools,
   newEnrolToken,
   setSuspended,
+  tieToMachine,
   updateSchoolTerms,
 } from './control'
 import { memoryDb, type Db } from './db'
@@ -557,6 +558,60 @@ describe('schools and licences', () => {
         enrolled: true,
         version: '1.0.0',
       })
+    })
+
+    it('ties a campus to an offline server by its fingerprint, and makes the licence for that machine', async () => {
+      const { admin, campusId, schoolId } = await school()
+      await issueLicence(
+        db,
+        admin,
+        {
+          campusId,
+          kind: 'active',
+          starts: '2027-01-05',
+          terms: 1,
+          seats: 120,
+        },
+        now,
+      )
+      expect(
+        await tieToMachine(db, admin, campusId, 'not a fingerprint', now),
+      ).toMatchObject({ ok: false })
+      const tied = await tieToMachine(
+        db,
+        admin,
+        campusId,
+        ` ${MACHINE.toUpperCase()} `,
+        later(1),
+      )
+      if (!tied.ok) throw new Error(tied.error)
+      expect(verifyLicence(tied.token!, keys.publicKey)).toMatchObject({
+        ok: true,
+        licence: {
+          machine: MACHINE,
+          ends: '2027-04-04',
+          seats: 120,
+          kind: 'active',
+        },
+      })
+      const campus = (await getSchool(db, schoolId, now))!.campuses[0]
+      // tied, but it has never checked in, so it is not "enrolled"
+      expect(campus).toMatchObject({ machine: MACHINE, enrolled: false })
+      expect(campus.history).toHaveLength(2)
+      // the next licence is made for the same machine without asking again
+      const next = await issueLicence(
+        db,
+        admin,
+        {
+          campusId,
+          kind: 'active',
+          starts: '2027-01-05',
+          terms: 2,
+          seats: 120,
+        },
+        later(2),
+      )
+      expect(next).toMatchObject({ ok: true, licence: { machine: MACHINE } })
     })
 
     it('an enrolment code runs out after 24 hours, and a new code cancels the old one', async () => {

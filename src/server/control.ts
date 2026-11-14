@@ -294,7 +294,10 @@ export type CampusView = {
   name: string
   suspended: boolean
   suspendedReason: string
+  // enrolled: the server has checked in online. tied: a fingerprint is on record (enrolled, or typed in for
+  // a server that stays offline), so licences are made for that one machine.
   enrolled: boolean
+  machine: string
   lastHeartbeat: string | null
   version: string
   seatsUsed: number | null
@@ -374,7 +377,8 @@ export async function listSchools(
           name: c.name,
           suspended: !!c.suspended_at,
           suspendedReason: c.suspended_reason ?? '',
-          enrolled: !!c.machine,
+          enrolled: !!c.secret_hash,
+          machine: c.machine ?? '',
           lastHeartbeat: iso(c.last_heartbeat),
           version: c.version ?? '',
           seatsUsed: c.seats_used,
@@ -392,6 +396,53 @@ export async function listSchools(
 
 export const getSchool = async (db: Db, id: string, now: Date) =>
   (await listSchools(db, now, id))[0] ?? null
+
+// For a server that will never be online: tie the campus to it by the fingerprint the server shows on its
+// licence page, and issue the current licence again for that machine.
+export async function tieToMachine(
+  db: Db,
+  by: Admin,
+  campusId: string,
+  machine: string,
+  now: Date,
+): Promise<{ ok: true; token: string | null } | Fail> {
+  const clean = machine.trim().toLowerCase()
+  if (!/^[a-f0-9]{64}$/.test(clean))
+    return fail(
+      'A fingerprint is 64 letters and numbers. Copy it from the server’s licence page.',
+    )
+  const campus = await campusWithSchool(db, campusId)
+  if (!campus) return fail('That campus was not found.')
+  // A different machine replaces the old one, which can no longer check in.
+  await db.query(
+    'UPDATE campuses SET machine = $2, secret_hash = CASE WHEN machine = $2 THEN secret_hash ELSE NULL END WHERE id = $1',
+    [campusId, clean],
+  )
+  await audit(
+    db,
+    by.id,
+    'campus.tie',
+    `${campus.school_name} · ${campus.name}`,
+    clean.slice(0, 12),
+  )
+  const current = await latestLicence(db, campusId)
+  if (!current) return { ok: true, token: null }
+  const again = await issueLicence(
+    db,
+    by,
+    {
+      campusId,
+      kind: current.kind,
+      starts: current.starts,
+      ends: current.ends,
+      seats: current.seats,
+      graceDays: current.grace_days,
+      note: 'Made for the server with this fingerprint',
+    },
+    now,
+  )
+  return again.ok ? { ok: true, token: again.token } : again
+}
 
 /* ---- Calls made by a school server ---- */
 

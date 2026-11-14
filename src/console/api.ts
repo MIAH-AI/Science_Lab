@@ -34,6 +34,7 @@ import {
   listSchools,
   newEnrolToken,
   setSuspended,
+  tieToMachine,
   updateSchoolTerms,
   type IssueInput,
 } from '../server/control'
@@ -203,6 +204,19 @@ export const campusEnrolCode = createServerFn({ method: 'POST' })
   .handler(async ({ data }) =>
     newEnrolToken(await getDb(), await admin(), data.campusId, new Date()),
   )
+
+export const campusTie = createServerFn({ method: 'POST' })
+  .validator((d: { campusId: string; machine: string }) => d)
+  .handler(async ({ data }) => {
+    const res = await tieToMachine(
+      await getDb(),
+      await admin(),
+      data.campusId,
+      data.machine,
+      new Date(),
+    )
+    return res.ok ? { ok: true as const } : res
+  })
 
 export const adminsList = createServerFn({ method: 'GET' }).handler(
   async () => {
