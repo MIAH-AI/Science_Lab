@@ -89,7 +89,20 @@ WantedBy=multi-user.target
 )
 cpSync('doc/platform/INSTALL.md', join(stage, 'INSTALL.md'))
 const out = join('dist', name + '.tar.gz')
-execFileSync('tar', ['-czf', out, '-C', join('dist', 'package'), name])
+// On a Mac, leave out Apple's extra file attributes: Linux tar prints a warning for every one of them.
+const mac = process.platform === 'darwin'
+execFileSync(
+  'tar',
+  [
+    ...(mac ? ['--no-xattrs', '--no-mac-metadata'] : []),
+    '-czf',
+    out,
+    '-C',
+    join('dist', 'package'),
+    name,
+  ],
+  { env: { ...process.env, COPYFILE_DISABLE: '1' } },
+)
 console.log(
   `${out} (${Math.round(statSync(out).size / 1e6)} MB)${existsSync(join(stage, 'licence-public.pem')) ? '' : '\nNo public key was included: set LICENCE_PUBLIC_KEY when building, or copy licence-public.pem into the folder on the server.'}`,
 )
