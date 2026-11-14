@@ -193,18 +193,14 @@ function Home() {
     window.history.replaceState(window.history.state, '', url)
   }
 
-  // Appearance and the focus timer follow the ?appearance= and ?focus= hand-off from the labs,
-  // otherwise the device setting. Nothing is stored.
+  // Appearance and the focus timer follow the ?appearance= and ?focus= hand-off from the labs.
+  // With no hand-off the page opens in Day, like the front page. Nothing is stored.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const param = params.get('appearance')
     // Browser-only values, read after hydration so the server and first client render match.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setNight(
-      param
-        ? param === 'night'
-        : window.matchMedia('(prefers-color-scheme: dark)').matches,
-    )
+    setNight(param === 'night')
     setDemo(params.get('role') === 'student')
     const focus = parseFocus(params.get('focus'), Date.now())
     if (focus) {

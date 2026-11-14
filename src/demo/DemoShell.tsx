@@ -8,7 +8,7 @@ import {
 import { LogOut, Moon, RotateCcw, Sun } from 'lucide-react'
 import { ROLES, SCHOOL, roleHref, type RoleKey } from './data'
 
-// Day or Night comes from ?appearance= when a page handed one over, otherwise from the device.
+// Day is the default, like the front page; Night comes from ?appearance=night when a page handed it over.
 // Switching rewrites the address, so a reload or a shared link keeps the choice. Nothing is stored.
 export function useAppearance() {
   const [night, setNightState] = useState(false)
@@ -16,11 +16,7 @@ export function useAppearance() {
     const param = new URLSearchParams(window.location.search).get('appearance')
     // Browser-only value, read after hydration so the server and first client render match.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setNightState(
-      param
-        ? param === 'night'
-        : window.matchMedia('(prefers-color-scheme: dark)').matches,
-    )
+    setNightState(param === 'night')
   }, [])
   const setNight = (value: boolean) => {
     setNightState(value)

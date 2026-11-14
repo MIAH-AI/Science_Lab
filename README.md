@@ -10,7 +10,7 @@ A study workspace for senior secondary Mathematics, Physics, Chemistry, Biology,
 | `/app/classroom`, `/app/people`, `/app/campus`, `/app/school` | Demo screens for the school roles, on a made-up school with sample data (see `doc/roadmap/demo-mode.md`)     |
 | `/waec-…`, `/physics_lab_full`, `/chemistry-simulations`      | The six labs                                                                                                 |
 
-Day and Night themes follow the device setting.
+Every page opens in Day, like the front page, whatever the device is set to. Night is one tap away in the top bar and travels with the visitor as `?appearance=night`; nothing is stored.
 
 **Front page design.** Set the environment variable `MARKETING_DESIGN` to `a`, `b` or `c` in the site's Netlify settings and redeploy. With no setting, visitors see design C. Add `?design=a` (or `b`, `c`) to the front page address to preview a design without changing the setting.
 

@@ -54,6 +54,23 @@ describe('home page', () => {
     expect(cards()).toHaveLength(6)
   })
 
+  it('opens in Day even when the device is set to dark', () => {
+    window.matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })
+    const { container } = render(<Home />)
+    expect(container.querySelector('.sd')).toHaveAttribute('data-theme', 'day')
+    expect(screen.getByRole('button', { name: 'Day' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+    expect(
+      screen.getAllByRole('link', { name: 'Open lab' })[0].getAttribute('href'),
+    ).toContain('appearance=default')
+  })
+
   it('switches to Night and passes it to the labs', () => {
     render(<Home />)
     fireEvent.click(screen.getByRole('button', { name: 'Night' }))

@@ -70,7 +70,7 @@ const SUBJECTS = [
 ] as const
 
 // Friendly full-page message in the Study Desk style, used for unknown addresses and for crashes.
-// It follows the device's Day or Night setting, or ?appearance= when a lab handed one over.
+// It opens in Day, or in Night when a page handed over ?appearance=night.
 function Friendly({
   eyebrow,
   title,
@@ -87,11 +87,7 @@ function Friendly({
     const param = new URLSearchParams(window.location.search).get('appearance')
     // Browser-only value, read after hydration so the server and first client render match.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setNight(
-      param
-        ? param === 'night'
-        : window.matchMedia('(prefers-color-scheme: dark)').matches,
-    )
+    setNight(param === 'night')
   }, [])
   const q = `?appearance=${night ? 'night' : 'default'}`
   return (
