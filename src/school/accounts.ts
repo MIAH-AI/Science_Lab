@@ -90,6 +90,41 @@ export const seatsUsed = async (db: Db) =>
       )
     )[0].n,
   )
+// How many people of each kind this server has. These numbers, and no names, go to the control service.
+export type PeopleCounts = {
+  students: number
+  teachers: number
+  leaders: number
+  pending: number
+  invited: number
+  disabled: number
+}
+export async function peopleCounts(db: Db): Promise<PeopleCounts> {
+  const rows = await db.query<{ role: Role; status: string; n: number }>(
+    'SELECT role, status, count(*) AS n FROM school_users GROUP BY role, status',
+  )
+  const out: PeopleCounts = {
+    students: 0,
+    teachers: 0,
+    leaders: 0,
+    pending: 0,
+    invited: 0,
+    disabled: 0,
+  }
+  for (const r of rows) {
+    const n = Number(r.n)
+    if (r.status === 'active')
+      out[
+        r.role === 'student'
+          ? 'students'
+          : r.role === 'teacher'
+            ? 'teachers'
+            : 'leaders'
+      ] += n
+    else out[r.status as 'pending' | 'invited' | 'disabled'] += n
+  }
+  return out
+}
 export const userCount = async (db: Db) =>
   Number(
     (await db.query<{ n: number }>('SELECT count(*) AS n FROM school_users'))[0]

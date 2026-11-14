@@ -1,5 +1,7 @@
 // Tables on a school server. They never leave the school: this database is separate from the control
 // service's (C-4). Add a new migration at the end; never edit one that has shipped.
+import { USAGE_TABLE } from '../server/usage'
+
 export const SCHOOL_MIGRATIONS: string[][] = [
   [
     `CREATE TABLE school_users (
@@ -46,5 +48,9 @@ export const SCHOOL_MIGRATIONS: string[][] = [
       window_start timestamptz NOT NULL,
       PRIMARY KEY (username, ip)
     )`,
+  ],
+  [
+    // Anonymous daily counts of what was opened on this server (src/server/usage.ts). No person is recorded.
+    USAGE_TABLE,
   ],
 ]

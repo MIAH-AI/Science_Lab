@@ -39,6 +39,7 @@ import {
   type IssueInput,
 } from '../server/control'
 import { getDb } from '../server/db'
+import { usageReport } from '../server/usage'
 
 const COOKIE = 't2s_console'
 
@@ -241,3 +242,42 @@ export const auditList = createServerFn({ method: 'GET' }).handler(async () => {
   await admin()
   return listAudit(await getDb(), 200)
 })
+
+// The first screen: every school with its campuses, the last two weeks of use, and the latest changes.
+export const overviewGet = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    await admin()
+    const db = await getDb()
+    const now = new Date()
+    return {
+      schools: await listSchools(db, now),
+      usage: await usageReport(db, now, 14),
+      audit: await listAudit(db, 6),
+      at: now.getTime(),
+    }
+  },
+)
+
+const RANGES = [7, 30, 90]
+// Usage counts for 7, 30 or 90 days, for everything or for one source ("web" or a campus id).
+export const usageGet = createServerFn({ method: 'GET' })
+  .validator((d: { days: number; source?: string }) => d)
+  .handler(async ({ data }) => {
+    await admin()
+    const db = await getDb()
+    const now = new Date()
+    const days = RANGES.includes(data.days) ? data.days : 30
+    const source =
+      data.source && /^(web|[0-9a-f-]{36})$/.test(data.source)
+        ? data.source
+        : undefined
+    const schools = await listSchools(db, now)
+    return {
+      report: await usageReport(db, now, days, source),
+      source: source ?? '',
+      // Names for the campus ids in the report.
+      campuses: schools.flatMap((s) =>
+        s.campuses.map((c) => ({ id: c.id, name: `${s.name} · ${c.name}` })),
+      ),
+    }
+  })

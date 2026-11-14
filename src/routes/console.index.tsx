@@ -1,14 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Schools } from '../console/Console'
-import { schoolsList } from '../console/api'
+import { Overview } from '../console/Insights'
+import { overviewGet } from '../console/api'
 
 export const Route = createFileRoute('/console/')({
-  loader: () => schoolsList(),
-  component: SchoolsPage,
+  loader: () => overviewGet(),
+  component: OverviewPage,
 })
 
-function SchoolsPage() {
-  const schools = Route.useLoaderData()
+function OverviewPage() {
   const { state } = Route.useRouteContext()
-  return <Schools schools={schools} state={state} />
+  return <Overview {...Route.useLoaderData()} state={state} />
 }

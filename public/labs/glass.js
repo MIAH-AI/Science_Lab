@@ -8,6 +8,12 @@
     ['Geography', '/waec-geography-lab'],
     ['Agric', '/waec-agric-lab'],
   ];
+  // Adds one to today's anonymous count for this subject (src/server/usage.ts). Nothing about the person is sent.
+  try {
+    const keys = ['maths', 'physics', 'chemistry', 'biology', 'geography', 'agric'];
+    const at = subjects.findIndex((s) => location.pathname.includes(s[1].slice(1)));
+    if (at >= 0 && navigator.sendBeacon) navigator.sendBeacon('/api/usage', new Blob([JSON.stringify({ subject: keys[at], kind: location.hash === '#exam' ? 'exam' : 'lab' })], { type: 'application/json' }));
+  } catch (e) { /* counting never gets in the way of the lab */ }
   const container = document.getElementById('glass-navigation');
   const brand = document.createElement('a');
   brand.className = 'glass-brand';
