@@ -67,7 +67,7 @@ sudo systemctl restart tough2simple
 ```
 
 - **Back up `/var/lib/tough2simple`.** It holds the licence, the server's identity and, later, the school's accounts and work.
-- **Keep the clock right.** The licence dates use the server's clock. Turning the clock back does not extend a licence.
+- **Keep the clock right.** The licence dates use the server's clock. Turning the clock back does not extend a licence. If the clock was ever set far ahead by mistake and the server now says the licence has ended, correct the clock and ask tough2simple for a newly issued licence; installing it puts things right.
 - **To update**, unpack the new package over `/opt/tough2simple` and restart. The data folder is not touched.
 - To use port 80 so people do not type `:8080`, put the school's usual web server in front, or set `PORT=80` and give Node permission to use it.
 

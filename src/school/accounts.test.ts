@@ -346,6 +346,20 @@ describe('a forgotten password', () => {
     expect(
       await join(db, { code: reset.code, password: 'another88' }, now),
     ).toMatchObject({ ok: false })
+    // a new-password code lasts one day
+    const again = await resetCode(db, admin, s.id, now)
+    if (!again.ok) throw new Error()
+    expect(
+      await join(
+        db,
+        { code: again.code, password: 'another88' },
+        later(25 * 60),
+      ),
+    ).toMatchObject({ ok: false, error: expect.stringMatching(/run out/) })
+    expect(
+      (await join(db, { code: again.code, password: 'another88' }, later(60)))
+        .ok,
+    ).toBe(true)
     expect((await people()).find((p) => p.id === s.id)!.code).toBe('')
   })
   it('only the admin can do it, and not for someone who has not joined or is disabled', async () => {
@@ -405,6 +419,76 @@ describe('signing in', () => {
         )
       ).ok,
     ).toBe(true)
+  })
+  it('counts tries for each device: guessing from one phone does not lock the admin out on theirs', async () => {
+    for (let i = 0; i < MAX_FAILS + 3; i++)
+      await signIn(
+        db,
+        {
+          username: 'ngozi.admin',
+          password: 'wrong password',
+          ip: '10.0.0.66',
+        },
+        now,
+      )
+    expect(
+      await signIn(
+        db,
+        { username: 'ngozi.admin', password: PASS, ip: '10.0.0.66' },
+        later(1),
+      ),
+    ).toMatchObject({
+      ok: false,
+      error: expect.stringMatching(/Too many wrong tries/),
+    })
+    expect(
+      (
+        await signIn(
+          db,
+          { username: 'ngozi.admin', password: PASS, ip: '10.0.0.5' },
+          later(1),
+        )
+      ).ok,
+    ).toBe(true)
+  })
+  it('a burst of guesses sent at the same moment still stops at the limit', async () => {
+    const burst = await Promise.all(
+      Array.from({ length: 12 }, (_, i) =>
+        signIn(
+          db,
+          { username: 'ngozi.admin', password: 'guess ' + i, ip: '10.0.0.66' },
+          now,
+        ),
+      ),
+    )
+    expect(
+      burst.filter((r) => !r.ok && /do not match/.test(r.error)),
+    ).toHaveLength(MAX_FAILS)
+    expect(
+      burst.filter((r) => !r.ok && /Too many wrong tries/.test(r.error)),
+    ).toHaveLength(12 - MAX_FAILS)
+    expect(
+      await signIn(
+        db,
+        { username: 'ngozi.admin', password: PASS, ip: '10.0.0.66' },
+        later(1),
+      ),
+    ).toMatchObject({ ok: false })
+  })
+  it('treats a username that does not exist exactly like one that does', async () => {
+    const tries = async (username: string) => {
+      const out: string[] = []
+      for (let i = 0; i < MAX_FAILS + 1; i++) {
+        const r = await signIn(
+          db,
+          { username, password: 'wrong password', ip: '10.0.0.7' },
+          now,
+        )
+        out.push(r.ok ? 'ok' : r.error)
+      }
+      return out
+    }
+    expect(await tries('nobody.here')).toEqual(await tries('ngozi.admin'))
   })
   it('a session lasts 12 hours and signing out ends it', async () => {
     const s = await signIn(

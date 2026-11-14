@@ -36,4 +36,15 @@ export const SCHOOL_MIGRATIONS: string[][] = [
       detail text
     )`,
   ],
+  [
+    // Wrong sign-in tries, counted for each username from each device. One device guessing cannot lock a
+    // person out on their own device, and an unknown username is counted like a real one.
+    `CREATE TABLE school_signin_tries (
+      username text NOT NULL,
+      ip text NOT NULL,
+      count integer NOT NULL,
+      window_start timestamptz NOT NULL,
+      PRIMARY KEY (username, ip)
+    )`,
+  ],
 ]

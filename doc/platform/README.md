@@ -7,6 +7,7 @@ Hand-over notes for the platform track (accounts, console, licences, school serv
 | 2. Platform admin console and licences                         | `platform/2-console-licences` | Built, tested. Off unless switched on                                       |
 | 3. School server: package, licence check, enrolment, check-ins | `platform/3-school-server`    | Built and tested. See [phase-3.md](phase-3.md) and [INSTALL.md](INSTALL.md) |
 | 4. School accounts: invite codes, approval, seats, roles       | `platform/4-school-accounts`  | Built and tested. See [phase-4.md](phase-4.md)                              |
+| 5. Fixes from a security review                                | `platform/5-review-fixes`     | Built and tested. See [phase-5.md](phase-5.md)                              |
 
 Someone else on the team is also working on this track. Nothing here is merged to `main`; treat it as a working proposal to merge with, or lift from.
 
@@ -88,9 +89,9 @@ Open `http://localhost:4811/console`.
 ### Not done yet
 
 - No email is sent. Invite links are shown for the admin to pass on.
-- No password reset for admins; another admin disables the account and invites the person again.
+- No self-service password reset for admins; another admin invites the person again, which clears their password and authenticator (phase 5).
 - No lost-authenticator recovery codes.
 - No key rotation. Changing the signing key means a new package for every school server.
-- No limit on requests per network address, only per account.
+- The console has no request limit of its own; tries are limited per account. School servers limit requests per device (phase 5).
 - Release publishing and scheduled updates (the "Releases" section of the roadmap) are not started.
 - Live activity ingest and dashboards are not started.

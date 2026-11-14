@@ -562,6 +562,7 @@ export async function heartbeat(
     machine: string
     version?: string
     seatsUsed?: number
+    nonce?: string
   },
   now: Date,
 ): Promise<{ ok: true; licence: string | null; status: string } | Fail> {
@@ -601,6 +602,10 @@ export async function heartbeat(
         campusId: campus.id,
         suspended: !!campus.suspended_at,
         at: now.toISOString(),
+        nonce:
+          typeof input.nonce === 'string'
+            ? input.nonce.slice(0, 64)
+            : undefined,
       },
       key,
     ),

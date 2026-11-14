@@ -234,6 +234,147 @@ describe('signing in to the console', () => {
     )
   })
 
+  it('a burst of wrong passwords sent at the same moment still locks the account', async () => {
+    const { secret } = await firstAdmin()
+    await Promise.all(
+      Array.from({ length: 12 }, (_, i) =>
+        signIn(
+          db,
+          { email: 'ada@example.org', password: 'wrong guess ' + i },
+          now,
+        ),
+      ),
+    )
+    const t = later(1)
+    expect(
+      await signIn(
+        db,
+        {
+          email: 'ada@example.org',
+          password: PASSWORD,
+          code: totpCode(secret, t.getTime()),
+        },
+        t,
+      ),
+    ).toMatchObject({ ok: false, error: expect.stringMatching(/locked/) })
+  })
+
+  it('the same code used by two sign-ins at the same moment works for only one', async () => {
+    const { secret } = await firstAdmin()
+    const t = later(1)
+    const code = totpCode(secret, t.getTime())
+    const both = await Promise.all([
+      signIn(db, { email: 'ada@example.org', password: PASSWORD, code }, t),
+      signIn(db, { email: 'ada@example.org', password: PASSWORD, code }, t),
+    ])
+    expect(both.filter((r) => r.ok)).toHaveLength(1)
+  })
+
+  it('asking for the code (password right, no code yet) does not count as a wrong try', async () => {
+    const { secret } = await firstAdmin()
+    for (let i = 0; i < MAX_FAILS + 3; i++)
+      expect(
+        await signIn(
+          db,
+          { email: 'ada@example.org', password: PASSWORD },
+          later(1),
+        ),
+      ).toEqual({ ok: false, need: 'code' })
+    const t = later(2)
+    expect(
+      (
+        await signIn(
+          db,
+          {
+            email: 'ada@example.org',
+            password: PASSWORD,
+            code: totpCode(secret, t.getTime()),
+          },
+          t,
+        )
+      ).ok,
+    ).toBe(true)
+  })
+
+  it('someone whose invite ran out, or who was disabled, can be invited again and starts from scratch', async () => {
+    const { admin } = await firstAdmin()
+    const first = await inviteAdmin(
+      db,
+      admin,
+      { email: 'bola@example.org', name: 'Bola' },
+      now,
+    )
+    if (!first.ok) throw new Error()
+    const afterExpiry = later(80 * 60)
+    const second = await inviteAdmin(
+      db,
+      admin,
+      { email: 'bola@example.org', name: 'Bola B' },
+      afterExpiry,
+    )
+    if (!second.ok) throw new Error(second.error)
+    expect(
+      await acceptInvite(
+        db,
+        { token: first.token, password: PASSWORD },
+        afterExpiry,
+      ),
+    ).toMatchObject({ ok: false })
+    const acc = await acceptInvite(
+      db,
+      { token: second.token, password: PASSWORD },
+      afterExpiry,
+    )
+    if (!acc.ok) throw new Error(acc.error)
+    // an admin who is set up and working cannot be invited over
+    const t = new Date(afterExpiry.getTime() + 60_000)
+    const s = await signIn(
+      db,
+      {
+        email: 'bola@example.org',
+        password: PASSWORD,
+        code: totpCode(acc.secret, t.getTime()),
+      },
+      t,
+    )
+    if (!s.ok) throw new Error()
+    expect(
+      await inviteAdmin(
+        db,
+        admin,
+        { email: 'bola@example.org', name: 'Bola B' },
+        t,
+      ),
+    ).toMatchObject({ ok: false, error: 'That person is already an admin.' })
+    await disableAdmin(db, admin, s.admin.id, t)
+    expect(
+      (
+        await inviteAdmin(
+          db,
+          admin,
+          { email: 'bola@example.org', name: 'Bola B' },
+          t,
+        )
+      ).ok,
+    ).toBe(true)
+    // the old password and authenticator no longer work
+    const t2 = new Date(t.getTime() + 60_000)
+    expect(
+      await signIn(
+        db,
+        {
+          email: 'bola@example.org',
+          password: PASSWORD,
+          code: totpCode(acc.secret, t2.getTime()),
+        },
+        t2,
+      ),
+    ).toMatchObject({ ok: false })
+    expect(
+      (await listAdmins(db)).find((a) => a.email === 'bola@example.org')!.state,
+    ).toBe('invited')
+  })
+
   it('a session lasts 8 hours, and signing out ends it', async () => {
     const { token } = await firstAdmin()
     expect(await sessionAdmin(db, token, later(7 * 60))).toMatchObject({
@@ -254,14 +395,6 @@ describe('signing in to the console', () => {
       now,
     )
     if (!inv.ok) throw new Error()
-    expect(
-      await inviteAdmin(
-        db,
-        admin,
-        { email: 'bola@example.org', name: 'Bola' },
-        now,
-      ),
-    ).toMatchObject({ ok: false })
     expect(
       await acceptInvite(
         db,

@@ -12,15 +12,30 @@ import {
 } from './secrets'
 
 describe('passwords', () => {
-  it('hashes with Argon2id, differently each time, and checks correctly', () => {
-    const a = hashPassword('correct horse battery')
-    const b = hashPassword('correct horse battery')
+  it('hashes with Argon2id, differently each time, and checks correctly', async () => {
+    const a = await hashPassword('correct horse battery')
+    const b = await hashPassword('correct horse battery')
     expect(a.startsWith('argon2id$')).toBe(true)
     expect(a).not.toBe(b)
     expect(a).not.toContain('correct horse')
-    expect(checkPassword('correct horse battery', a)).toBe(true)
-    expect(checkPassword('correct horse batterx', a)).toBe(false)
-    expect(checkPassword('anything', 'not-a-hash')).toBe(false)
+    expect(await checkPassword('correct horse battery', a)).toBe(true)
+    expect(await checkPassword('correct horse batterx', a)).toBe(false)
+    expect(await checkPassword('anything', 'not-a-hash')).toBe(false)
+  })
+  it('does not block the server while it works, and copes with many at once', async () => {
+    const hash = await hashPassword('correct horse battery')
+    let ticks = 0
+    const timer = setInterval(() => ticks++, 1)
+    const results = await Promise.all(
+      Array.from({ length: 12 }, (_, i) =>
+        checkPassword(i === 7 ? 'correct horse battery' : 'wrong ' + i, hash),
+      ),
+    )
+    clearInterval(timer)
+    expect(results.filter(Boolean)).toHaveLength(1)
+    expect(results[7]).toBe(true)
+    // other work ran in between: the event loop was never held for the whole batch
+    expect(ticks).toBeGreaterThan(3)
   })
   it('asks for at least 12 characters', () => {
     expect(passwordProblem('short')).toMatch(/12/)

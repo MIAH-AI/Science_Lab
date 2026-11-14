@@ -1,6 +1,13 @@
+import { timingSafeEqual } from 'node:crypto'
 import { createFileRoute } from '@tanstack/react-router'
 import { getDb } from '../server/db'
 import { invite, seatsUsed } from '../school/accounts'
+
+const same = (given: string | null, want: string) => {
+  const a = Buffer.from(given ?? '')
+  const b = Buffer.from(want)
+  return a.length === b.length && timingSafeEqual(a, b)
+}
 
 // Called only by the school server process itself (src/campus/server.ts), never by a browser: the secret
 // is made fresh each time the server starts and requests from outside cannot carry the header.
@@ -12,7 +19,7 @@ export const Route = createFileRoute('/api/school/internal')({
         if (
           process.env.APP_MODE !== 'campus' ||
           !secret ||
-          request.headers.get('x-t2s-internal') !== secret
+          !same(request.headers.get('x-t2s-internal'), secret)
         )
           return Response.json(
             { ok: false, error: 'Not found.' },

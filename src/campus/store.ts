@@ -7,6 +7,7 @@
 import { execFileSync } from 'node:child_process'
 import { createHash, randomBytes } from 'node:crypto'
 import {
+  chmodSync,
   existsSync,
   mkdirSync,
   readFileSync,
@@ -19,7 +20,9 @@ import { platform } from 'node:os'
 export type CampusLink = { url: string; campusId: string; secret: string }
 
 export function openStore(dir: string) {
-  mkdirSync(dir, { recursive: true })
+  // Only the user the server runs as may read this folder: it holds the server's secrets and the database.
+  mkdirSync(dir, { recursive: true, mode: 0o700 })
+  chmodSync(dir, 0o700)
   const path = (name: string) => join(dir, name)
   const read = (name: string) =>
     existsSync(path(name)) ? readFileSync(path(name), 'utf8').trim() : ''

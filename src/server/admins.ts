@@ -5,6 +5,7 @@ import { config } from './config'
 import { iso, type Db } from './db'
 import {
   checkPassword,
+  dummyHash,
   checkTotp,
   hashPassword,
   newToken,
@@ -39,8 +40,6 @@ const sameText = (a: string, b: string) => {
   const y = Buffer.from(b)
   return x.length === y.length && timingSafeEqual(x, y)
 }
-// Spent when the email is unknown, so a wrong email takes as long to refuse as a wrong password.
-const DUMMY = hashPassword('not a real password')
 
 export async function audit(
   db: Db,
@@ -89,7 +88,7 @@ export async function createFirstAdmin(
     `INSERT INTO platform_admins (email, name, password_hash, totp_secret)
      SELECT $1, $2, $3, $4 WHERE NOT EXISTS (SELECT 1 FROM platform_admins)
      RETURNING id`,
-    [email, input.name.trim(), hashPassword(input.password), secret],
+    [email, input.name.trim(), await hashPassword(input.password), secret],
   )
   if (!rows.length)
     return fail('The console already has an admin. Ask them to invite you.')
@@ -107,11 +106,29 @@ export async function inviteAdmin(
   const email = cleanEmail(input.email)
   if (!emailOk(email)) return fail('Enter a full email address.')
   if (!input.name.trim()) return fail('Enter their name.')
-  if (await byEmail(db, email)) return fail('That person is already an admin.')
-  const [{ id }] = await db.query<{ id: string }>(
-    'INSERT INTO platform_admins (email, name) VALUES ($1, $2) RETURNING id',
-    [email, input.name.trim()],
-  )
+  // Someone whose invite ran out, or whose account was disabled, can be invited again: the same row is
+  // reused with its password and authenticator cleared, so they start from scratch.
+  const existing = await byEmail(db, email)
+  if (existing && existing.totp_confirmed_at && !existing.disabled_at)
+    return fail('That person is already an admin.')
+  let id: string
+  if (existing) {
+    id = existing.id
+    await db.query(
+      `UPDATE platform_admins SET name = $2, password_hash = NULL, totp_secret = NULL, totp_confirmed_at = NULL,
+         last_totp_step = NULL, failed_count = 0, locked_until = NULL, disabled_at = NULL WHERE id = $1`,
+      [id, input.name.trim()],
+    )
+    await db.query('DELETE FROM admin_invites WHERE admin_id = $1', [id])
+    await db.query('DELETE FROM admin_sessions WHERE admin_id = $1', [id])
+  } else {
+    id = (
+      await db.query<{ id: string }>(
+        'INSERT INTO platform_admins (email, name) VALUES ($1, $2) RETURNING id',
+        [email, input.name.trim()],
+      )
+    )[0].id
+  }
   const token = newToken()
   const expires = new Date(now.getTime() + INVITE_HOURS * 3_600_000)
   await db.query(
@@ -141,7 +158,7 @@ export async function acceptInvite(
     )
   const [admin] = await db.query<{ email: string }>(
     'UPDATE platform_admins SET password_hash = $2, totp_secret = $3 WHERE id = $1 RETURNING email',
-    [used[0].admin_id, hashPassword(input.password), secret],
+    [used[0].admin_id, await hashPassword(input.password), secret],
   )
   await audit(db, used[0].admin_id, 'admin.accept', admin.email)
   return {
@@ -150,28 +167,6 @@ export async function acceptInvite(
     secret,
     uri: totpUri(secret, admin.email),
   }
-}
-
-async function failed(db: Db, admin: AdminRow, now: Date, what: string) {
-  const count = admin.failed_count + 1
-  const lock = count >= MAX_FAILS
-  await db.query(
-    'UPDATE platform_admins SET failed_count = $2, locked_until = $3 WHERE id = $1',
-    [
-      admin.id,
-      lock ? 0 : count,
-      lock
-        ? new Date(now.getTime() + LOCK_MINUTES * 60_000).toISOString()
-        : null,
-    ],
-  )
-  await audit(
-    db,
-    admin.id,
-    lock ? 'signin.locked' : 'signin.failed',
-    admin.email,
-    what,
-  )
 }
 
 export type SignIn =
@@ -198,7 +193,7 @@ export async function signIn(
   const wrong = fail('That email and password do not match.')
   const admin = await byEmail(db, input.email)
   if (!admin || admin.disabled_at || !admin.password_hash) {
-    checkPassword(input.password, DUMMY)
+    await checkPassword(input.password, await dummyHash())
     return wrong
   }
   if (admin.locked_until && new Date(iso(admin.locked_until)!) > now) {
@@ -209,19 +204,65 @@ export async function signIn(
       `Too many wrong tries. This account is locked for ${mins} more minute${mins === 1 ? '' : 's'}.`,
     )
   }
-  if (!checkPassword(input.password, admin.password_hash)) {
-    await failed(db, admin, now, 'password')
+  // Count this try before checking anything, in one statement. A burst of guesses sent at the same moment
+  // then cannot all read the same count and slip under the limit.
+  const [{ n }] = await db.query<{ n: number }>(
+    'UPDATE platform_admins SET failed_count = failed_count + 1 WHERE id = $1 RETURNING failed_count AS n',
+    [admin.id],
+  )
+  const tries = Number(n)
+  const failed = async (what: string) => {
+    const lock = tries >= MAX_FAILS
+    if (lock)
+      await db.query(
+        'UPDATE platform_admins SET failed_count = 0, locked_until = $2 WHERE id = $1',
+        [
+          admin.id,
+          new Date(now.getTime() + LOCK_MINUTES * 60_000).toISOString(),
+        ],
+      )
+    await audit(
+      db,
+      admin.id,
+      lock ? 'signin.locked' : 'signin.failed',
+      admin.email,
+      what,
+    )
+  }
+  if (tries > MAX_FAILS) {
+    await failed('burst')
+    return fail(
+      `Too many wrong tries. This account is locked for ${LOCK_MINUTES} more minutes.`,
+    )
+  }
+  if (!(await checkPassword(input.password, admin.password_hash))) {
+    await failed('password')
     return wrong
   }
   const secret = admin.totp_secret!
   const code = input.code?.trim()
-  if (!code)
+  if (!code) {
+    // The password was right and the code has not been asked for yet: not a failed try.
+    await db.query(
+      'UPDATE platform_admins SET failed_count = GREATEST(failed_count - 1, 0) WHERE id = $1',
+      [admin.id],
+    )
     return admin.totp_confirmed_at
       ? { ok: false, need: 'code' }
       : { ok: false, need: 'setup', secret, uri: totpUri(secret, admin.email) }
+  }
   const step = checkTotp(secret, code, now.getTime())
-  if (step === null || step <= Number(admin.last_totp_step ?? -1)) {
-    await failed(db, admin, now, 'code')
+  // Claim the code's 30-second step in one statement, so the same code cannot sign in twice, even at once.
+  const claimed =
+    step === null
+      ? []
+      : await db.query(
+          `UPDATE platform_admins SET last_totp_step = $2
+           WHERE id = $1 AND (last_totp_step IS NULL OR last_totp_step < $2) RETURNING id`,
+          [admin.id, step],
+        )
+  if (!claimed.length) {
+    await failed('code')
     return fail(
       'That code is not right, or it has been used. Wait for the next one.',
     )
@@ -229,10 +270,13 @@ export async function signIn(
   const token = newToken()
   const expires = new Date(now.getTime() + SESSION_HOURS * 3_600_000)
   await db.query(
-    `UPDATE platform_admins SET failed_count = 0, locked_until = NULL, last_totp_step = $2,
-       totp_confirmed_at = COALESCE(totp_confirmed_at, $3) WHERE id = $1`,
-    [admin.id, step, now.toISOString()],
+    `UPDATE platform_admins SET failed_count = 0, locked_until = NULL,
+       totp_confirmed_at = COALESCE(totp_confirmed_at, $2) WHERE id = $1`,
+    [admin.id, now.toISOString()],
   )
+  await db.query('DELETE FROM admin_sessions WHERE expires_at <= $1', [
+    now.toISOString(),
+  ])
   await db.query(
     'INSERT INTO admin_sessions (token_hash, admin_id, expires_at, ip, user_agent) VALUES ($1, $2, $3, $4, $5)',
     [

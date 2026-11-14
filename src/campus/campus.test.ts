@@ -240,6 +240,19 @@ describe('installing a licence by hand', () => {
   })
 })
 
+describe('recovering a server whose clock was set far ahead', () => {
+  it('a newly issued licence says it is fresh; installing the same licence again does not', () => {
+    const install = (token: string) =>
+      installLicence(store, token, { publicKey: keys.publicKey, machine })
+    const first = sign()
+    expect(install(first)).toMatchObject({ ok: true, fresh: true })
+    expect(install(first)).toMatchObject({ ok: true, fresh: false })
+    expect(
+      install(sign({ issued: '2027-03-01T00:00:00.000Z', ends: '2027-07-04' })),
+    ).toMatchObject({ ok: true, fresh: true })
+  })
+})
+
 describe('talking to the control service', () => {
   let db: Db
   let admin: Admin
@@ -378,6 +391,56 @@ describe('talking to the control service', () => {
       ok: false,
       error: 'This server is not enrolled.',
     })
+  })
+
+  it('refuses an old answer played back from the network, even though it is signed', async () => {
+    await enrol(store, {
+      ...opts(),
+      url: 'https://control.example',
+      code: await code(),
+    })
+    // record a genuine "not suspended" answer
+    let recorded = ''
+    const recorder = (async (url: string, init: { body: string }) => {
+      const res = await net(url, init as RequestInit)
+      const body = await res.json()
+      recorded = JSON.stringify(body)
+      return { json: async () => body }
+    }) as unknown as typeof fetch
+    expect(await beat(store, { ...opts(), fetch: recorder })).toMatchObject({
+      ok: true,
+      suspended: false,
+    })
+    await setSuspended(db, admin, campusId, true, 'Payment not received', now)
+    expect(await beat(store, opts())).toMatchObject({
+      ok: true,
+      suspended: true,
+    })
+    // someone on the network path answers with the recording instead
+    const replay = (async () => ({
+      json: async () => JSON.parse(recorded),
+    })) as unknown as typeof fetch
+    expect(await beat(store, { ...opts(), fetch: replay })).toMatchObject({
+      ok: false,
+      error: expect.stringMatching(/not made for this check-in/),
+    })
+    expect(stand('2027-02-01T00:00:00Z')).toMatchObject({
+      state: 'locked',
+      suspended: true,
+    })
+  })
+
+  it('will only talk to the control service over https (or to this same computer)', async () => {
+    const res = await enrol(store, {
+      ...opts(),
+      url: 'http://control.example',
+      code: await code(),
+    })
+    expect(res).toMatchObject({
+      ok: false,
+      error: expect.stringMatching(/https/),
+    })
+    expect(store.link()).toBeNull()
   })
 
   it('ignores an answer that is not signed by us', async () => {
