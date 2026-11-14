@@ -6,7 +6,7 @@ Hand-over notes for the platform track (accounts, console, licences, school serv
 | -------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------- |
 | 2. Platform admin console and licences                         | `platform/2-console-licences` | Built, tested. Off unless switched on                                       |
 | 3. School server: package, licence check, enrolment, check-ins | `platform/3-school-server`    | Built and tested. See [phase-3.md](phase-3.md) and [INSTALL.md](INSTALL.md) |
-| 4. School accounts: invite codes, approval, seats, roles       | `platform/4-school-accounts`  | See [phase-4.md](phase-4.md)                                                |
+| 4. School accounts: invite codes, approval, seats, roles       | `platform/4-school-accounts`  | Built and tested. See [phase-4.md](phase-4.md)                              |
 
 Someone else on the team is also working on this track. Nothing here is merged to `main`; treat it as a working proposal to merge with, or lift from.
 

@@ -47,6 +47,17 @@ The licence arrives straight away. Afterwards the server checks in whenever it h
 sudo -u tough2simple DATA_DIR=/var/lib/tough2simple node dist/campus/cli.mjs licence /path/to/file.t2s-licence
 ```
 
+## The first school admin
+
+Once the server is licensed, make the invite code for the school's admin:
+
+```sh
+cd /opt/tough2simple
+sudo -u tough2simple DATA_DIR=/var/lib/tough2simple node dist/campus/cli.mjs admin "Their Name"
+```
+
+Give them the code. They open `http://<server address>:8080/join`, type it and choose a password. From then on they invite teachers and students themselves from the People page, and nobody needs SSH for that again.
+
 ## Checking and looking after it
 
 ```sh

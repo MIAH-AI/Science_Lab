@@ -5,7 +5,14 @@
 //
 // Settings: PORT (8080), HOST (0.0.0.0), DATA_DIR (.data), LICENCE_PUBLIC_KEY or a licence-public.pem
 // file beside the package, HEARTBEAT_MINUTES (15).
-import { createReadStream, existsSync, readFileSync, statSync } from 'node:fs'
+import { randomBytes } from 'node:crypto'
+import {
+  createReadStream,
+  existsSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs'
 import {
   createServer,
   type IncomingMessage,
@@ -45,6 +52,11 @@ const current = (): CampusStanding =>
   campusStanding(store, { publicKey, machine: id.machine, now: clock.now() })
 
 // The app itself runs in campus mode: no platform console, and its database lives in the same folder.
+// A secret for the few calls this process makes into the app (seat count, first admin). It changes at every
+// start, and a copy is left in the data folder for the command line tool, readable only by this user.
+const internal = randomBytes(32).toString('hex')
+process.env.T2S_INTERNAL = internal
+writeFileSync(join(store.dir, 'internal-key'), internal, { mode: 0o600 })
 process.env.APP_MODE = 'campus'
 process.env.DATA_DIR = store.dir
 delete process.env.CONSOLE_ENABLED
@@ -107,7 +119,7 @@ function staticFile(pathname: string): string | null {
 const OPEN =
   /^\/(licence(\/.*)?|assets\/.*|fonts\/.*|brand\/.*|favicon\.(ico|svg)|apple-touch-icon\.png|_serverFn\/.*)$/
 // On a school server the front door is the Study Desk; the public front page and the sample-data demo are not shown.
-const TO_DESK = /^\/($|demo(\/|$)|app\/(classroom|people|campus|school)(\/|$))/
+const TO_DESK = /^\/($|demo(\/|$)|app\/(classroom|campus|school)(\/|$))/
 
 const banner = (s: CampusStanding) =>
   `<div role="status" style="position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#6b4a00;color:#fff;font:600 15px/1.4 Lexend,system-ui,sans-serif;padding:10px 16px;text-align:center">${s.message.replace(/</g, '&lt;')} <a href="/licence" style="color:#fff;text-decoration:underline">Details</a></div>`
@@ -131,6 +143,26 @@ function publicStatus(s: CampusStanding): PublicStatus {
     fingerprintSource: id.source,
     enrolled: !!store.link(),
     version: VERSION,
+  }
+}
+
+// A call from this process into the app, marked with the secret.
+async function ask(body: Record<string, unknown>) {
+  const res = await app.fetch(
+    new Request('http://localhost/api/school/internal', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-t2s-internal': internal,
+      },
+      body: JSON.stringify(body),
+    }),
+  )
+  return (await res.json()) as {
+    ok: boolean
+    used?: number
+    code?: string
+    error?: string
   }
 }
 
@@ -182,6 +214,33 @@ const server = createServer(async (req, res) => {
         res,
         done.ok ? 200 : 400,
         JSON.stringify(done.ok ? { ok: true } : done),
+      )
+    }
+    if (path === '/licence/first-admin' && req.method === 'POST') {
+      // From the installer's command line on this machine: makes the invite code for the first school admin.
+      if (req.headers['x-t2s-key'] !== internal)
+        return send(
+          res,
+          403,
+          JSON.stringify({
+            ok: false,
+            error: 'Run this on the school server itself.',
+          }),
+        )
+      if (!s.canChange)
+        return send(
+          res,
+          400,
+          JSON.stringify({
+            ok: false,
+            error: 'Install a licence first. ' + s.message,
+          }),
+        )
+      const name = (await readBody(req)).toString('utf8')
+      return send(
+        res,
+        200,
+        JSON.stringify(await ask({ action: 'first-admin', name })),
       )
     }
     if (TO_DESK.test(path) && req.method === 'GET') {
@@ -243,8 +302,11 @@ const server = createServer(async (req, res) => {
     const type = response.headers.get('content-type') ?? ''
     const out: Record<string, string | string[]> = {}
     response.headers.forEach((v, k) => (out[k] = v))
-    const cookies = response.headers.getSetCookie()
-    if (cookies.length) out['set-cookie'] = cookies
+    // Marks the browser as being on a school server, so the Study Desk knows to ask who is signed in.
+    out['set-cookie'] = [
+      ...response.headers.getSetCookie(),
+      't2s_campus=1; Path=/; SameSite=Lax; Max-Age=31536000',
+    ]
     if (
       s.state === 'grace' &&
       type.includes('text/html') &&
@@ -300,10 +362,12 @@ for (const signal of ['SIGTERM', 'SIGINT'] as const)
 
 async function report() {
   if (!store.link()) return
+  const seats = await ask({ action: 'seats' }).catch(() => null)
   const res = await beat(store, {
     publicKey,
     machine: id.machine,
     version: VERSION,
+    seatsUsed: seats?.used,
     clock,
   })
   if (res.ok && (res.licenceChanged || res.suspended))
