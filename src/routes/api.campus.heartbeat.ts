@@ -39,6 +39,7 @@ export const Route = createFileRoute('/api/campus/heartbeat')({
                 : undefined,
             seatsUsed:
               typeof b.seatsUsed === 'number' ? b.seatsUsed : undefined,
+            nonce: typeof b.nonce === 'string' ? b.nonce : undefined,
           },
           new Date(),
         )

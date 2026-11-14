@@ -5,6 +5,7 @@ import { randomInt } from 'node:crypto'
 import { iso, type Db } from '../server/db'
 import {
   checkPassword,
+  dummyHash,
   hashPassword,
   newToken,
   tokenHash,
@@ -22,6 +23,8 @@ export const SESSION_HOURS = 12
 export const MAX_FAILS = 5
 export const LOCK_MINUTES = 15
 export const INVITE_DAYS = 30
+// A new-password code takes over an existing account, so it is short-lived.
+export const RESET_HOURS = 24
 
 export type SchoolUser = {
   id: string
@@ -239,7 +242,7 @@ export async function join(
     const reset = await db.query<{ id: string }>(
       `UPDATE school_users SET password_hash = $2, invite_code = NULL, failed_count = 0, locked_until = NULL
        WHERE id = $1 AND invite_code = $3 RETURNING id`,
-      [row.id, hashPassword(input.password), code],
+      [row.id, await hashPassword(input.password), code],
     )
     if (!reset.length) return fail('That code has already been used.')
     await log(db, row.id, 'user.new-password', row.name)
@@ -263,7 +266,7 @@ export async function join(
     [
       row.id,
       username,
-      hashPassword(input.password),
+      await hashPassword(input.password),
       firstAdmin ? 'active' : 'pending',
       firstAdmin ? now.toISOString() : null,
     ],
@@ -343,7 +346,7 @@ export async function resetCode(
   const no = adminOnly(by)
   if (no) return no
   const expires = new Date(
-    now.getTime() + INVITE_DAYS * 86_400_000,
+    now.getTime() + RESET_HOURS * 3_600_000,
   ).toISOString()
   for (let attempt = 0; attempt < 5; attempt++) {
     const code = newInviteCode()
@@ -386,46 +389,48 @@ export async function cancelInvite(
 
 export type SignIn =
   { ok: true; token: string; user: SchoolUser; expires: string } | Fail
-const DUMMY = hashPassword('not a real password')
 
+// Sign-in tries are counted for the username typed and the device it came from, in one statement, before
+// the password is looked at. After MAX_FAILS tries in LOCK_MINUTES that device must wait, whether or not
+// the username exists. So: parallel guesses cannot slip under the limit, nobody can lock the school admin
+// out from another device, and the answer does not reveal which usernames are real.
 export async function signIn(
   db: Db,
-  input: { username: string; password: string },
+  input: { username: string; password: string; ip?: string },
   now: Date,
 ): Promise<SignIn> {
   const wrong = fail('That username and password do not match.')
-  const row = (
-    await db.query<Row>('SELECT * FROM school_users WHERE username = $1', [
-      input.username.trim().toLowerCase(),
-    ])
-  )[0]
-  if (!row || !row.password_hash) {
-    checkPassword(input.password, DUMMY)
-    return wrong
-  }
-  if (row.locked_until && new Date(iso(row.locked_until)!) > now) {
-    const mins = Math.ceil(
-      (new Date(iso(row.locked_until)!).getTime() - now.getTime()) / 60_000,
-    )
+  const username = input.username.trim().toLowerCase().slice(0, 60)
+  const ip = (input.ip || 'unknown').slice(0, 60)
+  const windowOpen = new Date(
+    now.getTime() - LOCK_MINUTES * 60_000,
+  ).toISOString()
+  const [tries] = await db.query<{ count: number; window_start: unknown }>(
+    `INSERT INTO school_signin_tries (username, ip, count, window_start) VALUES ($1, $2, 1, $3)
+     ON CONFLICT (username, ip) DO UPDATE SET
+       count = CASE WHEN school_signin_tries.window_start <= $4 THEN 1 ELSE school_signin_tries.count + 1 END,
+       window_start = CASE WHEN school_signin_tries.window_start <= $4 THEN $3 ELSE school_signin_tries.window_start END
+     RETURNING count, window_start`,
+    [username, ip, now.toISOString(), windowOpen],
+  )
+  if (Number(tries.count) > MAX_FAILS) {
+    const until =
+      new Date(iso(tries.window_start)!).getTime() + LOCK_MINUTES * 60_000
+    const mins = Math.max(1, Math.ceil((until - now.getTime()) / 60_000))
     return fail(
       `Too many wrong tries. Wait ${mins} minute${mins === 1 ? '' : 's'}, or ask your school admin.`,
     )
   }
-  if (!checkPassword(input.password, row.password_hash)) {
-    const count = row.failed_count + 1
-    const lock = count >= MAX_FAILS
-    await db.query(
-      'UPDATE school_users SET failed_count = $2, locked_until = $3 WHERE id = $1',
-      [
-        row.id,
-        lock ? 0 : count,
-        lock
-          ? new Date(now.getTime() + LOCK_MINUTES * 60_000).toISOString()
-          : null,
-      ],
-    )
+  const row = (
+    await db.query<Row>('SELECT * FROM school_users WHERE username = $1', [
+      username,
+    ])
+  )[0]
+  if (!row || !row.password_hash) {
+    await checkPassword(input.password, await dummyHash())
     return wrong
   }
+  if (!(await checkPassword(input.password, row.password_hash))) return wrong
   if (row.status === 'pending')
     return fail('Your school admin has not approved your account yet.')
   if (row.status === 'disabled')
@@ -433,9 +438,12 @@ export async function signIn(
   const token = newToken()
   const expires = new Date(now.getTime() + SESSION_HOURS * 3_600_000)
   await db.query(
-    'UPDATE school_users SET failed_count = 0, locked_until = NULL WHERE id = $1',
-    [row.id],
+    'DELETE FROM school_signin_tries WHERE (username = $1 AND ip = $2) OR window_start <= $3',
+    [username, ip, new Date(now.getTime() - 86_400_000).toISOString()],
   )
+  await db.query('DELETE FROM school_sessions WHERE expires_at <= $1', [
+    now.toISOString(),
+  ])
   await db.query(
     'INSERT INTO school_sessions (token_hash, user_id, expires_at) VALUES ($1, $2, $3)',
     [tokenHash(token), row.id, expires.toISOString()],

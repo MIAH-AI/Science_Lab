@@ -139,7 +139,9 @@ export function installLicence(
   store: Store,
   token: string,
   opts: { publicKey: string; machine: string },
-): { ok: true; licence: Licence } | { ok: false; error: string } {
+):
+  | { ok: true; licence: Licence; fresh: boolean }
+  | { ok: false; error: string } {
   const read = verifyLicence(token, opts.publicKey)
   if (!read.ok) return { ok: false, error: read.reason }
   const l = read.licence
@@ -160,5 +162,10 @@ export function installLicence(
   if (current.ok && current.licence.issued > l.issued)
     return { ok: false, error: 'A newer licence is already installed.' }
   store.setLicence(token)
-  return { ok: true, licence: l }
+  // `fresh`: the first licence, or one issued after the licence it replaces (not the same one again).
+  return {
+    ok: true,
+    licence: l,
+    fresh: !current.ok || current.licence.issued < l.issued,
+  }
 }

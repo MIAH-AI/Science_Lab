@@ -1,6 +1,6 @@
 // Passwords, sign-in codes and random tokens. Nothing here stores anything; see accounts.ts.
 import {
-  argon2Sync,
+  argon2,
   createHash,
   createHmac,
   randomBytes,
@@ -10,9 +10,43 @@ import {
 /* Passwords: Argon2id (SEC-6), with the settings stored beside the hash so they can be raised later. */
 const ARGON = { memory: 19_456, passes: 2, parallelism: 1, tagLength: 32 } // OWASP's minimum for Argon2id
 
-export function hashPassword(password: string) {
+/* Hashing is slow on purpose. It runs off the main thread, at most two at a time, so a flood of sign-in
+   attempts cannot stop the server answering everyone else; beyond a short queue, callers are told to wait. */
+let running = 0
+const waiting: (() => void)[] = []
+export class Busy extends Error {}
+
+async function derive(
+  message: string,
+  nonce: Buffer,
+  cost: {
+    memory: number
+    passes: number
+    parallelism: number
+    tagLength: number
+  },
+) {
+  if (running >= 2) {
+    if (waiting.length >= 40)
+      throw new Busy('The server is busy. Try again in a moment.')
+    await new Promise<void>((go) => waiting.push(go))
+  }
+  running++
+  try {
+    return await new Promise<Buffer>((resolve, reject) =>
+      argon2('argon2id', { message, nonce, ...cost }, (err, key) =>
+        err ? reject(err) : resolve(key),
+      ),
+    )
+  } finally {
+    running--
+    waiting.shift()?.()
+  }
+}
+
+export async function hashPassword(password: string) {
   const nonce = randomBytes(16)
-  const tag = argon2Sync('argon2id', { message: password, nonce, ...ARGON })
+  const tag = await derive(password, nonce, ARGON)
   return [
     'argon2id',
     ARGON.memory,
@@ -23,13 +57,11 @@ export function hashPassword(password: string) {
   ].join('$')
 }
 
-export function checkPassword(password: string, stored: string) {
+export async function checkPassword(password: string, stored: string) {
   const [kind, memory, passes, parallelism, nonce, tag] = stored.split('$')
   if (kind !== 'argon2id' || !tag) return false
   const want = Buffer.from(tag, 'base64url')
-  const got = argon2Sync('argon2id', {
-    message: password,
-    nonce: Buffer.from(nonce, 'base64url'),
+  const got = await derive(password, Buffer.from(nonce, 'base64url'), {
     memory: Number(memory),
     passes: Number(passes),
     parallelism: Number(parallelism),
@@ -37,6 +69,10 @@ export function checkPassword(password: string, stored: string) {
   })
   return got.length === want.length && timingSafeEqual(got, want)
 }
+
+// A stand-in hash, checked when the name is unknown so that answer takes as long as a wrong password.
+let dummy: Promise<string> | null = null
+export const dummyHash = () => (dummy ??= hashPassword('not a real password'))
 
 // A plain reason a new password is not acceptable, or null when it is.
 export function passwordProblem(password: string): string | null {

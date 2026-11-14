@@ -170,7 +170,14 @@ export function standing(
 
 /* Signed status. When a school server reaches the control service, the answer says whether the campus is
    suspended. It is signed with the same key, so a cached answer on the server cannot be edited. */
-export type CampusStatus = { campusId: string; suspended: boolean; at: string }
+// `nonce` is the random value the school server sent with this check-in. It proves the answer was made for
+// this request, so an old answer recorded off the network cannot be played back.
+export type CampusStatus = {
+  campusId: string
+  suspended: boolean
+  at: string
+  nonce?: string
+}
 
 export function signStatus(status: CampusStatus, privateKeyPem: string) {
   const payload = Buffer.from(JSON.stringify(status), 'utf8')

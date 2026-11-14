@@ -1,9 +1,26 @@
 // The only part of a school server that talks to the internet. It reports in to the control service and
 // brings back the current licence and the signed suspension note. Failing quietly is correct: most
 // school servers are offline most of the time.
+import { randomBytes } from 'node:crypto'
 import { readStatus } from '../server/licence'
 import { installLicence, type LicenceClock } from './standing'
 import type { Store } from './store'
+
+// The server's secret travels with each check-in, so the control service must be reached over https.
+// Plain http is allowed only to this same computer, which is how it is tested.
+const NEEDS_HTTPS = 'The control service address must start with https://'
+export const safeAddress = (url: string) => {
+  try {
+    const u = new URL(url)
+    return (
+      u.protocol === 'https:' ||
+      (u.protocol === 'http:' &&
+        ['localhost', '127.0.0.1', '[::1]'].includes(u.hostname))
+    )
+  } catch {
+    return false
+  }
+}
 
 export type Beat =
   | { ok: true; licenceChanged: boolean; suspended: boolean }
@@ -28,6 +45,8 @@ export async function beat(
     licence?: string | null
     status?: string
   }
+  if (!safeAddress(link.url)) return { ok: false, error: NEEDS_HTTPS }
+  const nonce = randomBytes(16).toString('hex')
   try {
     const res = await (opts.fetch ?? fetch)(
       link.url.replace(/\/$/, '') + '/api/campus/heartbeat',
@@ -40,6 +59,7 @@ export async function beat(
           machine: opts.machine,
           version: opts.version,
           seatsUsed: opts.seatsUsed,
+          nonce,
         }),
         signal: AbortSignal.timeout(15_000),
       },
@@ -57,6 +77,11 @@ export async function beat(
   const status = body.status ? readStatus(body.status, opts.publicKey) : null
   if (!status || status.campusId !== link.campusId)
     return { ok: false, error: 'The answer was not signed by tough2simple.' }
+  // The answer must be the one made for this request, and never older than the note already held.
+  // Otherwise someone on the network path could play back an old "not suspended" answer.
+  const held = readStatus(store.status(), opts.publicKey)
+  if (status.nonce !== nonce || (held && held.at > status.at))
+    return { ok: false, error: 'The answer was not made for this check-in.' }
   store.setStatus(body.status!)
   opts.clock?.trust(Date.parse(status.at))
   let licenceChanged = false
@@ -91,6 +116,7 @@ export async function enrol(
     campus?: string
     licence?: string | null
   }
+  if (!safeAddress(opts.url)) return { ok: false, error: NEEDS_HTTPS }
   try {
     const res = await (opts.fetch ?? fetch)(
       opts.url.replace(/\/$/, '') + '/api/campus/enrol',

@@ -5,7 +5,7 @@
 //
 // Settings: PORT (8080), HOST (0.0.0.0), DATA_DIR (.data), LICENCE_PUBLIC_KEY or a licence-public.pem
 // file beside the package, HEARTBEAT_MINUTES (15).
-import { randomBytes } from 'node:crypto'
+import { randomBytes, timingSafeEqual } from 'node:crypto'
 import {
   createReadStream,
   existsSync,
@@ -19,7 +19,7 @@ import {
   type ServerResponse,
 } from 'node:http'
 import { dirname, extname, join, normalize, resolve } from 'node:path'
-import { Readable } from 'node:stream'
+import { Readable, pipeline } from 'node:stream'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { beat } from './heartbeat'
 import {
@@ -117,7 +117,7 @@ function staticFile(pathname: string): string | null {
 
 // Always reachable, so the licence page can show itself and its styles when everything else is closed.
 const OPEN =
-  /^\/(licence(\/.*)?|assets\/.*|fonts\/.*|brand\/.*|favicon\.(ico|svg)|apple-touch-icon\.png|_serverFn\/.*)$/
+  /^\/(licence(\/.*)?|assets\/.*|fonts\/.*|brand\/.*|favicon\.(ico|svg)|apple-touch-icon\.png)$/
 // On a school server the front door is the Study Desk; the public front page and the sample-data demo are not shown.
 const TO_DESK = /^\/($|demo(\/|$)|app\/(classroom|campus|school)(\/|$))/
 
@@ -166,6 +166,30 @@ async function ask(body: Record<string, unknown>) {
   }
 }
 
+const LOOPBACK = ['127.0.0.1', '::1', '::ffff:127.0.0.1']
+const sameSecret = (given: unknown, want: string) => {
+  const a = Buffer.from(typeof given === 'string' ? given : '')
+  const b = Buffer.from(want)
+  return a.length === b.length && timingSafeEqual(a, b)
+}
+
+// A limit on POSTs from one device: sign-in, joining and installing a licence all cost the server work.
+// 120 in 10 seconds is far more than a person needs, allows a whole class that shares one address to sign in
+// together, and is far fewer than a flood. POST_LIMIT changes it.
+const POST_LIMIT = Math.max(10, Number(env('POST_LIMIT', '120')) || 120)
+const posts = new Map<string, { n: number; until: number }>()
+function tooMany(from: string) {
+  const now = Date.now()
+  if (posts.size > 5000)
+    for (const [k, v] of posts) if (v.until < now) posts.delete(k)
+  const p = posts.get(from)
+  if (!p || p.until < now) {
+    posts.set(from, { n: 1, until: now + 10_000 })
+    return false
+  }
+  return ++p.n > POST_LIMIT
+}
+
 const send = (
   res: ServerResponse,
   status: number,
@@ -194,6 +218,17 @@ const server = createServer(async (req, res) => {
     )
     const path = url.pathname
     const s = current()
+    const from = req.socket.remoteAddress ?? 'unknown'
+    if (req.method === 'POST' && tooMany(from))
+      return send(
+        res,
+        429,
+        JSON.stringify({
+          ok: false,
+          error:
+            'Too many requests from this device. Wait a few seconds and try again.',
+        }),
+      )
 
     if (path === '/licence/status.json')
       return send(res, 200, JSON.stringify(publicStatus(s)))
@@ -205,6 +240,15 @@ const server = createServer(async (req, res) => {
         publicKey,
         machine: id.machine,
       })
+      // A licence issued after the one it replaces also resets the licence clock to its issue time. That is
+      // the way back for a server whose clock was once set far ahead: correct the clock, then install a
+      // newly issued licence. Installing the same licence again changes nothing.
+      if (
+        done.ok &&
+        done.fresh &&
+        Date.parse(done.licence.issued) < clock.now().getTime()
+      )
+        clock.trust(Date.parse(done.licence.issued))
       console.log(
         done.ok
           ? `Licence installed: ${done.licence.school}, ${done.licence.campus}, to ${done.licence.ends}`
@@ -218,7 +262,11 @@ const server = createServer(async (req, res) => {
     }
     if (path === '/licence/first-admin' && req.method === 'POST') {
       // From the installer's command line on this machine: makes the invite code for the first school admin.
-      if (req.headers['x-t2s-key'] !== internal)
+      // Two checks: the caller is this same computer, and it could read the key in the data folder.
+      if (
+        !LOOPBACK.includes(from) ||
+        !sameSecret(req.headers['x-t2s-key'], internal)
+      )
         return send(
           res,
           403,
@@ -272,9 +320,9 @@ const server = createServer(async (req, res) => {
           ? 'public, max-age=31536000, immutable'
           : 'no-cache',
       })
-      return req.method === 'HEAD'
-        ? res.end()
-        : createReadStream(file).pipe(res)
+      if (req.method === 'HEAD') return res.end()
+      // pipeline closes the file if the browser goes away, and a read error cannot bring the server down.
+      return pipeline(createReadStream(file), res, () => {})
     }
 
     let response: Response
@@ -286,6 +334,8 @@ const server = createServer(async (req, res) => {
       const headers = new Headers()
       for (const [k, v] of Object.entries(req.headers))
         if (typeof v === 'string' && !k.startsWith('x-t2s-')) headers.set(k, v)
+      // The device's address, for counting wrong sign-in tries per device.
+      headers.set('x-t2s-ip', from)
       // The app reads the licence standing from this header; a browser cannot set it (stripped above).
       headers.set(
         'x-t2s-campus',
@@ -313,9 +363,10 @@ const server = createServer(async (req, res) => {
       path !== '/licence'
     ) {
       // Read-only period: say so on every page, labs included.
+      // A function, so nothing in the school's name is read as a replacement pattern.
       const text = (await response.text()).replace(
         /<\/body>/i,
-        banner(s) + '</body>',
+        () => banner(s) + '</body>',
       )
       delete out['content-length']
       res.writeHead(response.status, out)
@@ -323,9 +374,13 @@ const server = createServer(async (req, res) => {
     }
     res.writeHead(response.status, out)
     if (!response.body || req.method === 'HEAD') return res.end()
-    Readable.fromWeb(
-      response.body as import('node:stream/web').ReadableStream,
-    ).pipe(res)
+    pipeline(
+      Readable.fromWeb(
+        response.body as import('node:stream/web').ReadableStream,
+      ),
+      res,
+      () => {},
+    )
   } catch (e) {
     console.error(e)
     if (!res.headersSent)

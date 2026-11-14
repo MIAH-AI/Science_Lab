@@ -40,6 +40,9 @@ function standing(): PublicStatus {
     ? readCampusHeader(getRequestHeader('x-t2s-campus'))
     : null
   if (!s) throw notFound()
+  // Suspended, ended or not licensed: nothing here answers, not only the pages. The licence page uses its
+  // own call (src/campus/status.ts).
+  if (!s.canUse) throw notFound()
   return s
 }
 function sameSite() {
@@ -99,7 +102,12 @@ export const schoolSignIn = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     standing()
     sameSite()
-    const res = await signIn(await getDb(), data, new Date())
+    // The device's address comes from the school server itself; a browser cannot set this header.
+    const res = await signIn(
+      await getDb(),
+      { ...data, ip: getRequestHeader('x-t2s-ip') },
+      new Date(),
+    )
     if (!res.ok) return res
     // School servers are plain http on the school's own network, so the cookie cannot be marked Secure.
     setCookie(COOKIE, res.token, {
