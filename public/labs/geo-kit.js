@@ -111,38 +111,86 @@
     let yaw = Math.atan2(d.x, d.z); while (yaw - o.yaw > Math.PI) yaw -= 2 * Math.PI; while (yaw - o.yaw < -Math.PI) yaw += 2 * Math.PI;
     o.ty = yaw; o.tp = Math.asin(d.y / r); o.tr = r;
   }
+  /* ---------- narrator: device voices, spoken sentence by sentence, with a voice picker ----------
+     Chrome's desktop voices stop on any single utterance longer than about 14 s, and an explainer that
+     moved on by the clock used to cut the voice mid-sentence. Captions are now split into sentences and
+     queued, and explainer steps wait until the narrator has finished (with a safety limit). */
+  const VKEY = "lwn.voice", AFR = /^(en|fr|pt)-(NG|GH|KE|ZA|TZ|UG|ZM|ZW|RW|CM|SN|SL|LR|GM|ET|MW|BW|NA|CI)\b|^(yo|ha|ig|sw|zu|xh|af|am|so|rw|ln|wo|tw|ak|st|tn|sn|ny|om|ti)(-|$)/i;
+  const V = GK.V = { on: true, name: "", rate: 1, q: [], cur: null, deadline: 0, gen: 0 };
+  try { const sv = JSON.parse(localStorage.getItem(VKEY) || "{}"); if (sv.on === false) V.on = false; if (sv.name) V.name = sv.name; if (sv.rate) V.rate = sv.rate; } catch (e) { }
+  V.save = () => { try { localStorage.setItem(VKEY, JSON.stringify({ on: V.on, name: V.name, rate: V.rate })); } catch (e) { } };
+  V.ok = () => !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
+  V.voices = () => { try { return V.ok() ? speechSynthesis.getVoices() : []; } catch (e) { return []; } };
+  V.african = (v) => AFR.test(v.lang || "");
+  V.group = (v) => (V.african(v) ? "African voices" : /^en-GB/i.test(v.lang) ? "British English" : /^en-(US|CA)/i.test(v.lang) ? "American English" : /^en/i.test(v.lang) ? "Other English" : "Other languages");
+  V.place = (v) => { const m = /-([A-Z]{2})\b/i.exec(v.lang || ""); const C = { NG: "Nigeria", GH: "Ghana", KE: "Kenya", ZA: "South Africa", TZ: "Tanzania", UG: "Uganda", ZM: "Zambia", ZW: "Zimbabwe", RW: "Rwanda", CM: "Cameroon", SN: "Senegal", ET: "Ethiopia", GB: "UK", US: "USA", IN: "India", AU: "Australia", IE: "Ireland", CA: "Canada" }; const L = { yo: "Yoruba", ha: "Hausa", ig: "Igbo", sw: "Swahili", zu: "Zulu", xh: "Xhosa", af: "Afrikaans", am: "Amharic" }[(v.lang || "").slice(0, 2).toLowerCase()]; return (L ? L + " " : "") + (m ? C[m[1].toUpperCase()] || m[1].toUpperCase() : ""); };
+  V.rank = (v) => (/^en-NG/i.test(v.lang) ? 0 : /^en-/i.test(v.lang) && V.african(v) ? 1 : V.african(v) ? 3 : /^en-GB/i.test(v.lang) ? 2 : /^en/i.test(v.lang) ? 4 : 9) - (/natural|neural|online|enhanced|premium/i.test(v.name) ? 0.5 : 0);
+  V.pick = () => { const vs = V.voices(); if (!vs.length) return null; const named = V.name && vs.find((v) => v.name === V.name); if (named) return named; return vs.slice().sort((a, b) => V.rank(a) - V.rank(b))[0]; };
+  V.clean = (t) => String(t || "").replace(/₦\s?/g, "naira ").replace(/°C/g, " degrees Celsius").replace(/°/g, " degrees").replace(/(\d)\s?%/g, "$1 percent").replace(/\bkm\/h\b/g, "kilometres per hour").replace(/\bm\/s²/g, "metres per second squared").replace(/\bm\/s\b/g, "metres per second").replace(/\bkg\/h\b/g, "kilograms per hour").replace(/\bkPa\b/g, "kilopascals").replace(/×/g, " times ").replace(/÷/g, " divided by ").replace(/→/g, " to ").replace(/[“”"]/g, "").replace(/\s+/g, " ").trim();
+  V.chunks = (t) => { const out = []; (t.match(/[^.!?;:]+[.!?;:]*(\s|$)/g) || [t]).forEach((sn) => { sn = sn.trim(); while (sn.length > 190) { let k = sn.lastIndexOf(", ", 190); if (k < 60) k = sn.lastIndexOf(" ", 190); if (k < 30) k = 190; out.push(sn.slice(0, k + 1)); sn = sn.slice(k + 1).trim(); } if (sn) out.push(sn); }); return out; };
+  V.estimate = (t) => { const w = String(t || "").split(/\s+/).filter(Boolean).length; return w / (2.6 * (V.rate || 1)) + 0.8; };
+  V.hush = () => { V.gen++; V.q = []; V.cur = null; V.deadline = 0; try { V.ok() && speechSynthesis.cancel(); } catch (e) { } };
+  V.say = (txt, force) => {
+    if ((!V.on && !force) || !V.ok() || !txt) return; V.hush(); const gen = V.gen, text = V.clean(txt), voice = V.pick(); if (!voice) return; let started = false;
+    V.q = V.chunks(text); V.deadline = performance.now() + (V.estimate(text) * 2.2 + 4) * 1000;
+    const next = () => { if (gen !== V.gen) return; const part = V.q.shift(); if (!part) { V.cur = null; V.deadline = 0; return; } const u = new SpeechSynthesisUtterance(part); if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = "en-GB"; u.rate = V.rate || 1; u.onstart = () => { started = true; }; u.onend = u.onerror = () => { if (V.cur === u) next(); }; V.cur = u; try { speechSynthesis.speak(u); } catch (e) { V.hush(); } };
+    setTimeout(() => { if (gen === V.gen && !started && !speechSynthesis.speaking) { V.cur = null; V.deadline = 0; } }, 2500);  /* a voice that never starts must not hold the explainer */
+    next();
+  };
+  V.busy = () => !!(V.cur && performance.now() < V.deadline);
+  if (V.ok()) { try { speechSynthesis.addEventListener && speechSynthesis.addEventListener("voiceschanged", () => { V._vs = 1; }); } catch (e) { } window.addEventListener("pagehide", () => V.hush()); document.addEventListener("visibilitychange", () => { if (document.hidden) V.hush(); }); }
+  /* how long a step stays up: at least long enough to read (about 155 words a minute) */
+  GK.stepTime = (step) => Math.max(step.d || 4, V.estimate(step.cap));
+  /* voice settings dialog */
+  V.panel = () => {
+    const old = document.getElementById("lwn-voice"); if (old) { old.remove(); return; }
+    const css = "#lwn-voice{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(10,14,24,.45);font:14px/1.45 'IBM Plex Sans',system-ui,sans-serif}#lwn-voice .bx{background:var(--g-panel,#fff);color:var(--g-ink,#1b2030);width:min(440px,calc(100vw - 32px));max-height:calc(100vh - 40px);overflow:auto;border-radius:16px;padding:18px 18px 14px;box-shadow:0 20px 60px rgba(0,0,0,.35)}#lwn-voice h3{margin:0 0 4px;font-size:17px}#lwn-voice p{margin:6px 0;color:var(--g-ink2,#556)}#lwn-voice label{display:block;margin:12px 0 4px;font-weight:600}#lwn-voice select,#lwn-voice input[type=range]{width:100%}#lwn-voice select{padding:8px;border-radius:10px;border:1px solid #ccd;font:inherit;background:#fff;color:#1b2030}#lwn-voice .row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}#lwn-voice button{font:inherit;padding:8px 14px;border-radius:10px;border:1px solid #ccd;background:#f3f4f8;color:#1b2030;cursor:pointer}#lwn-voice button.pri{background:#6a4fd8;color:#fff;border-color:#6a4fd8}#lwn-voice .tip{font-size:12.5px;background:#fff6dc;color:#5a4610;border-radius:10px;padding:8px 10px;margin-top:10px}";
+    const box = document.createElement("div"); box.id = "lwn-voice"; box.innerHTML = "<style>" + css + "</style><div class='bx' role='dialog' aria-label='Narrator voice'><h3>Narrator voice</h3><p>Explainers are read aloud by a voice on this device. African voices are listed first.</p><label><input type='checkbox' id='lv-on'> Read explainers aloud</label><label for='lv-sel'>Voice</label><select id='lv-sel'></select><label for='lv-rate'>Speed: <span id='lv-rv'></span></label><input type='range' id='lv-rate' min='0.7' max='1.3' step='0.05'><div id='lv-tip'></div><div class='row'><button class='pri' id='lv-test'>▶ Test voice</button><button id='lv-close'>Done</button></div></div>";
+    document.body.appendChild(box);
+    const $ = (id) => box.querySelector("#" + id), sel = $("lv-sel"), rate = $("lv-rate");
+    const fill = () => { const vs = V.voices(), cur = V.pick(); sel.innerHTML = ""; if (!vs.length) { sel.innerHTML = "<option>No voices found on this device yet</option>"; } const groups = {}; vs.slice().sort((a, b) => V.rank(a) - V.rank(b) || a.name.localeCompare(b.name)).forEach((v) => { const gname = V.group(v); (groups[gname] = groups[gname] || []).push(v); }); ["African voices", "British English", "American English", "Other English", "Other languages"].forEach((gname) => { if (!groups[gname]) return; const og = document.createElement("optgroup"); og.label = gname; groups[gname].forEach((v) => { const o = document.createElement("option"); o.value = v.name; o.textContent = v.name.replace(/^(Microsoft|Google)\s+/, "").replace(/\s*-\s*[A-Za-z ]+\([^)]*\)$/, "") + " — " + (V.place(v) || v.lang); if (cur && v.name === cur.name) o.selected = true; og.appendChild(o); }); sel.appendChild(og); });
+      const afr = vs.filter(V.african); $("lv-tip").innerHTML = afr.length ? "<div class='tip'>" + afr.length + " African voice" + (afr.length > 1 ? "s" : "") + " found on this device.</div>" : "<div class='tip'><b>No African voice on this device yet.</b> Voices come from the device and browser, not from this site. On a Windows computer, Microsoft Edge usually offers more voices, including Nigerian and other African English voices. On Android, open Settings → Text-to-speech and install more voices if your phone offers them. Then reopen this box.</div>"; };
+    $("lv-on").checked = V.on; rate.value = V.rate || 1; $("lv-rv").textContent = (+rate.value).toFixed(2) + "×"; fill(); if (V.ok() && !V.voices().length) setTimeout(fill, 600);
+    sel.onchange = () => { V.name = sel.value; V.save(); };
+    rate.oninput = () => { V.rate = +rate.value; $("lv-rv").textContent = V.rate.toFixed(2) + "×"; V.save(); };
+    $("lv-on").onchange = () => { V.on = $("lv-on").checked; if (!V.on) V.hush(); V.save(); };
+    $("lv-test").onclick = () => V.say("Welcome to Learn with Nehy. This is how the explainers will sound. Good luck with your W A E C examinations.", true);
+    $("lv-close").onclick = () => box.remove(); box.addEventListener("click", (e) => { if (e.target === box) box.remove(); });
+  };
+  GK.VOICE_ACT = { label: "🗣 Voice", run: () => V.panel() };
   GK.storyToggle = (s, c, H, sc) => {
-    if (s._story && s._story.on) { s._story.on = false; return; }
+    if (s._story && s._story.on) { s._story.on = false; V.hush(); return; }
     const steps = typeof sc.story === "function" ? sc.story(c, s) : sc.story;
     s._story = { on: true, i: -1, t: 0, steps, H, last: 0 };
   };
   function storyTick(S, s, c, dt) {
     const st = s._story; if (!st || !st.on) return;
     st.t += dt;
-    if (st.i < 0 || st.t >= (st.steps[st.i].d || 4)) {
+    const cur = st.i >= 0 ? st.steps[st.i] : null, need = cur ? GK.stepTime(cur) : 0;
+    if (st.i < 0 || (st.t >= need && (!V.busy() || st.t >= need * 2.5 + 3))) {
       st.i++; st.t = 0;
       if (st.i >= st.steps.length) { st.on = false; st.done = true; st.H && st.H.refresh && st.H.refresh(); return; }
-      const step = st.steps[st.i];
+      const step = st.steps[st.i]; V.say(step.cap);
       if (step.set) { Object.assign(c, step.set); st.H && st.H.refresh && st.H.refresh(); st.H && st.H.onCh && st.H.onCh("_story"); }
       if (step.cam) camTo(S, step.cam, st); else { st.tg0 = st.tg1 = null; }
       if (step.run) step.run(s, c, S);
     }
-    const step = st.steps[st.i], u = Math.min(1, st.t / (step.d || 4));
+    const step = st.steps[st.i], u = Math.min(1, st.t / GK.stepTime(step));
     if (st.tg1) S.orbit.target.lerpVectors(st.tg0, st.tg1, ease(Math.min(1, u * 1.6)));
     if (step.tween) { Object.entries(step.tween).forEach(([k, [a, b]]) => { c[k] = a + (b - a) * ease(u); }); if (st.t - st.last > 0.15 || u >= 1) { st.last = st.t; st.H && st.H.refresh && st.H.refresh(); } }
   }
   function drawStory(ctx, s, B, labelsList, S) {
     const st = s._story; if (!st || !st.on || st.i < 0) return;
-    const step = st.steps[st.i], u = Math.min(1, st.t / (step.d || 4));
+    const step = st.steps[st.i], u = Math.min(1, st.t / GK.stepTime(step));
     if (step.hl && labelsList) { const L = labelsList.find((x) => x && x.id === step.hl); if (L) { const q = MK.proj(S, L.p[0], L.p[1], L.p[2]); if (q.z < 1) { const r = 14 + 6 * Math.sin(st.t * 6); ctx.save(); ctx.strokeStyle = "#ffd27a"; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, 6.3); ctx.stroke(); ctx.restore(); } } }
-    const x = 14, w = 612, h = 58, y = 400 - h - 10;
-    ctx.save(); ctx.fillStyle = "rgba(8,12,22,.82)"; ctx.strokeStyle = "rgba(255,210,122,.55)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, 10) : ctx.rect(x, y, w, h); ctx.fill(); ctx.stroke();
+    const x = 14, w = 612; ctx.save(); ctx.font = "500 12.5px 'IBM Plex Sans',sans-serif"; const lines = []; { let line = ""; String(step.cap || "").split(" ").forEach((wd) => { const tryL = line ? line + " " + wd : wd; if (ctx.measureText(tryL).width > w - 24 && line) { lines.push(line); line = wd; } else line = tryL; }); if (line) lines.push(line); }
+    const h = 34 + lines.length * 16, y = 400 - h - 10;
+    ctx.fillStyle = "rgba(8,12,22,.82)"; ctx.strokeStyle = "rgba(255,210,122,.55)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, w, h, 10) : ctx.rect(x, y, w, h); ctx.fill(); ctx.stroke();
     ctx.fillStyle = "#ffd27a"; ctx.font = "700 10px 'IBM Plex Sans',sans-serif"; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     ctx.fillText(`▶ EXPLAINER  ${st.i + 1} / ${st.steps.length}${step.title ? "  ·  " + step.title.toUpperCase() : ""}`, x + 12, y + 15);
     ctx.fillStyle = "#eef4ff"; ctx.font = "500 12.5px 'IBM Plex Sans',sans-serif";
-    const words = String(step.cap || "").split(" "); let line = "", ly = y + 32;
-    words.forEach((wd) => { const tryL = line ? line + " " + wd : wd; if (ctx.measureText(tryL).width > w - 24) { ctx.fillText(line, x + 12, ly); ly += 16; line = wd; } else line = tryL; }); if (line) ctx.fillText(line, x + 12, ly);
-    const tot = st.steps.reduce((a, b) => a + (b.d || 4), 0), done = st.steps.slice(0, st.i).reduce((a, b) => a + (b.d || 4), 0) + u * (step.d || 4);
+    lines.forEach((ln, i) => ctx.fillText(ln, x + 12, y + 32 + i * 16));
+    const tot = st.steps.reduce((a, b) => a + GK.stepTime(b), 0), done = st.steps.slice(0, st.i).reduce((a, b) => a + GK.stepTime(b), 0) + u * GK.stepTime(step);
     ctx.fillStyle = "rgba(255,255,255,.15)"; ctx.fillRect(x + 10, y + h - 6, w - 20, 2.5); ctx.fillStyle = "#ffd27a"; ctx.fillRect(x + 10, y + h - 6, (w - 20) * done / tot, 2.5);
     ctx.restore();
   }
@@ -155,7 +203,7 @@
     const extra = [].concat(sc.labels ? [LBL_CTL] : [], sc.hud ? [NOTE_CTL] : []);
     if (sc.hud && sc.values.notes == null) sc.values.notes = "brief";
     if (extra.length) { const ctl = sc.controls; sc.controls = typeof ctl === "function" ? (c) => ctl(c).concat(extra) : (ctl || []).concat(extra); }
-    if (sc.story) { const own = sc.actions || []; sc.actions = [{ label: "▶ Watch explainer", run: (s, c, H) => GK.storyToggle(s, c, H, sc) }].concat(own); }
+    if (sc.story) { const own = (sc.actions || []).filter((a) => !/voice/i.test(a.label || "")); sc.actions = [{ label: "▶ Watch explainer", run: (s, c, H) => GK.storyToggle(s, c, H, sc) }].concat(own, [GK.VOICE_ACT]); }
     const up = sc.update, ov = sc.overlay, hud = sc.hud;
     sc.update = (S, s, c, dt) => { storyTick(S, s, c, dt); if (s._fly) { const F = s._fly; F.t = Math.min(1, F.t + dt / 1.2); S.orbit.target.lerpVectors(F.tg0, F.tg1, ease(F.t)); if (F.t >= 1) s._fly = null; } up && up(S, s, c, dt); };
     sc.overlay = (ctx, s, c, S, B) => {

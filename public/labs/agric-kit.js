@@ -39,14 +39,14 @@
   AK.LAB = AK.env("outdoor_workshop", { blur: 0.75, bgI: 0.5, exposure: 0.95, shadowExtent: 4 });
 
   /* ---------- speech for explainers (device voice; can be muted) ---------- */
-  AK.voice = true;
-  AK.say = (txt) => { try { if (!AK.voice || !window.speechSynthesis || !txt) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(String(txt).replace(/[₦]/g, "naira ").replace(/\s+/g, " ")); u.rate = 1.02; u.lang = "en-GB"; speechSynthesis.speak(u); } catch (e) { /* no speech on this device */ } };
-  AK.hush = () => { try { window.speechSynthesis && speechSynthesis.cancel(); } catch (e) { } };
-  const VOICE_ACT = { label: "🔊 Voice on/off", run: () => { AK.voice = !AK.voice; if (!AK.voice) AK.hush(); } };
+  /* narration now lives in geo-kit (GK.V): sentence-by-sentence speech, voice picker, African voices first */
+  Object.defineProperty(AK, "voice", { get: () => GK.V.on, set: (v) => { GK.V.on = !!v; GK.V.save(); }, configurable: true });
+  AK.say = (txt) => GK.V.say(txt);
+  AK.hush = () => GK.V.hush();
+  const VOICE_ACT = GK.VOICE_ACT;
   function addVoice(key) {
     const sc = MK.scenes[key]; if (!sc) return;
-    const up = sc.update; sc.update = (S, s, c, dt) => { up && up(S, s, c, dt); const st = s._story; if (st && st.on && st.i >= 0 && st.i !== s._said) { s._said = st.i; AK.say(st.steps[st.i].cap); } if (st && !st.on && s._said != null) { s._said = null; AK.hush(); } };
-    sc.actions = (sc.actions || []).concat([VOICE_ACT]);
+    if (!(sc.actions || []).some((a) => /voice/i.test(a.label || ""))) sc.actions = (sc.actions || []).concat([VOICE_ACT]);
   }
   /* attach experiment extras (readouts, worked steps, tasks, table) that GK.tour does not pass through */
   function extras(key, o) {
@@ -97,24 +97,24 @@
   const ease = (u) => (u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2);
   function story2dTick(s, c, dt, H) {
     const st = s._st; st.t += dt;
-    if (st.i < 0 || st.t >= (st.steps[st.i].d || 5)) {
+    const cur = st.i >= 0 ? st.steps[st.i] : null, need = cur ? Math.max(cur.d || 5, GK.V.estimate(cur.cap)) : 0;
+    if (st.i < 0 || (st.t >= need && (!GK.V.busy() || st.t >= need * 2.5 + 3))) {
       st.i++; st.t = 0;
       if (st.i >= st.steps.length) { st.on = false; AK.hush(); H.refresh && H.refresh(); return; }
       const step = st.steps[st.i]; if (step.set) { Object.assign(c, step.set); H.refresh && H.refresh(); }
       AK.say(step.cap);
     }
-    const step = st.steps[st.i], u = Math.min(1, st.t / (step.d || 5));
+    const step = st.steps[st.i], u = Math.min(1, st.t / Math.max(step.d || 5, GK.V.estimate(step.cap)));
     if (step.tween) { Object.entries(step.tween).forEach(([k, [a, b]]) => { c[k] = a + (b - a) * ease(u); }); H.refresh && H.refresh(); H.side && H.side(); }
   }
   function story2dDraw(g, s, B) {
     const st = s._st; if (!st || !st.on || st.i < 0) return;
-    const step = st.steps[st.i], W = B.W, h = 54, y = B.H - h - 8, x = 10, w = W - 20;
-    g.save(); g.fillStyle = "rgba(8,12,22,.86)"; g.beginPath(); g.roundRect ? g.roundRect(x, y, w, h, 10) : g.rect(x, y, w, h); g.fill();
+    const step = st.steps[st.i], W = B.W, x = 10, w = W - 20; g.save(); g.font = "500 12px 'IBM Plex Sans',sans-serif"; const lines = []; { let line = ""; String(step.cap || "").split(" ").forEach((wd) => { const tl = line ? line + " " + wd : wd; if (g.measureText(tl).width > w - 24 && line) { lines.push(line); line = wd; } else line = tl; }); if (line) lines.push(line); }
+    const h = 32 + lines.length * 15, y = B.H - h - 8; g.fillStyle = "rgba(8,12,22,.86)"; g.beginPath(); g.roundRect ? g.roundRect(x, y, w, h, 10) : g.rect(x, y, w, h); g.fill();
     g.fillStyle = "#ffd27a"; g.font = "700 10px 'IBM Plex Sans',sans-serif"; g.fillText(`▶ EXPLAINER  ${st.i + 1} / ${st.steps.length}${step.title ? "  ·  " + step.title.toUpperCase() : ""}`, x + 12, y + 15);
     g.fillStyle = "#eef4ff"; g.font = "500 12px 'IBM Plex Sans',sans-serif";
-    const words = String(step.cap || "").split(" "); let line = "", ly = y + 31;
-    words.forEach((wd) => { const tl = line ? line + " " + wd : wd; if (g.measureText(tl).width > w - 24) { g.fillText(line, x + 12, ly); ly += 15; line = wd; } else line = tl; }); if (line) g.fillText(line, x + 12, ly);
-    const tot = st.steps.reduce((a, b) => a + (b.d || 5), 0), done = st.steps.slice(0, st.i).reduce((a, b) => a + (b.d || 5), 0) + Math.min(1, st.t / (step.d || 5)) * (step.d || 5);
+    lines.forEach((ln, i) => g.fillText(ln, x + 12, y + 31 + i * 15));
+    const D = (b) => Math.max(b.d || 5, GK.V.estimate(b.cap)), tot = st.steps.reduce((a, b) => a + D(b), 0), done = st.steps.slice(0, st.i).reduce((a, b) => a + D(b), 0) + Math.min(1, st.t / D(step)) * D(step);
     g.fillStyle = "rgba(255,255,255,.15)"; g.fillRect(x + 10, y + h - 6, w - 20, 2.5); g.fillStyle = "#ffd27a"; g.fillRect(x + 10, y + h - 6, (w - 20) * done / tot, 2.5); g.restore();
   }
 
