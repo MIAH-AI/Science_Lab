@@ -1,0 +1,132 @@
+/* School server screens: sign in, join and People. They sit on desk.css and reuse the form styles in console.css. */
+.sc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.sc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cs section > h2,
+.sc-row h2 {
+  margin-bottom: 10px;
+}
+.sc-big {
+  font-size: 19px;
+}
+.sc-big b {
+  font-size: 30px;
+  font-weight: 700;
+}
+.cs progress {
+  width: 100%;
+  height: 10px;
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--sunk);
+}
+.cs progress::-webkit-progress-bar {
+  background: var(--sunk);
+}
+.cs progress::-webkit-progress-value {
+  background: var(--brand-2);
+}
+.cs progress::-moz-progress-bar {
+  background: var(--brand-2);
+}
+.cs progress.full::-webkit-progress-value {
+  background: #a3261d;
+}
+.cs progress.full::-moz-progress-bar {
+  background: #a3261d;
+}
+.sc-codes code,
+.sc-reset {
+  font:
+    600 17px ui-monospace,
+    Menlo,
+    monospace;
+  letter-spacing: 0.04em;
+  background: var(--sunk);
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+.sc-invite {
+  border-top: 0;
+  padding-top: 0;
+}
+.cs-field textarea {
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15.5px;
+  font-weight: 400;
+  width: 100%;
+  resize: vertical;
+}
+.cs-narrow a,
+.cs-sub a {
+  color: var(--brand-2);
+  font-weight: 600;
+  text-decoration: underline;
+}
+.cs-narrow a.sd-btn {
+  color: var(--on-brand);
+  text-decoration: none;
+  justify-self: start;
+}
+/* The signed-in chip on the Study Desk bar */
+.sc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.sc-chip a {
+  color: var(--brand-2);
+}
+.sc-chip button {
+  display: grid;
+  place-items: center;
+  background: none;
+  color: var(--sec);
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  .sc-chip > span {
+    display: none;
+  }
+}
+/* Printing the invite codes: only the list of names and codes. */
+@media print {
+  .cs .sd-top,
+  .cs-head,
+  .cs-main > *:not([aria-label='Invites not used yet']),
+  .sc-codes button,
+  .sc-row button {
+    display: none !important;
+  }
+  .sc-codes li {
+    break-inside: avoid;
+    border: 1px solid #999;
+    box-shadow: none;
+  }
+}

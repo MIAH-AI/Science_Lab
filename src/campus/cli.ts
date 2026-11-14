@@ -4,6 +4,7 @@
 //   node dist/campus/cli.mjs status                      where the licence stands
 //   node dist/campus/cli.mjs licence <file>              install a licence file by hand (no internet needed)
 //   node dist/campus/cli.mjs enrol <address> <code>      enrol with the control service using a one-time code
+//   node dist/campus/cli.mjs admin "<name>"              make the invite code for the first school admin
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -70,5 +71,29 @@ else if (command === 'status') {
     console.log(
       `Enrolled for ${res.school}, ${res.campus}. ${res.licensed ? 'The licence is installed.' : 'No licence has been issued yet; it will arrive on a later check-in.'}`,
     )
+} else if (command === 'admin') {
+  // Makes the one-time code for the first school admin. The server must be running and licensed.
+  if (!a) fail('Usage: admin "<the school admin’s name>"')
+  const keyFile = join(store.dir, 'internal-key')
+  if (!existsSync(keyFile))
+    fail('The school server is not running. Start it, then try again.')
+  const port = process.env.PORT?.trim() || '8080'
+  const res = await fetch(`http://127.0.0.1:${port}/licence/first-admin`, {
+    method: 'POST',
+    headers: { 'x-t2s-key': readFileSync(keyFile, 'utf8').trim() },
+    body: a,
+  }).then(
+    (r) => r.json() as Promise<{ ok: boolean; code?: string; error?: string }>,
+    () => null,
+  )
+  if (!res)
+    fail(`The school server did not answer on port ${port}. Is it running?`)
+  else if (!res.ok) fail('No code was made. ' + res.error)
+  else
+    console.log(
+      `Invite code for ${a}: ${res.code}\nThey open /join on the school server, type this code and choose a password.`,
+    )
 } else
-  fail('Commands: fingerprint, status, licence <file>, enrol <address> <code>')
+  fail(
+    'Commands: fingerprint, status, licence <file>, enrol <address> <code>, admin "<name>"',
+  )

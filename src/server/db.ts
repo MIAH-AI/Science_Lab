@@ -11,7 +11,7 @@ export type Db = {
 
 // Brings a database up to date. Each migration is a list of single statements, because the online driver
 // sends one statement per request.
-export async function migrate(db: Db) {
+export async function migrate(db: Db, migrations: string[][] = MIGRATIONS) {
   await db.query(
     'CREATE TABLE IF NOT EXISTS schema_migrations (id integer PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())',
   )
@@ -20,7 +20,7 @@ export async function migrate(db: Db) {
       (r) => Number(r.id),
     ),
   )
-  for (const [i, statements] of MIGRATIONS.entries()) {
+  for (const [i, statements] of migrations.entries()) {
     if (done.has(i + 1)) continue
     for (const statement of statements) await db.query(statement)
     await db.query('INSERT INTO schema_migrations (id) VALUES ($1)', [i + 1])
@@ -49,7 +49,8 @@ async function online(url: string): Promise<Db> {
 }
 
 // A fresh, empty, in-memory database for tests.
-export const memoryDb = async () => migrate(await embedded())
+export const memoryDb = async (migrations: string[][] = MIGRATIONS) =>
+  migrate(await embedded(), migrations)
 
 let shared: Promise<Db> | null = null
 export function getDb() {
@@ -64,6 +65,11 @@ export function getDb() {
     const { mkdirSync } = await import('node:fs')
     const dir = config.dataDir() + '/pg'
     mkdirSync(dir, { recursive: true })
+    // A school server keeps its own tables (accounts, classes), never the control service's.
+    if (process.env.APP_MODE === 'campus') {
+      const { SCHOOL_MIGRATIONS } = await import('../school/schema')
+      return migrate(await embedded(dir), SCHOOL_MIGRATIONS)
+    }
     return migrate(await embedded(dir))
   })()
   return shared

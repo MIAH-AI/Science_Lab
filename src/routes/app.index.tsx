@@ -27,12 +27,15 @@ import { DemoBar } from '../demo/DemoShell'
 import { StudentTasks } from '../demo/StudentTasks'
 import { formatFocus, parseFocus } from '../lib/focus'
 import { findTopics, type SubjectKey } from '../lib/topics'
+import { SchoolChip } from '../school/School'
+import schoolCss from '../school.css?url'
 
 export const Route = createFileRoute('/app/')({
   head: () => ({
     links: [
       { rel: 'stylesheet', href: deskCss },
       { rel: 'stylesheet', href: demoCss },
+      { rel: 'stylesheet', href: schoolCss },
     ],
   }),
   component: Home,
@@ -335,6 +338,7 @@ function Home() {
             {mm}:{ss}
           </span>
         </a>
+        <SchoolChip />
         <div className="sd-theme" role="group" aria-label="Appearance">
           <button
             type="button"
