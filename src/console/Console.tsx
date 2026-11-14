@@ -35,6 +35,7 @@ import {
   campusAdd,
   campusEnrolCode,
   campusSuspend,
+  campusTie,
   consoleSignIn,
   consoleSignOut,
   licenceIssue,
@@ -820,6 +821,8 @@ function Campus({
   const [code, setCode] = useState<{ token: string; expires: string } | null>(
     null,
   )
+  const [machine, setMachine] = useState('')
+  const tie = useAction()
   const act = useAction()
   const l = campus.licence
   const file = l
@@ -882,7 +885,9 @@ function Campus({
           <dd>
             {campus.enrolled
               ? `Enrolled${campus.version ? ` · version ${campus.version}` : ''}${campus.lastHeartbeat ? ` · last seen ${new Date(campus.lastHeartbeat).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}` : ''}`
-              : 'No server enrolled yet'}
+              : campus.machine
+                ? `Tied to ${campus.machine.slice(0, 12)}… (offline server)`
+                : 'No server enrolled yet'}
           </dd>
         </div>
       </dl>
@@ -944,6 +949,46 @@ function Campus({
               ? 'Make a code for a replacement server'
               : 'Make an enrolment code'}
           </button>
+          <form
+            className="cs-form cs-tie"
+            aria-label={`Tie ${campus.name} to a server`}
+            onSubmit={(e) => {
+              e.preventDefault()
+              tie.run(
+                () =>
+                  campusTie({
+                    data: { campusId: campus.id, machine },
+                  }) as Promise<Result>,
+                () => setMachine(''),
+              )
+            }}
+          >
+            <p className="cs-sub">
+              For a server that stays offline: paste the fingerprint from its
+              licence page. The licence is then made for that one machine, to
+              download and copy across.
+              {campus.machine
+                ? ` Tied now to ${campus.machine.slice(0, 12)}…`
+                : ''}
+            </p>
+            <div className="cs-row">
+              <label className="cs-field grow">
+                <span>Server fingerprint</span>
+                <input
+                  value={machine}
+                  onChange={(e) => setMachine(e.target.value)}
+                  required
+                  minLength={64}
+                  maxLength={64}
+                  spellCheck={false}
+                />
+              </label>
+              <button className="sd-btn ghost" disabled={tie.busy}>
+                Tie to this server
+              </button>
+            </div>
+            <Problem text={tie.error} />
+          </form>
         </div>
         <form
           className="cs-form"
@@ -1229,6 +1274,7 @@ const ACTIONS: Record<string, string> = {
   'campus.resume': 'Lifted a suspension',
   'campus.enrol-token': 'Made an enrolment code',
   'campus.enrolled': 'A server enrolled',
+  'campus.tie': 'Tied a campus to a server',
   'licence.issue': 'Issued a licence',
 }
 

@@ -428,3 +428,8 @@
     width: 100%;
   }
 }
+.cs-tie {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line2);
+}
